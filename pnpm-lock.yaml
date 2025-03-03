@@ -71,8 +71,8 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0(eslint@9.21.0)
   globals:
-    specifier: ^15.11.0
-    version: 15.12.0
+    specifier: ^16.0.0
+    version: 16.0.0
   prettier:
     specifier: ^3.3.3
     version: 3.4.1
@@ -2044,8 +2044,8 @@ packages:
     engines: {node: '>=18'}
     dev: true
 
-  /globals@15.12.0:
-    resolution: {integrity: sha512-1+gLErljJFhbOVyaetcwJiJ4+eLe45S2E7P5UiZ9xGfeq3ATQf5DOv9G7MH3gGbKQLkzmNh2DxfZwLdw+j6oTQ==}
+  /globals@16.0.0:
+    resolution: {integrity: sha512-iInW14XItCXET01CQFqudPOWP2jYMl7T+QRQT+UNcR/iQncN/F0UNpgd76iFkBPgNQb4+X3LV9tLJYzwh+Gl3A==}
     engines: {node: '>=18'}
     dev: true
 
