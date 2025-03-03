@@ -47,8 +47,8 @@ devDependencies:
     specifier: ^1.1.4
     version: 1.1.6
   '@rsbuild/plugin-less':
-    specifier: ^1.1.0
-    version: 1.1.0(@rsbuild/core@1.1.6)
+    specifier: ^1.1.1
+    version: 1.1.1(@rsbuild/core@1.1.6)
   '@rsbuild/plugin-react':
     specifier: ^1.0.7
     version: 1.0.7(@rsbuild/core@1.1.6)
@@ -729,8 +729,8 @@ packages:
       core-js: 3.39.0
     dev: true
 
-  /@rsbuild/plugin-less@1.1.0(@rsbuild/core@1.1.6):
-    resolution: {integrity: sha512-F834dobNDIdyGj5trMxIqzm/qf54Kj5KVDxeuB3TTj64mzq5fHJnR4aI/iYIliUwICG1/l2MliKr5sR34Kb7eA==}
+  /@rsbuild/plugin-less@1.1.1(@rsbuild/core@1.1.6):
+    resolution: {integrity: sha512-Gkp73c9p4CQs2dB4BVCmw/cJ6JpIaWbsKcmZqyr+tlsKqZvZn9aYU+Zx4qWSqPR8I5zatiV2Lh15ObL9CCnlXw==}
     peerDependencies:
       '@rsbuild/core': 1.x
     dependencies:
