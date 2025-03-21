@@ -13,7 +13,7 @@
   },
   "packageManager": "pnpm@8.9.2",
   "dependencies": {
-    "@ant-design/icons": "^5.6.1",
+    "@ant-design/icons": "^6.0.0",
     "@ant-design/x": "^1.0.6",
     "@dify-chat/api": "workspace:^",
     "@dify-chat/components": "workspace:^",
