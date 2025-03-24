@@ -192,8 +192,8 @@ importers:
         specifier: ^8.6.7
         version: 8.6.7(storybook@8.6.7)
       '@storybook/blocks':
-        specifier: ^8.6.7
-        version: 8.6.7(react-dom@18.3.1)(react@18.3.1)(storybook@8.6.7)
+        specifier: ^8.6.8
+        version: 8.6.8(react-dom@18.3.1)(react@18.3.1)(storybook@8.6.7)
       '@storybook/react':
         specifier: ^8.6.7
         version: 8.6.7(@storybook/test@8.6.7)(react-dom@18.3.1)(react@18.3.1)(storybook@8.6.7)(typescript@5.8.2)
