@@ -39,7 +39,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
-		"@rsbuild/core": "~1.3.7",
+		"@rsbuild/core": "~1.3.8",
 		"@rsbuild/plugin-react": "catalog:",
 		"@rslib/core": "catalog:",
 		"@storybook/addon-essentials": "catalog:",
