@@ -31,8 +31,8 @@ catalogs:
       specifier: ^0.1.5
       version: 0.1.5
     '@rsbuild/core':
-      specifier: ^1.3.8
-      version: 1.3.8
+      specifier: ^1.3.10
+      version: 1.3.10
     '@rsbuild/plugin-less':
       specifier: ^1.2.2
       version: 1.2.2
@@ -320,13 +320,13 @@ importers:
         version: 4.6.2
       '@rsbuild/core':
         specifier: 'catalog:'
-        version: 1.3.8
+        version: 1.3.10
       '@rsbuild/plugin-less':
         specifier: 'catalog:'
-        version: 1.2.2(@rsbuild/core@1.3.8)
+        version: 1.2.2(@rsbuild/core@1.3.10)
       '@rsbuild/plugin-react':
         specifier: 'catalog:'
-        version: 1.2.0(@rsbuild/core@1.3.8)
+        version: 1.2.0(@rsbuild/core@1.3.10)
       '@trivago/prettier-plugin-sort-imports':
         specifier: 'catalog:'
         version: 5.2.2(prettier@3.5.3)
@@ -502,10 +502,10 @@ importers:
         version: 1.9.4
       '@rsbuild/core':
         specifier: 'catalog:'
-        version: 1.3.8
+        version: 1.3.10
       '@rsbuild/plugin-react':
         specifier: 'catalog:'
-        version: 1.2.0(@rsbuild/core@1.3.8)
+        version: 1.2.0(@rsbuild/core@1.3.10)
       '@rslib/core':
         specifier: 'catalog:'
         version: 0.6.4(typescript@5.8.3)
@@ -559,10 +559,10 @@ importers:
         version: 8.6.12(prettier@3.5.3)
       storybook-addon-rslib:
         specifier: 'catalog:'
-        version: 1.0.1(@rsbuild/core@1.3.8)(@rslib/core@0.6.4(typescript@5.8.3))(storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3))(typescript@5.8.3)
+        version: 1.0.1(@rsbuild/core@1.3.10)(@rslib/core@0.6.4(typescript@5.8.3))(storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3))(typescript@5.8.3)
       storybook-react-rsbuild:
         specifier: 'catalog:'
-        version: 1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@storybook/test@8.6.12(storybook@8.6.12(prettier@3.5.3)))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.40.0)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2))
+        version: 1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@storybook/test@8.6.12(storybook@8.6.12(prettier@3.5.3)))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.40.0)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2))
       tailwindcss:
         specifier: 'catalog:'
         version: 3.4.17
@@ -1483,6 +1483,11 @@ packages:
     resolution: {integrity: sha512-lpPE1cLfP5oPzVjKMx10pgBmKELQnFJXHgvtHCtuJWOv8MxqdEIMNtgHgBFf7Ea2/7EuVwa9fodWUfXAlXZLZQ==}
     cpu: [x64]
     os: [win32]
+
+  '@rsbuild/core@1.3.10':
+    resolution: {integrity: sha512-RJeMlW7basgR6bjy38Wb8EaOb35wxDsjz6eSPhOQ0qkECy3FLpiFDSY8dyCf8gBt4vSkiQ1lAtGEZ5YD5P2Lpw==}
+    engines: {node: '>=16.10.0'}
+    hasBin: true
 
   '@rsbuild/core@1.3.8':
     resolution: {integrity: sha512-J3WfY7XH5RRswfXFFUYizhrsEe/ueufALBSYfNyXpDnzTWgO/NGcjtB7iRgOsXs5z1WLRBMukiFUdDFf0iTcMQ==}
@@ -4308,6 +4313,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -6862,6 +6868,16 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.40.0':
     optional: true
 
+  '@rsbuild/core@1.3.10':
+    dependencies:
+      '@rspack/core': 1.3.5(@swc/helpers@0.5.17)
+      '@rspack/lite-tapable': 1.0.1
+      '@swc/helpers': 0.5.17
+      core-js: 3.41.0
+      jiti: 2.4.2
+    transitivePeerDependencies:
+      - '@rspack/tracing'
+
   '@rsbuild/core@1.3.8':
     dependencies:
       '@rspack/core': 1.3.5(@swc/helpers@0.5.17)
@@ -6872,28 +6888,28 @@ snapshots:
     transitivePeerDependencies:
       - '@rspack/tracing'
 
-  '@rsbuild/plugin-less@1.2.2(@rsbuild/core@1.3.8)':
+  '@rsbuild/plugin-less@1.2.2(@rsbuild/core@1.3.10)':
     dependencies:
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
       deepmerge: 4.3.1
       reduce-configs: 1.1.0
 
-  '@rsbuild/plugin-react@1.2.0(@rsbuild/core@1.3.8)':
+  '@rsbuild/plugin-react@1.2.0(@rsbuild/core@1.3.10)':
     dependencies:
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
       '@rspack/plugin-react-refresh': 1.2.1(react-refresh@0.17.0)
       react-refresh: 0.17.0
     transitivePeerDependencies:
       - webpack-hot-middleware
 
-  '@rsbuild/plugin-type-check@1.2.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(typescript@5.8.3)':
+  '@rsbuild/plugin-type-check@1.2.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(typescript@5.8.3)':
     dependencies:
       deepmerge: 4.3.1
       json5: 2.2.3
       reduce-configs: 1.1.0
       ts-checker-rspack-plugin: 1.1.1(@rspack/core@1.3.5(@swc/helpers@0.5.17))(typescript@5.8.3)
     optionalDependencies:
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
     transitivePeerDependencies:
       - '@rspack/core'
       - typescript
@@ -11470,12 +11486,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  rsbuild-plugin-html-minifier-terser@1.1.1(@rsbuild/core@1.3.8):
+  rsbuild-plugin-html-minifier-terser@1.1.1(@rsbuild/core@1.3.10):
     dependencies:
       '@types/html-minifier-terser': 7.0.2
       html-minifier-terser: 7.2.0
     optionalDependencies:
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
 
   run-parallel@1.2.0:
     dependencies:
@@ -11640,18 +11656,18 @@ snapshots:
 
   std-env@3.9.0: {}
 
-  storybook-addon-rslib@1.0.1(@rsbuild/core@1.3.8)(@rslib/core@0.6.4(typescript@5.8.3))(storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3))(typescript@5.8.3):
+  storybook-addon-rslib@1.0.1(@rsbuild/core@1.3.10)(@rslib/core@0.6.4(typescript@5.8.3))(storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3))(typescript@5.8.3):
     dependencies:
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
       '@rslib/core': 0.6.4(typescript@5.8.3)
-      storybook-builder-rsbuild: 1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)
+      storybook-builder-rsbuild: 1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)
     optionalDependencies:
       typescript: 5.8.3
 
-  storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3):
+  storybook-builder-rsbuild@1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3):
     dependencies:
-      '@rsbuild/core': 1.3.8
-      '@rsbuild/plugin-type-check': 1.2.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(typescript@5.8.3)
+      '@rsbuild/core': 1.3.10
+      '@rsbuild/plugin-type-check': 1.2.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(typescript@5.8.3)
       '@storybook/addon-docs': 8.6.12(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))
       '@storybook/core-webpack': 8.6.12(storybook@8.6.12(prettier@3.5.3))
       browser-assert: 1.2.1
@@ -11664,7 +11680,7 @@ snapshots:
       magic-string: 0.30.17
       path-browserify: 1.0.1
       process: 0.11.10
-      rsbuild-plugin-html-minifier-terser: 1.1.1(@rsbuild/core@1.3.8)
+      rsbuild-plugin-html-minifier-terser: 1.1.1(@rsbuild/core@1.3.10)
       sirv: 2.0.4
       storybook: 8.6.12(prettier@3.5.3)
       ts-dedent: 2.2.0
@@ -11677,10 +11693,10 @@ snapshots:
       - '@rspack/core'
       - '@types/react'
 
-  storybook-react-rsbuild@1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@storybook/test@8.6.12(storybook@8.6.12(prettier@3.5.3)))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.40.0)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2)):
+  storybook-react-rsbuild@1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@storybook/test@8.6.12(storybook@8.6.12(prettier@3.5.3)))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.40.0)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2)):
     dependencies:
       '@rollup/pluginutils': 5.1.4(rollup@4.40.0)
-      '@rsbuild/core': 1.3.8
+      '@rsbuild/core': 1.3.10
       '@storybook/react': 8.6.12(@storybook/test@8.6.12(storybook@8.6.12(prettier@3.5.3)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)
       '@storybook/react-docgen-typescript-plugin': 1.0.1(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2))
       '@types/node': 18.19.86
@@ -11692,7 +11708,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       resolve: 1.22.10
       storybook: 8.6.12(prettier@3.5.3)
-      storybook-builder-rsbuild: 1.0.1(@rsbuild/core@1.3.8)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)
+      storybook-builder-rsbuild: 1.0.1(@rsbuild/core@1.3.10)(@rspack/core@1.3.5(@swc/helpers@0.5.17))(@types/react@18.3.20)(storybook@8.6.12(prettier@3.5.3))(typescript@5.8.3)
       tsconfig-paths: 4.2.0
     optionalDependencies:
       typescript: 5.8.3
