@@ -175,8 +175,8 @@ catalogs:
       specifier: ^11.6.0
       version: 11.6.0
     openai:
-      specifier: ^4.94.0
-      version: 4.95.0
+      specifier: ^4.96.0
+      version: 4.96.0
     pako:
       specifier: ^2.1.0
       version: 2.1.0
@@ -295,7 +295,7 @@ importers:
         version: 14.1.0
       openai:
         specifier: 'catalog:'
-        version: 4.95.0(ws@8.18.1)
+        version: 4.96.0(ws@8.18.1)
       pure-react-router:
         specifier: 'catalog:'
         version: 0.2.3(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4308,6 +4308,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -4404,8 +4405,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.95.0:
-    resolution: {integrity: sha512-tWHLTA+/HHyWlP8qg0mQLDSpI2NQLhk6zHLJL8yb59qn2pEI8rbEiAGSDPViLvi3BRDoQZIX5scaJ3xYGr2nhw==}
+  openai@4.96.0:
+    resolution: {integrity: sha512-dKoW56i02Prv2XQolJ9Rl9Svqubqkzg3QpwEOBuSVZLk05Shelu7s+ErRTwFc1Bs3JZ2qBqBfVpXQiJhwOGG8A==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -10542,7 +10543,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.95.0(ws@8.18.1):
+  openai@4.96.0(ws@8.18.1):
     dependencies:
       '@types/node': 18.19.86
       '@types/node-fetch': 2.6.12
