@@ -43,6 +43,7 @@
 		"vitest": "catalog:"
 	},
 	"dependencies": {
+		"@dify-chat/core": "workspace:^",
 		"@dify-chat/helpers": "workspace:^"
 	},
 	"peerDependencies": {

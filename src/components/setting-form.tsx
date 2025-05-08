@@ -1,11 +1,16 @@
+import { AppModeOptions, IDifyAppItem } from '@dify-chat/core'
 import { Form, FormInstance, Input, Select } from 'antd'
+
+import { AppDetailDrawerModeEnum } from './app-manage-drawer'
 
 interface ISettingFormProps {
 	formInstance: FormInstance<Record<string, unknown>>
+	mode: AppDetailDrawerModeEnum
+	appItem: IDifyAppItem
 }
 
 export default function SettingForm(props: ISettingFormProps) {
-	const { formInstance } = props
+	const { formInstance, mode, appItem } = props
 
 	const answerFormEnabled = Form.useWatch('answerForm.enabled', formInstance)
 
@@ -29,7 +34,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			<Form.Item
 				label="API Base"
 				name="apiBase"
-				rules={[{ required: true }]}
+				rules={[{ required: true, message: 'API Base 不能为空' }]}
 				tooltip="Dify API 的域名+版本号前缀，如 https://api.dify.ai/v1"
 				required
 			>
@@ -42,13 +47,63 @@ export default function SettingForm(props: ISettingFormProps) {
 				label="API Secret"
 				name="apiKey"
 				tooltip="Dify App 的 API Secret (以 app- 开头)"
-				rules={[{ required: true }]}
+				rules={[{ required: true, message: 'API Secret 不能为空' }]}
 				required
 			>
 				<Input.Password
 					autoComplete="new-password"
 					placeholder="请输入 API Secret"
 				/>
+			</Form.Item>
+
+			<div className="text-base mb-3 flex items-center">
+				<div className="h-4 w-1 bg-primary rounded"></div>
+				<div className="ml-2 font-semibold">基本信息</div>
+			</div>
+			<Form.Item
+				name="info.name"
+				label="应用名称"
+				hidden={mode === AppDetailDrawerModeEnum.create}
+			>
+				<Input
+					disabled
+					placeholder="请输入应用名称"
+				/>
+			</Form.Item>
+			<Form.Item
+				name="info.mode"
+				label="应用类型"
+				tooltip="小于或等于 v1.3.1 的 Dify API 不会返回应用类型字段，需要用户自行选择"
+				required
+				rules={[{ required: true, message: '应用类型不能为空' }]}
+			>
+				<Select
+					// TODO 等 Dify 支持返回 mode 字段后，这里可以做一个判断，大于支持返回 mode 的版本就禁用，直接取接口值
+					// disabled
+					placeholder="请选择应用类型"
+					options={AppModeOptions}
+				/>
+			</Form.Item>
+			<Form.Item
+				name="info.description"
+				label="应用描述"
+				hidden={mode === AppDetailDrawerModeEnum.create}
+			>
+				<Input
+					disabled
+					placeholder="请输入应用描述"
+				/>
+			</Form.Item>
+			<Form.Item
+				name="info.tags"
+				label="应用标签"
+				hidden={mode === AppDetailDrawerModeEnum.create}
+			>
+				{appItem?.info.tags?.length ? (
+					<div className="text-default">{appItem.info.tags.join(', ')}</div>
+				) : (
+					<>无</>
+				)}
 			</Form.Item>
 
 			<div className="text-base mb-3 flex items-center">

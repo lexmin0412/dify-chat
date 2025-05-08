@@ -14,23 +14,18 @@ import { useHistory } from 'pure-react-router'
 import { useEffect, useState } from 'react'
 
 import { AppEditDrawer } from '@/components/app-edit-drawer'
-import AppManageDrawer, { AppDetailDrawerModeEnum } from '@/components/app-manage-drawer'
+import { AppDetailDrawerModeEnum } from '@/components/app-manage-drawer'
 import HeaderLayout from '@/layout/header'
 
 export default function AppListPage() {
 	const history = useHistory()
 	const { appService, mode, enableSetting } = useDifyChat() as IDifyChatContextMultiApp
-	const [appManageDrawerVisible, setAppManageDrawerVisible] = useState(false)
 	const isMobile = useIsMobile()
 	const [appEditDrawerOpen, setAppEditDrawerOpen] = useState(false)
 	const [appEditDrawerMode, setAppEditDrawerMode] = useState<AppDetailDrawerModeEnum>()
 	const [appEditDrawerAppItem, setAppEditDrawerAppItem] = useState<IDifyAppItem>()
 
-	const {
-		runAsync: getAppList,
-		data: list,
-		loading: appListLoading,
-	} = useRequest(
+	const { runAsync: getAppList, data: list } = useRequest(
 		() => {
 			return appService.getApps()
 		},
@@ -169,15 +164,6 @@ export default function AppListPage() {
 					新增应用配置
 				</Button>
 			) : null}
-
-			<AppManageDrawer
-				open={appManageDrawerVisible}
-				onClose={() => setAppManageDrawerVisible(false)}
-				activeAppId=""
-				appList={list!}
-				getAppList={getAppList}
-				appListLoading={appListLoading}
-			/>
 
 			<AppEditDrawer
 				detailDrawerMode={appEditDrawerMode!}

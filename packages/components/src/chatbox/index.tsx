@@ -1,7 +1,7 @@
 import { ArrowRightOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons'
 import { Bubble, Prompts } from '@ant-design/x'
 import { DifyApi, IFile, IMessageItem4Render } from '@dify-chat/api'
-import { useAppContext } from '@dify-chat/core'
+import { Roles, useAppContext } from '@dify-chat/core'
 import { isTempId, useIsMobile } from '@dify-chat/helpers'
 import { FormInstance, GetProp, message } from 'antd'
 import { useDeferredValue, useEffect, useMemo, useRef } from 'react'
@@ -147,8 +147,8 @@ export const Chatbox = (props: ChatboxProps) => {
 					)
 				},
 				// 用户发送消息时，status 为 local，需要展示为用户头像
-				role: messageItem.role === 'local' ? 'user' : messageItem.role,
-				footer: messageItem.role === 'ai' && (
+				role: messageItem.role === Roles.LOCAL ? Roles.USER : messageItem.role,
+				footer: messageItem.role === Roles.AI && (
 					<div className="flex items-center">
 						<MessageFooter
 							ttsConfig={currentApp?.parameters?.text_to_speech}

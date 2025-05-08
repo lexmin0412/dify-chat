@@ -11,12 +11,13 @@ import WorkflowNodeDetail from './workflow-node-detail'
 import WorkflowNodeIcon from './workflow-node-icon'
 
 interface IWorkflowLogsProps {
+	className?: string
 	status: NonNullable<IAgentMessage['workflows']>['status']
 	items: IWorkflowNode[]
 }
 
 export default function WorkflowLogs(props: IWorkflowLogsProps) {
-	const { items, status } = props
+	const { items, status, className } = props
 
 	if (!items?.length) {
 		return null
@@ -104,7 +105,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	]
 
 	return (
-		<div className="md:min-w-chat-card my-3">
+		<div className={`md:min-w-chat-card my-3 ${className || ''}`}>
 			<Collapse
 				items={collapseItems}
 				size="small"

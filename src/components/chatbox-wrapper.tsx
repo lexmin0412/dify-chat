@@ -3,7 +3,7 @@ import { DifyApi, IFile, IMessageFileItem, MessageFileBelongsToEnum } from '@dif
 import { IMessageItem4Render } from '@dify-chat/api'
 import { Chatbox } from '@dify-chat/components'
 import { useAppContext } from '@dify-chat/core'
-import { useConversationsContext } from '@dify-chat/core'
+import { Roles, useConversationsContext } from '@dify-chat/core'
 import { isTempId } from '@dify-chat/helpers'
 import { Button, Empty, Form, GetProp, Spin } from 'antd'
 import dayjs from 'dayjs'
@@ -138,7 +138,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						files: item.message_files?.filter(item => {
 							return item.belongs_to === MessageFileBelongsToEnum.user
 						}),
-						role: 'user',
+						role: Roles.USER,
 						created_at: createdAt,
 					},
 					{
@@ -160,13 +160,12 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 							}) || [],
 						agentThoughts: item.agent_thoughts || [],
 						retrieverResources: item.retriever_resources || [],
-						role: 'ai',
+						role: Roles.AI,
 						created_at: createdAt,
 					},
 				)
 			})
 
-			// setMessages([])
 			setHistoryMessages(newMessages)
 			if (newMessages?.length) {
 				// 如果下一步问题建议已开启，则请求接口获取
@@ -183,6 +182,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			updateConversationInputs,
 		],
 	)
+
 	const { agent, onRequest, messages, setMessages, currentTaskId } = useX({
 		latestProps,
 		latestState,
@@ -256,7 +256,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				retrieverResources: item.message.retrieverResources,
 				files: item.message.files,
 				content: item.message.content,
-				role: item.status === 'local' ? 'user' : 'ai',
+				role: item.status === Roles.LOCAL ? Roles.USER : Roles.AI,
 			} as IMessageItem4Render
 		})
 	}, [messages])

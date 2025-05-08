@@ -14,11 +14,14 @@
 
 > 注：每日手动更新
 
-- [forgoodthing](https://github.com/forgoodthing)
-- [Unmurphy](https://github.com/unmurphy)
-- [打豆豆](https://github.com/wallowbear)
-- [TZP](https://github.com/tangzp)
-- 匿名慈善家
+|Avatar|Name|Type|
+|---|---|---|
+|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/74965055?v=4" />|<a target="blank" href="https://github.com/forgoodthing">forgoodthing</a>|Github|
+|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/18590361?v=4" />|<a target="blank" href="https://github.com/unmurphy">unmurphy</a>|Github|
+|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/1463755?v=4" />|<a target="blank" href="https://github.com/wallowbear">打豆豆</a>|Github|
+|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/9300916?v=4" />|<a target="blank" href="https://github.com/tangzp">tangzp</a>|Github|
+|<img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/2a8f706b-4c41-461c-a29c-89e354b02d33" />|-1|Wechat|
+|None|匿名慈善家|Wechat|
 
 ## Repobeats
 

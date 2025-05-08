@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { IFile, IMessageItem4Render } from '@dify-chat/api'
-import { useAppContext } from '@dify-chat/core'
+import { Roles, useAppContext } from '@dify-chat/core'
 import { Tooltip } from 'antd'
 import { useMemo } from 'react'
 
@@ -52,7 +52,7 @@ export default function MessageContent(props: IMessageContentProps) {
 	const computedContent = useMemo(() => {
 		const likelyJSON = content.startsWith('{') && content.endsWith('}')
 		// 处理回复表单的自动生成消息
-		if (role === 'local' || (role === 'user' && likelyJSON)) {
+		if (role === Roles.LOCAL || (role === Roles.USER && likelyJSON)) {
 			if (currentApp?.config.answerForm?.enabled && currentApp.config.answerForm?.feedbackText) {
 				// 尝试通过 json 解析
 				try {
@@ -120,10 +120,10 @@ export default function MessageContent(props: IMessageContentProps) {
 			/>
 
 			{/* 消息附件列表 - 用户消息 */}
-			{role === 'local' || role === 'user' ? fileList : null}
+			{role === Roles.LOCAL || role === Roles.USER ? fileList : null}
 
 			{/* 消息主体文本内容 */}
-			<div className={role === 'local' || role === 'user' ? '' : 'md:min-w-chat-card'}>
+			<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
 				<MarkdownRenderer
 					markdownText={computedContent}
 					onSubmit={onSubmit}
@@ -131,7 +131,7 @@ export default function MessageContent(props: IMessageContentProps) {
 			</div>
 
 			{/* 消息附件列表 - AI 消息 */}
-			{role === 'ai' ? fileList : null}
+			{role === Roles.AI ? fileList : null}
 
 			{/* 引用链接列表 */}
 			<MessageReferrence items={retrieverResources} />

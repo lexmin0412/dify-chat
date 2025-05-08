@@ -1,6 +1,8 @@
-import XRequest from './base-request'
-import { IAgentThought, IRetrieverResource } from './types'
-import { IFileType } from './types/file'
+import { IDifyAppItem } from '@dify-chat/core'
+
+import XRequest from './../base-request'
+import { IAgentThought, IRetrieverResource } from './../types'
+import { IFileType } from './../types/file'
 
 /**
  * 用户输入表单控件类型
@@ -291,11 +293,7 @@ export interface IDifyApiOptions {
 	apiKey: string
 }
 
-export interface IGetAppInfoResponse {
-	name: string
-	description: string
-	tags: string[]
-}
+export type IGetAppInfoResponse = IDifyAppItem['info']
 
 export interface IGetAppMetaResponse {
 	tool_icons: {
@@ -610,6 +608,30 @@ export class DifyApi {
 				body: formData,
 			})
 			.then(res => res.json()) as Promise<IAudio2TextResponse>
+	}
+
+	/**
+	 * 执行 workflow
+	 */
+	async runWorkflow(params: { inputs: Record<string, IFile[] | unknown> }) {
+		return this.baseRequest.baseRequest('/workflows/run', {
+			method: 'POST',
+			body: JSON.stringify({
+				...params,
+				response_mode: 'streaming',
+				user: this.options.user,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+	}
+
+	/**
+	 * 获取 workflow 执行情况
+	 */
+	async getWorkflowResult(params: { workflow_run_id: string }) {
+		return this.baseRequest.get(`/workflows/run/${params.workflow_run_id}`)
 	}
 }
 

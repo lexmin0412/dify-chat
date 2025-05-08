@@ -5,7 +5,7 @@ import { useMount, useRequest } from 'ahooks'
 import { Spin } from 'antd'
 import React, { useState } from 'react'
 
-import BaseLayout from './base-layout'
+import MainLayout from './main-layout'
 
 const SingleAppLayout: React.FC = () => {
 	const difyChatContext = useDifyChat()
@@ -80,7 +80,7 @@ const SingleAppLayout: React.FC = () => {
 				setCurrentApp,
 			}}
 		>
-			<BaseLayout
+			<MainLayout
 				difyApi={difyApi}
 				initLoading={false}
 				renderCenterTitle={appInfo => {

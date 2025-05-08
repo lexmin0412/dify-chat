@@ -396,6 +396,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@dify-chat/core':
+        specifier: workspace:^
+        version: link:../core
       '@dify-chat/helpers':
         specifier: workspace:^
         version: link:../helpers

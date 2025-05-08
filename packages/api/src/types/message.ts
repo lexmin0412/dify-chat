@@ -1,4 +1,5 @@
 import { MessageStatus } from '@ant-design/x/es/use-x-chat'
+import { IMessageRole } from '@dify-chat/core'
 
 import { IAgentThought, IRetrieverResource } from './event'
 
@@ -127,7 +128,7 @@ export interface IMessageItem4Render extends IAgentMessage {
 	/**
 	 * 角色
 	 */
-	role: 'local' | 'user' | 'ai'
+	role: IMessageRole
 	/**
 	 * 是否为历史消息
 	 */

@@ -223,7 +223,7 @@ const Link = ({ node, ...props }: any) => {
 
 export function MarkdownRenderer(props: {
 	markdownText: string; className?: string; customDisallowedElements?: string[]
-	onSubmit: (
+	onSubmit?: (
 		value: string,
 		options?: {
 			files?: IFile[]
@@ -288,7 +288,7 @@ export function MarkdownRenderer(props: {
           a: Link,
           p: Paragraph,
           form: (props) => <MarkdownForm {...props} onSend={(values: string)=>{
-						onSubmit(values)
+						onSubmit?.(values)
 					}} />,
           script: ScriptBlock as any,
           details: ThinkBlock,

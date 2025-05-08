@@ -14,7 +14,7 @@ import { useHistory, useParams } from 'pure-react-router'
 import React, { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
 
-import BaseLayout from './base-layout'
+import MainLayout from './main-layout'
 
 const MultiAppLayout: React.FC = () => {
 	const { ...difyChatContext } = useDifyChat()
@@ -129,7 +129,7 @@ const MultiAppLayout: React.FC = () => {
 				setCurrentApp,
 			}}
 		>
-			<BaseLayout
+			<MainLayout
 				difyApi={difyApi}
 				initLoading={initLoading}
 				renderCenterTitle={() => {

@@ -5,7 +5,6 @@ import {
 	PlusCircleOutlined,
 	PlusOutlined,
 } from '@ant-design/icons'
-import { XProvider } from '@ant-design/x'
 import { DifyApi, IConversationItem } from '@dify-chat/api'
 import { AppInfo, ConversationList } from '@dify-chat/components'
 import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@dify-chat/core'
@@ -19,7 +18,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import ChatboxWrapper from '@/components/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/constants'
 import { useLatest } from '@/hooks/use-latest'
-import { colors } from '@/theme/config'
 
 import HeaderLayout from './header'
 
@@ -31,7 +29,7 @@ const useStyle = createStyles(({ token, css }) => {
 	}
 })
 
-interface IBaseLayoutProps {
+interface IChatLayoutProps {
 	/**
 	 * 扩展的 JSX 元素, 如抽屉/弹窗等
 	 */
@@ -54,7 +52,7 @@ interface IBaseLayoutProps {
 	difyApi: DifyApi
 }
 
-const BaseLayout = (props: IBaseLayoutProps) => {
+export default function ChatLayout(props: IChatLayoutProps) {
 	const { extComponents, renderCenterTitle, initLoading, difyApi } = props
 	const { appLoading, currentApp } = useAppContext()
 	const [renameForm] = Form.useForm()
@@ -143,7 +141,6 @@ const BaseLayout = (props: IBaseLayoutProps) => {
 				...(prev || []),
 			]
 		})
-		console.log('setCurrentConversationId: onAddConversation', newKey)
 		setCurrentConversationId(newKey)
 	}
 
@@ -193,7 +190,6 @@ const BaseLayout = (props: IBaseLayoutProps) => {
 	 * 删除对话
 	 */
 	const onDeleteConversation = async (conversationId: string) => {
-		console.log('onDeleteConversation', conversationId, isTempId(conversationId))
 		if (isTempId(conversationId)) {
 			setConversations(prev => {
 				const newConversations = prev.filter(item => item.id !== conversationId)
@@ -296,120 +292,114 @@ const BaseLayout = (props: IBaseLayoutProps) => {
 		return [...actionMenus, ...conversationListMenus]
 	}, [currentConversationId, conversations])
 
-	console.log('currentApp in render', currentApp)
-
 	return (
-		<XProvider theme={{ token: { colorPrimary: colors.primary, colorText: colors.default } }}>
-			<ConversationsContextProvider
-				value={{
-					conversations,
-					setConversations,
-					currentConversationId,
-					setCurrentConversationId,
-					currentConversationInfo,
-				}}
+		<ConversationsContextProvider
+			value={{
+				conversations,
+				setConversations,
+				currentConversationId,
+				setCurrentConversationId,
+				currentConversationInfo,
+			}}
+		>
+			<div
+				className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-[#eff0f5]`}
 			>
-				<div
-					className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-[#eff0f5]`}
-				>
-					{/* 头部 */}
-					<HeaderLayout
-						title={renderCenterTitle?.(currentApp?.config?.info)}
-						rightIcon={
-							isMobile ? (
-								<Dropdown
-									menu={{
-										className: '!pb-3 w-[50vw]',
-										activeKey: currentConversationId,
-										items: mobileMenuItems,
-									}}
-								>
-									<MenuOutlined className="text-xl" />
-								</Dropdown>
-							) : null
-						}
-					/>
+				{/* 头部 */}
+				<HeaderLayout
+					title={renderCenterTitle?.(currentApp?.config?.info)}
+					rightIcon={
+						isMobile ? (
+							<Dropdown
+								menu={{
+									className: '!pb-3 w-[50vw]',
+									activeKey: currentConversationId,
+									items: mobileMenuItems,
+								}}
+							>
+								<MenuOutlined className="text-xl" />
+							</Dropdown>
+						) : null
+					}
+				/>
 
-					{/* Main */}
-					<div className="flex-1 overflow-hidden flex rounded-3xl bg-white">
-						{appLoading || initLoading ? (
-							<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
-								<Spin spinning />
-							</div>
-						) : currentApp?.config ? (
-							<>
-								{/* 左侧对话列表 */}
-								<div
-									className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-[#eff0f5]`}
-								>
-									{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
-									{/* 添加会话 */}
-									{currentApp ? (
-										<Button
-											onClick={() => {
-												onAddConversation()
-											}}
-											className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-default "
-											icon={<PlusOutlined />}
-										>
-											新增对话
-										</Button>
-									) : null}
-									{/* 🌟 对话管理 */}
-									<div className="px-4 mt-3">
-										<Spin spinning={conversationListLoading}>
-											{conversations?.length ? (
-												<ConversationList
-													renameConversationPromise={onRenameConversation}
-													deleteConversationPromise={onDeleteConversation}
-													items={conversations.map(item => {
-														return {
-															key: item.id,
-															label: item.name,
-														}
-													})}
-													activeKey={currentConversationId}
-													onActiveChange={id => {
-														setCurrentConversationId(id)
-													}}
+				{/* Main */}
+				<div className="flex-1 overflow-hidden flex rounded-3xl bg-white">
+					{appLoading || initLoading ? (
+						<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
+							<Spin spinning />
+						</div>
+					) : currentApp?.config ? (
+						<>
+							{/* 左侧对话列表 */}
+							<div
+								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-[#eff0f5]`}
+							>
+								{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
+								{/* 添加会话 */}
+								{currentApp ? (
+									<Button
+										onClick={() => {
+											onAddConversation()
+										}}
+										className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-default "
+										icon={<PlusOutlined />}
+									>
+										新增对话
+									</Button>
+								) : null}
+								{/* 🌟 对话管理 */}
+								<div className="px-4 mt-3">
+									<Spin spinning={conversationListLoading}>
+										{conversations?.length ? (
+											<ConversationList
+												renameConversationPromise={onRenameConversation}
+												deleteConversationPromise={onDeleteConversation}
+												items={conversations.map(item => {
+													return {
+														key: item.id,
+														label: item.name,
+													}
+												})}
+												activeKey={currentConversationId}
+												onActiveChange={id => {
+													setCurrentConversationId(id)
+												}}
+											/>
+										) : (
+											<div className="w-full h-full flex items-center justify-center">
+												<Empty
+													className="pt-6"
+													description="暂无会话"
 												/>
-											) : (
-												<div className="w-full h-full flex items-center justify-center">
-													<Empty
-														className="pt-6"
-														description="暂无会话"
-													/>
-												</div>
-											)}
-										</Spin>
-									</div>
+											</div>
+										)}
+									</Spin>
 								</div>
+							</div>
 
-								{/* 右侧聊天窗口 - 移动端全屏 */}
-								<div className="flex-1 min-w-0 flex flex-col overflow-hidden">
-									<ChatboxWrapper
-										difyApi={difyApi}
-										conversationListLoading={conversationListLoading}
-										onAddConversation={onAddConversation}
-										conversationItemsChangeCallback={() => getConversationItems(false)}
-									/>
-								</div>
-							</>
-						) : (
-							<div className="w-full h-full flex items-center justify-center">
-								<Empty
-									description="暂无 Dify 应用配置，请联系管理员"
-									className="text-base"
+							{/* 右侧聊天窗口 - 移动端全屏 */}
+							<div className="flex-1 min-w-0 flex flex-col overflow-hidden">
+								<ChatboxWrapper
+									difyApi={difyApi}
+									conversationListLoading={conversationListLoading}
+									onAddConversation={onAddConversation}
+									conversationItemsChangeCallback={() => getConversationItems(false)}
 								/>
 							</div>
-						)}
-					</div>
+						</>
+					) : (
+						<div className="w-full h-full flex items-center justify-center">
+							<Empty
+								description="暂无 Dify 应用配置，请联系管理员"
+								className="text-base"
+							/>
+						</div>
+					)}
 				</div>
+			</div>
 
-				{extComponents}
-			</ConversationsContextProvider>
-		</XProvider>
+			{extComponents}
+		</ConversationsContextProvider>
 	)
 }
-
-export default BaseLayout

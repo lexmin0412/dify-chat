@@ -1,0 +1,209 @@
+import { XStream } from '@ant-design/x'
+import {
+	DifyApi,
+	EventEnum,
+	IAgentMessage,
+	IChunkChatCompletionResponse,
+	IErrorEvent,
+	IWorkflowNode,
+} from '@dify-chat/api'
+import { AppInfo, AppInputForm, MarkdownRenderer, WorkflowLogs } from '@dify-chat/components'
+import { IDifyAppItem, useAppContext } from '@dify-chat/core'
+import { Button, Empty, Form, message } from 'antd'
+import { useState } from 'react'
+
+interface IWorkflowLayoutProps {
+	difyApi: DifyApi
+}
+
+/**
+ * 工作流应用详情布局
+ */
+export default function WorkflowLayout(props: IWorkflowLayoutProps) {
+	const { difyApi } = props
+	const [entryForm] = Form.useForm()
+	const { currentApp } = useAppContext()
+	const [text, setText] = useState('')
+	const [workflowStatus, setWorkflowStatus] = useState<'running' | 'finished'>()
+	const [workflowItems, setWorkflowItems] = useState<IWorkflowNode[]>([])
+
+	const handleTriggerWorkflow = async (values: Record<string, unknown>) => {
+		difyApi
+			.runWorkflow({
+				inputs: values,
+			})
+			.then(async res => {
+				const readableStream = XStream({
+					readableStream: res.body as NonNullable<ReadableStream>,
+				})
+				const reader = readableStream.getReader()
+				let result = ''
+				const workflows: IAgentMessage['workflows'] = {}
+				while (reader) {
+					const { value: chunk, done } = await reader.read()
+					if (done) {
+						break
+					}
+					if (!chunk) continue
+					if (chunk.data) {
+						let parsedData = {} as {
+							id: string
+							task_id: string
+							position: number
+							tool: string
+							tool_input: string
+							observation: string
+							message_files: string[]
+
+							event: IChunkChatCompletionResponse['event'] | 'text_chunk'
+							answer: string
+							conversation_id: string
+							message_id: string
+
+							// 类型
+							type: 'image'
+							// 图片链接
+							url: string
+
+							data: {
+								// 工作流节点的数据
+								id: string
+								node_type: IWorkflowNode['type']
+								title: string
+								inputs: string
+								outputs: string
+								process_data: string
+								elapsed_time: number
+								execution_metadata: IWorkflowNode['execution_metadata']
+								text?: string
+							}
+						}
+						try {
+							parsedData = JSON.parse(chunk.data)
+						} catch (error) {
+							console.error('解析 JSON 失败', error)
+						}
+
+						const innerData = parsedData.data
+
+						if (parsedData.event === 'text_chunk') {
+							console.log('文本消息', parsedData)
+							setText(prev => {
+								return prev + parsedData.data.text
+							})
+						}
+
+						if (parsedData.event === EventEnum.WORKFLOW_STARTED) {
+							workflows.status = 'running'
+							workflows.nodes = []
+							setWorkflowStatus('running')
+							setWorkflowItems([])
+						} else if (parsedData.event === EventEnum.WORKFLOW_FINISHED) {
+							console.log('工作流结束', parsedData)
+							workflows.status = 'finished'
+							setWorkflowStatus('finished')
+						} else if (parsedData.event === EventEnum.WORKFLOW_NODE_STARTED) {
+							setWorkflowItems(prev => {
+								return [
+									...prev,
+									{
+										id: innerData.id,
+										status: 'running',
+										type: innerData.node_type,
+										title: innerData.title,
+									} as IWorkflowNode,
+								]
+							})
+						} else if (parsedData.event === EventEnum.WORKFLOW_NODE_FINISHED) {
+							setWorkflowItems(prev => {
+								return prev.map(item => {
+									if (item.id === innerData.id) {
+										return {
+											...item,
+											status: 'success',
+											inputs: innerData.inputs,
+											outputs: innerData.outputs,
+											process_data: innerData.process_data,
+											elapsed_time: innerData.elapsed_time,
+											execution_metadata: innerData.execution_metadata,
+										}
+									}
+									return item
+								})
+							})
+						}
+						if (parsedData.event === EventEnum.MESSAGE_FILE) {
+							result += `<img src=""${parsedData.url} />`
+						}
+						if (parsedData.event === EventEnum.MESSAGE) {
+							const text = parsedData.answer
+							result += text
+						}
+						if (parsedData.event === EventEnum.ERROR) {
+							message.error((parsedData as unknown as IErrorEvent).message)
+						}
+						console.log('result', result)
+					}
+				}
+			})
+			.catch(err => {
+				console.log('runWorkflow err', err)
+			})
+	}
+
+	return (
+		<div className="block md:flex md:items-stretch w-full h-full overflow-y-auto md:overflow-y-hidden bg-gray-50">
+			{/* 参数填写区域 */}
+			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-[#eff0f5] bg-white pb-6 md:pb-0">
+				<div className="font-semibold text-lg px-6 pt-6">运行工作流</div>
+				<div className="px-2">
+					<AppInfo info={currentApp?.config.info as NonNullable<IDifyAppItem['info']>} />
+				</div>
+				<div className="px-6 mt-6">
+					<AppInputForm
+						onStartConversation={values => {
+							console.log('onStartConversation', values)
+						}}
+						formFilled={false}
+						entryForm={entryForm}
+						uploadFileApi={difyApi.uploadFile}
+					/>
+				</div>
+				<div className="flex justify-end px-6">
+					<Button
+						type="primary"
+						onClick={async () => {
+							await entryForm.validateFields()
+							const values = await entryForm.getFieldsValue()
+							setWorkflowItems([])
+							setWorkflowStatus('running')
+							setText('')
+							handleTriggerWorkflow(values)
+						}}
+						loading={workflowStatus === 'running'}
+					>
+						运行
+					</Button>
+				</div>
+			</div>
+
+			{/* 工作流执行输出区域 */}
+			<div className="md:flex-1 px-4 pt-6 overflow-x-hidden overflow-y-auto bg-gray-50">
+				{!text && !workflowItems?.length && workflowStatus !== 'running' ? (
+					<div className="w-full h-full flex items-center justify-center">
+						<Empty description={`点击 "运行" 试试看, AI 会给你带来意想不到的惊喜。 `} />
+					</div>
+				) : (
+					<>
+						<WorkflowLogs
+							className="mt-0"
+							status={workflowStatus}
+							items={workflowItems}
+						/>
+						<MarkdownRenderer markdownText={text} />
+					</>
+				)}
+			</div>
+		</div>
+	)
+}

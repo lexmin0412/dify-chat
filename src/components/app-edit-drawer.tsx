@@ -1,7 +1,7 @@
 import { DifyApi } from '@dify-chat/api'
-import { IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
+import { AppModeEnums, IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
 import { useRequest } from 'ahooks'
-import { Button, Drawer, DrawerProps, Form, Input, message, Space } from 'antd'
+import { Button, Drawer, DrawerProps, Form, message, Space } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { AppDetailDrawerModeEnum } from './app-manage-drawer'
@@ -23,6 +23,15 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 	const { user, appService } = useDifyChat() as IDifyChatContextMultiApp
 	const [settingForm] = Form.useForm()
 	const [confirmLoading, setConfirmBtnLoading] = useState(false)
+
+	useEffect(() => {
+		if (appItem?.info.mode) {
+			settingForm.setFieldsValue({
+				'info.mode': appItem?.info.mode,
+			})
+		}
+	}, [appItem?.info.mode])
+
 	useEffect(() => {
 		if (!open) {
 			settingForm.resetFields()
@@ -30,10 +39,17 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 			settingForm.setFieldsValue({
 				apiBase: appItem?.requestConfig.apiBase,
 				apiKey: appItem?.requestConfig.apiKey,
+				'info.name': appItem?.info.name,
+				'info.description': appItem?.info.description,
+				'info.mode': appItem?.info.mode || AppModeEnums.CHAT,
 				'answerForm.enabled': appItem?.answerForm?.enabled || false,
 				'answerForm.feedbackText': appItem?.answerForm?.feedbackText || '',
 				'inputParams.enableUpdateAfterCvstStarts':
 					appItem?.inputParams?.enableUpdateAfterCvstStarts || false,
+			})
+		} else if (detailDrawerMode === AppDetailDrawerModeEnum.create) {
+			settingForm.setFieldsValue({
+				'info.mode': AppModeEnums.CHAT,
 			})
 		}
 	}, [open])
@@ -92,7 +108,11 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 								})
 								const difyAppInfo = await newDifyApiInstance.getAppInfo()
 								const commonInfo: Omit<IDifyAppItem, 'id'> = {
-									info: difyAppInfo,
+									info: {
+										...difyAppInfo,
+										// 兼容处理，当 Dify API 返回的应用信息中没有 mode 时，使用表单中的 mode
+										mode: difyAppInfo.mode || values['info.mode'],
+									},
 									requestConfig: {
 										apiBase: values.apiBase,
 										apiKey: values.apiKey,
@@ -130,40 +150,11 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 				</Space>
 			}
 		>
-			{detailDrawerMode === AppDetailDrawerModeEnum.edit ? (
-				<Form
-					labelAlign="left"
-					labelCol={{
-						span: 5,
-					}}
-					layout="horizontal"
-				>
-					<div className="text-base mb-3 flex items-center">
-						<div className="h-4 w-1 bg-primary rounded"></div>
-						<div className="ml-2 font-semibold">基本信息</div>
-					</div>
-					<Form.Item label="应用名称">
-						<Input
-							disabled
-							value={appItem?.info.name}
-						/>
-					</Form.Item>
-					<Form.Item label="应用描述">
-						<Input
-							disabled
-							value={appItem?.info.name}
-						/>
-					</Form.Item>
-					<Form.Item label="应用标签">
-						{appItem?.info.tags?.length ? (
-							<div className="text-default">{appItem.info.tags.join(', ')}</div>
-						) : (
-							<>无</>
-						)}
-					</Form.Item>
-				</Form>
-			) : null}
-			<SettingForm formInstance={settingForm} />
+			<SettingForm
+				formInstance={settingForm}
+				mode={detailDrawerMode}
+				appItem={appItem!}
+			/>
 		</Drawer>
 	)
 }
