@@ -70,11 +70,9 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	const latestCurrentConversationId = useLatest(currentConversationId)
 
 	useEffect(() => {
-		console.log('currentApp?.config change', currentApp?.config)
 		if (!currentApp?.config) {
 			return
 		}
-		console.log('即将开始获取对话列表', difyApi.options)
 		setConversations([])
 		setCurrentConversationId('')
 		getConversationItems().then(() => {
@@ -89,7 +87,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	 * 获取对话列表
 	 */
 	const getConversationItems = async (showLoading = true) => {
-		console.log('getConversationItems', showLoading)
 		if (showLoading) {
 			setCoversationListLoading(true)
 		}
@@ -127,7 +124,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		const newKey = `temp_${Math.random()}`
 		// 使用函数式更新保证状态一致性（修复潜在竞态条件）
 		setConversations(prev => {
-			console.log('setConversations: onAddConversation', prev)
 			return [
 				{
 					id: newKey,
@@ -303,7 +299,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			}}
 		>
 			<div
-				className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-[#eff0f5]`}
+				className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-light-gray`}
 			>
 				{/* 头部 */}
 				<HeaderLayout
@@ -333,7 +329,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-[#eff0f5]`}
+								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-light-gray`}
 							>
 								{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
 								{/* 添加会话 */}

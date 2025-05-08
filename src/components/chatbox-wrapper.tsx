@@ -166,6 +166,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				)
 			})
 
+			setMessages([]) // 历史消息回来之后，应该清空临时消息
 			setHistoryMessages(newMessages)
 			if (newMessages?.length) {
 				// 如果下一步问题建议已开启，则请求接口获取

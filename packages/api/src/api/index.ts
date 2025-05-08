@@ -633,6 +633,23 @@ export class DifyApi {
 	async getWorkflowResult(params: { workflow_run_id: string }) {
 		return this.baseRequest.get(`/workflows/run/${params.workflow_run_id}`)
 	}
+
+	/**
+	 * 执行文本生成
+	 */
+	async completion(params: { inputs: Record<string, IFile[] | unknown> }) {
+		return this.baseRequest.baseRequest('/completion-messages', {
+			method: 'POST',
+			body: JSON.stringify({
+				...params,
+				response_mode: 'streaming',
+				user: this.options.user,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+	}
 }
 
 /**

@@ -63,13 +63,13 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 					disabled={disabled}
 				/>
 			),
+			className: 'rounded-lg',
 			style: panelStyle,
 		},
 	]
 
 	const panelStyle: React.CSSProperties = {
 		color: token.colorText,
-		borderRadius: '8px',
 		border: `1px solid #eff0f5`,
 	}
 

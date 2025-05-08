@@ -221,7 +221,7 @@ export const Chatbox = (props: ChatboxProps) => {
 											className="mt-3 flex items-center"
 										>
 											<div
-												className="p-2 shrink-0 cursor-pointer rounded-lg flex items-center border border-solid border-[#eff0f5] text-sm max-w-full"
+												className="p-2 shrink-0 cursor-pointer rounded-lg flex items-center border border-solid border-light-gray text-sm max-w-full"
 												onClick={() => {
 													onPromptsItemClick({
 														data: {

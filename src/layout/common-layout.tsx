@@ -25,7 +25,7 @@ export default function CommonLayout(props: ICommonLayoutProps) {
 	const { styles } = useStyle()
 
 	return (
-		<div className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-[#eff0f5]`}>
+		<div className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-light-gray`}>
 			{/* 头部 */}
 			<HeaderLayout title={renderCenterTitle?.(currentApp?.config?.info)} />
 

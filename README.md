@@ -1,6 +1,6 @@
 # Dify Chat Web
 
-![GitHub License](https://img.shields.io/github/license/lexmin0412/dify-chat) ![GitHub Created At](https://img.shields.io/github/created-at/lexmin0412/dify-chat) ![GitHub contributors](https://img.shields.io/github/contributors/lexmin0412/dify-chat) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lexmin0412/dify-chat)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/lexmin0412/dify-chat)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/lexmin0412/dify-chat) ![GitHub License](https://img.shields.io/github/license/lexmin0412/dify-chat) ![GitHub Created At](https://img.shields.io/github/created-at/lexmin0412/dify-chat) ![GitHub contributors](https://img.shields.io/github/contributors/lexmin0412/dify-chat) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lexmin0412/dify-chat)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/lexmin0412/dify-chat)
 
 一个基于 Dify API 的 AI 会话 Web 应用, 支持单应用、多应用等多种模式，提供开箱即用的应用配置管理功能。支持不同类型的 Dify 应用，适配深度思考、思维链、图表等多种形式输出。
 
@@ -14,14 +14,14 @@
 
 > 注：每日手动更新
 
-|Avatar|Name|Type|
-|---|---|---|
-|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/74965055?v=4" />|<a target="blank" href="https://github.com/forgoodthing">forgoodthing</a>|Github|
-|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/18590361?v=4" />|<a target="blank" href="https://github.com/unmurphy">unmurphy</a>|Github|
-|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/1463755?v=4" />|<a target="blank" href="https://github.com/wallowbear">打豆豆</a>|Github|
-|<img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/9300916?v=4" />|<a target="blank" href="https://github.com/tangzp">tangzp</a>|Github|
-|<img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/2a8f706b-4c41-461c-a29c-89e354b02d33" />|-1|Wechat|
-|None|匿名慈善家|Wechat|
+| Avatar | Name | Type |
+| --- | --- | --- |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/74965055?v=4" /> | <a target="blank" href="https://github.com/forgoodthing">forgoodthing</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/18590361?v=4" /> | <a target="blank" href="https://github.com/unmurphy">unmurphy</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/1463755?v=4" /> | <a target="blank" href="https://github.com/wallowbear">打豆豆</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/9300916?v=4" /> | <a target="blank" href="https://github.com/tangzp">tangzp</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/2a8f706b-4c41-461c-a29c-89e354b02d33" /> | -1 | Wechat |
+| None | 匿名慈善家 | Wechat |
 
 ## Repobeats
 

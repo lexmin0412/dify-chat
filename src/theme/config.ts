@@ -7,4 +7,8 @@ export const colors = {
 	eb: '#ebebeb',
 	warning: '#FF5A07',
 	primary: '#1669ee',
+	/**
+	 * 浅灰色
+	 */
+	'light-gray': '#eff0f5',
 }

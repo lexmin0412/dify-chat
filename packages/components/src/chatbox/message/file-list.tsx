@@ -1,5 +1,7 @@
 import { FileJpgOutlined, FileTextOutlined } from '@ant-design/icons'
 import { IMessageFileItem } from '@dify-chat/api'
+import { useAppContext } from '@dify-chat/core'
+import { useMemo } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css'
 
@@ -16,13 +18,37 @@ interface IMessageFileListProps {
  * 消息附件列表展示组件
  */
 export default function MessageFileList(props: IMessageFileListProps) {
-	const { files } = props
+	const { files: filesInProps } = props
+	const { currentApp } = useAppContext()
 
-	if (!files?.length) {
+	/**
+	 * 处理文件 URL, 如果是本地文件则补全
+	 */
+	const files = useMemo(() => {
+		const appApiBase = currentApp?.config.requestConfig.apiBase || ''
+		return (
+			filesInProps?.map(item => {
+				let url = item.url
+				if (!item.url) {
+					return item
+				}
+				if (!item.url.startsWith('http://') && !item.url.startsWith('https://')) {
+					const apiDomain = appApiBase.slice(0, appApiBase.lastIndexOf('/v1'))
+					url = `${apiDomain}${item.url}`
+				}
+				return {
+					...item,
+					url,
+				}
+			}) || []
+		)
+	}, [filesInProps, currentApp])
+
+	if (!filesInProps?.length) {
 		return null
 	}
 
-	const isAllImages = files.every(item => item.type === 'image')
+	const isAllImages = files.every(item => item.type === 'image' && item.url)
 
 	// 如果所有文件都是图片，则直接展示图片列表
 	if (isAllImages) {

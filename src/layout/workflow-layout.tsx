@@ -8,7 +8,7 @@ import {
 	IWorkflowNode,
 } from '@dify-chat/api'
 import { AppInfo, AppInputForm, MarkdownRenderer, WorkflowLogs } from '@dify-chat/components'
-import { IDifyAppItem, useAppContext } from '@dify-chat/core'
+import { AppModeEnums, IDifyAppItem, useAppContext } from '@dify-chat/core'
 import { Button, Empty, Form, message } from 'antd'
 import { useState } from 'react'
 
@@ -28,10 +28,21 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 	const [workflowItems, setWorkflowItems] = useState<IWorkflowNode[]>([])
 
 	const handleTriggerWorkflow = async (values: Record<string, unknown>) => {
-		difyApi
-			.runWorkflow({
-				inputs: values,
-			})
+		const runner = () => {
+			const appMode = currentApp?.config?.info?.mode
+			if (appMode === AppModeEnums.WORKFLOW) {
+				return difyApi.runWorkflow({
+					inputs: values,
+				})
+			} else if (appMode === AppModeEnums.TextGeneration) {
+				return difyApi.completion({
+					inputs: values,
+				})
+			}
+			return Promise.reject(`不支持的应用类型: ${appMode}`)
+		}
+
+		runner()
 			.then(async res => {
 				const readableStream = XStream({
 					readableStream: res.body as NonNullable<ReadableStream>,
@@ -42,6 +53,7 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 				while (reader) {
 					const { value: chunk, done } = await reader.read()
 					if (done) {
+						setWorkflowStatus('finished')
 						break
 					}
 					if (!chunk) continue
@@ -87,7 +99,6 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 						const innerData = parsedData.data
 
 						if (parsedData.event === 'text_chunk') {
-							console.log('文本消息', parsedData)
 							setText(prev => {
 								return prev + parsedData.data.text
 							})
@@ -99,7 +110,6 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 							setWorkflowStatus('running')
 							setWorkflowItems([])
 						} else if (parsedData.event === EventEnum.WORKFLOW_FINISHED) {
-							console.log('工作流结束', parsedData)
 							workflows.status = 'finished'
 							setWorkflowStatus('finished')
 						} else if (parsedData.event === EventEnum.WORKFLOW_NODE_STARTED) {
@@ -137,6 +147,9 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 						}
 						if (parsedData.event === EventEnum.MESSAGE) {
 							const text = parsedData.answer
+							setText(prev => {
+								return prev + text
+							})
 							result += text
 						}
 						if (parsedData.event === EventEnum.ERROR) {
@@ -148,14 +161,14 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 			})
 			.catch(err => {
 				console.log('runWorkflow err', err)
+				setWorkflowStatus(undefined)
 			})
 	}
 
 	return (
 		<div className="block md:flex md:items-stretch w-full h-full overflow-y-auto md:overflow-y-hidden bg-gray-50">
 			{/* 参数填写区域 */}
-			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-[#eff0f5] bg-white pb-6 md:pb-0">
-				<div className="font-semibold text-lg px-6 pt-6">运行工作流</div>
+			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-light-gray bg-white pb-6 md:pb-0">
 				<div className="px-2">
 					<AppInfo info={currentApp?.config.info as NonNullable<IDifyAppItem['info']>} />
 				</div>

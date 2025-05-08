@@ -77,8 +77,10 @@ const MultiAppLayout: React.FC = () => {
 		},
 	)
 
+	/**
+	 * 初始化应用信息
+	 */
 	const initApp = async () => {
-		console.log('enter initApp', selectedAppId)
 		const appItem = appList?.find(item => item.id === selectedAppId)
 		if (!appItem) {
 			return
@@ -99,9 +101,7 @@ const MultiAppLayout: React.FC = () => {
 	}
 
 	useEffect(() => {
-		console.log('selectedAppId change', appList, selectedAppId)
 		initApp()
-		// callback()
 	}, [selectedAppId])
 
 	const isMobile = useIsMobile()

@@ -144,7 +144,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 					<Welcome
 						variant="borderless"
 						icon={
-							<div className="flex items-center justify-center rounded-[50%] w-16 h-16 border-gray-100 border-solid border-[1px] bg-[#eff0f5]">
+							<div className="flex items-center justify-center rounded-[50%] w-16 h-16 border-gray-100 border-solid border-[1px] bg-light-gray">
 								<AndroidFilled className="text-3xl text-primary" />
 							</div>
 						}
