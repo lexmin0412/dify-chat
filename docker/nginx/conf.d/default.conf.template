@@ -17,12 +17,7 @@ server {
     location ^~ /dify-chat/ {
         root /app;
         index index.html;
-
-        rewrite ^/dify-chat/apps$ /dify-chat/$1 last;
-        rewrite ^/dify-chat/apps/$ /dify-chat/$1 last;
-        rewrite ^/dify-chat/chat/$ /dify-chat/$1 last;
-        rewrite ^/dify-chat/chat$ /dify-chat/$1 last;
-        rewrite ^/dify-chat/app/.+$ /dify-chat/$1 last;
+        rewrite ^/dify-chat/(apps|chat|app/[^/]+)(/.*)?$ /dify-chat/ last;
         # 安全控制
         disable_symlinks on;
     }
