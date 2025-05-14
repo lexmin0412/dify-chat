@@ -8,6 +8,7 @@ RUN pnpm install && \
 FROM nginx:stable AS dist
 RUN mkdir /app
 COPY --from=build /app/dify-chat/dist/ /app/dify-chat/
+RUN RUN chmod -R +r /app/dify-chat/
 RUN apt update && \
     apt install -y vim
 
