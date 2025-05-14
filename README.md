@@ -8,7 +8,7 @@
 
 | 加群沟通（提需求/ bug 请带 issue 发言） | 喂我花生（请在留言中备注自己的 Github 用户名哦） |
 | --- | --- |
-| <img src="https://github.com/user-attachments/assets/f761021f-a890-4028-ba96-276526db0e33" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
+| <img src="https://github.com/user-attachments/assets/da8b2b1e-eca1-441a-b9c5-ed9d66799ae4" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
 
 ## 🥇 Golden Sponsors
 
@@ -21,6 +21,10 @@
 | <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/1463755?v=4" /> | <a target="blank" href="https://github.com/wallowbear">打豆豆</a> | Github |
 | <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/9300916?v=4" /> | <a target="blank" href="https://github.com/tangzp">tangzp</a> | Github |
 | <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/2a8f706b-4c41-461c-a29c-89e354b02d33" /> | -1 | Wechat |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/48902884?v=4" /> | <a target="blank" href="https://github.com/HowieSh">HowieSh</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/77f6390a-dfb8-4660-b43d-6965477cab9b" /> | 北鱼 | Wechat |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/49941899?v=4" /> | <a target="blank" href="https://github.com/weihaoaho">weihaoaho</a> | Github |
+| <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/42f840cd-ce40-4193-89b7-77bd578fed5b" /> | xintan | Wechat |
 | None | 匿名慈善家 | Wechat |
 
 ## Repobeats
@@ -42,6 +46,7 @@
 | --- | --- | --- | --- |
 | `@dify-chat/api` | Dify API Client | ![version](https://img.shields.io/npm/v/@dify-chat/api) ![NPM Last Update](https://img.shields.io/npm/last-update/@dify-chat/api) ![NPM Downloads](https://img.shields.io/npm/dm/@dify-chat/api) | [packages/api/README.md](https://github.com/lexmin0412/dify-chat/tree/main/packages/api) |
 | `@dify-chat/core` | 核心包 | ![version](https://img.shields.io/npm/v/@dify-chat/core) ![NPM Last Update](https://img.shields.io/npm/last-update/@dify-chat/core) ![NPM Downloads](https://img.shields.io/npm/dm/@dify-chat/core) | [packages/core/README.md](https://github.com/lexmin0412/dify-chat/tree/main/packages/core) |
+| `@dify-chat/theme` | 主题包 | ![version](https://img.shields.io/npm/v/@dify-chat/theme) ![NPM Last Update](https://img.shields.io/npm/last-update/@dify-chat/theme) ![NPM Downloads](https://img.shields.io/npm/dm/@dify-chat/theme) | [packages/theme/README.md](https://github.com/lexmin0412/dify-chat/tree/main/packages/theme) |
 | `@dify-chat/helpers` | 工具包 | ![version](https://img.shields.io/npm/v/@dify-chat/helpers) ![NPM Last Update](https://img.shields.io/npm/last-update/@dify-chat/helpers) ![NPM Downloads](https://img.shields.io/npm/dm/@dify-chat/helpers) | 敬请期待... |
 | `@dify-chat/components` | 核心 UI 组件库 | ![version](https://img.shields.io/npm/v/@dify-chat/components) ![NPM Last Update](https://img.shields.io/npm/last-update/@dify-chat/components) ![NPM Downloads](https://img.shields.io/npm/dm/@dify-chat/components) | 敬请期待... |
 
@@ -157,26 +162,32 @@ Chatflow 工作流：
 只需简单修改 `src/App.tsx` 中 `DifyChatProvider` 的属性即可：
 
 ```tsx
+import { AppModeEnums } from '@dify-chat/core'
+
 export default function App() {
-	return (
-		<DifyChatProvider
-			value={{
-				// 修改为单应用模式
-				mode: 'singleApp',
-				// 用户id，可以获取业务系统的用户 ID，动态传入
-				user: USER,
-				// 单应用模式下，需要传入 appConfig 配置
-				appConfig: {
-					requestConfig: {
-						apiBase: '上一步中获取到的 API Base',
-						apiKey: '上一步中获取到的 API Key',
-					},
-				},
-			}}
-		>
-			子组件
-		</DifyChatProvider>
-	)
+  return (
+    <DifyChatProvider
+      value={{
+        // 修改为单应用模式
+        mode: 'singleApp',
+        // 用户id，可以获取业务系统的用户 ID，动态传入
+        user: USER,
+        // 单应用模式下，需要传入 appConfig 配置
+        appConfig: {
+          requestConfig: {
+            apiBase: '上一步中获取到的 API Base',
+            apiKey: '上一步中获取到的 API Key',
+          },
+          // 如果你使用的是聊天类型应用 (Chatbot/Chatflow/Agent), 则不需要定义 info.mode
+          info: {
+            mode: AppModeEnums.WORKFLOW,
+          },
+        },
+      }}
+    >
+      子组件
+    </DifyChatProvider>
+  )
 }
 ```
 
@@ -194,9 +205,11 @@ export default function App() {
 
 ![添加应用配置抽屉](./docs/guide_mtapp_setting_add.png)
 
-依次填入在上一步中获取的 API Base 和 API Secret：
+依次填入应用信息：
 
-> 注：其他配置非必需，保持默认值即可。
+- 请求配置：在上一步中获取的 API Base 和 API Secret
+- 应用类型：默认是聊天助手，如果是其他类型应用，需要切换到对应的类型
+- 其他配置非必需，先保持默认值，后续需要再编辑即可
 
 ![添加应用配置抽屉-已填入信息](./docs/guide_mtapp_setting_add_fulfilled.png)
 
@@ -229,16 +242,16 @@ import { DifyChatProvider } from '@dify-chat/core'
 import DifyAppService from './services/app/localstorage'
 
 export default function App() {
-	return (
-		<DifyChatProvider
-			value={{
-				...其他属性,
-				appService: new DifyAppService(),
-			}}
-		>
-			子组件
-		</DifyChatProvider>
-	)
+  return (
+    <DifyChatProvider
+      value={{
+        ...其他属性,
+        appService: new DifyAppService(),
+      }}
+    >
+      子组件
+    </DifyChatProvider>
+  )
 }
 ```
 
@@ -277,16 +290,16 @@ import { DifyChatProvider } from '@dify-chat/core'
 import DifyAppService from './services/app/localstorage'
 
 export default function App() {
-	return (
-		<DifyChatProvider
-			value={{
-				...其他配置,
-				enableSetting: false,
-			}}
-		>
-			子组件
-		</DifyChatProvider>
-	)
+  return (
+    <DifyChatProvider
+      value={{
+        ...其他配置,
+        enableSetting: false,
+      }}
+    >
+      子组件
+    </DifyChatProvider>
+  )
 }
 ```
 
@@ -321,26 +334,26 @@ Dify Chatflow 编排的回复内容示例：
 
 ```html
 <form data-format="json">
-	<label for="username">用户名字:</label>
-	<input
-		type="text"
-		name="username"
-		value="{{ username }}"
-	/>
-	<label for="phone">联系电话:</label>
-	<input
-		type="text"
-		name="phone"
-		value="{{ phone }}"
-	/>
-	<label for="content">投诉内容:</label>
-	<textarea name="content"></textarea>
-	<button
-		data-size="small"
-		data-variant="primary"
-	>
-		提交
-	</button>
+  <label for="username">用户名字:</label>
+  <input
+    type="text"
+    name="username"
+    value="{{ username }}"
+  />
+  <label for="phone">联系电话:</label>
+  <input
+    type="text"
+    name="phone"
+    value="{{ phone }}"
+  />
+  <label for="content">投诉内容:</label>
+  <textarea name="content"></textarea>
+  <button
+    data-size="small"
+    data-variant="primary"
+  >
+    提交
+  </button>
 </form>
 ```
 
@@ -353,10 +366,10 @@ Dify Chatflow 编排的回复内容示例：
 
 ```json
 {
-	"username": "lexmin",
-	"phone": "13123456789",
-	"content": "快递太慢啦，我要举报",
-	"isFormSubmit": true
+  "username": "lexmin",
+  "phone": "13123456789",
+  "content": "快递太慢啦，我要举报",
+  "isFormSubmit": true
 }
 ```
 
@@ -383,26 +396,26 @@ Dify Chatflow 编排的回复内容示例：
 
 ```tsx
 export default function App() {
-	return (
-		<DifyChatProvider
-			value={{
-				mode: 'singleApp',
-				user: USER,
-				appConfig: {
-					requestConfig: {
-						apiBase: '你的 API Base',
-						apiKey: '你的 API Secret',
-					},
-					answerForm: {
-						enabled: true,
-						feedbackText: '我提交了一个表单',
-					},
-				},
-			}}
-		>
-			子组件
-		</DifyChatProvider>
-	)
+  return (
+    <DifyChatProvider
+      value={{
+        mode: 'singleApp',
+        user: USER,
+        appConfig: {
+          requestConfig: {
+            apiBase: '你的 API Base',
+            apiKey: '你的 API Secret',
+          },
+          answerForm: {
+            enabled: true,
+            feedbackText: '我提交了一个表单',
+          },
+        },
+      }}
+    >
+      子组件
+    </DifyChatProvider>
+  )
 }
 ```
 
@@ -418,7 +431,7 @@ Dify 应用支持配置初始参数，在对话开启时，展示在界面上供
 
 ![应用输入参数-默认](./docs/sample_app_input_disabled.png)
 
-### 5.1 支持在对话开始后更新参数
+#### 5.1 支持在对话开始后更新参数
 
 在应用配置中，你可以选择是否允许用户在对话开始后更新参数值：
 
@@ -428,22 +441,22 @@ Dify 应用支持配置初始参数，在对话开启时，展示在界面上供
 
 ```tsx
 export default function App() {
-	return (
-		<DifyChatProvider
-			value={{
-				...其他配置,
-				appConfig: {
-					...其他配置,
-					inputParams: {
-						// 是否允许用户在对话中更新参数值
-						enableUpdateAfterCvstStarts: false,
-					},
-				},
-			}}
-		>
-			子组件
-		</DifyChatProvider>
-	)
+  return (
+    <DifyChatProvider
+      value={{
+        ...其他配置,
+        appConfig: {
+          ...其他配置,
+          inputParams: {
+            // 是否允许用户在对话中更新参数值
+            enableUpdateAfterCvstStarts: false,
+          },
+        },
+      }}
+    >
+      子组件
+    </DifyChatProvider>
+  )
 }
 ```
 
@@ -453,7 +466,7 @@ export default function App() {
 
 ![应用输入参数-配置](./docs/sample_app_input_setting.png)
 
-### 5.2 读取 URL 作为应用参数
+#### 5.2 读取 URL 作为应用参数
 
 在实际应用场景下，我们可能有需要在 URL 中动态传入参数值，填入表单。
 
@@ -493,18 +506,61 @@ const buffer = Buffer.from(originalString, 'utf8')
 let encodedValue = ''
 
 zlib.gzip(buffer, (err, compressedBuffer) => {
-	if (err) {
-		console.error('压缩时出错:', err)
-		return
-	}
-	const encodedString = compressedBuffer.toString('base64')
-	encodedValue = encodeURIComponent(encodedString)
+  if (err) {
+    console.error('压缩时出错:', err)
+    return
+  }
+  const encodedString = compressedBuffer.toString('base64')
+  encodedValue = encodeURIComponent(encodedString)
 })
 ```
 
 将 `encodedValue` 填入链接后访问，可以看到我们定义的 `orderNo: 123456` 已经被填入表单：
 
 ![读取 URL 作为应用参数-结果](./docs/sample_app_input_filled.jpg)
+
+### 6. 其他配置
+
+#### 6.1 开场白
+
+Dify 应用支持配置开场白。
+
+默认情况下，开场白在每个新对话开始前展示，当用户发送消息（即对话开始）后，开场白将被隐藏。
+
+如果你希望在对话开始后展示开场白，可以在应用配置中进行配置：
+
+**单应用模式**：
+
+在入口文件中，添加对应的属性即可：
+
+```tsx
+export default function App() {
+  return (
+    <DifyChatProvider
+      value={{
+        ...其他配置,
+        appConfig: {
+          ...其他配置,
+          extConfig: {
+            conversation: {
+              openingStatement: {
+                // 配置开场白总是展示
+                displayMode: 'always'
+              }
+            }
+          },
+        },
+      }}
+    </DifyChatProvider>
+  )
+}
+```
+
+**多应用模式**：
+
+在界面上编辑应用配置，将 "对话配置" 中的 "开场白展示场景" 设为 "总是展示" 即可。
+
+![alt text](./docs/guide_app_config_opening_statement_display_always.png)
 
 ## 本地开发
 
@@ -643,7 +699,7 @@ Q: 先运行 `COREPACK_INTEGRITY_KEYS=0 corepack prepare` 再执行 `pnpm instal
 - [ ] 支持单个会话视图
 - [ ] 支持消息触顶/触底自动分页加载
 - [ ] 支持回复重新生成、父级消息
-- [ ] 支持夜间模式
+- [x] 支持夜间模式
 - [ ] 支持自定义主题
 - [ ] 补充不同类型应用场景的最佳实践
 - [ ] 容器化部署支持

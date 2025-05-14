@@ -10,5 +10,5 @@ interface ICollapseItemProps {
  */
 export default function CollapseItem(props: ICollapseItemProps) {
 	const { text } = props
-	return text ? <pre className="!m-0 !p-0 !bg-white !border-none">{text}</pre> : '空'
+	return text ? <pre className="!m-0 !p-0 !bg-theme-bg !border-none">{text}</pre> : '空'
 }

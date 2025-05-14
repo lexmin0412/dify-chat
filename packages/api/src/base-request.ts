@@ -78,10 +78,13 @@ export class XRequest {
 		params?: Record<string, unknown>,
 		headers: Record<string, string> = {},
 	) {
-		const result = await this.jsonRequest(url, {
+		const result = await this.baseRequest(url, {
 			method: 'DELETE',
 			body: JSON.stringify(params),
-			headers,
+			headers: {
+				...headers,
+				'Content-Type': 'application/json',
+			},
 		})
 		return result
 	}

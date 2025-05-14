@@ -41,15 +41,17 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 				apiKey: appItem?.requestConfig.apiKey,
 				'info.name': appItem?.info.name,
 				'info.description': appItem?.info.description,
-				'info.mode': appItem?.info.mode || AppModeEnums.CHAT,
+				'info.mode': appItem?.info.mode || AppModeEnums.CHATBOT,
 				'answerForm.enabled': appItem?.answerForm?.enabled || false,
 				'answerForm.feedbackText': appItem?.answerForm?.feedbackText || '',
 				'inputParams.enableUpdateAfterCvstStarts':
 					appItem?.inputParams?.enableUpdateAfterCvstStarts || false,
+				'extConfig.conversation.openingStatement.displayMode':
+					appItem?.extConfig?.conversation?.openingStatement?.displayMode || 'default',
 			})
 		} else if (detailDrawerMode === AppDetailDrawerModeEnum.create) {
 			settingForm.setFieldsValue({
-				'info.mode': AppModeEnums.CHAT,
+				'info.mode': AppModeEnums.CHATBOT,
 			})
 		}
 	}, [open])
@@ -123,6 +125,13 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 									},
 									inputParams: {
 										enableUpdateAfterCvstStarts: values['inputParams.enableUpdateAfterCvstStarts'],
+									},
+									extConfig: {
+										conversation: {
+											openingStatement: {
+												displayMode: values['extConfig.conversation.openingStatement.displayMode'],
+											},
+										},
 									},
 								}
 								if (detailDrawerMode === AppDetailDrawerModeEnum.edit) {

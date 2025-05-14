@@ -71,7 +71,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 
   return (
     <details {...(!isComplete && { open: true })} className="group">
-      <summary className="flex cursor-pointer select-none list-none items-center whitespace-nowrap font-bold text-gray-500">
+      <summary className="flex cursor-pointer select-none list-none items-center whitespace-nowrap font-bold text-theme-desc">
         <div className="flex shrink-0 items-center">
           <svg
             className="mr-2 h-3 w-3 transition-transform duration-500 group-open:rotate-90"
@@ -89,7 +89,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
           {isComplete ? `已深度思考(${elapsedTime.toFixed(1)}s)` : `深度思考中...(${elapsedTime.toFixed(1)}s)`}
         </div>
       </summary>
-      <div className={`border-l mt-1 rounded-lg border-gray-300 text-gray-500 p-3 bg-gray-50`}>
+      <div className={`border-l mt-1 rounded-lg border-gray-300 ml-5 bg-theme-code-block-bg text-theme-desc`}>
         {displayContent}
       </div>
     </details>

@@ -91,9 +91,11 @@ export const useX = (options: {
 			const reader = readableStream.getReader()
 			abortRef.current = () => {
 				reader?.cancel()
-				onError({
-					name: 'abort',
-					message: '用户已取消',
+				onSuccess({
+					content: result,
+					files,
+					workflows,
+					agentThoughts,
 				})
 			}
 

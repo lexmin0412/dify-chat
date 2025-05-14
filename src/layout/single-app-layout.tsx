@@ -32,11 +32,6 @@ const SingleAppLayout: React.FC = () => {
 	)
 
 	const initInSingleMode = async () => {
-		console.log('即将更新 options', {
-			user,
-			apiBase: (difyChatContext as IDifyChatContextSingleApp).appConfig.requestConfig.apiBase,
-			apiKey: (difyChatContext as IDifyChatContextSingleApp).appConfig.requestConfig.apiKey,
-		})
 		difyApi.updateOptions({
 			user,
 			apiBase: (difyChatContext as IDifyChatContextSingleApp).appConfig.requestConfig.apiBase,
@@ -49,8 +44,12 @@ const SingleAppLayout: React.FC = () => {
 		setCurrentApp({
 			config: {
 				id: Math.random().toString(),
-				info: difyAppInfo,
 				...appConfig,
+				info: {
+					...(difyAppInfo || {}),
+					// 这里使用用户传入配置覆盖接口获取到的信息，是为了兼容旧版本(<=v1.3.1)的 /info 接口没有返回 mode 的情况
+					...(appConfig.info || {}),
+				},
 			},
 			parameters: appParameters,
 		})

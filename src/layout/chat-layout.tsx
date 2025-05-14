@@ -9,8 +9,8 @@ import { DifyApi, IConversationItem } from '@dify-chat/api'
 import { AppInfo, ConversationList } from '@dify-chat/components'
 import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@dify-chat/core'
 import { isTempId, useIsMobile } from '@dify-chat/helpers'
-import { Button, Dropdown, Empty, Form, GetProp, Input, message, Modal, Spin } from 'antd'
-import { createStyles } from 'antd-style'
+import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@dify-chat/theme'
+import { Button, Dropdown, Empty, Form, GetProp, Input, message, Modal, Radio, Spin } from 'antd'
 import dayjs from 'dayjs'
 import { useSearchParams } from 'pure-react-router'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -20,14 +20,6 @@ import { DEFAULT_CONVERSATION_NAME } from '@/constants'
 import { useLatest } from '@/hooks/use-latest'
 
 import HeaderLayout from './header'
-
-const useStyle = createStyles(({ token, css }) => {
-	return {
-		layout: css`
-			font-family: AlibabaPuHuiTi, ${token.fontFamily}, sans-serif;
-		`,
-	}
-})
 
 interface IChatLayoutProps {
 	/**
@@ -54,6 +46,7 @@ interface IChatLayoutProps {
 
 export default function ChatLayout(props: IChatLayoutProps) {
 	const { extComponents, renderCenterTitle, initLoading, difyApi } = props
+	const { themeMode, setThemeMode } = useThemeContext()
 	const { appLoading, currentApp } = useAppContext()
 	const [renameForm] = Form.useForm()
 	const [conversations, setConversations] = useState<IConversationItem[]>([])
@@ -64,7 +57,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	const isMobile = useIsMobile()
 
 	// 创建 Dify API 实例
-	const { styles } = useStyle()
 	const searchParams = useSearchParams()
 	const [conversationListLoading, setCoversationListLoading] = useState<boolean>(false)
 	const latestCurrentConversationId = useLatest(currentConversationId)
@@ -223,7 +215,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				},
 			},
 			{
-				key: 'add_conversation',
+				key: 'rename_conversation',
 				icon: <EditOutlined />,
 				label: '编辑对话名称',
 				disabled: isTempId(currentConversationId),
@@ -259,6 +251,33 @@ export default function ChatLayout(props: IChatLayoutProps) {
 
 		const conversationListMenus: GetProp<typeof Dropdown, 'menu'>['items'] = [
 			{
+				key: 'view-mode',
+				type: 'group',
+				children: [
+					{
+						key: 'light',
+						label: (
+							<Radio.Group
+								key="view-mode"
+								optionType="button"
+								value={themeMode}
+								onChange={e => {
+									setThemeMode(e.target.value as ThemeModeEnum)
+								}}
+							>
+								<Radio value={ThemeModeEnum.SYSTEM}>{ThemeModeLabelEnum.SYSTEM}</Radio>
+								<Radio value={ThemeModeEnum.LIGHT}>{ThemeModeLabelEnum.LIGHT}</Radio>
+								<Radio value={ThemeModeEnum.DARK}>{ThemeModeLabelEnum.DARK}</Radio>
+							</Radio.Group>
+						),
+					},
+				],
+				label: '主题',
+			},
+			{
+				type: 'divider',
+			},
+			{
 				type: 'group',
 				label: '对话列表',
 				children: conversations?.length
@@ -286,7 +305,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		}
 
 		return [...actionMenus, ...conversationListMenus]
-	}, [currentConversationId, conversations])
+	}, [currentConversationId, conversations, themeMode, setThemeMode])
 
 	return (
 		<ConversationsContextProvider
@@ -298,9 +317,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				currentConversationInfo,
 			}}
 		>
-			<div
-				className={`w-full h-screen ${styles.layout} flex flex-col overflow-hidden bg-light-gray`}
-			>
+			<div className={`w-full h-screen flex flex-col overflow-hidden bg-theme-bg`}>
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
@@ -308,7 +325,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						isMobile ? (
 							<Dropdown
 								menu={{
-									className: '!pb-3 w-[50vw]',
+									className: '!pb-3 w-[80vw]',
 									activeKey: currentConversationId,
 									items: mobileMenuItems,
 								}}
@@ -320,7 +337,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				/>
 
 				{/* Main */}
-				<div className="flex-1 overflow-hidden flex rounded-3xl bg-white">
+				<div className="flex-1 overflow-hidden flex rounded-t-3xl bg-theme-main-bg">
 					{appLoading || initLoading ? (
 						<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
 							<Spin spinning />
@@ -329,7 +346,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-light-gray`}
+								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-theme-splitter`}
 							>
 								{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
 								{/* 添加会话 */}
@@ -338,8 +355,9 @@ export default function ChatLayout(props: IChatLayoutProps) {
 										onClick={() => {
 											onAddConversation()
 										}}
-										className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-default "
-										icon={<PlusOutlined />}
+										type="default"
+										className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-theme-text "
+										icon={<PlusOutlined className="" />}
 									>
 										新增对话
 									</Button>

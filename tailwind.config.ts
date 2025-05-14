@@ -22,6 +22,7 @@ const config: Config = {
 			minWidth,
 		},
 	},
+	darkMode: 'selector',
 	plugins: [],
 }
 

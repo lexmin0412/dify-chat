@@ -1,0 +1,56 @@
+{
+	"name": "@dify-chat/theme",
+	"version": "0.1.0",
+	"type": "module",
+	"author": {
+		"name": "lexmin0412",
+		"email": "zhangle_dev@outlook.com",
+		"url": "http://github.com/lexmin0412"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/lexmin0412/dify-chat.git",
+		"directory": "packages/theme"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "rslib build",
+		"dev": "rslib build --watch",
+		"format": "prettier --write .",
+		"lint": "eslint ."
+	},
+	"devDependencies": {
+		"@eslint/js": "catalog:",
+		"@rsbuild/plugin-react": "catalog:",
+		"@rslib/core": "catalog:",
+		"@types/react": "catalog:",
+		"eslint": "catalog:",
+		"globals": "catalog:",
+		"prettier": "catalog:",
+		"react": "catalog:",
+		"typescript": "catalog:",
+		"typescript-eslint": "catalog:",
+		"antd": "catalog:",
+		"lucide-react": "catalog:"
+	},
+	"peerDependencies": {
+		"lucide-react": "catalog:",
+		"antd": ">=5.0.0",
+		"react": ">=16.9.0",
+		"react-dom": ">=16.9.0"
+	},
+	"private": true
+}

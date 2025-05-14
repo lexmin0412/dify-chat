@@ -168,7 +168,7 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 	return (
 		<div className="block md:flex md:items-stretch w-full h-full overflow-y-auto md:overflow-y-hidden bg-gray-50">
 			{/* 参数填写区域 */}
-			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-light-gray bg-white pb-6 md:pb-0">
+			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-light-gray bg-theme-bg pb-6 md:pb-0">
 				<div className="px-2">
 					<AppInfo info={currentApp?.config.info as NonNullable<IDifyAppItem['info']>} />
 				</div>

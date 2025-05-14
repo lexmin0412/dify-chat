@@ -14,7 +14,6 @@ export const unParseGzipString = (encodedStr: string) => {
 		}
 		// gzip 解压缩
 		const decompressedData = pako.inflate(bytes, { to: 'string' })
-		console.log(decompressedData)
 		return {
 			error: false,
 			data: decompressedData,

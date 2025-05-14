@@ -1,7 +1,12 @@
 import { Button, Spin } from 'antd'
+import classNames from 'classnames'
 import React from 'react'
 
 interface IActionButtonProps {
+	/**
+	 * 是否禁用
+	 */
+	disabled?: boolean
 	/**
 	 * 是否激活
 	 */
@@ -24,25 +29,29 @@ interface IActionButtonProps {
  * 操作按钮
  */
 export default function ActionButton(props: IActionButtonProps) {
-	const { icon, loading = false, active = false, onClick } = props
+	const { disabled, icon, loading = false, active = false, onClick } = props
 
 	const Icon = React.cloneElement(icon, {
-		className: active ? 'text-primary' : '',
+		className: classNames({
+			'!text-primary': active,
+			'text-theme-text': true,
+		}),
 	})
 
 	return (
-		<div className="relative">
+		<div className="relative flex items-center">
 			<Button
 				color="default"
 				variant="text"
 				size="small"
 				icon={Icon}
 				onClick={onClick}
+				disabled={disabled}
 			/>
 			<Spin
-				className="absolute left-0 top-0 w-full h-full"
+				className="!absolute left-0 top-0 w-full h-full"
 				spinning={loading}
-			></Spin>
+			/>
 		</div>
 	)
 }

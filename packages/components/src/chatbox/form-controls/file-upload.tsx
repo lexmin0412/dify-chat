@@ -96,9 +96,6 @@ export default function FileUpload(props: IFileUploadProps) {
 	}, [allowed_file_types])
 
 	const handleUpload = async (file: RcFile) => {
-		const prevFiles = [...files]
-		console.log('handleUpload', prevFiles)
-
 		const fileBaseInfo: IUploadFileItem = {
 			uid: file.uid,
 			name: file.name,

@@ -1,4 +1,4 @@
-import { AppModeOptions, IDifyAppItem } from '@dify-chat/core'
+import { AppModeOptions, IDifyAppItem, OpeningStatementDisplayModeOptions } from '@dify-chat/core'
 import { Form, FormInstance, Input, Select } from 'antd'
 
 import { AppDetailDrawerModeEnum } from './app-manage-drawer'
@@ -25,6 +25,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			initialValues={{
 				'answerForm.enabled': false,
 				'inputParams.enableUpdateAfterCvstStarts': false,
+				'extConfig.conversation.openingStatement.displayMode': 'default',
 			}}
 		>
 			<div className="text-base mb-3 flex items-center">
@@ -100,7 +101,7 @@ export default function SettingForm(props: ISettingFormProps) {
 				hidden={mode === AppDetailDrawerModeEnum.create}
 			>
 				{appItem?.info.tags?.length ? (
-					<div className="text-default">{appItem.info.tags.join(', ')}</div>
+					<div className="text-theme-text">{appItem.info.tags.join(', ')}</div>
 				) : (
 					<>无</>
 				)}
@@ -108,13 +109,13 @@ export default function SettingForm(props: ISettingFormProps) {
 
 			<div className="text-base mb-3 flex items-center">
 				<div className="h-4 w-1 bg-primary rounded"></div>
-				<div className="ml-2 font-semibold">对话参数配置</div>
+				<div className="ml-2 font-semibold">对话配置</div>
 			</div>
 
 			<Form.Item
 				label="更新历史参数"
 				name="inputParams.enableUpdateAfterCvstStarts"
-				tooltip="是否支持更新历史对话的输入参数"
+				tooltip="是否允许更新历史对话的输入参数"
 				rules={[{ required: true }]}
 				required
 			>
@@ -130,6 +131,19 @@ export default function SettingForm(props: ISettingFormProps) {
 							value: false,
 						},
 					]}
+				/>
+			</Form.Item>
+
+			<Form.Item
+				label="开场白展示场景"
+				name="extConfig.conversation.openingStatement.displayMode"
+				tooltip="配置开场白的展示逻辑"
+				rules={[{ required: true }]}
+				required
+			>
+				<Select
+					placeholder="请选择"
+					options={OpeningStatementDisplayModeOptions}
 				/>
 			</Form.Item>
 

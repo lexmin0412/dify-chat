@@ -50,8 +50,7 @@ const ReferenceItem = (props: IRetrieverResourceGroupedItem) => {
 			<Popover
 				trigger={['click']}
 				classNames={{
-					root: 'max-w-[85vw] md:max-w-[50vw]',
-					body: 'max-h-[50vh] overflow-y-auto overflow-x-hidden',
+					body: 'max-h-[50vh] max-w-[85vw] md:max-w-[50vw] overflow-y-auto overflow-x-hidden',
 				}}
 				title={
 					<div

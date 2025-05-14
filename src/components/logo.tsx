@@ -22,7 +22,7 @@ export const GithubIcon = () => {
 			target="_blank"
 			className="px-0"
 		>
-			<GithubOutlined className="text-xl cursor-pointer text-default" />
+			<GithubOutlined className="text-xl cursor-pointer text-theme-text" />
 		</Button>
 	)
 }
@@ -51,7 +51,7 @@ export const Logo = (props: ILogoProps) => {
 					alt="logo"
 				/>
 				{!hideText ? (
-					<span className="inline-block my-0 ml-3 font-bold text-lg">Dify Chat</span>
+					<span className="inline-block my-0 ml-3 font-bold text-lg text-theme-text">Dify Chat</span>
 				) : null}
 			</div>
 			{!hideGithubIcon && (
@@ -61,7 +61,7 @@ export const Logo = (props: ILogoProps) => {
 					target="_blank"
 					className="px-0"
 				>
-					<GithubOutlined className="text-lg cursor-pointer text-default" />
+					<GithubOutlined className="text-lg cursor-pointer text-theme-text" />
 				</Button>
 			)}
 		</div>

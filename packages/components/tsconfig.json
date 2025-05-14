@@ -4,7 +4,8 @@
 		"paths": {
 			"@dify-chat/api": ["../api/src/index.ts"],
 			"@dify-chat/core": ["../core/src/index.ts"],
-			"@dify-chat/helpers": ["../helpers/src/index.ts"]
+			"@dify-chat/helpers": ["../helpers/src/index.ts"],
+			"@dify-chat/theme": ["../theme/src/index.ts"]
 		}
 	}
 }

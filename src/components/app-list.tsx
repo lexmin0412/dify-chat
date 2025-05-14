@@ -38,7 +38,7 @@ export default function AppList(props: IAppListProps) {
 				return (
 					<div
 						key={item.id}
-						className={`p-3 bg-white mt-3 border border-solid border-gray-200 rounded-lg cursor-pointer hover:border-primary hover:text-primary ${isSelected ? 'text-primary border-primary bg-gradient-to-r from-cyan-50 to-blue-50' : ''}`}
+						className={`p-3 bg-theme-bg mt-3 border border-solid border-gray-200 rounded-lg cursor-pointer hover:border-primary hover:text-primary ${isSelected ? 'text-primary border-primary bg-gradient-to-r from-cyan-50 to-blue-50' : ''}`}
 					>
 						<div className="w-full flex items-center">
 							<div

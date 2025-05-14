@@ -94,7 +94,7 @@ export default function MessageFileList(props: IMessageFileListProps) {
 							<FileTextOutlined className="text-3xl text-gray-400 mr-2" />
 						)}
 						<div className="overflow-hidden">
-							<div className="text-default truncate">{item.filename}</div>
+							<div className="text-theme-text truncate">{item.filename}</div>
 							{item.size ? <div className="text-desc truncate">{formatSize(item.size)}</div> : null}
 						</div>
 					</a>

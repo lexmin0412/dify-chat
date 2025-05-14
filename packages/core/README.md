@@ -36,16 +36,35 @@ const App = () => {
 	return (
 		<DifyChatProvider
 			value={{
+				// 应用模式 singleApp-单应用模式 multiApp-多应用模式
 				mode: 'singleApp',
+				// 当前用户ID，自行传入
 				user: 'user123',
 				appConfig: {
+					// Dify 应用请求配置
 					requestConfig: {
 						apiBase: 'https://api.dify.ai/v1',
 						apiKey: 'YOUR_API_KEY',
 					},
+					// AI 回复的表单配置
 					answerForm: {
+						// 是否启用表单渲染
 						enabled: true,
+						// 用户提交表单发送的消息文本
 						feedbackText: '我提交了一个表单',
+					},
+					inputParams: {
+						// 开始对话后，是否支持更新对话参数
+						enableUpdateAfterCvstStarts: true,
+					},
+					extConfig: {
+						conversation: {
+							// 开场白展示模式
+							openingStatement: {
+								// 默认值：default-对话开始后不展示 always-固定展示
+								displayMode: 'default',
+							},
+						},
 					},
 				},
 			}}

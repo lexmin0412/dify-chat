@@ -16,6 +16,11 @@
 		"access": "public",
 		"registry": "https://registry.npmjs.org"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/lexmin0412/dify-chat.git",
+		"directory": "packages/components"
+	},
 	"type": "module",
 	"exports": {
 		".": {
@@ -51,6 +56,7 @@
 		"@storybook/test": "catalog:",
 		"@testing-library/jest-dom": "catalog:",
 		"@testing-library/react": "catalog:",
+		"@types/hast": "catalog:",
 		"@types/lodash-es": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
@@ -72,6 +78,7 @@
 		"@dify-chat/api": "workspace:^",
 		"@dify-chat/core": "workspace:^",
 		"@dify-chat/helpers": "workspace:^",
+		"@dify-chat/theme": "workspace:^",
 		"@heroicons/react": "catalog:",
 		"@lexmin0412/markdown-it-echarts": "catalog:",
 		"@svgdotjs/svg.js": "catalog:",
@@ -79,8 +86,10 @@
 		"classnames": "catalog:",
 		"dompurify": "catalog:",
 		"echarts-for-react": "catalog:",
+		"hast": "catalog:",
 		"katex": "catalog:",
 		"lodash-es": "catalog:",
+		"lucide-react": "catalog:",
 		"markdown-it": "catalog:",
 		"markdown-it-katex-gpt": "catalog:",
 		"mermaid": "catalog:",

@@ -1,20 +1,17 @@
-import {
-	CopyOutlined,
-	DislikeOutlined,
-	LikeOutlined,
-	MutedOutlined,
-	SoundOutlined,
-	SyncOutlined,
-} from '@ant-design/icons'
 import { DifyApi, IGetAppParametersResponse, IRating } from '@dify-chat/api'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Space } from 'antd'
 import { useState } from 'react'
 
+import LucideIcon from '../../lucide-icon'
 import ActionButton from './action-btn'
 
 interface IMessageFooterProps {
+	/**
+	 * 是否正在对话中
+	 */
+	isRequesting?: boolean
 	/**
 	 * 反馈 API
 	 */
@@ -61,6 +58,10 @@ interface IMessageFooterProps {
 	 * TTS 配置
 	 */
 	ttsConfig?: IGetAppParametersResponse['text_to_speech']
+	/**
+	 * 触发重新生成消息
+	 */
+	onRegenerateMessage?: () => void
 }
 
 /**
@@ -68,12 +69,14 @@ interface IMessageFooterProps {
  */
 export default function MessageFooter(props: IMessageFooterProps) {
 	const {
+		isRequesting,
 		messageId,
 		messageContent,
 		feedback: { rating, callback },
 		feedbackApi,
 		ttsApi,
 		ttsConfig,
+		onRegenerateMessage,
 	} = props
 
 	const isLiked = rating === 'like'
@@ -153,12 +156,15 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	const actionButtons = [
 		// 重新生成回复
 		{
-			icon: <SyncOutlined />,
-			hidden: true,
+			icon: <LucideIcon name="refresh-ccw" />,
+			hidden: false,
+			onClick: () => {
+				onRegenerateMessage?.()
+			},
 		},
 		// 复制内容
 		{
-			icon: <CopyOutlined />,
+			icon: <LucideIcon name="copy" />,
 			onClick: async () => {
 				await copyToClipboard(messageContent)
 				antdMessage.success('复制成功')
@@ -169,7 +175,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		},
 		// 点赞
 		{
-			icon: <LikeOutlined />,
+			icon: <LucideIcon name="thumbs-up" />,
 			onClick: () => {
 				setLoading({
 					like: true,
@@ -182,7 +188,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		},
 		// 点踩
 		{
-			icon: <DislikeOutlined />,
+			icon: <LucideIcon name="thumbs-down" />,
 			onClick: () => {
 				setLoading({
 					dislike: true,
@@ -195,7 +201,20 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		},
 		// 文本转语音
 		{
-			icon: ttsPlaying ? <SoundOutlined /> : <MutedOutlined />,
+			icon: (
+				<LucideIcon
+					color={
+						isRequesting
+							? undefined
+							: ttsPlaying
+								? 'var(--theme-primary-color)'
+								: 'var(--theme-text-color)'
+					}
+					name={ttsPlaying ? 'volume-2' : 'volume-1'}
+					size={18}
+					strokeWidth={1.75}
+				/>
+			),
 			onClick: () => {
 				if (cachedAudioUrl) {
 					playAudio(cachedAudioUrl)
@@ -220,6 +239,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 							onClick={buttonProps.onClick}
 							active={buttonProps.active}
 							loading={buttonProps.loading}
+							disabled={isRequesting}
 						/>
 					),
 			)}

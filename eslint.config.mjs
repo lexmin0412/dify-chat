@@ -30,6 +30,7 @@ export default [
 	{
 		rules: {
 			'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+			'react/prop-types': 'off',
 		},
 	},
 	{ ignores: ['dist/'] },

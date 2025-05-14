@@ -80,7 +80,7 @@ export default function AppManageDrawer(props: IAppManagerDrawerProps) {
 											key={item.id}
 										>
 											<div
-												className={`p-3 bg-white mb-3 border border-solid border-gray-200 rounded-lg cursor-pointer hover:border-primary hover:text-primary`}
+												className={`p-3 bg-theme-bg mb-3 border border-solid border-gray-200 rounded-lg cursor-pointer hover:border-primary hover:text-primary`}
 												onClick={() => {
 													setSelectedAppId(item.id)
 													settingForm.setFieldsValue({
@@ -90,6 +90,9 @@ export default function AppManageDrawer(props: IAppManagerDrawerProps) {
 														'answerForm.feedbackText': item.answerForm?.feedbackText || '',
 														'inputParams.enableUpdateAfterCvstStarts':
 															item.inputParams?.enableUpdateAfterCvstStarts || false,
+														'extConfig.conversation.openingStatement.displayMode':
+															item.extConfig?.conversation?.openingStatement?.displayMode ||
+															'default',
 													})
 													setDetailDrawerMode(AppDetailDrawerModeEnum.edit)
 													setDetailDrawerVisible(true)

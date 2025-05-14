@@ -69,6 +69,8 @@ interface IDifyApiOptions {
 
 ## API 方法
 
+> 注意：开发此包的初衷是为了实现主项目 Dify Chat 的相关功能，所以并不是所有的官方 API 都会存在对应的方法。如需调用其他 API，请自行参考官方文档。
+
 ### 更新 API 配置
 
 当需要切换应用时，可以更新 API 配置。
@@ -424,6 +426,99 @@ const textResponse = await api.audio2Text(audioFile)
 ```ts
 interface IAudio2TextResponse {
 	text: string
+}
+```
+
+### 工作流相关
+
+#### 执行 workflow
+
+```ts
+const workflowResponse = await api.runWorkflow({
+	inputs: {
+		// 输入参数，键值对形式
+		param1: 'value1',
+		param2: [
+			/* 文件数组 */
+		],
+	},
+})
+```
+
+参数：
+
+```ts
+{
+	inputs: Record<string, IFile[] | unknown>
+}
+```
+
+#### 获取 workflow 执行情况
+
+```ts
+const workflowResult = await api.getWorkflowResult({
+	workflow_run_id: 'workflow_run_id',
+})
+```
+
+参数：
+
+```ts
+{
+	workflow_run_id: string
+}
+```
+
+响应体：
+
+```ts
+{
+	/** workflow 执行 ID */
+	id: string
+	/** 关联的 Workflow ID */
+	workflow_id: string
+	/** 执行状态 running / succeeded / failed / stopped */
+	status: string
+	/** 任务输入内容 */
+	inputs: object
+	/** 任务输出内容 */
+	outputs: object
+	/** 错误原因 */
+	error: string
+	/** 任务执行总步数 */
+	total_steps: number
+	/** 任务执行总 tokens */
+	total_tokens: number
+	/** 任务开始时间 */
+	created_at: number
+	/** 任务结束时间 */
+	finished_at: number
+	/** 耗时(s) */
+	elapsed_time: number
+}
+```
+
+### 文本生成相关
+
+#### 执行文本生成
+
+```ts
+const completionResponse = await api.completion({
+	inputs: {
+		// 输入参数，键值对形式
+		param1: 'value1',
+		param2: [
+			/* 文件数组 */
+		],
+	},
+})
+```
+
+参数：
+
+```ts
+{
+	inputs: Record<string, IFile[] | unknown>
 }
 ```
 

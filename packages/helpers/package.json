@@ -12,6 +12,11 @@
 		"access": "public",
 		"registry": "https://registry.npmjs.org"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/lexmin0412/dify-chat.git",
+		"directory": "packages/helpers"
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",

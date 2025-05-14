@@ -2,6 +2,7 @@ import { CloudUploadOutlined, LinkOutlined } from '@ant-design/icons'
 import { Attachments, AttachmentsProps, Sender } from '@ant-design/x'
 import { DifyApi, IFile, IUploadFileResponse } from '@dify-chat/api'
 import { useAppContext } from '@dify-chat/core'
+import { useThemeContext } from '@dify-chat/theme'
 import { Badge, Button, GetProp, GetRef, message } from 'antd'
 import { RcFile } from 'antd/es/upload'
 import { useMemo, useRef, useState } from 'react'
@@ -58,6 +59,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 	const [audio2TextLoading, setAudio2TextLoading] = useState(false)
 	const attachmentsRef = useRef<GetRef<typeof Attachments>>(null)
 	const senderRef = useRef<GetRef<typeof Sender>>(null)
+	const { isLight } = useThemeContext()
 
 	const onChange = (value: string) => {
 		setContent(value)
@@ -215,7 +217,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 						}
 
 						mediaRecorder.current.onstop = () => {
-							console.log('停止了', recordedChunks)
+							console.log('停止录音', recordedChunks)
 							const blob = new Blob(recordedChunks.current, { type: 'audio/webm' })
 							setAudio2TextLoading(true)
 							setContent('正在识别...')
@@ -262,13 +264,13 @@ export const MessageSender = (props: IMessageSenderProps) => {
 					<Badge dot={files.length > 0 && !open}>
 						<Button
 							onClick={() => setOpen(!open)}
-							icon={<LinkOutlined />}
+							icon={<LinkOutlined className="text-theme-text" />}
 						/>
 					</Badge>
 				) : null
 			}
 			style={{
-				boxShadow: '0px -2px 12px 4px #efefef',
+				boxShadow: isLight ? '0px -2px 12px 4px var(--theme-border-color)' : 'none',
 			}}
 			loading={isRequesting}
 			disabled={audio2TextLoading}

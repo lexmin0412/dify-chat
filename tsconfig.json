@@ -6,7 +6,8 @@
 			"@dify-chat/api": ["packages/api/src/index.ts"],
 			"@dify-chat/components": ["packages/components/src/index.tsx"],
 			"@dify-chat/core": ["packages/core/src/index.ts"],
-			"@dify-chat/helpers": ["packages/helpers/src/index.ts"]
+			"@dify-chat/helpers": ["packages/helpers/src/index.ts"],
+			"@dify-chat/theme": ["packages/theme/src/index.ts"]
 		}
 	}
 }

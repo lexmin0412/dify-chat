@@ -1,5 +1,6 @@
-import { DownCircleTwoTone, RobotFilled } from '@ant-design/icons'
+import { DownCircleTwoTone } from '@ant-design/icons'
 import { createDifyApiInstance, DifyApi } from '@dify-chat/api'
+import { LucideIcon } from '@dify-chat/components'
 import {
 	AppContextProvider,
 	ICurrentApp,
@@ -91,13 +92,21 @@ const MultiAppLayout: React.FC = () => {
 		})
 		setInitLoading(true)
 		// 获取应用参数
-		getAppParameters(difyApi).then(res => {
-			setInitLoading(false)
-			setCurrentApp({
-				config: appItem,
-				parameters: res!,
+		getAppParameters(difyApi)
+			.then(res => {
+				setCurrentApp({
+					config: appItem,
+					parameters: res!,
+				})
 			})
-		})
+			.catch(err => {
+				message.error(`获取应用参数失败: ${err}`)
+				console.error(err)
+				setCurrentApp(undefined)
+			})
+			.finally(() => {
+				setInitLoading(false)
+			})
 	}
 
 	useEffect(() => {
@@ -110,14 +119,6 @@ const MultiAppLayout: React.FC = () => {
 	useMount(() => {
 		getAppList()
 	})
-
-	// if (initLoading) {
-	// 	return (
-	// 		<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
-	// 			<Spin spinning />
-	// 		</div>
-	// 	)
-	// }
 
 	return (
 		<AppContextProvider
@@ -135,7 +136,11 @@ const MultiAppLayout: React.FC = () => {
 				renderCenterTitle={() => {
 					return (
 						<div className="flex items-center overflow-hidden">
-							<RobotFilled className="mr-2" />
+							<LucideIcon
+								name="layout-grid"
+								size={16}
+								className="mr-1"
+							/>
 							<span
 								className="cursor-pointer inline-block shrink-0"
 								onClick={() => {
@@ -159,7 +164,7 @@ const MultiAppLayout: React.FC = () => {
 													return {
 														key: item.id,
 														label: (
-															<div className={isSelected ? 'text-primary' : 'text-default'}>
+															<div className={isSelected ? 'text-primary' : 'text-theme-text'}>
 																{item.info.name}
 															</div>
 														),
@@ -167,7 +172,12 @@ const MultiAppLayout: React.FC = () => {
 															history.push(`/app/${item.id}`)
 															setSelectedAppId(item.id)
 														},
-														icon: <RobotFilled />,
+														icon: (
+															<LucideIcon
+																name="bot"
+																size={18}
+															/>
+														),
 													}
 												}) || []),
 											],

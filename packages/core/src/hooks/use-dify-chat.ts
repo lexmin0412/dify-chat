@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 
+import { AppModeEnums } from '../constants'
 import { DifyAppStore, IDifyAppItem } from '../repository'
 
 export type IDifyChatMode = 'singleApp' | 'multiApp'
@@ -22,7 +23,17 @@ export interface IDifyChatContextSingleApp extends IDifyChatContextBase {
 	/**
 	 * 当前应用配置
 	 */
-	appConfig: Omit<IDifyAppItem, 'id' | 'info'>
+	appConfig: Omit<IDifyAppItem, 'id' | 'info'> & {
+		/**
+		 * 应用信息 可选，主要是为了兼容旧版本 dify(<=1.3.1) 的 /info 接口没有返回 mode 的情况
+		 */
+		info?: {
+			/**
+			 * 应用类型
+			 */
+			mode?: AppModeEnums
+		}
+	}
 }
 
 /**

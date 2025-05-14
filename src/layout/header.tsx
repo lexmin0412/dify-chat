@@ -1,4 +1,7 @@
+import { LucideIcon } from '@dify-chat/components'
 import { useIsMobile } from '@dify-chat/helpers'
+import { ThemeSelector, useThemeContext } from '@dify-chat/theme'
+import { Space } from 'antd'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -30,6 +33,7 @@ const HeaderSiderIcon = (props: { align: 'left' | 'right'; children: React.React
  */
 export default function HeaderLayout(props: IHeaderLayoutProps) {
 	const { title, rightIcon } = props
+	const { themeMode } = useThemeContext()
 	const isMobile = useIsMobile()
 	return (
 		<div className="h-16 flex items-center justify-between px-4">
@@ -44,7 +48,27 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 			<CenterTitleWrapper>{title}</CenterTitleWrapper>
 
 			{/* 右侧图标 */}
-			<HeaderSiderIcon align="right">{rightIcon || <GithubIcon />}</HeaderSiderIcon>
+			<HeaderSiderIcon align="right">
+				{rightIcon || (
+					<Space className="flex items-center">
+						<ThemeSelector>
+							<div className="flex items-center cursor-pointer">
+								<LucideIcon
+									name={
+										themeMode === 'dark'
+											? 'moon-star'
+											: themeMode === 'light'
+												? 'sun'
+												: 'screen-share'
+									}
+									size={20}
+								/>
+							</div>
+						</ThemeSelector>
+						<GithubIcon />
+					</Space>
+				)}
+			</HeaderSiderIcon>
 		</div>
 	)
 }

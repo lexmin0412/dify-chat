@@ -39,13 +39,11 @@ const MainLayout = (props: IMainLayoutProps) => {
 	const { currentApp } = useAppContext()
 
 	// FIXME: 去掉这里的默认值
-	const appMode = currentApp?.config?.info?.mode || AppModeEnums.CHAT
+	const appMode = currentApp?.config?.info?.mode || AppModeEnums.CHATBOT
 
 	return (
-		<XProvider theme={{ token: { colorPrimary: colors.primary, colorText: colors.default } }}>
-			{[AppModeEnums.CHAT, AppModeEnums.ADVANCED_CHAT, AppModeEnums.AGENT_CHAT].includes(
-				appMode,
-			) ? (
+		<XProvider theme={{ token: { colorPrimary: colors.primary, colorText: colors['theme-text'] } }}>
+			{[AppModeEnums.CHATBOT, AppModeEnums.CHATFLOW, AppModeEnums.AGENT].includes(appMode) ? (
 				<ChatLayout {...props} />
 			) : (
 				<CommonLayout
@@ -53,7 +51,7 @@ const MainLayout = (props: IMainLayoutProps) => {
 					renderCenterTitle={props.renderCenterTitle}
 					extComponents={props.extComponents}
 				>
-					{[AppModeEnums.WORKFLOW, AppModeEnums.TextGeneration].includes(appMode) ? (
+					{[AppModeEnums.WORKFLOW, AppModeEnums.TEXT_GENERATOR].includes(appMode) ? (
 						<WorkflowLayout difyApi={props.difyApi} />
 					) : (
 						<div>不支持的应用类型</div>

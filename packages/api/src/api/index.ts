@@ -176,6 +176,34 @@ export interface IConversationItem {
 }
 
 /**
+ * 获取工作流执行结果-响应体
+ */
+export interface IGetWorkflowResultResponse {
+	/** workflow 执行 ID */
+	id: string
+	/** 关联的 Workflow ID */
+	workflow_id: string
+	/** 执行状态 running / succeeded / failed / stopped */
+	status: string
+	/** 任务输入内容 */
+	inputs: object
+	/** 任务输出内容 */
+	outputs: object
+	/** 错误原因 */
+	error: string
+	/** 任务执行总步数 */
+	total_steps: number
+	/** 任务执行总 tokens */
+	total_tokens: number
+	/** 任务开始时间 */
+	created_at: number
+	/** 任务结束时间 */
+	finished_at: number
+	/** 耗时(s) */
+	elapsed_time: number
+}
+
+/**
  * 获取会话列表-参数
  */
 interface IGetConversationListRequest {
@@ -631,7 +659,9 @@ export class DifyApi {
 	 * 获取 workflow 执行情况
 	 */
 	async getWorkflowResult(params: { workflow_run_id: string }) {
-		return this.baseRequest.get(`/workflows/run/${params.workflow_run_id}`)
+		return this.baseRequest.get(
+			`/workflows/run/${params.workflow_run_id}`,
+		) as Promise<IGetWorkflowResultResponse>
 	}
 
 	/**

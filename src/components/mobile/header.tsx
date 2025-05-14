@@ -18,7 +18,7 @@ export const MobileHeader = (props: IMobileHeaderProps) => {
 	const { mode } = useDifyChat()
 
 	return (
-		<div className="h-12 !leading-[3rem] px-4 text-base top-0 z-20 bg-white w-full shadow-sm font-semibold justify-between flex items-center box-border">
+		<div className="h-12 !leading-[3rem] px-4 text-base top-0 z-20 bg-theme-bg w-full shadow-sm font-semibold justify-between flex items-center box-border">
 			{mode === 'multiApp' ? (
 				<Link
 					to="/apps"

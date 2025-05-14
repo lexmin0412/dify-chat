@@ -1,7 +1,9 @@
 import { DifyChatProvider } from '@dify-chat/core'
 import { initResponsiveConfig } from '@dify-chat/helpers'
+import { useThemeContext } from '@dify-chat/theme'
 import FingerPrintJS from '@fingerprintjs/fingerprintjs'
 import { useMount } from 'ahooks'
+import { theme as antdTheme, ConfigProvider } from 'antd'
 import { BrowserRouter, type IRoute } from 'pure-react-router'
 import { useState } from 'react'
 
@@ -36,21 +38,29 @@ export default function App() {
 		loadFP()
 	})
 
+	const { isDark } = useThemeContext()
+
 	return (
-		<BrowserRouter
-			basename="/dify-chat"
-			routes={routes}
+		<ConfigProvider
+			theme={{
+				algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+			}}
 		>
-			<DifyChatProvider
-				value={{
-					mode: 'multiApp',
-					user: userId,
-					// 默认使用 localstorage, 如果需要使用其他存储方式，可以实现 DifyAppStore 接口后传入，异步接口实现参考 src/services/app/restful.ts
-					appService: new DifyAppService(),
-				}}
+			<BrowserRouter
+				basename="/dify-chat"
+				routes={routes}
 			>
-				<LayoutIndex />
-			</DifyChatProvider>
-		</BrowserRouter>
+				<DifyChatProvider
+					value={{
+						mode: 'multiApp',
+						user: userId,
+						// 默认使用 localstorage, 如果需要使用其他存储方式，可以实现 DifyAppStore 接口后传入，异步接口实现参考 src/services/app/restful.ts
+						appService: new DifyAppService(),
+					}}
+				>
+					<LayoutIndex />
+				</DifyChatProvider>
+			</BrowserRouter>
+		</ConfigProvider>
 	)
 }

@@ -50,7 +50,6 @@ const MarkdownForm = ({ node, onSend }: any) => {
     const result = getFormValues(node.children)
 
     if (format === DATA_FORMAT.JSON) {
-			console.log('即将发送', format, result)
       onSend?.(JSON.stringify({
 				...result,
 				isFormSubmit: true
@@ -210,7 +209,6 @@ const MarkdownForm = ({ node, onSend }: any) => {
         }
         if (child.tagName === SUPPORTED_TAGS.BUTTON) {
           const variant = child.properties.dataVariant
-          const size = child.properties.dataSize
 
           return (
             <Button

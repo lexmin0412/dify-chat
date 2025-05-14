@@ -26,4 +26,12 @@ export default {
 	importOrderSeparation: true,
 	importOrderSortSpecifiers: true,
 	importOrderCaseInsensitive: true,
+	overrides: [
+		{
+			files: ['*.md', '.yaml'],
+			options: {
+				useTabs: false,
+			},
+		},
+	],
 }

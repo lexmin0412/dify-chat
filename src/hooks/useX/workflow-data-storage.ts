@@ -27,7 +27,6 @@ class WorkflowDataStorage {
 	 */
 	get(options: IWorkflowDataOptions) {
 		const { appId, conversationId, messageId, key } = options
-		console.log('workflow data storage get', options, this.data)
 		return this.data[appId]?.[conversationId]?.[messageId]?.[key]
 	}
 
@@ -42,7 +41,6 @@ class WorkflowDataStorage {
 		if (!this.data[appId][conversationId][messageId])
 			this.data[appId][conversationId][messageId] = {}
 		this.data[appId][conversationId][messageId][key] = value
-		console.log('workflow data storage set', options, this.data)
 	}
 }
 

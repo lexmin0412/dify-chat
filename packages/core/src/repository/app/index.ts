@@ -64,6 +64,25 @@ export interface IDifyAppItem {
 		 */
 		enableUpdateAfterCvstStarts: boolean
 	}
+	/**
+	 * 其他扩展配置
+	 */
+	extConfig?: {
+		/**
+		 * 对话相关配置
+		 */
+		conversation?: {
+			/**
+			 * 开场白配置
+			 */
+			openingStatement?: {
+				/**
+				 * 展示模式 default-默认（对话开始后不展示） always-固定展示
+				 */
+				displayMode?: 'default' | 'always'
+			}
+		}
+	}
 }
 
 /**
