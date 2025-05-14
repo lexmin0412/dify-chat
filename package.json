@@ -1,7 +1,7 @@
 {
 	"name": "dify-chat-web",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.2.0",
 	"scripts": {
 		"build:pkgs": "pnpm --filter @dify-chat/* build",
 		"build": "pnpm build:pkgs && rsbuild build",
@@ -31,14 +31,13 @@
 		"classnames": "catalog:",
 		"lucide-react": "catalog:",
 		"markdown-it": "catalog:",
-		"openai": "catalog:",
 		"pure-react-router": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"semver": "catalog:"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.29.2",
+		"@changesets/cli": "catalog:",
 		"@eslint/compat": "catalog:",
 		"@eslint/js": "catalog:",
 		"@fingerprintjs/fingerprintjs": "catalog:",

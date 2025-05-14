@@ -1,6 +1,6 @@
 {
 	"name": "@dify-chat/theme",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"type": "module",
 	"author": {
 		"name": "lexmin0412",
@@ -51,6 +51,5 @@
 		"antd": ">=5.0.0",
 		"react": ">=16.9.0",
 		"react-dom": ">=16.9.0"
-	},
-	"private": true
+	}
 }

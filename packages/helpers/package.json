@@ -1,7 +1,7 @@
 {
 	"name": "@dify-chat/helpers",
 	"description": "Dify Chat 的辅助工具包",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"type": "module",
 	"author": {
 		"name": "lexmin0412",
