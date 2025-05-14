@@ -1,5 +1,5 @@
 import { DeleteOutlined } from '@ant-design/icons'
-import { IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
+import { DifyAppStore, IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
 import { useIsMobile } from '@dify-chat/helpers'
 import {
 	Button,
@@ -110,7 +110,7 @@ export default function AppManageDrawer(props: IAppManagerDrawerProps) {
 															okText="确定"
 															title="确定删除应用吗？"
 															onConfirm={async () => {
-																await appService.deleteApp(item.id)
+																await (appService as DifyAppStore).deleteApp(item.id)
 																message.success('删除应用成功')
 																getAppList()
 																onDeleteSuccess?.(item.id)

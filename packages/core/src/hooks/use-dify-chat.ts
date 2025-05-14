@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import { AppModeEnums } from '../constants'
-import { DifyAppStore, IDifyAppItem } from '../repository'
+import { DifyAppStore, DifyAppStoreReadonly, IDifyAppItem } from '../repository'
 
 export type IDifyChatMode = 'singleApp' | 'multiApp'
 
@@ -47,7 +47,7 @@ export interface IDifyChatContextMultiApp extends IDifyChatContextBase {
 	/**
 	 * 应用服务，用于实现应用列表的 CRUD 管理
 	 */
-	appService: DifyAppStore
+	appService: DifyAppStore | DifyAppStoreReadonly
 	/**
 	 * 是否允许用户配置, 启用后界面会展示设置按钮，点击可对应用进行增删改操作, 默认为 true
 	 */

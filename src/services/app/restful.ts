@@ -10,6 +10,8 @@ const request = new BaseRequest({ baseURL: API_BASE_URL })
  * 应用列表 CRUD 的 RESTful 实现
  */
 class DifyAppService extends DifyAppStore {
+	public readonly = false as const
+
 	async getApps(): Promise<IDifyAppItem[]> {
 		const response = await request.get(`/apps`)
 		return response

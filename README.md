@@ -279,6 +279,94 @@ export default function App() {
 
 然后在 `src/services/app` 中新建一个文件，只需要继承抽象类 `DifyAppStore` 并实现它的所有方法, 调用在上述服务中对应的接口即可。
 
+**展示固定的应用列表数据**
+
+如果你的应用列表是固定不变的，且不想通过后端接口实现，你可以按照如下步骤在代码中定义静态配置。
+
+首先，在 `src/App.tsx` 中，修改 DifyAppService 的导入路径为 `"./services/app/static-readonly"`，并设置 `enableSetting` 为 `false`：
+
+```tsx
+// src/App.tsx
+import DifyAppService from './services/app/static-readonly'
+
+export default function App() {
+  return (
+    <DifyChatProvider
+      value={{
+        mode: 'multiApp',
+        user: userId,
+        appService: new DifyAppService(),
+        // 固定数据不支持增删改，所以需要禁用应用配置权限
+        enableSetting: false,
+      }}
+    >
+      <LayoutIndex />
+    </DifyChatProvider>
+  )
+}
+```
+
+然后在 `src/services/app/static-readonly/data.ts` 中，定义你的应用列表数据。里面预置了两条示例数据，你可以随意添加/修改。
+
+> 注意：如果非本地开发模式，修改后需要重新构建方可生效。
+
+```ts
+// src/services/app/static-readonly/data.ts
+import { AppModeEnums, IDifyAppItem } from '@dify-chat/core'
+
+/**
+ * 静态的应用列表，用于演示
+ * 注意：**尽量不要在公开的生产环境中使用静态数据**，推荐使用后端服务
+ */
+export const staticAppList: IDifyAppItem[] = [
+  {
+    id: '0.270357011315995',
+    info: {
+      name: 'My Chatflow APP',
+      description: '我的 Chatflow 应用',
+      tags: [],
+      mode: AppModeEnums.CHATFLOW,
+    },
+    requestConfig: {
+      apiBase: 'https://api.dify.ai/v1',
+      apiKey: 'app-xxxxxxx',
+    },
+  },
+  {
+    id: '0.28936574761079314',
+    info: {
+      name: 'My Workflow APP',
+      description: '我的 Workflow 应用',
+      tags: [],
+      mode: AppModeEnums.WORKFLOW,
+    },
+    requestConfig: {
+      apiBase: 'http://127.0.0.1:5001/v1',
+      apiKey: 'app-xxxxxxx',
+    },
+  },
+]
+```
+
+关键属性说明：
+
+- `id`: 应用 ID, 用于唯一标识应用
+- `info`: 应用信息, 包含应用名称、描述、标签、应用类型等
+  - `name`: 应用名称
+  - `description`: 应用描述
+  - `tags`: 应用标签，字符串数组
+  - `mode`: 应用类型, 从 `AppModeEnums` 枚举中选择, 目前支持以下类型：
+    - `AppModeEnums.CHATBOT`: 聊天助手
+    - `AppModeEnums.CHATFLOW`: 支持工作流编排的聊天助手
+    - `AppModeEnums.AGENT`: 具备推理和自主调用能力的聊天助手
+    - `AppModeEnums.WORKFLOW`: 工作流
+    - `AppModeEnums.TEXT_GENERATOR`: 文本生成
+- `requestConfig`: 应用请求配置
+  - `apiBase`: Dify API 请求前缀
+  - `apiKey`: Dify API 密钥
+
+完成的可配置属性详见：[IDifyAppItem](https://github.com/lexmin0412/dify-chat/blob/main/packages/core/src/repository/app/index.ts#L6)
+
 #### 2.3 禁用应用配置管理功能
 
 当你不想让用户在界面上管理应用配置, 而是仅提供一个应用列表供用户切换，可以在 `src/App.tsx` 中添加一个配置项即可：

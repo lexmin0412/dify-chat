@@ -6,6 +6,8 @@ import { APP_LIST_KEY } from '@/constants'
  * 应用列表 CRUD 的 localStorage 实现
  */
 class DifyAppService extends DifyAppStore {
+	public readonly = false as const
+
 	async getApps(): Promise<IDifyAppItem[]> {
 		const appJson = localStorage.getItem(APP_LIST_KEY)
 		return appJson ? JSON.parse(appJson) : []

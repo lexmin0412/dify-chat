@@ -1,5 +1,11 @@
 import { DifyApi } from '@dify-chat/api'
-import { AppModeEnums, IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
+import {
+	AppModeEnums,
+	DifyAppStore,
+	IDifyAppItem,
+	IDifyChatContextMultiApp,
+	useDifyChat,
+} from '@dify-chat/core'
 import { useRequest } from 'ahooks'
 import { Button, Drawer, DrawerProps, Form, message, Space } from 'antd'
 import { useEffect, useState } from 'react'
@@ -58,7 +64,7 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 
 	const { runAsync: createApp } = useRequest(
 		async (appInfo: IDifyAppItem) => {
-			return appService.addApp(appInfo)
+			return (appService as DifyAppStore).addApp(appInfo)
 		},
 		{
 			manual: true,
@@ -71,7 +77,7 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 
 	const { runAsync: updateApp } = useRequest(
 		async (appInfo: IDifyAppItem) => {
-			return appService.updateApp(appInfo)
+			return (appService as DifyAppStore).updateApp(appInfo)
 		},
 		{
 			manual: true,

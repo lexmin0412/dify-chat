@@ -1,6 +1,12 @@
 import { DeleteOutlined, EditOutlined, MoreOutlined, TagOutlined } from '@ant-design/icons'
 import { LucideIcon } from '@dify-chat/components'
-import { AppModeLabels, IDifyAppItem, IDifyChatContextMultiApp, useDifyChat } from '@dify-chat/core'
+import {
+	AppModeLabels,
+	DifyAppStore,
+	IDifyAppItem,
+	IDifyChatContextMultiApp,
+	useDifyChat,
+} from '@dify-chat/core'
 import { useIsMobile } from '@dify-chat/helpers'
 import { useRequest } from 'ahooks'
 import { Button, Col, Dropdown, Empty, message, Row } from 'antd'
@@ -107,7 +113,7 @@ export default function AppListPage() {
 										</div>
 
 										{/* 操作图标 */}
-										{enableSetting ? (
+										{enableSetting && !appService.readonly ? (
 											<Dropdown
 												menu={{
 													items: [
@@ -127,7 +133,7 @@ export default function AppListPage() {
 															label: '删除',
 															danger: true,
 															onClick: async () => {
-																await appService.deleteApp(item.id)
+																await (appService as DifyAppStore).deleteApp(item.id)
 																message.success('删除应用成功')
 																getAppList()
 															},
@@ -150,7 +156,7 @@ export default function AppListPage() {
 				)}
 			</div>
 
-			{enableSetting ? (
+			{enableSetting && !appService.readonly ? (
 				<Button
 					type="primary"
 					size="large"

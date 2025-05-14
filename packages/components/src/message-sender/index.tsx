@@ -70,7 +70,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 			return []
 		}
 		const result: string[] = []
-		currentApp.parameters.file_upload.allowed_file_types.forEach(item => {
+		currentApp.parameters.file_upload.allowed_file_types?.forEach(item => {
 			if (FileTypeMap.get(item)) {
 				result.push(...((FileTypeMap.get(item) as string[]) || []))
 			}
