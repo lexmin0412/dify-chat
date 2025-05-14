@@ -28,21 +28,21 @@ import { createDifyApiInstance, DifyApi } from '@dify-chat/api'
 
 // 创建实例方式1：使用工厂函数
 const api = createDifyApiInstance({
-	user: 'user123',
-	apiBase: 'https://api.dify.ai/v1',
-	apiKey: 'app-YOUR_API_KEY',
+  user: 'user123',
+  apiBase: 'https://api.dify.ai/v1',
+  apiKey: 'app-YOUR_API_KEY',
 })
 
 // 创建实例方式2：直接实例化
 const api2 = new DifyApi({
-	user: 'user123',
-	apiBase: 'https://api.dify.ai/v1',
-	apiKey: 'app-YOUR_API_KEY',
+  user: 'user123',
+  apiBase: 'https://api.dify.ai/v1',
+  apiKey: 'app-YOUR_API_KEY',
 })
 
 // 调用API
 api.getAppInfo().then(appInfo => {
-	console.log(appInfo)
+  console.log(appInfo)
 })
 ```
 
@@ -52,18 +52,18 @@ api.getAppInfo().then(appInfo => {
 
 ```ts
 interface IDifyApiOptions {
-	/**
-	 * 用户标识
-	 */
-	user: string
-	/**
-	 * API 前缀，默认 https://api.dify.ai/v1
-	 */
-	apiBase: string
-	/**
-	 * Dify APP API 密钥
-	 */
-	apiKey: string
+  /**
+   * 用户标识
+   */
+  user: string
+  /**
+   * API 前缀，默认 https://api.dify.ai/v1
+   */
+  apiBase: string
+  /**
+   * Dify APP API 密钥
+   */
+  apiKey: string
 }
 ```
 
@@ -77,9 +77,9 @@ interface IDifyApiOptions {
 
 ```ts
 api.updateOptions({
-	user: 'newUser',
-	apiBase: 'https://api.dify.ai/v1',
-	apiKey: 'app-NEW_API_KEY',
+  user: 'newUser',
+  apiBase: 'https://api.dify.ai/v1',
+  apiKey: 'app-NEW_API_KEY',
 })
 ```
 
@@ -93,9 +93,9 @@ const appInfo = await api.getAppInfo()
 
 ```ts
 interface IGetAppInfoResponse {
-	name: string
-	description: string
-	tags: string[]
+  name: string
+  description: string
+  tags: string[]
 }
 ```
 
@@ -109,13 +109,13 @@ const appMeta = await api.getAppMeta()
 
 ```ts
 interface IGetAppMetaResponse {
-	tool_icons: {
-		dalle2: string
-		api_tool: {
-			background: string
-			content: string
-		}
-	}
+  tool_icons: {
+    dalle2: string
+    api_tool: {
+      background: string
+      content: string
+    }
+  }
 }
 ```
 
@@ -129,41 +129,41 @@ const appParameters = await api.getAppParameters()
 
 ```ts
 interface IGetAppParametersResponse {
-	opening_statement?: string
-	user_input_form: IUserInputForm[]
-	suggested_questions?: string[]
-	suggested_questions_after_answer: {
-		enabled: boolean
-	}
-	file_upload: {
-		enabled: boolean
-		allowed_file_extensions: string[]
-		allowed_file_types: IFileType[]
-		allowed_file_upload_methods: Array<'remote_url' | 'local_file'>
-		fileUploadConfig: {
-			file_size_limit: number
-			batch_count_limit: number
-			image_file_size_limit: number
-			video_file_size_limit: number
-			audio_file_size_limit: number
-			workflow_file_upload_limit: number
-		}
-		image: {
-			enabled: false
-			number_limits: 3
-			transfer_methods: ['local_file', 'remote_url']
-		}
-		number_limits: number
-	}
-	text_to_speech: {
-		enabled: boolean
-		autoPlay: 'enabled' | 'disabled'
-		language: string
-		voice: string
-	}
-	speech_to_text: {
-		enabled: boolean
-	}
+  opening_statement?: string
+  user_input_form: IUserInputForm[]
+  suggested_questions?: string[]
+  suggested_questions_after_answer: {
+    enabled: boolean
+  }
+  file_upload: {
+    enabled: boolean
+    allowed_file_extensions: string[]
+    allowed_file_types: IFileType[]
+    allowed_file_upload_methods: Array<'remote_url' | 'local_file'>
+    fileUploadConfig: {
+      file_size_limit: number
+      batch_count_limit: number
+      image_file_size_limit: number
+      video_file_size_limit: number
+      audio_file_size_limit: number
+      workflow_file_upload_limit: number
+    }
+    image: {
+      enabled: false
+      number_limits: 3
+      transfer_methods: ['local_file', 'remote_url']
+    }
+    number_limits: number
+  }
+  text_to_speech: {
+    enabled: boolean
+    autoPlay: 'enabled' | 'disabled'
+    language: string
+    voice: string
+  }
+  speech_to_text: {
+    enabled: boolean
+  }
 }
 ```
 
@@ -179,7 +179,7 @@ const conversations = await api.getConversationList({ limit: 20 })
 
 ```ts
 interface IGetConversationListRequest {
-	limit: number
+  limit: number
 }
 ```
 
@@ -187,17 +187,17 @@ interface IGetConversationListRequest {
 
 ```ts
 interface IGetConversationListResponse {
-	data: IConversationItem[]
+  data: IConversationItem[]
 }
 
 interface IConversationItem {
-	created_at: number
-	id: string
-	inputs: Record<string, unknown>
-	introduction: string
-	name: string
-	status: 'normal'
-	updated_at: number
+  created_at: number
+  id: string
+  inputs: Record<string, unknown>
+  introduction: string
+  name: string
+  status: 'normal'
+  updated_at: number
 }
 ```
 
@@ -205,14 +205,14 @@ interface IConversationItem {
 
 ```ts
 await api.renameConversation({
-	conversation_id: 'conversation_id',
-	name: '新的会话名称',
+  conversation_id: 'conversation_id',
+  name: '新的会话名称',
 })
 
 // 自动生成名称
 await api.renameConversation({
-	conversation_id: 'conversation_id',
-	auto_generate: true,
+  conversation_id: 'conversation_id',
+  auto_generate: true,
 })
 ```
 
@@ -242,24 +242,24 @@ const history = await api.getConversationHistory('conversation_id')
 
 ```ts
 interface IGetConversationHistoryResponse {
-	data: IMessageItem[]
+  data: IMessageItem[]
 }
 
 interface IMessageItem {
-	id: string
-	conversation_id: string
-	inputs: Record<string, string>
-	query: string
-	answer: string
-	message_files: []
-	feedback?: {
-		rating: 'like' | 'dislike'
-	}
-	status: 'normal' | 'error'
-	error: string | null
-	agent_thoughts?: IAgentThought[]
-	created_at: number
-	retriever_resources?: IRetrieverResource[]
+  id: string
+  conversation_id: string
+  inputs: Record<string, string>
+  query: string
+  answer: string
+  message_files: []
+  feedback?: {
+    rating: 'like' | 'dislike'
+  }
+  status: 'normal' | 'error'
+  error: string | null
+  agent_thoughts?: IAgentThought[]
+  created_at: number
+  retriever_resources?: IRetrieverResource[]
 }
 ```
 
@@ -269,15 +269,15 @@ interface IMessageItem {
 
 ```ts
 const response = await api.sendMessage({
-	conversation_id: 'conversation_id', // 可选，不传则创建新会话
-	inputs: {
-		// 输入参数，键值对形式
-		param1: 'value1',
-	},
-	files: [], // 附件，可以是远程URL或本地上传的文件ID
-	user: 'user123',
-	response_mode: 'streaming',
-	query: '你好，请问...',
+  conversation_id: 'conversation_id', // 可选，不传则创建新会话
+  inputs: {
+    // 输入参数，键值对形式
+    param1: 'value1',
+  },
+  files: [], // 附件，可以是远程URL或本地上传的文件ID
+  user: 'user123',
+  response_mode: 'streaming',
+  query: '你好，请问...',
 })
 ```
 
@@ -300,17 +300,17 @@ const response = await api.sendMessage({
 export type IFileType = 'document' | 'image' | 'audio' | 'video' | 'custom'
 
 export interface IFileBase {
-	type: IFileType
+  type: IFileType
 }
 
 export interface IFileRemote extends IFileBase {
-	transfer_method: 'remote_url'
-	url?: string
+  transfer_method: 'remote_url'
+  url?: string
 }
 
 export interface IFileLocal extends IFileBase {
-	transfer_method: 'local_file'
-	upload_file_id?: string
+  transfer_method: 'local_file'
+  upload_file_id?: string
 }
 
 export type IFile = IFileRemote | IFileLocal
@@ -326,7 +326,7 @@ await api.stopTask('taskId')
 
 ```ts
 const suggestions = await api.getNextSuggestions({
-	message_id: 'message_id',
+  message_id: 'message_id',
 })
 ```
 
@@ -342,9 +342,9 @@ const suggestions = await api.getNextSuggestions({
 
 ```ts
 await api.feedbackMessage({
-	messageId: 'message_id',
-	rating: 'like', // 'like' | 'dislike' | null
-	content: '反馈内容',
+  messageId: 'message_id',
+  rating: 'like', // 'like' | 'dislike' | null
+  content: '反馈内容',
 })
 ```
 
@@ -352,9 +352,9 @@ await api.feedbackMessage({
 
 ```ts
 {
-	messageId: string
-	rating: 'like' | 'dislike' | null
-	content: string
+  messageId: string
+  rating: 'like' | 'dislike' | null
+  content: string
 }
 ```
 
@@ -374,13 +374,13 @@ const fileInfo = await api.uploadFile(file)
 
 ```ts
 interface IUploadFileResponse {
-	id: string
-	name: string
-	size: number
-	extension: string
-	mime_type: string
-	created_by: number
-	created_at: number
+  id: string
+  name: string
+  size: number
+  extension: string
+  mime_type: string
+  created_by: number
+  created_at: number
 }
 ```
 
@@ -391,12 +391,12 @@ interface IUploadFileResponse {
 ```ts
 // 通过消息ID转换
 const audioResponse = await api.text2Audio({
-	message_id: 'message_id',
+  message_id: 'message_id',
 })
 
 // 通过文本内容转换
 const audioResponse2 = await api.text2Audio({
-	text: '要转换的文本内容',
+  text: '要转换的文本内容',
 })
 ```
 
@@ -425,7 +425,7 @@ const textResponse = await api.audio2Text(audioFile)
 
 ```ts
 interface IAudio2TextResponse {
-	text: string
+  text: string
 }
 ```
 
@@ -435,13 +435,13 @@ interface IAudio2TextResponse {
 
 ```ts
 const workflowResponse = await api.runWorkflow({
-	inputs: {
-		// 输入参数，键值对形式
-		param1: 'value1',
-		param2: [
-			/* 文件数组 */
-		],
-	},
+  inputs: {
+    // 输入参数，键值对形式
+    param1: 'value1',
+    param2: [
+      /* 文件数组 */
+    ],
+  },
 })
 ```
 
@@ -449,7 +449,7 @@ const workflowResponse = await api.runWorkflow({
 
 ```ts
 {
-	inputs: Record<string, IFile[] | unknown>
+  inputs: Record<string, IFile[] | unknown>
 }
 ```
 
@@ -457,7 +457,7 @@ const workflowResponse = await api.runWorkflow({
 
 ```ts
 const workflowResult = await api.getWorkflowResult({
-	workflow_run_id: 'workflow_run_id',
+  workflow_run_id: 'workflow_run_id',
 })
 ```
 
@@ -465,7 +465,7 @@ const workflowResult = await api.getWorkflowResult({
 
 ```ts
 {
-	workflow_run_id: string
+  workflow_run_id: string
 }
 ```
 
@@ -473,28 +473,28 @@ const workflowResult = await api.getWorkflowResult({
 
 ```ts
 {
-	/** workflow 执行 ID */
-	id: string
-	/** 关联的 Workflow ID */
-	workflow_id: string
-	/** 执行状态 running / succeeded / failed / stopped */
-	status: string
-	/** 任务输入内容 */
-	inputs: object
-	/** 任务输出内容 */
-	outputs: object
-	/** 错误原因 */
-	error: string
-	/** 任务执行总步数 */
-	total_steps: number
-	/** 任务执行总 tokens */
-	total_tokens: number
-	/** 任务开始时间 */
-	created_at: number
-	/** 任务结束时间 */
-	finished_at: number
-	/** 耗时(s) */
-	elapsed_time: number
+  /** workflow 执行 ID */
+  id: string
+  /** 关联的 Workflow ID */
+  workflow_id: string
+  /** 执行状态 running / succeeded / failed / stopped */
+  status: string
+  /** 任务输入内容 */
+  inputs: object
+  /** 任务输出内容 */
+  outputs: object
+  /** 错误原因 */
+  error: string
+  /** 任务执行总步数 */
+  total_steps: number
+  /** 任务执行总 tokens */
+  total_tokens: number
+  /** 任务开始时间 */
+  created_at: number
+  /** 任务结束时间 */
+  finished_at: number
+  /** 耗时(s) */
+  elapsed_time: number
 }
 ```
 
@@ -504,13 +504,13 @@ const workflowResult = await api.getWorkflowResult({
 
 ```ts
 const completionResponse = await api.completion({
-	inputs: {
-		// 输入参数，键值对形式
-		param1: 'value1',
-		param2: [
-			/* 文件数组 */
-		],
-	},
+  inputs: {
+    // 输入参数，键值对形式
+    param1: 'value1',
+    param2: [
+      /* 文件数组 */
+    ],
+  },
 })
 ```
 
@@ -518,7 +518,7 @@ const completionResponse = await api.completion({
 
 ```ts
 {
-	inputs: Record<string, IFile[] | unknown>
+  inputs: Record<string, IFile[] | unknown>
 }
 ```
 
@@ -528,20 +528,20 @@ API 响应中包含各种事件类型，完整定义如下：
 
 ```ts
 export enum EventEnum {
-	MESSAGE = 'message',
-	AGENT_MESSAGE = 'agent_message',
-	AGENT_THOUGHT = 'agent_thought',
-	MESSAGE_FILE = 'message_file',
-	MESSAGE_END = 'message_end',
-	TTS_MESSAGE = 'tts_message',
-	TTS_MESSAGE_END = 'tts_message_end',
-	MESSAGE_REPLACE = 'message_replace',
-	ERROR = 'error',
-	PING = 'ping',
-	WORKFLOW_STARTED = 'workflow_started',
-	WORKFLOW_FINISHED = 'workflow_finished',
-	WORKFLOW_NODE_STARTED = 'node_started',
-	WORKFLOW_NODE_FINISHED = 'node_finished',
+  MESSAGE = 'message',
+  AGENT_MESSAGE = 'agent_message',
+  AGENT_THOUGHT = 'agent_thought',
+  MESSAGE_FILE = 'message_file',
+  MESSAGE_END = 'message_end',
+  TTS_MESSAGE = 'tts_message',
+  TTS_MESSAGE_END = 'tts_message_end',
+  MESSAGE_REPLACE = 'message_replace',
+  ERROR = 'error',
+  PING = 'ping',
+  WORKFLOW_STARTED = 'workflow_started',
+  WORKFLOW_FINISHED = 'workflow_finished',
+  WORKFLOW_NODE_STARTED = 'node_started',
+  WORKFLOW_NODE_FINISHED = 'node_finished',
 }
 ```
 
@@ -551,56 +551,56 @@ export enum EventEnum {
 import { createDifyApiInstance } from '@dify-chat/api'
 
 async function chatExample() {
-	// 1. 创建API实例
-	const api = createDifyApiInstance({
-		user: 'user123',
-		apiBase: 'https://api.dify.ai/v1',
-		apiKey: 'app-YOUR_API_KEY',
-	})
+  // 1. 创建API实例
+  const api = createDifyApiInstance({
+    user: 'user123',
+    apiBase: 'https://api.dify.ai/v1',
+    apiKey: 'app-YOUR_API_KEY',
+  })
 
-	// 2. 获取应用信息
-	const appInfo = await api.getAppInfo()
-	console.log('应用信息:', appInfo)
+  // 2. 获取应用信息
+  const appInfo = await api.getAppInfo()
+  console.log('应用信息:', appInfo)
 
-	// 3. 获取应用参数
-	const appParams = await api.getAppParameters()
-	console.log('应用参数:', appParams)
+  // 3. 获取应用参数
+  const appParams = await api.getAppParameters()
+  console.log('应用参数:', appParams)
 
-	// 4. 发送消息
-	const messageStream = await api.sendMessage({
-		inputs: {},
-		files: [],
-		user: 'user123',
-		response_mode: 'streaming',
-		query: '你好，请介绍一下自己',
-	})
+  // 4. 发送消息
+  const messageStream = await api.sendMessage({
+    inputs: {},
+    files: [],
+    user: 'user123',
+    response_mode: 'streaming',
+    query: '你好，请介绍一下自己',
+  })
 
-	// 5. 处理流式响应
-	const reader = messageStream.body.getReader()
-	const decoder = new TextDecoder()
+  // 5. 处理流式响应
+  const reader = messageStream.body.getReader()
+  const decoder = new TextDecoder()
 
-	while (true) {
-		const { done, value } = await reader.read()
-		if (done) break
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
 
-		const chunk = decoder.decode(value)
-		const lines = chunk.split('\n').filter(line => line.trim() !== '')
+    const chunk = decoder.decode(value)
+    const lines = chunk.split('\n').filter(line => line.trim() !== '')
 
-		for (const line of lines) {
-			if (line.startsWith('data: ')) {
-				const data = JSON.parse(line.substring(6))
-				console.log('收到事件:', data.event)
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = JSON.parse(line.substring(6))
+        console.log('收到事件:', data.event)
 
-				if (data.event === 'message') {
-					console.log('AI回复内容:', data.answer)
-				} else if (data.event === 'error') {
-					console.error('错误:', data.message)
-				} else if (data.event === 'message_end') {
-					console.log('消息结束')
-				}
-			}
-		}
-	}
+        if (data.event === 'message') {
+          console.log('AI回复内容:', data.answer)
+        } else if (data.event === 'error') {
+          console.error('错误:', data.message)
+        } else if (data.event === 'message_end') {
+          console.log('消息结束')
+        }
+      }
+    }
+  }
 }
 ```
 
