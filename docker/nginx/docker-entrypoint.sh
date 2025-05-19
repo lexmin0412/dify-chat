@@ -30,7 +30,7 @@ if [ "${NGINX_ENABLE_CERTBOT_CHALLENGE}" == true ]; then
     CERTBOT_CONFIG=$(cat /etc/nginx/certbot.conf.template)
 else
     ACME_CHALLENGE_LOCATION=''
-    #不使用CERTBOT时开启根目录301跳转至dify-chat
+    #不使用CERTBOT时访问根目录301跳转至dify-chat
     CERTBOT_CONFIG=$(cat /etc/nginx/301.conf.template)
 fi
 export ACME_CHALLENGE_LOCATION
