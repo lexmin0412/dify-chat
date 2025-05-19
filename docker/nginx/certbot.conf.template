@@ -1,0 +1,6 @@
+location / {
+    root /var/www/html;
+    autoindex on;
+    autoindex_exact_size off;
+    autoindex_localtime on;
+    }

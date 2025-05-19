@@ -21,6 +21,8 @@ services:
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/https.conf.template:/etc/nginx/https.conf.template
+      - ./nginx/certbot.conf.template:/etc/nginx/certbot.conf.template
+      - ./nginx/301.conf.template:/etc/nginx/301.conf.template
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/docker-entrypoint.sh:/docker-entrypoint-mount.sh
       - ./nginx/ssl:/etc/ssl

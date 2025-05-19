@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "${NGINX_HTTPS_ENABLED}" = true ]; then
+if [ "${NGINX_HTTPS_ENABLED}" == true ]; then
     # Check if the certificate and key files for the specified domain exist
     if [ -n "${CERTBOT_DOMAIN}" ] && \
        [ -f "/etc/letsencrypt/live/${CERTBOT_DOMAIN}/fullchain.pem" ] && \
@@ -24,13 +24,18 @@ if [ "${NGINX_HTTPS_ENABLED}" = true ]; then
     fi
 fi
 
-if [ "${NGINX_ENABLE_CERTBOT_CHALLENGE}" = "true" ]; then
+if [ "${NGINX_ENABLE_CERTBOT_CHALLENGE}" == true ]; then
     ACME_CHALLENGE_LOCATION='location /.well-known/acme-challenge/ { root /var/www/html; }'
+    #使用CERTBOT时放开根目录访问
+    CERTBOT_CONFIG=$(cat /etc/nginx/certbot.conf.template)
 else
     ACME_CHALLENGE_LOCATION=''
+    #不使用CERTBOT时开启根目录301跳转至dify-chat
+    CERTBOT_CONFIG=$(cat /etc/nginx/301.conf.template)
 fi
 export ACME_CHALLENGE_LOCATION
-
+export CERTBOT_CONFIG
+envsubst '${CERTBOT_CONFIG}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 env_vars=$(printenv | cut -d= -f1 | sed 's/^/$/g' | paste -sd, -)
 
 envsubst "$env_vars" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf

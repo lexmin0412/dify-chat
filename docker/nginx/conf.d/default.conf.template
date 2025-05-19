@@ -2,17 +2,9 @@ server {
     listen ${NGINX_PORT};
     server_name ${NGINX_SERVER_NAME};
 
-    location / {
-        root /var/www/html;
-        autoindex on;
-        autoindex_exact_size off;
-        autoindex_localtime on;
-    }
-
-    #Dify-chat 应用路由配置
-    location = /dify-chat {
-        return 301 /dify-chat/;
-    }
+    
+    ${CERTBOT_CONFIG}
+    
 
     location ^~ /dify-chat/ {
         root /app;
