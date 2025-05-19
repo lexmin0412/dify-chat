@@ -10,6 +10,7 @@ import { useDeferredValue, useEffect, useMemo, useRef } from 'react'
 import LucideIcon from '../lucide-icon'
 import { MessageSender } from '../message-sender'
 import { validateAndGenErrMsgs } from '../utils'
+import AppIcon from './app-icon'
 import MessageContent from './message/content'
 import MessageFooter from './message/footer'
 import { WelcomePlaceholder } from './welcome-placeholder'
@@ -102,18 +103,21 @@ export const Chatbox = (props: ChatboxProps) => {
 	const isMobile = useIsMobile()
 	const { currentApp } = useAppContext()
 	const { isDark } = useThemeContext()
+	const aiIcon = currentApp?.site?.use_icon_as_answer_icon ? (
+		<AppIcon hasContainer />
+	) : (
+		<LucideIcon
+			name="bot"
+			size={18}
+		/>
+	)
 
 	const roles: GetProp<typeof Bubble.List, 'roles'> = {
 		ai: {
 			placement: 'start',
 			avatar: !isMobile
 				? {
-						icon: (
-							<LucideIcon
-								name="bot"
-								size={18}
-							/>
-						),
+						icon: aiIcon,
 						style: {
 							background: isDark ? 'transparent' : '#fde3cf',
 							// opacity: 0.9,
@@ -327,8 +331,8 @@ export const Chatbox = (props: ChatboxProps) => {
 							onCancel={onCancel}
 						/>
 					</div>
-					<div className="text-theme-desc text-sm text-center h-8 leading-8">
-						内容由 AI 生成, 仅供参考
+					<div className="text-theme-desc text-sm text-center h-8 leading-8 truncate">
+						{currentApp?.site?.custom_disclaimer || '内容由 AI 生成, 仅供参考'}
 					</div>
 				</div>
 			</div>

@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 /**
  * 应用图标
  */
-export default function AppIcon(props: { size?: 'small' | 'default' }) {
-	const { size = 'default' } = props
+export default function AppIcon(props: { size?: 'small' | 'default'; hasContainer?: boolean }) {
+	const { size = 'default', hasContainer = false } = props
 
 	const { currentApp } = useAppContext()
 	const { isDark } = useThemeContext()
@@ -29,6 +29,10 @@ export default function AppIcon(props: { size?: 'small' | 'default' }) {
 			/>
 		)
 	}, [renderProps])
+
+	if (hasContainer) {
+		return renderIcon
+	}
 
 	return (
 		<div
