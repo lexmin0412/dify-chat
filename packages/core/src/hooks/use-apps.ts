@@ -1,11 +1,18 @@
 import React, { useContext } from 'react'
 
 import { IDifyAppItem } from '../repository'
-import { IDifyAppParameters } from '../types'
+import { IDifyAppParameters, IDifyAppSiteSetting } from '../types'
 
 export interface ICurrentApp {
 	config: IDifyAppItem
+	/**
+	 * 应用参数
+	 */
 	parameters: IDifyAppParameters
+	/**
+	 * 应用 WebApp 设置, 需要 Dify >= 1.4.0
+	 */
+	site?: IDifyAppSiteSetting
 }
 
 export interface IAppContext {
@@ -14,6 +21,26 @@ export interface IAppContext {
 	setCurrentAppId: (appId: string) => void
 	currentApp?: ICurrentApp
 	setCurrentApp: (app: ICurrentApp) => void
+}
+
+/**
+ * 应用的默认 WebApp 设置
+ */
+export const DEFAULT_APP_SITE_SETTING: IDifyAppSiteSetting = {
+	title: '',
+	chat_color_theme: '',
+	chat_color_theme_inverted: false,
+	icon_type: 'emoji',
+	icon: '',
+	icon_background: '',
+	icon_url: '',
+	description: '',
+	copyright: '',
+	default_language: '',
+	privacy_policy: '',
+	custom_disclaimer: '',
+	show_workflow_steps: false,
+	use_icon_as_answer_icon: false,
 }
 
 const DEFAULT_APP_CONTEXT: IAppContext = {
@@ -69,6 +96,22 @@ const DEFAULT_APP_CONTEXT: IAppContext = {
 			speech_to_text: {
 				enabled: false,
 			},
+		},
+		site: {
+			title: '',
+			chat_color_theme: '',
+			chat_color_theme_inverted: false,
+			icon_type: 'emoji',
+			icon: '',
+			icon_background: '',
+			icon_url: '',
+			description: '',
+			copyright: '',
+			default_language: '',
+			privacy_policy: ',',
+			custom_disclaimer: '',
+			show_workflow_steps: false,
+			use_icon_as_answer_icon: false,
 		},
 	},
 	setCurrentApp: () => {},

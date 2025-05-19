@@ -38,13 +38,27 @@ export const getFileTypeByName = (filename: string): IFileType => {
 	const ext = filename.split('.').pop()
 
 	// 使用文件扩展名和 FileTypeMap 进行匹配
-	let fileType: IFileType = 'document'
+	let fileType: IFileType = 'custom'
 	FileTypeMap.forEach((extensions, type) => {
 		if (extensions.indexOf(ext as string) > -1) {
 			fileType = type
 		}
 	})
 	return fileType
+}
+
+/**
+ * 获取文件类型
+ * 如果 allowedFileTypes 长度为 1, 则直接返回该类型
+ * 否则, 根据文件扩展名进行匹配
+ * @param filename 文件名
+ * @param allowedFileTypes 允许的文件类型
+ */
+export const getDifyFileType = (filename: string, allowedFileTypes: IFileType[]): IFileType => {
+	if (allowedFileTypes.length === 1) {
+		return allowedFileTypes[0]
+	}
+	return getFileTypeByName(filename)
 }
 
 /**

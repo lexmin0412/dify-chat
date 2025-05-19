@@ -1,4 +1,4 @@
-import { IDifyAppItem } from '@dify-chat/core'
+import { IDifyAppItem, IDifyAppSiteSetting } from '@dify-chat/core'
 
 import XRequest from './../base-request'
 import { IAgentThought, IRetrieverResource } from './../types'
@@ -405,7 +405,7 @@ export class DifyApi {
 	/**
 	 * 更新 API 配置, 一般在切换应用时调用
 	 */
-	updateOptions(options: IDifyApiOptions) {
+	updateOptions = (options: IDifyApiOptions) => {
 		this.options = options
 		this.baseRequest = new XRequest({
 			baseURL: options.apiBase,
@@ -416,14 +416,14 @@ export class DifyApi {
 	/**
 	 * 获取应用基本信息
 	 */
-	async getAppInfo() {
+	getAppInfo = async () => {
 		return this.baseRequest.get('/info') as Promise<IGetAppInfoResponse>
 	}
 
 	/**
 	 * 获取应用 Meta 信息
 	 */
-	async getAppMeta() {
+	getAppMeta = async () => {
 		return this.baseRequest.get('/meta') as Promise<IGetAppMetaResponse>
 	}
 
@@ -435,9 +435,17 @@ export class DifyApi {
 	}
 
 	/**
+	 * 获取应用 WebAPP 设置
+	 * @Limited Dify v1.4.0 版本开始支持
+	 */
+	getAppSiteSetting = () => {
+		return this.baseRequest.get('/site') as Promise<IDifyAppSiteSetting>
+	}
+
+	/**
 	 * 获取当前用户的会话列表（默认返回最近20条）
 	 */
-	getConversationList(params?: IGetConversationListRequest) {
+	getConversationList = (params?: IGetConversationListRequest) => {
 		return this.baseRequest.get('/conversations', {
 			user: this.options.user,
 			limit: (params?.limit || 100).toString(),
@@ -490,7 +498,7 @@ export class DifyApi {
 	/**
 	 * 发送对话消息
 	 */
-	sendMessage(params: {
+	sendMessage = (params: {
 		/**
 		 * 对话 ID
 		 */
@@ -515,7 +523,7 @@ export class DifyApi {
 		 * 问题
 		 */
 		query: string
-	}) {
+	}) => {
 		return this.baseRequest.baseRequest('/chat-messages', {
 			method: 'POST',
 			body: JSON.stringify(params),
@@ -528,7 +536,7 @@ export class DifyApi {
 	/**
 	 * 停止对话流式响应
 	 */
-	async stopTask(taskId: string) {
+	stopTask = async (taskId: string) => {
 		return this.baseRequest.post(`/chat-messages/${taskId}/stop`, {
 			user: this.options.user,
 		})
@@ -537,7 +545,7 @@ export class DifyApi {
 	/**
 	 * 上传文件
 	 */
-	async uploadFile(file: File) {
+	uploadFile = async (file: File) => {
 		const formData = new FormData()
 		formData.append('file', file)
 		formData.append('user', this.options.user)
@@ -552,12 +560,12 @@ export class DifyApi {
 	/**
 	 * 获取下一轮建议问题列表
 	 */
-	async getNextSuggestions(params: {
+	getNextSuggestions = async (params: {
 		/**
 		 * 消息 ID
 		 */
 		message_id: string
-	}) {
+	}) => {
 		return this.baseRequest.get(`/messages/${params.message_id}/suggested`, {
 			user: this.options.user,
 		}) as Promise<{
@@ -568,7 +576,7 @@ export class DifyApi {
 	/**
 	 * 消息反馈
 	 */
-	feedbackMessage(params: {
+	feedbackMessage = (params: {
 		/**
 		 * 消息 ID
 		 */
@@ -581,7 +589,7 @@ export class DifyApi {
 		 * 反馈内容
 		 */
 		content: string
-	}) {
+	}) => {
 		const { messageId, ...restParams } = params
 		return this.baseRequest.post(`/messages/${messageId}/feedbacks`, {
 			...restParams,
@@ -595,7 +603,7 @@ export class DifyApi {
 	/**
 	 * 文字转语音
 	 */
-	async text2Audio(
+	text2Audio = async (
 		params:
 			| {
 					/**
@@ -609,7 +617,7 @@ export class DifyApi {
 					 */
 					text: string
 			  },
-	) {
+	) => {
 		return this.baseRequest.baseRequest('/text-to-audio', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -626,7 +634,7 @@ export class DifyApi {
 	 * 语音转文本
 	 * @param file 语音文件。 支持格式：['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'] 文件大小限制：15MB
 	 */
-	async audio2Text(file: File) {
+	audio2Text = async (file: File) => {
 		const formData = new FormData()
 		formData.append('file', file)
 		formData.append('user', this.options.user)
@@ -641,7 +649,7 @@ export class DifyApi {
 	/**
 	 * 执行 workflow
 	 */
-	async runWorkflow(params: { inputs: Record<string, IFile[] | unknown> }) {
+	runWorkflow = async (params: { inputs: Record<string, IFile[] | unknown> }) => {
 		return this.baseRequest.baseRequest('/workflows/run', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -658,7 +666,7 @@ export class DifyApi {
 	/**
 	 * 获取 workflow 执行情况
 	 */
-	async getWorkflowResult(params: { workflow_run_id: string }) {
+	getWorkflowResult = async (params: { workflow_run_id: string }) => {
 		return this.baseRequest.get(
 			`/workflows/run/${params.workflow_run_id}`,
 		) as Promise<IGetWorkflowResultResponse>
@@ -667,7 +675,7 @@ export class DifyApi {
 	/**
 	 * 执行文本生成
 	 */
-	async completion(params: { inputs: Record<string, IFile[] | unknown> }) {
+	completion = async (params: { inputs: Record<string, IFile[] | unknown> }) => {
 		return this.baseRequest.baseRequest('/completion-messages', {
 			method: 'POST',
 			body: JSON.stringify({

@@ -6,6 +6,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css'
 
 import { formatSize } from '../../message-sender/utils'
+import { completeFileUrl } from '../../utils'
 
 interface IMessageFileListProps {
 	/**
@@ -28,17 +29,10 @@ export default function MessageFileList(props: IMessageFileListProps) {
 		const appApiBase = currentApp?.config.requestConfig.apiBase || ''
 		return (
 			filesInProps?.map(item => {
-				let url = item.url
-				if (!item.url) {
-					return item
-				}
-				if (!item.url.startsWith('http://') && !item.url.startsWith('https://')) {
-					const apiDomain = appApiBase.slice(0, appApiBase.lastIndexOf('/v1'))
-					url = `${apiDomain}${item.url}`
-				}
+				const newUrl = completeFileUrl(item.url, appApiBase)
 				return {
 					...item,
-					url,
+					url: newUrl,
 				}
 			}) || []
 		)

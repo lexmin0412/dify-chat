@@ -327,6 +327,12 @@ export const useX = (options: {
 
 	const { onRequest, messages, setMessages } = useXChat({
 		agent,
+		requestPlaceholder: () => {
+			return {
+				content: '正在回复，请耐心等待...',
+				role: 'assistant',
+			}
+		},
 	})
 
 	return { agent, onRequest, messages, setMessages, currentTaskId }

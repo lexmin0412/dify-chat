@@ -5,8 +5,11 @@ import {
 	LoadingOutlined,
 } from '@ant-design/icons'
 import { IAgentMessage, IWorkflowNode } from '@dify-chat/api'
-import { Collapse } from 'antd'
+import { useAppContext } from '@dify-chat/core'
+import { Collapse, CollapseProps, GetProp } from 'antd'
+import { useMemo } from 'react'
 
+import LucideIcon from '../../lucide-icon'
 import WorkflowNodeDetail from './workflow-node-detail'
 import WorkflowNodeIcon from './workflow-node-icon'
 
@@ -18,38 +21,78 @@ interface IWorkflowLogsProps {
 
 export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	const { items, status, className } = props
+	const { currentApp } = useAppContext()
+
+	// Collapse 组件的通用 props
+	const collapseCommonProps: Pick<CollapseProps, 'expandIconPosition'> = useMemo(() => {
+		if (currentApp?.site?.show_workflow_steps) {
+			return {
+				expandIconPosition: 'end',
+			}
+		}
+		return {
+			expandIconPosition: 'end',
+		}
+	}, [currentApp?.site?.show_workflow_steps])
+
+	// Collapse 组件的 item 通用 props
+	const collapseItemVisibleProps: Pick<
+		GetProp<CollapseProps, 'items'>[0],
+		'showArrow' | 'collapsible'
+	> = useMemo(() => {
+		if (currentApp?.site?.show_workflow_steps) {
+			return {
+				showArrow: true,
+			}
+		}
+		return {
+			showArrow: false,
+			collapsible: 'icon',
+		}
+	}, [currentApp?.site?.show_workflow_steps])
 
 	if (!items?.length) {
 		return null
 	}
 
-	const collapseItems = [
+	const collapseItems: CollapseProps['items'] = [
 		{
 			key: 'workflow',
 			label: (
-				<div className="flex items-center justify-between">
-					<div className="text-theme-text">工作流</div>
+				<div className="flex items-center">
 					{status === 'running' ? (
 						<LoadingOutlined />
 					) : status === 'finished' ? (
 						<div className="text-theme-success flex items-center">
-							<span className="mr-2">成功</span>
-							<CheckCircleOutlined className="text-theme-success" />
+							<LucideIcon name="circle-check" />
 						</div>
 					) : null}
+					<div className="text-theme-text ml-2">工作流</div>
 				</div>
 			),
+			...collapseItemVisibleProps,
 			children: (
 				<Collapse
 					size="small"
+					expandIconPosition={collapseCommonProps.expandIconPosition}
 					items={items.map(item => {
 						const totalTokens = item.execution_metadata?.total_tokens
 						return {
 							key: item.id,
+							...collapseItemVisibleProps,
 							label: (
 								<div className="flex items-center justify-between w-full">
 									<div className="flex items-center">
-										<div className="mr-2 flex items-center">
+										{item.status === 'success' ? (
+											<CheckCircleOutlined className="text-theme-success" />
+										) : item.status === 'error' ? (
+											<CloseCircleOutlined className="text-theme-danger" />
+										) : item.status === 'running' ? (
+											<LoadingOutlined />
+										) : (
+											<InfoOutlined />
+										)}
+										<div className="mx-2 flex items-center">
 											<WorkflowNodeIcon type={item.type} />
 										</div>
 										<div className="text-theme-text">{item.title}</div>
@@ -61,18 +104,10 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 												<div className="mr-3">{totalTokens ? `${totalTokens} tokens` : ''}</div>
 											</>
 										) : null}
-										{item.status === 'success' ? (
-											<CheckCircleOutlined className="text-theme-success" />
-										) : item.status === 'error' ? (
-											<CloseCircleOutlined className="text-theme-danger" />
-										) : item.status === 'running' ? (
-											<LoadingOutlined />
-										) : (
-											<InfoOutlined />
-										)}
 									</div>
 								</div>
 							),
+							...collapseItemVisibleProps,
 							children: (
 								<Collapse
 									size="small"
@@ -110,6 +145,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 				items={collapseItems}
 				size="small"
 				className="!bg-theme-bg"
+				expandIconPosition={collapseCommonProps.expandIconPosition}
 			/>
 		</div>
 	)

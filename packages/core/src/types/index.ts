@@ -27,7 +27,18 @@ export interface IUserInputFormItemValueBase {
 	 * 最大长度
 	 */
 	max_length?: number
+	/**
+	 * 输入参数类型
+	 */
 	type: IUserInputFormItemType
+	/**
+	 * 允许的文件类型
+	 */
+	allowed_file_types?: IFileType[]
+	/**
+	 * 允许的文件后缀名
+	 */
+	allowed_file_extensions?: string[]
 }
 
 /**
@@ -158,4 +169,66 @@ export interface IDifyAppParameters {
 		 */
 		enabled: boolean
 	}
+}
+
+/**
+ * 应用的 WebApp 配置
+ */
+export interface IDifyAppSiteSetting {
+	/**
+	 * 应用标题
+	 */
+	title: string
+	/**
+	 * 聊天界面的主题色
+	 */
+	chat_color_theme: string
+	/**
+	 * 聊天界面颜色主题是否反转
+	 */
+	chat_color_theme_inverted: boolean
+	/**
+	 * 图标类型, emoji-表情, image-图片
+	 */
+	icon_type: 'emoji' | 'image'
+	/**
+	 * 图标, 如果是 emoji 类型, 则是 emoji 表情符号, 如果是 image 类型, 则是图片 URL
+	 */
+	icon: string
+	/**
+	 * hex 格式的背景色
+	 */
+	icon_background: string
+	/**
+	 * 图标链接，如果是 image 类型, 则是图片 URL
+	 */
+	icon_url?: string
+	/**
+	 * 应用描述
+	 */
+	description: string
+	/**
+	 * 版权信息
+	 */
+	copyright: string
+	/**
+	 * 隐私政策，可以自定义链接
+	 */
+	privacy_policy: string
+	/**
+	 * 自定义免责声明内容
+	 */
+	custom_disclaimer: string
+	/**
+	 * 默认语言 如 en-US zh-CN
+	 */
+	default_language: string
+	/**
+	 * 是否显示工作流步骤
+	 */
+	show_workflow_steps: false
+	/**
+	 * 是否使用 WebApp 图标作为 AI 回复的图标
+	 */
+	use_icon_as_answer_icon: false
 }

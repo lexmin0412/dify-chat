@@ -1,30 +1,50 @@
+import { ICurrentApp, useAppContext } from '@dify-chat/core'
 import { Tag } from 'antd'
-import { Bot } from 'lucide-react'
+import { useMemo } from 'react'
 
-interface IAppInfoProps {
-	info: {
-		name: string
-		description: string
-		tags?: string[]
-	}
-}
+import AppIcon from './app-icon'
 
 /**
  * 应用信息
  */
-export function AppInfo(props: IAppInfoProps) {
-	const { info } = props
+export function AppInfo() {
+	const { currentApp } = useAppContext()
+
+	const info4Render = useMemo(() => {
+		if (!currentApp?.config && !currentApp?.site) {
+			return {
+				name: '暂无标题',
+				description: '',
+				tags: [],
+			}
+		}
+		const { site, config } = currentApp as ICurrentApp
+		return {
+			name: site?.title || config?.info?.name,
+			description: site?.description || config?.info?.description,
+			tags: config?.info?.tags || [],
+		}
+	}, [currentApp])
+
 	return (
 		<div className="text-theme-text pt-3">
 			<div className="flex items-center px-4 mt-3">
-				<div className="bg-[#ffead5] dark:bg-transparent border border-solid border-transparent dark:border-theme-border rounded-lg p-2 flex items-center">
-					<Bot className="text-theme-text" />
+				<AppIcon />
+				<div className="px-3 box-border flex-1 overflow-hidden">
+					<div className="text-theme-text text-sm truncate">{info4Render.name}</div>
+					{info4Render.description ? (
+						<div
+							className="text-sm text-desc truncate"
+							title={info4Render.description}
+						>
+							{info4Render.description}
+						</div>
+					) : null}
 				</div>
-				<div className="ml-3 text-theme-text text-sm truncate">{info.name}</div>
 			</div>
-			{info.tags ? (
+			{info4Render.tags ? (
 				<div className="mt-3 px-4">
-					{info.tags.map(tag => {
+					{info4Render.tags.map(tag => {
 						return (
 							<Tag
 								key={tag}

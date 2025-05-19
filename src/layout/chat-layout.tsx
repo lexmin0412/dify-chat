@@ -6,11 +6,23 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons'
 import { DifyApi, IConversationItem } from '@dify-chat/api'
-import { AppInfo, ConversationList } from '@dify-chat/components'
+import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@dify-chat/components'
 import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@dify-chat/core'
 import { isTempId, useIsMobile } from '@dify-chat/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@dify-chat/theme'
-import { Button, Dropdown, Empty, Form, GetProp, Input, message, Modal, Radio, Spin } from 'antd'
+import {
+	Button,
+	Dropdown,
+	Empty,
+	Form,
+	GetProp,
+	Input,
+	message,
+	Modal,
+	Radio,
+	Spin,
+	Tooltip,
+} from 'antd'
 import dayjs from 'dayjs'
 import { useSearchParams } from 'pure-react-router'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -46,6 +58,7 @@ interface IChatLayoutProps {
 
 export default function ChatLayout(props: IChatLayoutProps) {
 	const { extComponents, renderCenterTitle, initLoading, difyApi } = props
+	const [sidebarOpen, setSidebarOpen] = useState(true)
 	const { themeMode, setThemeMode } = useThemeContext()
 	const { appLoading, currentApp } = useAppContext()
 	const [renameForm] = Form.useForm()
@@ -346,49 +359,95 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex w-72 h-full flex-col border-0 border-r border-solid border-r-theme-splitter`}
+								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} transition-all h-full flex-col border-0 border-r border-solid border-r-theme-splitter`}
 							>
-								{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
-								{/* 添加会话 */}
-								{currentApp ? (
-									<Button
-										onClick={() => {
-											onAddConversation()
-										}}
-										type="default"
-										className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-theme-text "
-										icon={<PlusOutlined className="" />}
-									>
-										新增对话
-									</Button>
-								) : null}
-								{/* 🌟 对话管理 */}
-								<div className="px-4 mt-3">
-									<Spin spinning={conversationListLoading}>
-										{conversations?.length ? (
-											<ConversationList
-												renameConversationPromise={onRenameConversation}
-												deleteConversationPromise={onDeleteConversation}
-												items={conversations.map(item => {
-													return {
-														key: item.id,
-														label: item.name,
-													}
-												})}
-												activeKey={currentConversationId}
-												onActiveChange={id => {
-													setCurrentConversationId(id)
+								{sidebarOpen ? (
+									<>
+										{currentApp.config.info ? <AppInfo info={currentApp.config.info!} /> : null}
+										{/* 添加会话 */}
+										{currentApp ? (
+											<Button
+												onClick={() => {
+													onAddConversation()
 												}}
-											/>
-										) : (
-											<div className="w-full h-full flex items-center justify-center">
-												<Empty
-													className="pt-6"
-													description="暂无会话"
+												type="default"
+												className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-theme-text "
+												icon={<PlusOutlined className="" />}
+											>
+												新增对话
+											</Button>
+										) : null}
+										{/* 🌟 对话管理 */}
+										<div className="px-4 mt-3 flex-1">
+											<Spin spinning={conversationListLoading}>
+												{conversations?.length ? (
+													<ConversationList
+														renameConversationPromise={onRenameConversation}
+														deleteConversationPromise={onDeleteConversation}
+														items={conversations.map(item => {
+															return {
+																key: item.id,
+																label: item.name,
+															}
+														})}
+														activeKey={currentConversationId}
+														onActiveChange={id => {
+															setCurrentConversationId(id)
+														}}
+													/>
+												) : (
+													<div className="w-full h-full flex items-center justify-center">
+														<Empty
+															className="pt-6"
+															description="暂无会话"
+														/>
+													</div>
+												)}
+											</Spin>
+										</div>
+									</>
+								) : (
+									<div className="flex flex-col justify-start items-center flex-1 pt-6">
+										{/* 应用图标 */}
+										<AppIcon size="small" />
+
+										{/* 新增对话 */}
+										<Tooltip
+											title="新增对话"
+											placement="right"
+										>
+											<div className="text-theme-text mt-3 hover:text-primary flex items-center">
+												<LucideIcon
+													name="plus-circle"
+													strokeWidth={1.25}
+													size={28}
+													className="cursor-pointer"
+													onClick={() => {
+														onAddConversation()
+													}}
 												/>
 											</div>
-										)}
-									</Spin>
+										</Tooltip>
+									</div>
+								)}
+
+								<div className="border-0 border-t border-solid border-theme-border flex items-center justify-center h-12">
+									<Tooltip
+										title={sidebarOpen ? '折叠侧边栏' : '展开侧边栏'}
+										placement="right"
+									>
+										<div className="flex items-center justify-center">
+											<LucideIcon
+												onClick={() => {
+													setSidebarOpen(!sidebarOpen)
+												}}
+												name={sidebarOpen ? 'arrow-left-circle' : 'arrow-right-circle'}
+												className="cursor-pointer hover:text-primary"
+												strokeWidth={1.25}
+												size={28}
+											/>
+										</div>
+									</Tooltip>
 								</div>
 							</div>
 

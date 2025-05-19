@@ -1,8 +1,8 @@
-# Dify Chat Web
+![Dify Chat](./docs/banner.png)
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/lexmin0412/dify-chat) ![GitHub License](https://img.shields.io/github/license/lexmin0412/dify-chat) ![GitHub Created At](https://img.shields.io/github/created-at/lexmin0412/dify-chat) ![GitHub contributors](https://img.shields.io/github/contributors/lexmin0412/dify-chat) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lexmin0412/dify-chat)![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/lexmin0412/dify-chat)
 
-一个基于 Dify API 的 AI 会话 Web 应用, 支持单应用、多应用等多种模式，提供开箱即用的应用配置管理功能。支持不同类型的 Dify 应用，适配深度思考、思维链、图表等多种形式输出。
+**Dify Chat**，一个基于 Dify API 的 AI Web 应用，支持单应用、多应用等多种模式，提供开箱即用的应用配置管理功能。支持运行不同类型的 Dify 应用，适配深度思考、思维链、图表等多种形式输出。
 
 如果你觉得这个项目还不错的话，请动动你的小手指点个 Star ⭐️ 吧～
 
@@ -25,6 +25,7 @@
 | <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/77f6390a-dfb8-4660-b43d-6965477cab9b" /> | 北鱼 | Wechat |
 | <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/49941899?v=4" /> | <a target="blank" href="https://github.com/weihaoaho">weihaoaho</a> | Github |
 | <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/42f840cd-ce40-4193-89b7-77bd578fed5b" /> | xintan | Wechat |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/13366372?v=4" /> | <a target="blank" href="https://github.com/zhaoweihan2015">zhaoweihan2015</a> | Github |
 | None | 匿名慈善家 | Wechat |
 
 ## Repobeats
@@ -71,6 +72,10 @@
 Chatflow 工作流：
 
 ![Screen Shot](./docs/sample_workflow.png)
+
+Agent 调用工具：
+
+![Agent 调用工具截图](./docs/guide_app_agent.png)
 
 知识库引用链接：
 

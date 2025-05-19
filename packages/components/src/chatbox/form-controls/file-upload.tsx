@@ -1,10 +1,12 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { DifyApi, IGetAppParametersResponse } from '@dify-chat/api'
+import { useAppContext } from '@dify-chat/core'
 import { Button, GetProp, message, Upload } from 'antd'
 import { RcFile, UploadFile } from 'antd/es/upload'
 import { useEffect, useMemo, useState } from 'react'
 
-import { FileTypeMap, getFileExtByName, getFileTypeByName } from '../../message-sender/utils'
+import { FileTypeMap, getDifyFileType, getFileExtByName } from '../../message-sender/utils'
+import { completeFileUrl } from '../../utils'
 
 export interface IUploadFileItem extends UploadFile {
 	type?: string
@@ -47,6 +49,7 @@ export default function FileUpload(props: IFileUploadProps) {
 		onChange,
 	} = props
 	const [files, setFiles] = useState<GetProp<typeof Upload, 'fileList'>>([])
+	const { currentApp } = useAppContext()
 
 	useEffect(() => {
 		if (mode === 'single') {
@@ -61,7 +64,7 @@ export default function FileUpload(props: IFileUploadProps) {
 
 	const formatFiles = (files: IUploadFileItem[]) => {
 		return files?.map(file => {
-			const fileType = getFileTypeByName(file.name)
+			const fileType = getDifyFileType(file.name, allowed_file_types)
 			return {
 				...file,
 				type: fileType,
@@ -136,23 +139,35 @@ export default function FileUpload(props: IFileUploadProps) {
 
 		const result = await uploadFileApi(file)
 		clear()
-		const fileType = getFileTypeByName(file.name)
+		const fileType = getDifyFileType(file.name, allowed_file_types)
 		updateFiles([
 			{
 				...fileBaseInfo,
 				upload_file_id: result.id,
-				type: fileType || 'document',
+				type: fileType || 'custom',
 				percent: 100,
 				status: 'done',
 			},
 		])
 	}
 
+	/**
+	 * 用于渲染的文件列表
+	 */
+	const files4Render = useMemo(() => {
+		return files.map(item => {
+			return {
+				...item,
+				url: completeFileUrl(item.url || '', currentApp?.config.requestConfig.apiBase || ''),
+			}
+		})
+	}, [files, currentApp?.config.requestConfig.apiBase])
+
 	return (
 		<Upload
 			maxCount={mode === 'single' ? 1 : maxCount}
 			disabled={disabled}
-			fileList={files}
+			fileList={files4Render}
 			beforeUpload={async file => {
 				// 校验文件类型
 				// 自定义上传

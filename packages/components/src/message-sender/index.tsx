@@ -8,7 +8,7 @@ import { RcFile } from 'antd/es/upload'
 import { useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
-import { FileTypeMap, getFileExtByName, getFileTypeByName } from './utils'
+import { FileTypeMap, getDifyFileType, getFileExtByName } from './utils'
 
 interface IMessageSenderProps {
 	/**
@@ -304,10 +304,13 @@ export const MessageSender = (props: IMessageSenderProps) => {
 				await onSubmit(content, {
 					files:
 						files?.map(file => {
-							const fileType = getFileTypeByName(file.name)
+							const fileType = getDifyFileType(
+								file.name,
+								currentApp?.parameters?.file_upload?.allowed_file_types || [],
+							)
 							return {
 								...file,
-								type: fileType || 'document',
+								type: fileType || 'custom',
 								transfer_method: 'local_file',
 								upload_file_id: fileIdMap.get(file.uid) as string,
 							}

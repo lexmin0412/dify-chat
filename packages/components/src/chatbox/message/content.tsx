@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { IFile, IMessageItem4Render } from '@dify-chat/api'
-import { Roles, useAppContext } from '@dify-chat/core'
+import { AppModeEnums, Roles, useAppContext } from '@dify-chat/core'
 import { Tooltip } from 'antd'
 import { useMemo } from 'react'
 
@@ -110,7 +110,6 @@ export default function MessageContent(props: IMessageContentProps) {
 			<ThoughtChain
 				uniqueKey={id as string}
 				items={agentThoughts}
-				className="mt-3"
 			/>
 
 			{/* 工作流执行日志 */}
@@ -123,12 +122,16 @@ export default function MessageContent(props: IMessageContentProps) {
 			{role === Roles.LOCAL || role === Roles.USER ? fileList : null}
 
 			{/* 消息主体文本内容 */}
-			<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
-				<MarkdownRenderer
-					markdownText={computedContent}
-					onSubmit={onSubmit}
-				/>
-			</div>
+			{currentApp?.config?.info?.mode !== AppModeEnums.AGENT ||
+			role === Roles.LOCAL ||
+			role === Roles.USER ? (
+				<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
+					<MarkdownRenderer
+						markdownText={computedContent}
+						onSubmit={onSubmit}
+					/>
+				</div>
+			) : null}
 
 			{/* 消息附件列表 - AI 消息 */}
 			{role === Roles.AI ? fileList : null}

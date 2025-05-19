@@ -5,6 +5,8 @@ import { useMount, useRequest } from 'ahooks'
 import { Spin } from 'antd'
 import React, { useState } from 'react'
 
+import { useAppSiteSetting } from '@/hooks/useApi'
+
 import MainLayout from './main-layout'
 
 const SingleAppLayout: React.FC = () => {
@@ -31,6 +33,8 @@ const SingleAppLayout: React.FC = () => {
 		},
 	)
 
+	const { getAppSiteSettting } = useAppSiteSetting()
+
 	const initInSingleMode = async () => {
 		difyApi.updateOptions({
 			user,
@@ -38,20 +42,24 @@ const SingleAppLayout: React.FC = () => {
 			apiKey: (difyChatContext as IDifyChatContextSingleApp).appConfig.requestConfig.apiKey,
 		})
 		setInitLoading(true)
-		const difyAppInfo = await difyApi.getAppInfo()
-		const appParameters = await getAppParameters(difyApi)
+		const [difyAppInfo, appParameters, appSiteSetting] = await Promise.all([
+			difyApi.getAppInfo(),
+			getAppParameters(difyApi),
+			getAppSiteSettting(difyApi),
+		])
 		// 获取应用信息
 		setCurrentApp({
 			config: {
 				id: Math.random().toString(),
 				...appConfig,
 				info: {
-					...(difyAppInfo || {}),
+					...difyAppInfo,
 					// 这里使用用户传入配置覆盖接口获取到的信息，是为了兼容旧版本(<=v1.3.1)的 /info 接口没有返回 mode 的情况
-					...(appConfig.info || {}),
+					...appConfig.info,
 				},
 			},
 			parameters: appParameters,
+			site: appSiteSetting,
 		})
 		setInitLoading(false)
 	}

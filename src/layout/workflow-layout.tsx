@@ -8,7 +8,7 @@ import {
 	IWorkflowNode,
 } from '@dify-chat/api'
 import { AppInfo, AppInputForm, MarkdownRenderer, WorkflowLogs } from '@dify-chat/components'
-import { AppModeEnums, IDifyAppItem, useAppContext } from '@dify-chat/core'
+import { AppModeEnums, useAppContext } from '@dify-chat/core'
 import { Button, Empty, Form, message } from 'antd'
 import { useState } from 'react'
 
@@ -34,7 +34,7 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 				return difyApi.runWorkflow({
 					inputs: values,
 				})
-			} else if (appMode === AppModeEnums.TextGeneration) {
+			} else if (appMode === AppModeEnums.TEXT_GENERATOR) {
 				return difyApi.completion({
 					inputs: values,
 				})
@@ -170,7 +170,7 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 			{/* 参数填写区域 */}
 			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-light-gray bg-theme-bg pb-6 md:pb-0">
 				<div className="px-2">
-					<AppInfo info={currentApp?.config.info as NonNullable<IDifyAppItem['info']>} />
+					<AppInfo />
 				</div>
 				<div className="px-6 mt-6">
 					<AppInputForm

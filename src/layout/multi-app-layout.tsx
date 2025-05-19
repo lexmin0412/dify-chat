@@ -15,6 +15,8 @@ import { useHistory, useParams } from 'pure-react-router'
 import React, { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
 
+import { useAppSiteSetting } from '@/hooks/useApi'
+
 import MainLayout from './main-layout'
 
 const MultiAppLayout: React.FC = () => {
@@ -78,6 +80,8 @@ const MultiAppLayout: React.FC = () => {
 		},
 	)
 
+	const { getAppSiteSettting } = useAppSiteSetting()
+
 	/**
 	 * 初始化应用信息
 	 */
@@ -92,11 +96,16 @@ const MultiAppLayout: React.FC = () => {
 		})
 		setInitLoading(true)
 		// 获取应用参数
-		getAppParameters(difyApi)
+		const getParameters = () => getAppParameters(difyApi)
+		const getSiteSetting = () => getAppSiteSettting(difyApi)
+		const promises = [getParameters(), getSiteSetting()] as const
+		Promise.all(promises)
 			.then(res => {
+				const [parameters, siteSetting] = res
 				setCurrentApp({
 					config: appItem,
-					parameters: res!,
+					parameters: parameters!,
+					site: siteSetting,
 				})
 			})
 			.catch(err => {

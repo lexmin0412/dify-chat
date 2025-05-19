@@ -68,6 +68,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 					name: originalProps.variable,
 					options: originalProps.options,
 					max_length: originalProps.max_length,
+					allowed_file_types: originalProps.allowed_file_types,
 				}
 				const searchValue = cachedSearchParams.current.get(originalProps.variable)
 				if (searchValue) {

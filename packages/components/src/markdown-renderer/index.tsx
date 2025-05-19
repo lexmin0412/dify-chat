@@ -291,7 +291,7 @@ export function MarkdownRenderer(props: {
 		let result = props.markdownText
 		// 正则匹配所有 markdown 图片转为 img 标签，保留 src/alt 属性
 		// 这种处理是为了解决 markdownText 以一个 md 图片开始（如: `![alt](url)`）时，图片无法展示的问题
-		result = result.replace(/!\[([^\]]*)\]\(([^)]*)\)/g, (match, alt, src) => {
+		result = result?.replace(/!\[([^\]]*)\]\(([^)]*)\)/g, (match, alt, src) => {
 			return `<img src="${src}" alt="${alt}" />`
 		})
 		result = flow([preprocessThinkTag, preprocessLaTeX])(result)
