@@ -89,7 +89,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 					'pt-3': showPrompts,
 				})}
 			>
-				{showPrompts ? (
+				{/*{showPrompts ? (
 					<Welcome
 						variant="borderless"
 						icon={
@@ -110,7 +110,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 							</Space>
 						}
 					/>
-				) : null}
+				) : null}*/}
 
 				{/* 应用输入参数 */}
 				<AppInputWrapper
