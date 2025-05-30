@@ -11,7 +11,10 @@ import './App.css'
 import LayoutIndex from './layout'
 import AppListPage from './pages/app-list'
 import ChatPage from './pages/chat'
-import DifyAppService from './services/app/localstorage'
+// import DifyAppService from './services/app/localstorage'   //  使用 localstorage 存储应用信息
+import DifyAppService from './services/app/static-readonly'
+
+// 静态固定，不推荐
 
 // 初始化响应式配置
 initResponsiveConfig()
@@ -56,6 +59,8 @@ export default function App() {
 						user: userId,
 						// 默认使用 localstorage, 如果需要使用其他存储方式，可以实现 DifyAppStore 接口后传入，异步接口实现参考 src/services/app/restful.ts
 						appService: new DifyAppService(),
+						// 固定数据不支持增删改，所以需要禁用应用配置权限
+						enableSetting: false,
 					}}
 				>
 					<LayoutIndex />
