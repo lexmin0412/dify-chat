@@ -16,6 +16,7 @@
 		"@dify-chat/core": "workspace:^",
 		"@dify-chat/helpers": "workspace:^",
 		"@dify-chat/theme": "workspace:^",
+		"ahooks": "catalog:",
 		"antd": "catalog:",
 		"classnames": "catalog:",
 		"next": "catalog:",

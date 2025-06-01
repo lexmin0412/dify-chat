@@ -1,5 +1,7 @@
 type IOpeningStatementDisplayMode = "default" | "always";
 
+export * from "./app";
+
 /**
  * 所有的配置项
  */

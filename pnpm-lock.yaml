@@ -631,6 +631,9 @@ importers:
       "@dify-chat/theme":
         specifier: workspace:^
         version: link:../theme
+      ahooks:
+        specifier: "catalog:"
+        version: 3.8.5(react@19.1.0)
       antd:
         specifier: "catalog:"
         version: 5.25.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
