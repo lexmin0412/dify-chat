@@ -409,7 +409,9 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											</Button>
 										) : null}
 										{/* 🌟 对话管理 */}
-										<div className="px-4 mt-3 flex-1">{conversationListWithEmpty}</div>
+										<div className="px-4 mt-3 flex-1 overflow-auto">
+											{conversationListWithEmpty}
+										</div>
 									</>
 								) : (
 									<div className="flex flex-col justify-start items-center flex-1 pt-6">

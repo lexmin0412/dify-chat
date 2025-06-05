@@ -1,11 +1,6 @@
-import {
-	AppContext,
-	ICurrentApp,
-	useAppContext,
-	useDifyChat,
-} from "@dify-chat/core";
+import { ICurrentApp, useAppContext } from "@dify-chat/core";
 import { Tag } from "antd";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 
 import AppIcon from "./app-icon";
 
@@ -14,18 +9,8 @@ import AppIcon from "./app-icon";
  */
 export function AppInfo() {
 	const context = useAppContext();
-	const appContext = useContext(AppContext);
-	const difyX = useDifyChat();
-
-	console.log("difyX", difyX);
-
-	console.log("appContext", appContext);
-
-	console.log("context", context);
 
 	const currentApp = context.currentApp;
-
-	console.log("currentApp", currentApp);
 
 	const info4Render = useMemo(() => {
 		if (!currentApp?.config && !currentApp?.site) {
@@ -36,7 +21,6 @@ export function AppInfo() {
 			};
 		}
 		const { site, config } = currentApp as ICurrentApp;
-		console.log("site, config", site, config);
 		return {
 			name: site?.title || config?.info?.name,
 			description: site?.description || config?.info?.description,

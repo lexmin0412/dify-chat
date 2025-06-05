@@ -10,14 +10,15 @@
 
 | 加群沟通（提需求/ bug 请带 issue 发言）                                                                                                              | 喂我花生（请在留言中备注自己的 Github 用户名哦）                                                                                                |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://github.com/user-attachments/assets/f52039d1-8232-456d-b9a6-18a9d553feb6" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
+| <img src="https://github.com/user-attachments/assets/e934df3f-4c7e-4f76-89ad-6df99d92672d" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
 
-## 🥇 Golden Sponsors
+## 🥇 Sponsors
 
 > 注：每日手动更新
 
 | Avatar                                                                                                                          | Name                                                                          | Type   |
 | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------ |
+| <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/7828931?v=4" /> |   <a target="blank" href="https://github.com/xieqinzhangjian">xieqinzhangjian</a> | Github |                                                                 
 | <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/ce9ee0e1-d3ff-469d-a52d-16f00890dd25" /> | 果冻                                                                          | Wechat |
 | <img style="width: 50px; height: 50px" src="https://github.com/user-attachments/assets/df21bfee-a552-49ca-9a58-20311c87560d" /> | VincentX                                                                      | Wechat |
 | <img style="width: 50px; height: 50px" src="https://avatars.githubusercontent.com/u/13366372?v=4" />                            | <a target="blank" href="https://github.com/zhaoweihan2015">zhaoweihan2015</a> | Github |

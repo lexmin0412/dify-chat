@@ -328,7 +328,7 @@ export function MarkdownRenderer(props: {
 	}, [markdownText]);
 
 	return (
-		<div className="text-theme-text py-1.5">
+		<div className="text-theme-text dc-react-markdown-container">
 			<ReactMarkdown
 				// urlTransform={(value: string) => defaultUrlTransform(value)}
 				remarkPlugins={[

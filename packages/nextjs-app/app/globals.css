@@ -5,11 +5,142 @@
 	--foreground: #171717;
 }
 
+@theme {
+	--theme-text-color: #333;
+	--theme-desc-color: #898989;
+	--theme-bg-color: #f2f4f7;
+	--theme-btn-bg-color: #fff;
+	--theme-main-bg-color: #fff;
+	--theme-border-color: #eff0f5;
+	--theme-splitter-color: #eff0f5;
+	--theme-button-border-color: #c9c9c9;
+	--theme-primary-color: #1669ee;
+	--theme-success-color: #52c41a;
+	--theme-warning-color: #faad14;
+	--theme-danger-color: #ff4d4f;
+	--theme-bubble-bg-color: #f2f4f7;
+	--theme-code-block-bg-color: #fff;
+	--desc-color: #9ca3b3;
+	--eb-color: #ebebeb;
+	--warning-color: #ff5a07;
+	--primary-color: #1669ee;
+	--light-gray-color: #eff0f5;
+}
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
+}
+
+.ant-bubble-list {
+	.ant-bubble {
+		.ant-bubble-content {
+			padding-top: 0;
+			padding-bottom: 0;
+			min-height: auto;
+			overflow: hidden;
+			background-color: var(--theme-bubble-bg-color);
+		}
+
+		&[role="ai"] {
+			.ant-bubble-content {
+				background-color: transparent;
+				padding: 0;
+				color: var(--theme-text-color);
+				border-radius: 0 !important;
+
+				.dc-react-markdown-container {
+					padding-top: 0;
+
+					/* 将第一个子元素的 marginTop 设置为0 */
+					& > :first-child {
+						margin-top: 0 !important;
+					}
+
+					h1,
+					h2,
+					h3,
+					h4,
+					h5,
+					h6 {
+						font-weight: bold;
+						line-height: 1.2;
+					}
+
+					h1 {
+						font-size: 28px;
+						margin-top: 1.5rem !important;
+						margin-bottom: 1.5rem !important;
+					}
+
+					h2 {
+						font-size: 24px;
+						margin-top: 1rem !important;
+						margin-bottom: 1rem !important;
+					}
+
+					h3 {
+						font-size: 20px !important;
+						margin-top: 0.5rem !important;
+						margin-bottom: 0.5rem !important;
+					}
+
+					h4 {
+						font-size: 18px !important;
+						margin-top: 0.4rem !important;
+						margin-bottom: 0.4rem !important;
+					}
+
+					h5 {
+						font-size: 16px !important;
+						margin-top: 0.3rem !important;
+						margin-bottom: 0.3rem !important;
+					}
+
+					h6 {
+						font-size: 14px !important;
+						margin-top: 0.2rem !important;
+						margin-bottom: 0.2rem !important;
+					}
+
+					p,
+					li {
+						margin-top: 0.5rem !important;
+						margin-bottom: 0.5rem !important;
+						/* 行内代码块 */
+						> code {
+							margin: 0 0.15rem;
+							padding: 0.1rem 0.15rem;
+							border-radius: 0.25rem;
+							background: #eff0f5;
+							color: #e45649;
+						}
+					}
+					pre {
+						border-radius: 8px;
+						color: var(--theme-text-color);
+						background-color: var(--theme-code-block-bg-color) !important;
+					}
+				}
+			}
+		}
+
+		p,
+		li {
+			margin-top: 0.5rem !important;
+			margin-bottom: 0.5rem !important;
+		}
+	}
+}
+
+/* 按钮的 icon 容器子元素垂直居中处理 */
+.ant-btn {
+	span {
+		display: inline-flex;
+		align-items: center;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
