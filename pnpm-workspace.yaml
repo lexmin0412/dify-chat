@@ -55,7 +55,7 @@ catalog:
   antd-style: ^3.7.1
   classnames: ^2.5.1
   dayjs: ^1.11.13
-  dompurify: ^3.2.5
+  dompurify: ^3.2.4
   echarts-for-react: ^3.0.2
   eslint: ^9.26.0
   eslint-config-next: ^15.3.2
@@ -75,7 +75,7 @@ catalog:
   lucide-react: ^0.508.0
   markdown-it: ^14.1.0
   markdown-it-katex-gpt: ^1.1.1
-  mermaid: ^11.6.0
+  mermaid: ^10.9.3
   next: ^15.3.2
   pako: ^2.1.0
   prettier: ^3.5.3
