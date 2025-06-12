@@ -142,7 +142,7 @@ catalogs:
       specifier: ^1.11.13
       version: 1.11.13
     dompurify:
-      specifier: ^3.2.5
+      specifier: ^3.2.6
       version: 3.2.6
     echarts-for-react:
       specifier: ^3.0.2

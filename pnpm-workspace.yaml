@@ -55,7 +55,7 @@ catalog:
   antd-style: ^3.7.1
   classnames: ^2.5.1
   dayjs: ^1.11.13
-  dompurify: ^3.2.5
+  dompurify: ^3.2.6
   echarts-for-react: ^3.0.2
   eslint: ^9.26.0
   eslint-config-next: ^15.3.2
