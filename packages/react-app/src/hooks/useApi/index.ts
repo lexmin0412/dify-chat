@@ -15,9 +15,9 @@ export const useAppSiteSetting = () => {
 				})
 				.catch(err => {
 					console.error(err)
-					console.warn(
-						'Dify 版本提示: 获取应用 WebApp 设置失败，已降级为使用默认设置。如需与 Dify 配置同步，请确保你的 Dify 版本 >= v1.4.0',
-					)
+                                        console.warn(
+                                                'Dify 版本提示: 獲取應用 WebApp 設置失敗，已降級為使用默認設置。如需與 Dify 配置同步，請確保你的 Dify 版本 >= v1.4.0',
+                                        )
 					return DEFAULT_APP_SITE_SETTING
 				})
 		},
