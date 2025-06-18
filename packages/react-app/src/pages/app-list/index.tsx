@@ -31,7 +31,7 @@ export default function AppListPage() {
 		{
 			manual: true,
 			onError: error => {
-				message.error(`获取应用列表失败: ${error}`)
+                            message.error(`獲取應用列表失敗: ${error}`)
 				console.error(error)
 			},
 		},
@@ -99,7 +99,7 @@ export default function AppListPage() {
 												</div>
 											</div>
 											<div className="text-sm mt-3 h-10 overflow-hidden text-ellipsis leading-5 whitespace-normal line-clamp-2 text-theme-desc">
-												{item.info.description || '暂无描述'}
+                                                                               {item.info.description || '暫無描述'}
 											</div>
 										</div>
 										<div className="flex items-center text-desc truncate mt-3 h-4">
@@ -119,7 +119,7 @@ export default function AppListPage() {
 														{
 															key: 'edit',
 															icon: <EditOutlined />,
-															label: '编辑',
+                                                                               label: '編輯',
 															onClick: () => {
 																setAppEditDrawerMode(AppDetailDrawerModeEnum.edit)
 																setAppEditDrawerOpen(true)
@@ -129,11 +129,11 @@ export default function AppListPage() {
 														{
 															key: 'delete',
 															icon: <DeleteOutlined />,
-															label: '删除',
+                                                                               label: '刪除',
 															danger: true,
 															onClick: async () => {
 																await (appService as DifyAppStore).deleteApp(item.id)
-																message.success('删除应用成功')
+                                                                               message.success('刪除應用成功')
 																getAppList()
 															},
 														},
@@ -150,7 +150,7 @@ export default function AppListPage() {
 					</Row>
 				) : (
 					<div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
-						<Empty description="暂无应用" />
+                                                <Empty description="暫無應用" />
 					</div>
 				)}
 			</div>
@@ -169,7 +169,7 @@ export default function AppListPage() {
 						setAppEditDrawerAppItem(undefined)
 					}}
 				>
-					新增应用配置
+                                        新增應用配置
 				</Button>
 			) : null}
 

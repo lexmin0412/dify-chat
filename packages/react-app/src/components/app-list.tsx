@@ -67,21 +67,21 @@ export default function AppList(props: IAppListProps) {
 									items: [
 										{
 											key: 'update',
-											label: '更新配置',
+                                                                               label: '更新配置',
 											onClick: async event => {
 												event.domEvent.stopPropagation()
 												await onUpdate?.(item.id, item)
-												message.success('更新应用配置成功')
+                                                                               message.success('更新應用配置成功')
 											},
 										},
 										{
 											key: 'delete',
-											label: '删除',
+                                                                               label: '刪除',
 											danger: true,
 											onClick: async event => {
 												event.domEvent.stopPropagation()
 												await onDelete(item.id)
-												message.success('删除应用成功')
+                                                                               message.success('刪除應用成功')
 											},
 										},
 									],
