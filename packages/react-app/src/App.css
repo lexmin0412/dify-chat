@@ -2,34 +2,34 @@
 @tailwind utilities;
 
 :root {
-	--theme-text-color: #333;
-	--theme-desc-color: #898989;
-	--theme-bg-color: #f2f4f7;
-	--theme-btn-bg-color: #fff;
-	--theme-main-bg-color: #fff;
-	--theme-border-color: #eff0f5;
-	--theme-splitter-color: #eff0f5;
-	--theme-button-border-color: #c9c9c9;
-	--theme-primary-color: #1669ee;
-	--theme-success-color: #52c41a;
-	--theme-warning-color: #faad14;
-	--theme-danger-color: #ff4d4f;
-	--theme-bubble-bg-color: #f2f4f7;
-	--theme-code-block-bg-color: #fff;
+        --theme-text-color: #4a4a4a;
+        --theme-desc-color: #6b7280;
+        --theme-bg-color: #f5f4ee;
+        --theme-btn-bg-color: #ffffff;
+        --theme-main-bg-color: #ffffff;
+        --theme-border-color: #e3e1db;
+        --theme-splitter-color: #e3e1db;
+        --theme-button-border-color: #bebebe;
+        --theme-primary-color: #3a6d70;
+        --theme-success-color: #69c081;
+        --theme-warning-color: #e6a23c;
+        --theme-danger-color: #d97c7c;
+        --theme-bubble-bg-color: #f5f4ee;
+        --theme-code-block-bg-color: #f0eee8;
 }
 
 /* 夜间模式类名 */
 .dark {
-	--theme-text-color: #c9c9c9;
-	--theme-desc-color: #aaa;
-	--theme-bg-color: #000;
-	--theme-btn-bg-color: #333;
-	--theme-main-bg-color: #222;
-	--theme-border-color: #797979;
-	--theme-splitter-color: #55555555;
-	--theme-button-border-color: #c9c9c9;
-	--theme-bubble-bg-color: #424242;
-	--theme-code-block-bg-color: #222;
+        --theme-text-color: #d4d4d4;
+        --theme-desc-color: #b0b0b0;
+        --theme-bg-color: #1f1f1f;
+        --theme-btn-bg-color: #333;
+        --theme-main-bg-color: #2c2c2c;
+        --theme-border-color: #666;
+        --theme-splitter-color: #444444;
+        --theme-button-border-color: #d1d1d1;
+        --theme-bubble-bg-color: #3a3a3a;
+        --theme-code-block-bg-color: #232323;
 }
 
 .ant-collapse {
@@ -94,11 +94,11 @@ h3 {
 }
 
 body {
-	margin: 0;
-	color: var(--theme-text-color);
+        margin: 0;
+        color: var(--theme-text-color);
 
-	font-family: AibabaPuHuiTi, sans-serif;
-	background: white;
+        font-family: "Noto Serif TC", AibabaPuHuiTi, serif;
+        background: white;
 }
 
 a {

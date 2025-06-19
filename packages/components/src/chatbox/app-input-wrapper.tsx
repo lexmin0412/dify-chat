@@ -47,9 +47,9 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 			key: COLLAPSE_KEY,
 			label: (
 				<div className="flex items-center">
-					<div className="font-semibold text-base">对话参数设置</div>
+                                        <div className="font-semibold text-base">對話參數設置</div>
 					{!currentApp.config?.inputParams?.enableUpdateAfterCvstStarts ? (
-						<div className="text-desc">（注意：对话开始后，参数设置将无法修改）</div>
+                                                <div className="text-desc">（注意：對話開始後，參數設置將無法修改）</div>
 					) : null}
 				</div>
 			),

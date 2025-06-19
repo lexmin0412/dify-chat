@@ -226,7 +226,7 @@ const CodeBlock = memo(
 								name="copy"
 								onClick={async () => {
 									await copyToClipboard(String(children).replace(/\n$/, ""));
-									message.success("复制成功");
+                                                                        message.success("複製成功");
 								}}
 							/>
 						</Button>

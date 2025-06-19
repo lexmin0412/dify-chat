@@ -45,7 +45,7 @@ export const ConversationList = (props: IConversationListProps) => {
 	 */
 	const deleteConversation = async (conversationId: string) => {
 		await deleteConversationPromise(conversationId)
-		message.success('删除成功')
+                message.success('刪除成功')
 	}
 
 	/**
@@ -58,14 +58,14 @@ export const ConversationList = (props: IConversationListProps) => {
 		})
 		Modal.confirm({
 			destroyOnClose: true,
-			title: '编辑对话名称',
+                        title: '編輯對話名稱',
 			content: (
 				<Form
 					form={renameForm}
 					className="mt-3"
 				>
 					<Form.Item name="name">
-						<Input placeholder="请输入" />
+                                                <Input placeholder="請輸入" />
 					</Form.Item>
 				</Form>
 			),
@@ -73,7 +73,7 @@ export const ConversationList = (props: IConversationListProps) => {
 				await renameForm.validateFields()
 				const values = await renameForm.validateFields()
 				await renameConversationPromise(conversation.key, values.name)
-				message.success('对话重命名成功')
+                                message.success('對話重命名成功')
 			},
 		})
 	}
@@ -87,12 +87,12 @@ export const ConversationList = (props: IConversationListProps) => {
 			menu={conversation => ({
 				items: [
 					{
-						label: '重命名',
+                                                label: '重命名',
 						key: 'rename',
 						icon: <EditOutlined />,
 					},
 					{
-						label: '删除',
+                                                label: '刪除',
 						key: 'delete',
 						icon: <DeleteOutlined />,
 						danger: true,

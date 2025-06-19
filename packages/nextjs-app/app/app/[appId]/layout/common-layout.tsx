@@ -30,10 +30,10 @@ export default function CommonLayout(props: ICommonLayoutProps) {
 					<>{children}</>
 				) : (
 					<div className="w-full h-full flex items-center justify-center">
-						<Empty
-							description="暂无 Dify 应用配置，请联系管理员"
-							className="text-base"
-						/>
+                                                <Empty
+                                                        description="暫無 Dify 應用配置，請聯繫管理員"
+                                                        className="text-base"
+                                                />
 					</div>
 				)}
 			</div>

@@ -189,11 +189,11 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		Modal.confirm({
 			centered: true,
 			destroyOnClose: true,
-			title: "编辑对话名称",
+                        title: "編輯對話名稱",
 			content: (
 				<Form form={renameForm} className="mt-3">
 					<Form.Item name="name">
-						<Input placeholder="请输入" />
+                                                <Input placeholder="請輸入" />
 					</Form.Item>
 				</Form>
 			),
@@ -201,7 +201,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				await renameForm.validateFields();
 				const values = await renameForm.validateFields();
 				await onRenameConversation(currentConversationId, values.name);
-				message.success("对话重命名成功");
+                                message.success("對話重命名成功");
 			},
 		});
 	};
@@ -243,7 +243,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				{
 					key: "add_conversation",
 					icon: <PlusCircleOutlined />,
-					label: "新增对话",
+                                        label: "新增對話",
 					disabled: isTempId(currentConversationId),
 					onClick: () => {
 						onAddConversation();
@@ -252,7 +252,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				{
 					key: "rename_conversation",
 					icon: <EditOutlined />,
-					label: "编辑对话名称",
+                                        label: "編輯對話名稱",
 					disabled: isTempId(currentConversationId),
 					onClick: () => {
 						handleRenameConversation();
@@ -261,20 +261,20 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				{
 					key: "delete_conversation",
 					icon: <MinusCircleOutlined />,
-					label: "删除当前对话",
+                                        label: "刪除當前對話",
 					disabled: isTempId(currentConversationId),
 					danger: true,
 					onClick: () => {
 						Modal.confirm({
 							centered: true,
-							title: "确定删除当前对话？",
-							content: "删除后，聊天记录将不可恢复。",
-							okText: "删除",
+                                                        title: "確定刪除當前對話？",
+                                                        content: "刪除後，聊天記錄將不可恢復。",
+                                                        okText: "刪除",
 							cancelText: "取消",
 							onOk: async () => {
 								// 执行删除操作
 								await onDeleteConversation(currentConversationId);
-								message.success("删除成功");
+                                                                message.success("刪除成功");
 							},
 						});
 					},
@@ -313,14 +313,14 @@ export default function ChatLayout(props: IChatLayoutProps) {
 							),
 						},
 					],
-					label: "主题",
+                                        label: "主題",
 				},
 				{
 					type: "divider",
 				},
 				{
 					type: "group",
-					label: "对话列表",
+                                        label: "對話列表",
 					children: conversations?.length
 						? conversations.map((item) => {
 								return {
@@ -334,7 +334,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						: [
 								{
 									key: "no_conversation",
-									label: "暂无对话",
+                                                                        label: "暫無對話",
 									disabled: true,
 								},
 							],
@@ -369,7 +369,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 					/>
 				) : (
 					<div className="w-full h-full flex items-center justify-center">
-						<Empty className="pt-6" description="暂无会话" />
+                                                <Empty className="pt-6" description="暫無會話" />
 					</div>
 				)}
 			</Spin>
@@ -437,7 +437,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 												className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-theme-text "
 												icon={<PlusOutlined className="" />}
 											>
-												新增对话
+                                                                               新增對話
 											</Button>
 										) : null}
 										{/* 🌟 对话管理 */}
@@ -453,7 +453,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 										</div>
 
 										{/* 新增对话 */}
-										<Tooltip title="新增对话" placement="right">
+                                                                               <Tooltip title="新增對話" placement="right">
 											<div className="text-theme-text my-1.5 hover:text-primary flex items-center">
 												<LucideIcon
 													name="plus-circle"
@@ -473,7 +473,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													{conversationListWithEmpty}
 												</div>
 											}
-											title="对话列表"
+                                                                               title="對話列表"
 											placement="rightTop"
 										>
 											{/* 必须包裹一个 HTML 标签才能正常展示 Popover */}
@@ -490,8 +490,8 @@ export default function ChatLayout(props: IChatLayoutProps) {
 								)}
 
 								<div className="border-t border-solid border-(--theme-splitter-color) flex items-center justify-center h-12">
-									<Tooltip
-										title={sidebarOpen ? "折叠侧边栏" : "展开侧边栏"}
+                                                                        <Tooltip
+                                                                               title={sidebarOpen ? "折疊側邊欄" : "展開側邊欄"}
 										placement="right"
 									>
 										<div className="flex items-center justify-center">
@@ -526,10 +526,10 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						</>
 					) : (
 						<div className="w-full h-full flex items-center justify-center">
-							<Empty
-								description="暂无 Dify 应用配置，请联系管理员"
-								className="text-base"
-							/>
+                                                        <Empty
+                                                                description="暫無 Dify 應用配置，請聯繫管理員"
+                                                                className="text-base"
+                                                        />
 						</div>
 					)}
 				</div>

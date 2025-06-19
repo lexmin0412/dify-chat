@@ -109,12 +109,12 @@ export default function AppInputForm(props: IAppInputFormProps) {
 						);
 					}
 
-					// 解析正常且是新对话 或者允许更新对话参数，则写入 URL 参数
+                                        // 解析正常且是新對話 或者允許更新對話參數，則寫入 URL 參數
 					if (
 						(!error && isTempId(currentConversationId)) ||
 						currentApp?.config?.inputParams?.enableUpdateAfterCvstStarts
 					) {
-						// 新对话或者允许更新对话参数, 则更新表单值
+                                                // 新對話或者允許更新對話參數，則更新表單值
 						entryForm.setFieldValue(originalProps.variable, data);
 						cachedSearchParams.current.delete(originalProps.variable);
 					} else {
@@ -158,7 +158,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 				}
 				if (originalProps.required) {
 					baseProps.required = true;
-					baseProps.rules = [{ required: true, message: "请输入" }];
+                                        baseProps.rules = [{ required: true, message: "請輸入" }];
 				}
 				return baseProps;
 			}) || [],
@@ -211,7 +211,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 												? [
 														{
 															required: true,
-															message: `${item.label}不能为空`,
+                                                                               message: `${item.label}不能為空`,
 														},
 													]
 												: []
@@ -219,13 +219,13 @@ export default function AppInputForm(props: IAppInputFormProps) {
 									>
 										{item.type === "text-input" ? (
 											<Input
-												placeholder="请输入"
+                                                                               placeholder="請輸入"
 												maxLength={item.max_length}
 												disabled={disabled}
 											/>
 										) : item.type === "select" ? (
 											<Select
-												placeholder="请选择"
+                                                                               placeholder="請選擇"
 												disabled={disabled}
 												options={
 													item.options?.map((option) => {
@@ -238,13 +238,13 @@ export default function AppInputForm(props: IAppInputFormProps) {
 											/>
 										) : item.type === "paragraph" ? (
 											<Input.TextArea
-												placeholder="请输入"
+                                                                               placeholder="請輸入"
 												disabled={disabled}
 												maxLength={item.max_length}
 											/>
 										) : item.type === "number" ? (
 											<InputNumber
-												placeholder="请输入"
+                                                                               placeholder="請輸入"
 												disabled={disabled}
 												className="w-full"
 											/>
@@ -263,7 +263,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 												uploadFileApi={uploadFileApi}
 											/>
 										) : (
-											`暂不支持的控件类型: ${item.type}`
+                                                                               `暫不支持的控件類型: ${item.type}`
 										)}
 									</Form.Item>
 								);

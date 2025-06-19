@@ -42,7 +42,7 @@ export default function AppItem(props: IAppItemProps) {
 						</div>
 					</div>
 					<div className="text-sm mt-3 h-10 overflow-hidden text-ellipsis leading-5 whitespace-normal line-clamp-2 text-theme-desc">
-						{item.info.description || "暂无描述"}
+                                                {item.info.description || "暫無描述"}
 					</div>
 				</div>
 				<div className="flex items-center text-desc truncate mt-3 h-4">

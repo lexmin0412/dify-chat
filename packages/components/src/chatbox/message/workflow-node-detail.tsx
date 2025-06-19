@@ -23,7 +23,7 @@ export default function WorkflowNodeDetail(props: IWorkflowNodeDetailProps) {
 						className="cursor-pointer text-theme-text"
 						onClick={async () => {
 							await copyToClipboard(JSON.stringify(originalContent, null, 2))
-							message.success('复制成功')
+                                                        message.success('複製成功')
 						}}
 					/>
 					<pre className="w-full overflow-auto m-0">{JSON.stringify(originalContent, null, 2)}</pre>

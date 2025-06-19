@@ -37,8 +37,8 @@ export class XRequest {
 				DIFY_INFO.version = newDifyVersion
 			}
 		}
-		if (result.status === 401) {
-			message.error('未授权, 请检查你的配置')
+                if (result.status === 401) {
+                        message.error('未授權, 請檢查你的配置')
 			throw new UnauthorizedError('Unauthorized')
 		}
 		return result

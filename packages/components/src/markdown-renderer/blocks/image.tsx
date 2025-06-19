@@ -23,7 +23,7 @@ export default function ImageBlock(props: IImageProps) {
 			<PhotoView src={src}>
 				<img
 					className={imgClassNames}
-					alt={alt || '图片加载失败'}
+                                        alt={alt || '圖片加載失敗'}
 					src={src}
 				/>
 			</PhotoView>

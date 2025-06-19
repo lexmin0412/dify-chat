@@ -64,7 +64,7 @@ const MultiAppLayout = (props: IMultiAppLayoutProps) => {
 				}
 			},
 			onError: error => {
-				message.error(`获取应用列表失败: ${error}`)
+                                message.error(`獲取應用列表失敗: ${error}`)
 				console.error(error)
 			},
 		},
@@ -108,7 +108,7 @@ const MultiAppLayout = (props: IMultiAppLayoutProps) => {
 				})
 			})
 			.catch(err => {
-				message.error(`获取应用参数失败: ${err}`)
+                            message.error(`獲取應用參數失敗: ${err}`)
 				console.error(err)
 				setCurrentApp(undefined)
 			})

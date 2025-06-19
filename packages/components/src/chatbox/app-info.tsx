@@ -15,7 +15,7 @@ export function AppInfo() {
 	const info4Render = useMemo(() => {
 		if (!currentApp?.config && !currentApp?.site) {
 			return {
-				name: "暂无标题",
+                                name: "暫無標題",
 				description: "",
 				tags: [],
 			};
