@@ -109,12 +109,12 @@ export default function AppInputForm(props: IAppInputFormProps) {
 						);
 					}
 
-					// 解析正常且是新对话 或者允许更新对话参数，则写入 URL 参数
+                                        // 解析正常且是新對話 或者允許更新對話參數，則寫入 URL 參數
 					if (
 						(!error && isTempId(currentConversationId)) ||
 						currentApp?.config?.inputParams?.enableUpdateAfterCvstStarts
 					) {
-						// 新对话或者允许更新对话参数, 则更新表单值
+                                                // 新對話或者允許更新對話參數，則更新表單值
 						entryForm.setFieldValue(originalProps.variable, data);
 						cachedSearchParams.current.delete(originalProps.variable);
 					} else {
