@@ -30,7 +30,7 @@ export default function AppsPage() {
 		return {
 			centerTitle: {
 				icon: "layout-grid",
-				title: "应用列表",
+				title: "應用列表",
 			},
 			rightLink: enableSetting
 				? {
@@ -54,7 +54,7 @@ export default function AppsPage() {
 					</Row>
 				) : (
 					<div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
-                                                <Empty description="暫無應用" />
+						<Empty description="暫無應用" />
 					</div>
 				)}
 			</div>

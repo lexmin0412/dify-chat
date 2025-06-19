@@ -14,7 +14,7 @@ export default function Page() {
 		>
 			<LucideIcon name="lock-keyhole" size={64} />
 			<h1 className="text-3xl text-red-500 my-4">401 Unauthorized</h1>
-			<p className="text-lg text-[#8c8c8c]">未登录或登录已过期，请重新登录。</p>
+			<p className="text-lg text-[#8c8c8c]">未登錄或登錄已過期，請重新登錄。</p>
 		</div>
 	);
 }

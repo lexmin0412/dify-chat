@@ -144,7 +144,7 @@ const MultiAppLayout: React.FC = () => {
 									router.push("/apps");
 								}}
 							>
-								应用列表
+								應用列表
 							</span>
 							{selectedAppId ? (
 								<div className="flex items-center overflow-hidden">
