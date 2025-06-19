@@ -23,7 +23,7 @@ export default async function AppsPage() {
 				rightLink={{
 					icon: "layout-grid",
 					href: "/apps",
-					title: "应用列表",
+					title: "應用列表",
 				}}
 			/>
 			<div className="flex-1 bg-theme-main-bg rounded-3xl py-6 overflow-y-auto box-border overflow-x-hidden">
@@ -41,7 +41,7 @@ export default async function AppsPage() {
 					</Row>
 				) : (
 					<div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
-						<Empty description="暂无应用" />
+						<Empty description="暫無應用" />
 					</div>
 				)}
 			</div>

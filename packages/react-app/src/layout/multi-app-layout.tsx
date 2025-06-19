@@ -155,7 +155,7 @@ const MultiAppLayout = (props: IMultiAppLayoutProps) => {
 									history.push('/apps')
 								}}
 							>
-								应用列表
+								應用列表
 							</span>
 							{selectedAppId ? (
 								<div className="flex items-center overflow-hidden">
