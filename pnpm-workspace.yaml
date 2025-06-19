@@ -60,7 +60,7 @@ catalog:
   antd-style: ^3.7.1
   classnames: ^2.5.1
   dayjs: ^1.11.13
-  dompurify: ^3.2.5
+  dompurify: ^3.2.4
   echarts-for-react: ^3.0.2
   eslint: ^9.26.0
   eslint-config-next: ^15.3.2
@@ -79,7 +79,7 @@ catalog:
   lint-staged: ^15.5.1
   lodash-es: ^4.17.21
   lucide-react: ^0.508.0
-  mermaid: ^11.6.0
+  mermaid: ^10.9.3
   next: ^15.3.2
   pako: ^2.1.0
   prettier: ^3.5.3
