@@ -41,7 +41,7 @@ export default async function AppsPage() {
 					</Row>
 				) : (
 					<div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
-						<Empty description="暂无应用" />
+                                                <Empty description="暫無應用" />
 					</div>
 				)}
 			</div>

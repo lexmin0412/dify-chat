@@ -31,17 +31,17 @@ export default function AppItemActionButton(props: { item: IDifyAppItem }) {
 								setAppEditDrawerAppItem(item);
 							},
 						},
-						{
-							key: "delete",
-							icon: <DeleteOutlined />,
-							label: "删除",
-							danger: true,
-							onClick: async () => {
-								await deleteApp(item.id);
-								message.success("删除应用成功");
-								// 重新加载列表页
-								redirect("/console");
-							},
+                                        {
+                                                key: "delete",
+                                                icon: <DeleteOutlined />,
+                                                label: "刪除",
+                                                danger: true,
+                                                onClick: async () => {
+                                                        await deleteApp(item.id);
+                                                        message.success("刪除應用成功");
+                                                        // 重新加载列表页
+                                                        redirect("/console");
+                                                },
 						},
 					],
 				}}

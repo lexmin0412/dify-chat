@@ -59,7 +59,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 			title: (
 				<div className="text-base">
 					<LucideIcon name="hammer" />
-					{item.tool ? `已使用 ${item.tool}` : '暂无标题'}
+                                        {item.tool ? `已使用 ${item.tool}` : '暫無標題'}
 				</div>
 			),
 			status: 'success',
@@ -110,7 +110,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 														className="cursor-pointer"
 														onClick={async () => {
 															await copyToClipboard(item.tool_input)
-															message.success('复制成功')
+                                                                               message.success('複製成功')
 														}}
 													/>
 												</div>
@@ -126,7 +126,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 														className="cursor-pointer"
 														onClick={async () => {
 															await copyToClipboard(item.observation)
-															message.success('复制成功')
+                                                                               message.success('複製成功')
 														}}
 													/>
 												</div>

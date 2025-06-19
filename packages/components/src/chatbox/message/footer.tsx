@@ -167,7 +167,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 			icon: <LucideIcon name="copy" />,
 			onClick: async () => {
 				await copyToClipboard(messageContent)
-				antdMessage.success('复制成功')
+                                antdMessage.success('複製成功')
 			},
 			active: false,
 			loading: false,
