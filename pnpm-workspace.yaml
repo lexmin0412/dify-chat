@@ -62,7 +62,7 @@ catalog:
   antd-style: ^3.7.1
   classnames: ^2.5.1
   dayjs: ^1.11.13
-  dompurify: ^3.2.5
+  dompurify: ^3.2.4
   drizzle-kit: "^0.31.2"
   drizzle-orm: "^0.44.2"
   echarts-for-react: ^3.0.2
@@ -83,7 +83,7 @@ catalog:
   lint-staged: ^15.5.1
   lodash-es: ^4.17.21
   lucide-react: ^0.508.0
-  mermaid: ^11.6.0
+  mermaid: ^10.9.3
   next: ^15.3.2
   pako: ^2.1.0
   pg: ^8.16.2
