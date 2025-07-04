@@ -94,7 +94,7 @@ catalog:
   remark-gfm: ^4.0.1
   remark-math: ^6.0.0
   remark-mermaidjs: '4'
-  semver: ^7.7.1
+  semver: ^7.7.2
   storybook: ^8.6.12
   storybook-addon-rslib: ^1.0.1
   storybook-react-rsbuild: ^1.0.1
