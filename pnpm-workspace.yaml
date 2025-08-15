@@ -110,7 +110,7 @@ catalog:
   remark-mermaidjs: '4'
   semver: ^7.7.1
   storybook: ^8.6.12
-  storybook-addon-rslib: ^1.0.1
+  storybook-addon-rslib: ^2.0.4
   storybook-react-rsbuild: ^1.0.1
   tailwind-merge: ^3.3.0
   tailwindcss: ^3
