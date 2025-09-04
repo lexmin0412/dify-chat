@@ -90,7 +90,7 @@ catalog:
   lint-staged: ^15.5.1
   lodash-es: ^4.17.21
   lucide-react: ^0.508.0
-  mermaid: ^11.6.0
+  mermaid: ^11.11.0
   next: ^15.3.2
   pako: ^2.1.0
   prettier: ^3.5.3
