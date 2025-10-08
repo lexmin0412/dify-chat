@@ -62,7 +62,7 @@ catalog:
   '@types/react': ^19.1.5
   '@types/react-dom': ^19.1.5
   '@types/react-syntax-highlighter': ^15.5.13
-  '@types/semver': ^7.7.0
+  '@types/semver': ^7.7.1
   ahooks: ^3.8.4
   antd: ^5.27.3
   antd-style: ^3.7.1
@@ -108,7 +108,7 @@ catalog:
   remark-gfm: ^4.0.1
   remark-math: ^6.0.0
   remark-mermaidjs: '4'
-  semver: ^7.7.1
+  semver: ^7.7.3
   storybook: ^8.6.12
   storybook-addon-rslib: ^1.0.3
   storybook-react-rsbuild: ^1.0.1
