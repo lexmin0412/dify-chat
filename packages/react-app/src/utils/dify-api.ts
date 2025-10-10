@@ -390,7 +390,9 @@ export interface IAudio2TextResponse {
 	text: string
 }
 
-const PLATFORM_API_BASE = process.env.PUBLIC_DIFY_PROXY_API_BASE as string
+import { getDifyProxyApiBase } from './runtime-config'
+
+const PLATFORM_API_BASE = getDifyProxyApiBase()
 
 const genXRequestOptions = (options: IDifyApiOptions) => ({
 	baseURL: `${PLATFORM_API_BASE}${options.apiBase}`,

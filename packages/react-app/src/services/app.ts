@@ -2,6 +2,7 @@ import { IDifyAppItem } from '@dify-chat/core'
 import { BaseRequest } from '@dify-chat/helpers'
 
 import { getDebugApps, isDebugMode } from '@/components/debug-mode'
+import { getApiBase } from '@/utils/runtime-config'
 
 // import { uniqueId } from 'lodash-es'
 
@@ -35,7 +36,7 @@ interface IAppStorageAdapter {
 // ]
 
 const baseRequest = new BaseRequest({
-	baseURL: process.env.PUBLIC_APP_API_BASE as string,
+	baseURL: getApiBase(),
 })
 
 class AppService implements IAppStorageAdapter {

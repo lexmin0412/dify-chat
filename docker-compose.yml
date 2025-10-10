@@ -10,6 +10,17 @@ services:
       - '5200:80'
     container_name: dify-chat-app-react
     restart: unless-stopped
+    environment:
+      - PUBLIC_DEBUG_MODE=${PUBLIC_DEBUG_MODE:-false}
+      - PUBLIC_APP_API_BASE=${PUBLIC_APP_API_BASE:-http://localhost:5300/api/client}
+      - PUBLIC_DIFY_PROXY_API_BASE=${PUBLIC_DIFY_PROXY_API_BASE:-http://localhost:5300/api/client/dify}
+    volumes:
+      # Nginx 日志挂载
+      - ./volume/logs/nginx:/var/log/nginx
+      # 静态文件缓存（可选）
+      - ./volume/cache/nginx:/var/cache/nginx
+      # 自定义配置文件挂载（可选）
+      - ./volume/config/nginx:/etc/nginx/conf.d/custom
     networks:
       - dify-chat-network
 
@@ -21,16 +32,26 @@ services:
     container_name: dify-chat-platform
     restart: unless-stopped
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV:-production}
       - PORT=5300
+      - DATABASE_URL=${DATABASE_URL:-file:./dev.db}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    volumes:
+      # 数据库文件挂载
+      - ./volume/data/prisma:/app/prisma/data
+      - ./volume/data/uploads:/app/uploads
+      # 日志文件挂载
+      - ./volume/logs/platform:/app/logs
+      # 配置文件挂载
+      - ./volume/config/platform:/app/config
+      # 备份文件挂载
+      - ./volume/backup:/app/backup
     networks:
       - dify-chat-network
+    # 优先使用本地镜像
+    pull_policy: never
 
 # 网络配置
 networks:
   dify-chat-network:
     driver: bridge
-# 可选：数据卷配置（如果需要持久化数据）
-# volumes:
-#   app-data:
-#     driver: local
