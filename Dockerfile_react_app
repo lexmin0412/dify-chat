@@ -62,8 +62,8 @@ RUN pnpm --filter dify-chat-app-react build
 # ================================
 FROM nginx:latest AS runtime
 
-# 复制自定义 nginx 配置
-COPY packages/react-app/docker/nginx.conf /etc/nginx/conf.d/default.conf
+# 复制 nginx 配置模板
+COPY packages/react-app/docker/nginx.conf.template /etc/nginx/conf.d/default.conf.template
 
 # 复制构建产物到 nginx 静态文件目录（优化权限）
 COPY --from=builder /app/packages/react-app/dist /usr/share/nginx/html/dify-chat
@@ -71,8 +71,31 @@ COPY --from=builder /app/packages/react-app/dist /usr/share/nginx/html/dify-chat
 # 暴露端口
 EXPOSE 80
 
+# 创建启动脚本
+RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
+    echo 'echo "启动运行时配置处理..."' >> /docker-entrypoint.sh && \
+    echo '' >> /docker-entrypoint.sh && \
+    echo '# 设置默认环境变量' >> /docker-entrypoint.sh && \
+    echo 'export PUBLIC_DEBUG_MODE=${PUBLIC_DEBUG_MODE:-false}' >> /docker-entrypoint.sh && \
+    echo 'export PUBLIC_APP_API_BASE=${PUBLIC_APP_API_BASE:-http://localhost:5300/api/client}' >> /docker-entrypoint.sh && \
+    echo 'export PUBLIC_DIFY_PROXY_API_BASE=${PUBLIC_DIFY_PROXY_API_BASE:-http://localhost:5300/api/client/dify}' >> /docker-entrypoint.sh && \
+    echo '' >> /docker-entrypoint.sh && \
+    echo '# 显示当前配置' >> /docker-entrypoint.sh && \
+    echo 'echo "运行时配置:"' >> /docker-entrypoint.sh && \
+    echo 'echo "  PUBLIC_DEBUG_MODE: $PUBLIC_DEBUG_MODE"' >> /docker-entrypoint.sh && \
+    echo 'echo "  PUBLIC_APP_API_BASE: $PUBLIC_APP_API_BASE"' >> /docker-entrypoint.sh && \
+    echo 'echo "  PUBLIC_DIFY_PROXY_API_BASE: $PUBLIC_DIFY_PROXY_API_BASE"' >> /docker-entrypoint.sh && \
+    echo '' >> /docker-entrypoint.sh && \
+    echo '# 使用 envsubst 预处理 nginx 配置文件' >> /docker-entrypoint.sh && \
+    echo 'envsubst "\${PUBLIC_DEBUG_MODE} \${PUBLIC_APP_API_BASE} \${PUBLIC_DIFY_PROXY_API_BASE}" < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.sh && \
+    echo 'echo "Nginx 配置文件已生成"' >> /docker-entrypoint.sh && \
+    echo '' >> /docker-entrypoint.sh && \
+    echo '# 启动 nginx' >> /docker-entrypoint.sh && \
+    echo 'exec nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
+    chmod +x /docker-entrypoint.sh
+
 # 启动 nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # ================================
 # 构建说明和使用指南
