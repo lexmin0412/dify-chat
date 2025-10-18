@@ -43,8 +43,8 @@ COPY --from=builder /app/packages/platform/public ./packages/platform/public
 COPY --from=builder /app/packages/platform/migrations ./packages/platform/migrations
 COPY --from=builder /app/packages/platform/lib/typeorm.config.ts ./packages/platform/lib/typeorm.config.ts
 
-# 安装 TypeORM CLI（运行时需要）
-RUN npm install -g typeorm@0.3.27
+# 安装 TypeORM CLI 和 ts-node（运行时需要）
+RUN npm install -g typeorm@0.3.27 ts-node@10.9.2
 
 ENV NODE_ENV=production
 ENV PORT=5300
@@ -52,4 +52,4 @@ ENV PORT=5300
 EXPOSE 5300
 
 # 启动时先运行迁移，然后启动应用
-CMD ["sh", "-c", "cd packages/platform && npx typeorm migration:run -d lib/typeorm.config.ts && cd /app && node packages/platform/server.js"]
+CMD ["sh", "-c", "cd packages/platform && npx typeorm-ts-node-commonjs migration:run -d lib/typeorm.config.ts && cd /app && node packages/platform/server.js"]
