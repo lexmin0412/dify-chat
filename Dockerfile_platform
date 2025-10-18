@@ -40,7 +40,7 @@ COPY --from=builder /app/packages/platform/.next/static ./packages/platform/.nex
 COPY --from=builder /app/packages/platform/public ./packages/platform/public
 
 # 复制迁移相关文件
-COPY --from=builder /app/packages/platform/src/migrations ./packages/platform/src/migrations
+COPY --from=builder /app/packages/platform/migrations ./packages/platform/migrations
 COPY --from=builder /app/packages/platform/lib/typeorm.config.ts ./packages/platform/lib/typeorm.config.ts
 
 # 安装 TypeORM CLI（运行时需要）
