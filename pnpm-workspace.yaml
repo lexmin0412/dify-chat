@@ -9,6 +9,7 @@ onlyBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
   - '@tailwindcss/oxide'
+  - better-sqlite3
   - core-js
   - esbuild
   - prisma
@@ -16,9 +17,9 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 catalog:
-  'class-variance-authority': ^0.7.1
-  'next-auth': ^4.24.11
-  'tw-animate-css': ^1.3.7
+  class-variance-authority: ^0.7.1
+  next-auth: ^4.24.11
+  tw-animate-css: ^1.3.7
   '@ant-design/cssinjs': ^1.23.0
   '@ant-design/icons': ^5.6.1
   '@ant-design/nextjs-registry': ^1.0.2

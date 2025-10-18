@@ -1,4 +1,4 @@
-import { DifyApp } from '@/prisma/generated/client'
+import { DifyApp } from '@/entities/DifyApp'
 import { AppModeEnums, IDifyAppItem } from '@/types'
 
 /**
@@ -45,17 +45,17 @@ export function appItemToDbApp(
 ): Omit<DifyApp, 'id' | 'createdAt' | 'updatedAt'> {
 	return {
 		name: appItem.info.name,
-		mode: appItem.info.mode || null,
-		description: appItem.info.description || null,
-		tags: appItem.info.tags.length > 0 ? JSON.stringify(appItem.info.tags) : null,
+		mode: appItem.info.mode || undefined,
+		description: appItem.info.description || undefined,
+		tags: appItem.info.tags.length > 0 ? JSON.stringify(appItem.info.tags) : undefined,
 		isEnabled: appItem.isEnabled,
 		apiBase: appItem.requestConfig.apiBase,
 		apiKey: appItem.requestConfig.apiKey,
 		enableAnswerForm: appItem.answerForm?.enabled || false,
-		answerFormFeedbackText: appItem.answerForm?.feedbackText || null,
+		answerFormFeedbackText: appItem.answerForm?.feedbackText || undefined,
 		enableUpdateInputAfterStarts: appItem.inputParams?.enableUpdateAfterCvstStarts || false,
 		openingStatementDisplayMode:
-			appItem.extConfig?.conversation?.openingStatement?.displayMode || null,
+			appItem.extConfig?.conversation?.openingStatement?.displayMode || undefined,
 	}
 }
 

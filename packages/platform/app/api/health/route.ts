@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server'
 
-import { prisma } from '@/lib/prisma'
+import { checkDatabaseConnection } from '@/lib/typeorm.config'
 
 export async function GET() {
 	try {
 		// 检查数据库连接
-		await prisma.$queryRaw`SELECT 1`
+		const isConnected = await checkDatabaseConnection()
+
+		if (!isConnected) {
+			throw new Error('Database connection failed')
+		}
 
 		return NextResponse.json({
 			status: 'ok',

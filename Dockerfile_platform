@@ -2,8 +2,7 @@
 FROM node:22.5.1-alpine AS builder
 WORKDIR /app
 
-# 复制 Prisma schema
-COPY packages/platform/prisma ./packages/platform/prisma/
+# 复制 package.json 文件
 COPY packages/platform/package.json ./packages/platform/
 COPY packages/api/package.json ./packages/api/
 COPY packages/components/package.json ./packages/components/
@@ -31,8 +30,6 @@ RUN pnpm build:pkgs
 # 构建 platform
 RUN pnpm --filter dify-chat-platform build
 
-RUN pnpm --filter dify-chat-platform exec prisma generate
-
 FROM node:22.5.1-alpine AS runner
 
 WORKDIR /app
@@ -41,14 +38,18 @@ WORKDIR /app
 COPY --from=builder /app/packages/platform/.next/standalone ./
 COPY --from=builder /app/packages/platform/.next/static ./packages/platform/.next/static
 COPY --from=builder /app/packages/platform/public ./packages/platform/public
-# 复制 Prisma 生成的客户端文件（必需）
-COPY --from=builder /app/packages/platform/prisma/generated ./packages/platform/prisma/generated
-# 复制数据库文件（SQLite 模式下必需）
-COPY --from=builder /app/packages/platform/prisma/dev.db ./packages/platform/prisma/dev.db
+
+# 复制迁移相关文件
+COPY --from=builder /app/packages/platform/src/migrations ./packages/platform/src/migrations
+COPY --from=builder /app/packages/platform/lib/typeorm.config.ts ./packages/platform/lib/typeorm.config.ts
+
+# 安装 TypeORM CLI（运行时需要）
+RUN npm install -g typeorm@0.3.27
 
 ENV NODE_ENV=production
 ENV PORT=5300
 
 EXPOSE 5300
 
-CMD ["node", "packages/platform/server.js"]
+# 启动时先运行迁移，然后启动应用
+CMD ["sh", "-c", "cd packages/platform && npx typeorm migration:run -d lib/typeorm.config.ts && cd /app && node packages/platform/server.js"]

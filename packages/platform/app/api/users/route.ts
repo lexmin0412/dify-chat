@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth/next'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { getRepository } from '@/lib/typeorm'
+import { User } from '@/entities/User'
 
 // 获取用户列表
 export async function GET() {
@@ -14,7 +15,8 @@ export async function GET() {
 			return NextResponse.json({ message: '未授权' }, { status: 401 })
 		}
 
-		const users = await prisma.user.findMany({
+		const userRepo = await getRepository(User)
+		const users = await userRepo.find({
 			select: {
 				id: true,
 				name: true,
@@ -22,8 +24,8 @@ export async function GET() {
 				createdAt: true,
 				updatedAt: true,
 			},
-			orderBy: {
-				createdAt: 'desc',
+			order: {
+				createdAt: 'DESC',
 			},
 		})
 
@@ -49,8 +51,10 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({ message: '姓名、邮箱和密码都是必填项' }, { status: 400 })
 		}
 
+		const userRepo = await getRepository(User)
+
 		// 检查邮箱是否已存在
-		const existingUser = await prisma.user.findUnique({
+		const existingUser = await userRepo.findOne({
 			where: { email },
 		})
 
@@ -62,22 +66,16 @@ export async function POST(request: NextRequest) {
 		const hashedPassword = await bcrypt.hash(password, 12)
 
 		// 创建用户
-		const user = await prisma.user.create({
-			data: {
-				name,
-				email,
-				password: hashedPassword,
-			},
-			select: {
-				id: true,
-				name: true,
-				email: true,
-				createdAt: true,
-				updatedAt: true,
-			},
+		const user = await userRepo.save({
+			name,
+			email,
+			password: hashedPassword,
 		})
 
-		return NextResponse.json(user, { status: 201 })
+		// 返回用户信息（不包含密码）
+		const { password: _password, ...userWithoutPassword } = user
+
+		return NextResponse.json(userWithoutPassword, { status: 201 })
 	} catch (error) {
 		console.error('创建用户失败:', error)
 		return NextResponse.json({ message: '服务器错误' }, { status: 500 })

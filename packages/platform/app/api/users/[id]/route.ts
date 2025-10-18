@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth/next'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { getRepository } from '@/lib/typeorm'
+import { User } from '@/entities/User'
 
 interface RouteParams {
 	params: Promise<{
@@ -27,8 +28,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 			return NextResponse.json({ message: '姓名和邮箱都是必填项' }, { status: 400 })
 		}
 
+		const userRepo = await getRepository(User)
+
 		// 检查用户是否存在
-		const existingUser = await prisma.user.findUnique({
+		const existingUser = await userRepo.findOne({
 			where: { id },
 		})
 
@@ -37,7 +40,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 		}
 
 		// 检查邮箱是否被其他用户使用
-		const emailUser = await prisma.user.findUnique({
+		const emailUser = await userRepo.findOne({
 			where: { email },
 		})
 
@@ -46,10 +49,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 		}
 
 		// 准备更新数据
-		const updateData = {
+		const updateData: Partial<User> = {
 			name,
 			email,
-			password: '',
 		}
 
 		// 如果提供了密码，则更新密码
@@ -58,9 +60,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 		}
 
 		// 更新用户
-		const user = await prisma.user.update({
+		await userRepo.update(id, updateData)
+
+		// 获取更新后的用户信息
+		const updatedUser = await userRepo.findOne({
 			where: { id },
-			data: updateData,
 			select: {
 				id: true,
 				name: true,
@@ -70,7 +74,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 			},
 		})
 
-		return NextResponse.json(user)
+		return NextResponse.json(updatedUser)
 	} catch (error) {
 		console.error('更新用户失败:', error)
 		return NextResponse.json({ message: '服务器错误' }, { status: 500 })
@@ -93,8 +97,10 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
 			return NextResponse.json({ message: '不能删除自己的账户' }, { status: 400 })
 		}
 
+		const userRepo = await getRepository(User)
+
 		// 检查用户是否存在
-		const existingUser = await prisma.user.findUnique({
+		const existingUser = await userRepo.findOne({
 			where: { id },
 		})
 
@@ -102,10 +108,8 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
 			return NextResponse.json({ message: '用户不存在' }, { status: 404 })
 		}
 
-		// 直接删除用户（不再需要删除相关的会话和账户）
-		await prisma.user.delete({
-			where: { id },
-		})
+		// 删除用户
+		await userRepo.delete(id)
 
 		return NextResponse.json({ message: '删除成功' })
 	} catch (error) {

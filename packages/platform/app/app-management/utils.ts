@@ -7,11 +7,7 @@ import { IDifyAppItem } from '@/types'
  */
 export const maskApiKey4AppConfig = async (app: IDifyAppItem) => {
 	const { requestConfig, ...rest } = app
-	const {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		apiKey,
-		...restRequestConfig
-	} = requestConfig || {}
+	const { apiKey: _apiKey, ...restRequestConfig } = requestConfig || {}
 	return {
 		...rest,
 		requestConfig: {

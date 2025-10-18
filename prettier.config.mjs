@@ -32,5 +32,12 @@ export default {
 				useTabs: false,
 			},
 		},
+		// 支持 ts 装饰器语法
+		{
+			files: ['*.ts', '*.tsx'],
+			options: {
+				parser: 'babel-ts',
+			},
+		},
 	],
 }

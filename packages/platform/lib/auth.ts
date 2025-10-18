@@ -1,12 +1,10 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
 import bcrypt from 'bcryptjs'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-import { prisma } from './prisma'
+import { getRepository } from './typeorm'
+import { User } from '@/entities/User'
 
 export const authOptions = {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	adapter: PrismaAdapter(prisma as any),
 	providers: [
 		CredentialsProvider({
 			name: 'credentials',
@@ -19,7 +17,8 @@ export const authOptions = {
 					return null
 				}
 
-				const user = await prisma.user.findUnique({
+				const userRepo = await getRepository(User)
+				const user = await userRepo.findOne({
 					where: {
 						email: credentials.email,
 					},

@@ -1,11 +1,13 @@
 'use client'
 
 import { Alert, Button, Form, Input, message, Typography } from 'antd'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function InitPage() {
 	const router = useRouter()
+	const { data: session, status } = useSession()
 	const [loading, setLoading] = useState(false)
 	const [initialized, setInitialized] = useState<boolean | null>(null)
 
@@ -16,16 +18,25 @@ export default function InitPage() {
 				const data = await res.json()
 				setInitialized(!!data.initialized)
 				if (data.initialized) {
-					message.info('系统已初始化，正在跳转到登录页')
-					router.replace('/login')
+					// 系统已初始化，根据登录状态进行跳转
+					if (status === 'authenticated' && session) {
+						router.replace('/')
+					} else if (status === 'unauthenticated') {
+						router.replace('/login')
+					}
+					// 如果 status 是 'loading'，则等待认证状态确定
 				}
 			} catch (e) {
 				console.error('初始化状态检查失败:', e)
 				message.error('初始化状态检查失败')
 			}
 		}
-		checkStatus()
-	}, [router])
+
+		// 只有当认证状态不是 loading 时才检查初始化状态
+		if (status !== 'loading') {
+			checkStatus()
+		}
+	}, [router, session, status])
 
 	const onFinish = async (values: {
 		name: string
@@ -60,22 +71,39 @@ export default function InitPage() {
 		}
 	}
 
+	// 如果正在加载认证状态或初始化状态，显示加载中
+	if (status === 'loading' || initialized === null) {
+		return (
+			<div className="flex min-h-screen items-center justify-center">
+				<div className="text-lg">检查系统状态中...</div>
+			</div>
+		)
+	}
+
+	// 如果系统已初始化，不渲染表单（会在 useEffect 中处理跳转）
+	if (initialized === true) {
+		return (
+			<div className="flex min-h-screen items-center justify-center">
+				<div className="text-lg">系统已初始化，正在跳转...</div>
+			</div>
+		)
+	}
+
+	// 只有在系统未初始化时才渲染初始化表单
 	return (
-		<div className="min-h-screen flex items-center justify-center p-6">
-			<div className="max-w-md w-full bg-white shadow rounded p-6">
+		<div className="flex min-h-screen items-center justify-center p-6">
+			<div className="w-full max-w-md rounded bg-white p-6 shadow">
 				<Typography.Title level={3}>系统初始化</Typography.Title>
 				<Typography.Paragraph>
 					首次使用，请创建管理员账户。初始化完成后将跳转至登录页。
 				</Typography.Paragraph>
 
-				{initialized === false && (
-					<Alert
-						type="info"
-						showIcon
-						message="系统未初始化，请创建管理员账户"
-						className="mb-4"
-					/>
-				)}
+				<Alert
+					type="info"
+					showIcon
+					message="系统未初始化，请创建管理员账户"
+					className="mb-4"
+				/>
 
 				<Form
 					layout="vertical"
