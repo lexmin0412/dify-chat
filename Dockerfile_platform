@@ -27,8 +27,10 @@ COPY tsconfig.prod.json ./
 
 # 构建子包
 RUN pnpm build:pkgs
-# 构建 platform
+# 构建 platform（Next.js）
 RUN pnpm --filter dify-chat-platform build
+# 编译 TypeORM（配置/实体/迁移）为 JS
+RUN pnpm --filter dify-chat-platform build:orm
 
 FROM node:22.5.1-alpine AS runner
 
@@ -39,17 +41,19 @@ COPY --from=builder /app/packages/platform/.next/standalone ./
 COPY --from=builder /app/packages/platform/.next/static ./packages/platform/.next/static
 COPY --from=builder /app/packages/platform/public ./packages/platform/public
 
-# 复制迁移相关文件
-COPY --from=builder /app/packages/platform/migrations ./packages/platform/migrations
-COPY --from=builder /app/packages/platform/lib/typeorm.config.ts ./packages/platform/lib/typeorm.config.ts
+# 复制编译后的 TypeORM 配置/实体/迁移（运行所需）
+COPY --from=builder /app/packages/platform/dist-orm ./packages/platform/dist-orm
+# 运行时通过 --env-file 注入环境变量，CLI 将从 process.env 读取
 
-# 安装 TypeORM CLI 和 ts-node（运行时需要）
-RUN npm install -g typeorm@0.3.27 ts-node@10.9.2
+# 全局安装 TypeORM CLI；将运行时依赖安装到 /deps 以避开 workspace 影响
+RUN npm install -g typeorm@0.3.27
+RUN npm install --omit=dev --no-audit --no-fund --prefix /deps typeorm@0.3.27 mysql2@3.15.2 reflect-metadata@0.2.0 dotenv@16.4.5
 
+ENV NODE_PATH=/deps/node_modules
 ENV NODE_ENV=production
 ENV PORT=5300
 
 EXPOSE 5300
 
-# 启动时先运行迁移，然后启动应用
-CMD ["sh", "-c", "cd packages/platform && npx typeorm-ts-node-commonjs migration:run -d lib/typeorm.config.ts && cd /app && node packages/platform/server.js"]
+# 启动时先运行迁移（使用已编译 JS 配置），然后启动应用（Next standalone）
+CMD ["sh", "-c", "cd packages/platform && RUN_MIGRATIONS=true npx typeorm migration:run -d dist-orm/lib/typeorm.cli.config.js && cd /app && node packages/platform/server.js"]

@@ -1,6 +1,9 @@
 import 'reflect-metadata'
+import path from 'node:path'
 import { DataSource } from 'typeorm'
 import type { DataSourceOptions } from 'typeorm'
+import { User } from '@/entities/User'
+import { DifyApp } from '@/entities/DifyApp'
 
 // 数据库类型枚举
 export const DatabaseType = {
@@ -11,7 +14,7 @@ export const DatabaseType = {
 
 // 获取数据库类型
 function getDatabaseType(): (typeof DatabaseType)[keyof typeof DatabaseType] {
-	const dbUrl = process.env.DATABASE_URL || ''
+	const dbUrl = (process.env.DATABASE_URL || '').trim().replace(/^['"]|['"]$/g, '')
 
 	if (dbUrl.startsWith('file:') || dbUrl.includes('sqlite')) {
 		return DatabaseType.SQLITE
@@ -30,13 +33,18 @@ function getDatabaseType(): (typeof DatabaseType)[keyof typeof DatabaseType] {
 // 根据数据库类型创建配置
 function createDataSourceOptions(): DataSourceOptions {
 	const dbType = getDatabaseType()
-	const dbUrl = process.env.DATABASE_URL || 'file:./data/dev.db'
+	const dbUrl = (process.env.DATABASE_URL || 'file:./data/dev.db')
+		.trim()
+		.replace(/^['"]|['"]$/g, '')
+	const isRunMigrations = process.env.RUN_MIGRATIONS === 'true'
 
 	const baseOptions = {
-		entities: ['../entities/*.ts'], // 使用 glob 模式而不是直接导入
-		synchronize: process.env.NODE_ENV === 'development', // 仅在开发环境启用自动同步
+		entities: isRunMigrations ? [path.join(__dirname, '../entities/*.js')] : [User, DifyApp],
+		synchronize: process.env.NODE_ENV === 'development',
 		logging: process.env.NODE_ENV === 'development',
-		migrations: ['migrations/*.ts'],
+		migrations: isRunMigrations
+			? [path.join(__dirname, '../migrations/*.js')]
+			: ['migrations/*.ts'],
 		migrationsTableName: 'typeorm_migrations',
 	}
 

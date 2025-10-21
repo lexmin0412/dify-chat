@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
+		"build:orm": "tsc -p tsconfig.orm.json",
 		"start": "next start",
 		"lint": "next lint",
 		"db:init": "tsx scripts/init-db.ts"
@@ -36,6 +37,7 @@
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"reflect-metadata": "^0.2.2",
+		"dotenv": "^16.4.5",
 		"sqlite3": "^5.1.7",
 		"tailwind-merge": "catalog:",
 		"typeorm": "^0.3.27",
