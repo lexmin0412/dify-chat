@@ -6,7 +6,7 @@ import { message } from 'antd';
 import { DebugMode, Header } from '@/components';
 
 // 导入类型定义
-import { App, FilterParams } from './types';
+import { App, AppMarketFilterParams as FilterParams } from './types';
 
 // 导入服务模块
 import { appMarketService } from './services';
@@ -45,38 +45,35 @@ export default function AppMarketsPage() {
 
   // 筛选应用列表
   const filteredApps = (Array.isArray(apps) ? apps : []).filter(app => {
-    if (!app.info) return false;
+    if (!app.tags) return false;
     
     // 标签筛选
-    const tagMatch = filterParams.selectedTags.length === 0 || 
-      filterParams.selectedTags.some(tag => app.info.tags?.includes(tag));
+    const tagMatch = filterParams.selectedTags?.length === 0 || 
+      filterParams.selectedTags?.some(tag => app.tags.includes(tag));
     
     // 搜索筛选
     const searchMatch = !filterParams.searchTerm || 
-      app.info.name.toLowerCase().includes(filterParams.searchTerm.toLowerCase()) ||
-      app.info.description.toLowerCase().includes(filterParams.searchTerm.toLowerCase()) ||
-      app.info.creator.toLowerCase().includes(filterParams.searchTerm.toLowerCase());
+      app.name.toLowerCase().includes(filterParams.searchTerm.toLowerCase()) ||
+      app.description.toLowerCase().includes(filterParams.searchTerm.toLowerCase()) ||
+      app.creator.toLowerCase().includes(filterParams.searchTerm.toLowerCase());
       
     return tagMatch && searchMatch;
   });
 
   // 排序应用列表
   const sortedApps = filteredApps?.sort((a, b) => {
-    // 确保应用信息存在
-    if (!a.info || !b.info) return 0;
-
     switch (filterParams.sortBy) {
       case 'usageCount':
         // 最多使用：按使用人数从高到低排序
-        return b.info.usageCount - a.info.usageCount;
+        return b.usageCount - a.usageCount;
       case 'conversationCount':
         // 最多对话：按对话次数从高到低排序
-        return b.info.conversationCount - a.info.conversationCount;
+        return b.conversationCount - a.conversationCount;
       case 'comprehensive':
       default:
         // 综合排序：使用加权算法，使用人数权重0.6，对话次数权重0.4
-        const scoreA = a.info.usageCount * 0.6 + a.info.conversationCount * 0.4;
-        const scoreB = b.info.usageCount * 0.6 + b.info.conversationCount * 0.4;
+        const scoreA = a.usageCount * 0.6 + a.conversationCount * 0.4;
+        const scoreB = b.usageCount * 0.6 + b.conversationCount * 0.4;
         return scoreB - scoreA;
     }
   });

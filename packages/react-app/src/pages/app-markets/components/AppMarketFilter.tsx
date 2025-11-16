@@ -1,11 +1,11 @@
 import { Button, Input, Select } from 'antd';
 import { TagOutlined } from '@ant-design/icons';
-import { FilterParams, TagCategory, SortByType } from '../types';
+import { AppMarketFilterParams, TagCategory, SortByType } from '../types';
 
 interface AppMarketFilterProps {
-  filterParams: FilterParams;
-  tagCategories: TagCategory;
-  onFilterChange: (newParams: Partial<FilterParams>) => void;
+  filterParams: AppMarketFilterParams;
+  tagCategories: TagCategory[];
+  onFilterChange: (newParams: Partial<AppMarketFilterParams>) => void;
 }
 
 const { Option } = Select;
@@ -71,9 +71,9 @@ const AppMarketFilter = ({
               value={selectedTags}
               onChange={handleTagSelect}
             >
-              {Object.entries(tagCategories).map(([category, tags]) => (
+              {tagCategories.map(({ name, tags }) => (
                 <>
-                  <Option key={`${category}-disabled`} disabled>{category}</Option>
+                  <Option key={`${name}-disabled`} disabled>{name}</Option>
                   {tags.map(tag => (
                     <Option key={tag} value={tag}>
                       {tag}

@@ -10,10 +10,10 @@ interface AppCardProps {
 
 const AppCard = ({ app }: AppCardProps) => {
   const history = useHistory();
-  const { id, info } = app;
+  const { id, name, description, creator, tags, usageCount, conversationCount } = app;
   
   // 处理应用信息缺失的情况
-  if (!info) {
+  if (!name) {
     return (
       <div className="relative group p-3 bg-theme-btn-bg border border-solid border-theme-border rounded-2xl cursor-pointer hover:border-primary hover:text-primary">
         应用信息缺失，请检查
@@ -21,7 +21,6 @@ const AppCard = ({ app }: AppCardProps) => {
     );
   }
 
-  const { name, description, creator, tags, usageCount, conversationCount } = info;
   const hasTags = tags?.length;
 
   return (
