@@ -333,11 +333,7 @@ export default function AppMarketsPage() {
                         key={item.id}
                         className={`relative p-4 bg-[#1e1e1e] border border-[#333] rounded-lg hover:border-blue-500 transition-all duration-200`}
                       >
-                        <div
-                          // onClick={() => {
-                          //   history.push(`/app/${item.id}`)
-                          // }}
-                        >
+                        <div>
                           <div className="flex items-center overflow-hidden mb-3">
                             <div className="h-12 w-12 bg-blue-500/10 border border-blue-500/30 rounded-lg flex items-center justify-center">
                               <LucideIcon
