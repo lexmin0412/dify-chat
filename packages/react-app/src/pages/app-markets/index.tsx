@@ -7,14 +7,32 @@ import { useHistory } from 'pure-react-router'
 
 import { DebugMode, Header, LucideIcon } from '@/components'
 import appService from '@/services/app'
+import { AppModeEnums } from '@dify-chat/core'
+
+
+
+interface AppInfos{
+  name: string,
+  mode: AppModeEnums,
+  description: string,
+  tags: string[],
+  creator: string,
+  usageCount: number,
+  conversationCount: number
+}
+interface Apps{
+  id: string,
+  info: AppInfos;
+}
+
 
 // Mock数据
-const mockApps = [
+const mockApps: Apps[] = [
   {
     id: '1',
     info: {
       name: '智能问答助手',
-      mode: 'chat',
+      mode: AppModeEnums.CHATBOT,
       description: '一个基于AI的智能问答助手，可以回答各种问题。',
       tags: ['问答', '智能', 'AI'],
       creator: 'Dify团队',
@@ -26,7 +44,7 @@ const mockApps = [
     id: '2',
     info: {
       name: '代码生成器',
-      mode: 'chat',
+      mode: AppModeEnums.CHATBOT,
       description: '根据需求自动生成代码，提高开发效率。',
       tags: ['代码', '开发', '工具'],
       creator: '开发者社区',
@@ -38,7 +56,7 @@ const mockApps = [
     id: '3',
     info: {
       name: '文案助手',
-      mode: 'chat',
+      mode: AppModeEnums.CHATBOT,
       description: '帮助你撰写各种文案，包括广告、邮件等。',
       tags: ['文案', '写作', '营销'],
       creator: '营销团队',
@@ -50,7 +68,7 @@ const mockApps = [
     id: '4',
     info: {
       name: '数据分析工具',
-      mode: 'workflow',
+      mode: AppModeEnums.WORKFLOW,
       description: '帮助你分析数据，生成图表和报告。',
       tags: ['数据', '分析', '图表'],
       creator: '数据团队',
@@ -62,7 +80,7 @@ const mockApps = [
     id: '5',
     info: {
       name: '语言翻译器',
-      mode: 'chat',
+      mode: AppModeEnums.CHATBOT,
       description: '支持多种语言的翻译工具。',
       tags: ['翻译', '语言', '工具'],
       creator: '国际化团队',
@@ -74,7 +92,7 @@ const mockApps = [
     id: '6',
     info: {
       name: '创意生成器',
-      mode: 'chat',
+      mode: AppModeEnums.CHATBOT,  
       description: '帮助你生成各种创意和想法。',
       tags: ['创意', '想法', '灵感'],
       creator: '设计团队',
@@ -103,11 +121,11 @@ export default function AppMarketsPage() {
   const [sortBy, setSortBy] = useState<'comprehensive' | 'usageCount' | 'conversationCount'>('comprehensive')
 
   // 使用mock数据，添加加载状态、错误处理、超时和重试功能
-  const { data: list, loading, error, run, retry } = useRequest(() => {
+  const { data: list, loading, error } = useRequest<Apps[], any[]>(() => {
     // 模拟API请求延迟
     return new Promise((resolve, reject) => {
       // 添加随机失败概率（10%）用于测试错误处理
-      const isFailed = Math.random() < 0.1;
+      const isFailed = Math.random() < 0.4;
       
       setTimeout(() => {
         if (isFailed) {
@@ -118,7 +136,7 @@ export default function AppMarketsPage() {
       }, 800); // 延长延迟时间以便更好地展示加载状态
     })
   }, {
-    timeout: 5000, // 设置5秒超时
+    retryInterval: 1000, // 重试间隔1秒
     retryCount: 1, // 自动重试1次
     onError: (err) => {
       console.error('应用市场数据获取失败:', err);
@@ -135,7 +153,7 @@ export default function AppMarketsPage() {
   // 手动重试函数
   const handleRetry = () => {
     console.log('用户手动触发数据重试');
-    retry();
+    // retry();
   }
 
   // 搜索处理
@@ -313,7 +331,7 @@ export default function AppMarketsPage() {
                     >
                       <div
                         key={item.id}
-                        className={`relative p-4 bg-[#1e1e1e] border border-[#333] rounded-lg cursor-pointer hover:border-blue-500 transition-all duration-200`}
+                        className={`relative p-4 bg-[#1e1e1e] border border-[#333] rounded-lg hover:border-blue-500 transition-all duration-200`}
                       >
                         <div
                           // onClick={() => {
@@ -354,7 +372,7 @@ export default function AppMarketsPage() {
                           <TagOutlined className="mr-2" />
                           {hasTags ? (
                             item.info.tags.map(tag => (
-                              <Tag key={tag} size="small" className="bg-gray-700/50 text-gray-300 border-0 px-2 py-0.5 rounded-full">
+                              <Tag key={tag} className="bg-gray-700/50 text-gray-300 border-0 px-2 py-0.5 rounded-full text-xs">
                                 #{tag}
                               </Tag>
                             ))

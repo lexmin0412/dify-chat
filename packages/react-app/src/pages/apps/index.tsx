@@ -11,9 +11,29 @@ import { DebugMode, Header, LucideIcon } from '@/components'
 import appService from '@/services/app'
 
 
+export interface Workspace {
+  id: string;
+  name: string;
+  description: string;
+  memberCount: number;
+}
+
+export interface ApplicationInfo {
+  name: string;
+  description: string;
+  mode: 'chat' | 'workflow';
+  tags: string[];
+}
+
+export interface Application {
+  id: string;
+  workspaceId: string;
+  info: ApplicationInfo;
+}
+
 const { Sider, Content } = Layout
 // Mock data for workspaces
-const mockWorkspaces = [
+const mockWorkspaces: Workspace[] = [
 	{ id: 'workspace-1', name: '个人工作空间', description: '个人使用的工作空间', memberCount: 1 },
 	{ id: 'workspace-2', name: '项目团队', description: '团队协作项目空间', memberCount: 5 },
 	{ id: 'workspace-3', name: '开发测试', description: '开发测试专用空间', memberCount: 3 },
@@ -21,7 +41,7 @@ const mockWorkspaces = [
 ]
 
 // Mock data for applications
-const mockApplications = [
+const mockApplications: Application[] = [
 	{
 		id: 'app-1',
 		workspaceId: 'workspace-1',
@@ -93,10 +113,10 @@ export default function AppListPage() {
 	const [isWorkspaceManagement, setIsWorkspaceManagement] = useState<boolean>(false)
 
 	// Fetch workspaces (simulated with mock data)
-	useRequest(
+	useRequest<Workspace[], Workspace[]>(
 		() => {
 			// Simulate API call delay
-			return new Promise(resolve => {
+			return new Promise<Workspace[]>((resolve) => {
 				setWorkspacesLoading(true)
 				setTimeout(() => {
 					setWorkspacesLoading(false)
@@ -112,10 +132,10 @@ export default function AppListPage() {
 	)
 
 	// Fetch applications filtered by selected workspace
-	const { data: list, loading: appsLoading, error: appsError, refresh } = useRequest(
+	const { data: list, loading: appsLoading, error: appsError, refresh } = useRequest<Application[], Application[]>(
 		() => {
 			// Simulate API call delay
-			return new Promise(resolve => {
+			return new Promise<Application[]>((resolve) => {
 				setTimeout(() => {
 					// Filter apps by selected workspace
 					const filteredApps = mockApplications.filter(
@@ -126,7 +146,7 @@ export default function AppListPage() {
 			})
 		},
 		{
-			dependencies: [selectedWorkspaceId], // Refresh when workspace changes
+			ready: !!selectedWorkspaceId, // 当 workspace 变化时重新触发
 			onError: error => {
 				console.error('获取应用列表失败:', error)
 			},
@@ -302,7 +322,7 @@ export default function AppListPage() {
 									<Spin size="large" />
 									<p className="ml-2 text-theme-text">加载应用列表中...</p>
 								</div>
-							) : list?.length ? (
+							) : Array.isArray(list) && list.length ? (
 								<Row
 									gutter={[16, 16]}
 									className=""
@@ -362,7 +382,7 @@ export default function AppListPage() {
 																<TagOutlined className="mr-2" />
 																{
 																	item.info.tags.map(tag => (
-																		<Tag key={tag} size="small" className="bg-gray-700/50 text-gray-300 border-0 px-2 py-0.5 rounded-full">
+																		<Tag key={tag} className="bg-gray-700/50 text-gray-300 border-0 px-2 py-0.5 rounded-full text-xs">
 																			#{tag}
 																		</Tag>
 																	))
