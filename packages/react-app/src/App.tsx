@@ -7,8 +7,10 @@ import { BrowserRouter, type IRoute } from 'pure-react-router'
 import './App.css'
 import LayoutIndex from './layout'
 import AppListPage from './pages/apps'
+import AppMarketsPage from './pages/app-markets'
 import AuthPage from './pages/auth'
 import ChatPage from './pages/chat'
+import Workspaces from './pages/workspaces'
 
 // 初始化响应式配置
 initResponsiveConfig()
@@ -18,6 +20,8 @@ const routes: IRoute[] = [
 	{ path: '/chat', component: () => <ChatPage /> },
 	{ path: '/app/:appId', component: () => <ChatPage /> },
 	{ path: '/apps', component: () => <AppListPage /> },
+	{ path: '/app-markets', component: () => <AppMarketsPage /> },
+	{ path: '/workspaces/:workspaceId', component: () => <Workspaces /> },
 ]
 
 /**
