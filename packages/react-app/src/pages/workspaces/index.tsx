@@ -271,6 +271,23 @@ export default function Workspaces() {
             message.info('没有更多历史记录')
         }
     }
+    
+    // 监听浏览器历史记录变化，确保回退时侧边栏高亮正确选项
+    useEffect(() => {
+        const handlePopState = () => {
+            // 当发生回退操作时，确保侧边栏高亮"空间管理"选项
+            setIsWorkspaceManagement(true)
+            setSelectedWorkspaceId('')
+        }
+        
+        // 添加popstate事件监听器
+        window.addEventListener('popstate', handlePopState)
+        
+        // 组件卸载时移除监听器
+        return () => {
+            window.removeEventListener('popstate', handlePopState)
+        }
+    }, [])
 
     return (
         <div className="h-screen relative overflow-hidden flex flex-col bg-theme-bg w-full">

@@ -10,7 +10,7 @@ import AppListPage from './pages/apps'
 import AppMarketsPage from './pages/app-markets'
 import AuthPage from './pages/auth'
 import ChatPage from './pages/chat'
-import Workspaces from './pages/workspaces'
+// import Workspaces from './pages/workspaces'
 
 // 初始化响应式配置
 initResponsiveConfig()
@@ -21,7 +21,7 @@ const routes: IRoute[] = [
 	{ path: '/app/:appId', component: () => <ChatPage /> },
 	{ path: '/apps', component: () => <AppListPage /> },
 	{ path: '/app-markets', component: () => <AppMarketsPage /> },
-	{ path: '/workspaces/:workspaceId', component: () => <Workspaces /> },
+	// { path: '/workspaces/:workspaceId', component: () => <Workspaces /> },
 ]
 
 /**

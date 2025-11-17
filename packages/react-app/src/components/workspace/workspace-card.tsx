@@ -5,14 +5,19 @@ import { useHistory } from 'pure-react-router';
 
 interface WorkspaceCardProps {
   workspace: Workspace;
+  onEnterManagement?: (workspaceId: string) => void;
 }
 
-const WorkspaceCard = ({ workspace }: WorkspaceCardProps) => {
+const WorkspaceCard = ({ workspace, onEnterManagement }: WorkspaceCardProps) => {
   const history = useHistory();
 
   const handleEnterManagement = () => {
-    // Navigate to workspace management page
-    history.push(`/workspaces/${workspace.id}`);
+    if (onEnterManagement) {
+      onEnterManagement(workspace.id);
+    } else {
+      // Fallback to navigation if no callback provided
+      history.push(`/workspaces/${workspace.id}`);
+    }
   };
 
   return (

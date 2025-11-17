@@ -14,5 +14,5 @@ export { default as ParamsConfigEditor, type IParamItem } from './form/params-co
 export { default as Account } from './account'
 export { default as Header } from './head'
 export { default as WorkspaceNav } from './workspace/workspace-nav'
-export { default as WorkspaceManagementView } from './workspace/workspace-management-view'
+export { default as WorkspaceListView } from './workspace/workspace-list-view'
 export { default as WorkspaceCard } from './workspace/workspace-card'

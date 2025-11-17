@@ -4,21 +4,23 @@ import { useIsMobile } from '@dify-chat/helpers';
 import { Workspace } from '@/types';
 import WorkspaceCard from './workspace-card';
 
-interface WorkspaceManagementViewProps {
+interface WorkspaceListViewProps {
   workspaces: Workspace[];
   workspacesLoading: boolean;
   searchKeyword: string;
   onSearchChange: (keyword: string) => void;
   isMobile: boolean;
+  onEnterManagement?: (workspaceId: string) => void;
 }
 
-const WorkspaceManagementView = ({
+const WorkspaceListView = ({
   workspaces,
   workspacesLoading,
   searchKeyword,
   onSearchChange,
   isMobile,
-}: WorkspaceManagementViewProps) => {
+  onEnterManagement,
+}: WorkspaceListViewProps) => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(e.target.value);
@@ -72,7 +74,7 @@ const WorkspaceManagementView = ({
         <Row gutter={[16, 16]}>
           {filteredWorkspaces.map(workspace => (
             <Col span={isMobile ? 24 : 12} key={workspace.id}>
-              <WorkspaceCard workspace={workspace} />
+              <WorkspaceCard workspace={workspace} onEnterManagement={onEnterManagement} />
             </Col>
           ))}
         </Row>
@@ -81,4 +83,4 @@ const WorkspaceManagementView = ({
   );
 };
 
-export default WorkspaceManagementView;
+export default WorkspaceListView;
