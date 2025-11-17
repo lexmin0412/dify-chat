@@ -1,14 +1,14 @@
 import { Divider, Spin } from 'antd';
 import { LucideIcon } from '@/components';
-import { Workspace } from '../types';
+import { Workspace } from '@/types';
 
 interface WorkspaceNavProps {
   workspaces: Workspace[];
   selectedWorkspaceId: string;
   isWorkspaceManagement: boolean;
   workspacesLoading: boolean;
-  onWorkspaceSelect: (workspaceId: string) => void;
-  onManagementToggle: () => void;
+  onWorkspaceSelect?: (workspaceId: string) => void;
+  onManagementToggle?: () => void;
 }
 
 const WorkspaceNav = ({
@@ -35,7 +35,7 @@ const WorkspaceNav = ({
                 ? 'bg-primary text-white'
                 : 'hover:bg-theme-hover text-theme-text'
                 }`}
-              onClick={() => onWorkspaceSelect(workspace.id)}
+              onClick={() => onWorkspaceSelect?.(workspace.id)}
             >
               <LucideIcon
                 name="folder"

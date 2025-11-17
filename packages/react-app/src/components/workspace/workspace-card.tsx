@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { LucideIcon } from '@/components';
-import { Workspace } from '../types';
+import { Workspace } from '@/types';
 import { useHistory } from 'pure-react-router';
 
 interface WorkspaceCardProps {

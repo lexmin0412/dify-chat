@@ -3,12 +3,12 @@ import { Layout } from 'antd'
 
 import { Header, DebugMode } from '@/components'
 import { useIsMobile } from '@dify-chat/helpers'
+import { WorkspaceNav, WorkspaceManagementView, WorkspaceCard } from '@/components'
 
-import WorkspaceNav from './components/WorkspaceNav'
-import WorkspaceManagementView from './components/WorkspaceManagementView'
+import { workspaceService } from '@/services/workspace'
+import { applicationService } from '@/services/application'
+import { Workspace, Application as ApplicationType } from '@/types'
 import AppListView from './components/AppListView'
-import { workspaceService, applicationService } from './services'
-import { Workspace, Application as ApplicationType } from './types'
 
 
 

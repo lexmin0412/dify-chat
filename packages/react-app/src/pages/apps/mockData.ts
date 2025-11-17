@@ -1,4 +1,4 @@
-import { Workspace, Application } from './types';
+import { Workspace, Application } from '@/types';
 
 // Mock data for workspaces
 export const mockWorkspaces: Workspace[] = [

@@ -1,8 +1,8 @@
 import { TagOutlined } from '@ant-design/icons';
 import { Button, Input, Row, Col, Spin } from 'antd';
 import { useIsMobile } from '@dify-chat/helpers';
-import { Workspace } from '../types';
-import WorkspaceCard from './WorkspaceCard';
+import { Workspace } from '@/types';
+import WorkspaceCard from './workspace-card';
 
 interface WorkspaceManagementViewProps {
   workspaces: Workspace[];
