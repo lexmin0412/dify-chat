@@ -1,4 +1,5 @@
-import { Col, Row, Spin, Empty, Alert } from 'antd';
+import { Col, Row, Spin, Empty, Alert, Button, Input } from 'antd';
+import { TagOutlined } from '@ant-design/icons';
 import { useIsMobile } from '@dify-chat/helpers';
 import { IApplication } from '@/types';
 import AppCard from './app-card';
@@ -14,6 +15,12 @@ const AppListView = ({ workspaceId }: AppListViewProps) => {
   const [applications, setApplications] = useState<IApplication[]>([]);
   const [applicationsLoading, setApplicationsLoading] = useState<boolean>(false);
   const [applicationsError, setApplicationsError] = useState<Error | undefined>();
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+  };
 
   useEffect(() => {
     if (workspaceId) {
@@ -81,13 +88,45 @@ const AppListView = ({ workspaceId }: AppListViewProps) => {
   }
 
   return (
-    <Row gutter={[16, 16]}>
-      {applications.map(item => (
-        <Col key={item.id} span={isMobile ? 24 : 6}>
-          <AppCard application={item} />
-        </Col>
-      ))}
-    </Row>
+    <div className="">
+      <div className="flex flex-wrap gap-2 mb-4 justify-end">
+        <Button type="primary" size="middle">
+          + 创建空间
+        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="default"
+            className={`px-4 py-1 rounded-full ${searchKeyword === '' ? 'bg-primary text-white' : ''}`}
+          // onClick={() => onSearchChange('')}
+          >
+            全部空间
+          </Button>
+          <Button
+            type="default"
+            className={`px-4 py-1 rounded-full ${searchKeyword === '我创建的' ? 'bg-primary text-white' : ''}`}
+          // onClick={() => onSearchChange('我创建的')}
+          >
+            我创建的
+          </Button>
+        </div>
+        <Input
+          placeholder="搜索空间名称"
+          value={searchKeyword}
+          size="small"
+          onChange={handleSearchChange}
+          prefix={<TagOutlined />}
+          allowClear
+          className="max-w-sm"
+        />
+      </div>
+      <Row gutter={[16, 16]}>
+        {applications.map(item => (
+          <Col key={item.id} span={isMobile ? 24 : 6}>
+            <AppCard application={item} />
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
 
