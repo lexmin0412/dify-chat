@@ -1,15 +1,15 @@
-import { Workspace, Application } from '@/types';
+import { Workspace, IApplication } from '@/types';
 
 // Mock data for workspaces
 export const mockWorkspaces: Workspace[] = [
-	{ id: 'workspace-1', name: '个人工作空间', description: '个人使用的工作空间', memberCount: 1 },
+	{ id: 'workspace-1', name: '默认空间', description: '个人使用的工作空间', memberCount: 1 },
 	{ id: 'workspace-2', name: '项目团队', description: '团队协作项目空间', memberCount: 5 },
 	{ id: 'workspace-3', name: '开发测试', description: '开发测试专用空间', memberCount: 3 },
 	{ id: 'workspace-4', name: '客户演示', description: '客户演示用工作空间', memberCount: 2 },
 ];
 
 // Mock data for applications
-export const mockApplications: Application[] = [
+export const mockApplications: IApplication[] = [
 	{
 		id: 'app-1',
 		workspaceId: 'workspace-1',

@@ -2,11 +2,11 @@ import { TagOutlined } from '@ant-design/icons';
 import { AppModeLabels } from '@dify-chat/core';
 import { Tag } from 'antd';
 import { LucideIcon } from '@/components';
-import { Application } from '../types';
+import { IApplication } from '@/types';
 import { useHistory } from 'pure-react-router';
 
 interface AppCardProps {
-  application: Application;
+  application: IApplication;
 }
 
 const AppCard = ({ application }: AppCardProps) => {

@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Layout, Tabs, Button, message } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { Workspace } from '@/types';
-import MembersTab from './MembersTab';
-import SpacesTab from './SpacesTab';
+import MembersTab from './members-tab';
+import SpacesTab from './space-tab';
 import { workspaceService } from '@/services/workspace';
+
 
 const { Content } = Layout;
 

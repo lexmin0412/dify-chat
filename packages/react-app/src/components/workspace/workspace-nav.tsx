@@ -5,19 +5,19 @@ import { Workspace } from '@/types';
 interface WorkspaceNavProps {
   workspaces: Workspace[];
   selectedWorkspaceId: string;
-  isWorkspaceManagement: boolean;
+  // isWorkspaceManagement: boolean;
   workspacesLoading: boolean;
   onWorkspaceSelect?: (workspaceId: string) => void;
-  onManagementToggle?: () => void;
+  // onManagementToggle?: () => void;
 }
 
 const WorkspaceNav = ({
   workspaces,
   selectedWorkspaceId,
-  isWorkspaceManagement,
+  // isWorkspaceManagement,
   workspacesLoading,
   onWorkspaceSelect,
-  onManagementToggle,
+  // onManagementToggle,
 }: WorkspaceNavProps) => {
   return (
     <div className="p-4">
@@ -31,7 +31,7 @@ const WorkspaceNav = ({
           {workspaces.map(workspace => (
             <div
               key={workspace.id}
-              className={`flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${selectedWorkspaceId === workspace.id && !isWorkspaceManagement
+              className={`flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${selectedWorkspaceId === workspace.id
                 ? 'bg-primary text-white'
                 : 'hover:bg-theme-hover text-theme-text'
                 }`}
@@ -45,7 +45,7 @@ const WorkspaceNav = ({
               <span className="truncate">{workspace.name}</span>
             </div>
           ))}
-          <Divider size="small" />
+          {/* <Divider size="small" />
           <div
             key="create_workspace"
             className={`flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${isWorkspaceManagement
@@ -60,7 +60,7 @@ const WorkspaceNav = ({
               className="mr-2"
             />
             <span className="truncate">空间管理</span>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

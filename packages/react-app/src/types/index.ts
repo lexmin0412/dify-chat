@@ -60,7 +60,7 @@ export interface Workspace {
 }
 
 // 应用信息接口定义
-export interface ApplicationInfo {
+export interface IApplicationInfo {
 	name: string;
 	description: string;
 	mode: 'chat' | 'workflow';
@@ -68,14 +68,14 @@ export interface ApplicationInfo {
 }
 
 // 应用接口定义
-export interface Application {
+export interface IApplication {
 	id: string;
 	workspaceId: string;
-	info: ApplicationInfo;
+	info: IApplicationInfo;
 }
 
 // 应用市场应用接口
-export interface App {
+export interface IApp {
 	id: string;
 	name: string;
 	description: string;
