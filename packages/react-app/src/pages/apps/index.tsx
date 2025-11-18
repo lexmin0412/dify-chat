@@ -6,6 +6,8 @@ import { Header, DebugMode, WorkspaceNav } from '@/components'
 import { workspaceService } from '@/services/workspace'
 import { Workspace } from '@/types'
 import AppListView from './components/app-list-view'
+import { BrowserRouter, type IRoute, Route } from 'pure-react-router'
+import { WorkspaceSettingView } from '@/components'
 
 const { Sider, Content } = Layout
 
@@ -14,6 +16,19 @@ export default function AppListPage() {
 	const [workspaces, setWorkspaces] = useState<Workspace[]>([])
 	const [workspacesLoading, setWorkspacesLoading] = useState<boolean>(false)
 	// const [collapsed, setCollapsed] = useState(false)
+
+
+	const routes: IRoute[] = [
+		{
+			path: '/setting',
+			component: () => <WorkspaceSettingView workspaceId={selectedWorkspaceId} />,
+		},
+		{
+			path: '/:id',
+			component: () => <AppListView workspaceId={selectedWorkspaceId} />,
+		},
+	]
+
 
 	useEffect(() => {
 		setWorkspacesLoading(true)
@@ -35,9 +50,9 @@ export default function AppListPage() {
 				<Sider
 					width={240}
 					className="bg-theme-bg border-r border-theme-border hidden md:block"
-					// collapsible
-					// collapsed={collapsed}
-					// onCollapse={(value) => setCollapsed(value)}
+				// collapsible
+				// collapsed={collapsed}
+				// onCollapse={(value) => setCollapsed(value)}
 				>
 					<WorkspaceNav
 						workspaces={workspaces}
@@ -50,7 +65,10 @@ export default function AppListPage() {
 
 				{/* Main Content Area */}
 				<Content className="bg-theme-main-bg rounded-t-3xl p-6 overflow-y-auto">
-					{selectedWorkspaceId && <AppListView workspaceId={selectedWorkspaceId} />}
+					{/* {selectedWorkspaceId && <AppListView workspaceId={selectedWorkspaceId} />} */}
+					<BrowserRouter routes={routes} basename='/apps'>
+						<Route />
+					</BrowserRouter>
 				</Content>
 			</Layout>
 			<DebugMode />

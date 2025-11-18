@@ -1,4 +1,4 @@
-import { Workspace, IApplication } from '@/types';
+import { Workspace, IApplication, IUser } from '@/types';
 
 // Mock data for workspaces
 export const mockWorkspaces: Workspace[] = [
@@ -71,3 +71,36 @@ export const mockApplications: IApplication[] = [
 		},
 	},
 ];
+
+export const mockUser: IUser[] = [
+      {
+        id: '1',
+        username: 'admin',
+		workspaceId: 'workspace-1',
+        phone: '13800138000',
+        email: 'admin@example.com',
+        avatar: '',
+        role: 'owner',
+        joinTime: '2024-01-01 10:00:00'
+      },
+      {
+        id: '2',
+        username: 'user1',
+		workspaceId: 'workspace-2',
+        phone: '13800138001',
+        email: 'user1@example.com',
+        avatar: '',
+        role: 'member',
+        joinTime: '2024-01-02 14:30:00'
+      },
+      {
+        id: '3',
+        username: 'user2',
+		workspaceId: 'workspace-3',
+        phone: '13800138002',
+        email: 'user2@example.com',
+        avatar: '',
+        role: 'member',
+        joinTime: '2024-01-03 09:15:00'
+      }
+]

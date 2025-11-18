@@ -94,23 +94,26 @@ const AppListView = ({ workspaceId }: AppListViewProps) => {
           + 创建空间
         </Button>
         <div className="flex gap-2">
-          <Button
+          <Button type="primary" size="middle">
+            空间管理
+          </Button>
+          {/* <Button
             type="default"
             className={`px-4 py-1 rounded-full ${searchKeyword === '' ? 'bg-primary text-white' : ''}`}
           // onClick={() => onSearchChange('')}
           >
-            全部空间
-          </Button>
-          <Button
+            空间管理
+          </Button> */}
+          {/* <Button
             type="default"
             className={`px-4 py-1 rounded-full ${searchKeyword === '我创建的' ? 'bg-primary text-white' : ''}`}
           // onClick={() => onSearchChange('我创建的')}
           >
             我创建的
-          </Button>
+          </Button> */}
         </div>
         <Input
-          placeholder="搜索空间名称"
+          placeholder="搜索应用"
           value={searchKeyword}
           size="small"
           onChange={handleSearchChange}

@@ -1,24 +1,17 @@
 import { Table, Button, Modal, Form, Input, message } from 'antd';
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { IUser } from '@/types';
 
 // 定义用户接口
-interface User {
-  id: string;
-  username: string;
-  phone: string;
-  email: string;
-  avatar?: string;
-  role: 'owner' | 'member' | 'admin';
-  joinTime: string;
-}
 
 interface MembersTabProps {
-  users: User[];
-  onAddMember: (user: User) => void;
+  users: IUser[];
+  onAddMember: (user: IUser) => void;
+  workspaceId: string;
 }
 
-export default function MembersTab({ users, onAddMember }: MembersTabProps) {
+export default function MembersTab({ users, onAddMember, workspaceId }: MembersTabProps) {
   // 模态框状态
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState<boolean>(false);
   
@@ -41,9 +34,10 @@ export default function MembersTab({ users, onAddMember }: MembersTabProps) {
     addMemberForm.validateFields()
       .then(values => {
         // 创建新用户
-        const newUser: User = {
+        const newUser: IUser = {
           id: Date.now().toString(),
           username: values.username,
+          workspaceId: '',
           phone: values.phone,
           email: values.email,
           avatar: '',

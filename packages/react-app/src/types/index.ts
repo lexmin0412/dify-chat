@@ -100,3 +100,15 @@ export interface AppMarketFilterParams {
 	selectedTags?: string[];
 	sortBy?: SortByType;
 }
+
+
+export interface IUser {
+	id: string;
+	username: string;
+	workspaceId: string;
+	phone: string;
+	email: string;
+	avatar: string;
+	role: 'owner' | 'member';
+	joinTime: string;
+}
