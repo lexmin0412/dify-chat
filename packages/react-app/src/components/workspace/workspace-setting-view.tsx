@@ -7,14 +7,6 @@ import SpacesTab from './space-tab';
 import { workspaceService } from '@/services/workspace';
 import { userService } from '@/services/user';
 
-
-
-// 定义空间接口扩展
-interface Space extends Workspace {
-  createdAt: string;
-  updatedAt: string;
-}
-
 interface WorkspaceManagementViewProps {
   workspaceId: string;
 }
@@ -76,15 +68,9 @@ export default function WorkspaceSettingView({ workspaceId }: WorkspaceManagemen
   // };
 
   // // 回退按钮处理函数
-  // const handleGoBack = () => {
-  //   if (onBack) {
-  //     onBack();
-  //   } else if (window.history.length > 1) {
-  //     window.history.back();
-  //   } else {
-  //     message.info('没有更多历史记录');
-  //   }
-  // };
+  const handleGoBack = () => {
+    window.history.back();
+  };
 
   return (
     <div className="workspace-management-view">
@@ -93,7 +79,7 @@ export default function WorkspaceSettingView({ workspaceId }: WorkspaceManagemen
         <div className="flex items-center">
           <Button 
             type="text" 
-            // onClick={handleGoBack}
+            onClick={handleGoBack}
             icon={<LeftOutlined />}
             className="mr-2"
           >

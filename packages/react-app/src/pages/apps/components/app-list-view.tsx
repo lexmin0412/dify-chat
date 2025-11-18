@@ -5,6 +5,7 @@ import { IApplication } from '@/types';
 import AppCard from './app-card';
 import { useState, useEffect } from 'react';
 import { applicationService } from '@/services/application';
+import { useHistory } from 'pure-react-router';
 
 interface AppListViewProps {
   workspaceId: string;
@@ -15,11 +16,15 @@ const AppListView = ({ workspaceId }: AppListViewProps) => {
   const [applications, setApplications] = useState<IApplication[]>([]);
   const [applicationsLoading, setApplicationsLoading] = useState<boolean>(false);
   const [applicationsError, setApplicationsError] = useState<Error | undefined>();
-  const [activeTab, setActiveTab] = useState('all');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const history = useHistory()
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
+  };
+
+  const handleWorkspaceSettingClick = () => {
+    history.push(`/setting`);
   };
 
   useEffect(() => {
@@ -94,7 +99,7 @@ const AppListView = ({ workspaceId }: AppListViewProps) => {
           + 创建空间
         </Button>
         <div className="flex gap-2">
-          <Button type="primary" size="middle">
+          <Button type="primary" size="middle" onClick={handleWorkspaceSettingClick}>
             空间管理
           </Button>
           {/* <Button

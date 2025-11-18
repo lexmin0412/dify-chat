@@ -24,7 +24,7 @@ export default function AppListPage() {
 			component: () => <WorkspaceSettingView workspaceId={selectedWorkspaceId} />,
 		},
 		{
-			path: '/:id',
+			path: '/',
 			component: () => <AppListView workspaceId={selectedWorkspaceId} />,
 		},
 	]
@@ -50,16 +50,16 @@ export default function AppListPage() {
 				<Sider
 					width={240}
 					className="bg-theme-bg border-r border-theme-border hidden md:block"
-				// collapsible
-				// collapsed={collapsed}
-				// onCollapse={(value) => setCollapsed(value)}
+					// collapsible
+					// collapsed={collapsed}
+					// onCollapse={(value) => setCollapsed(value)}
 				>
 					<WorkspaceNav
 						workspaces={workspaces}
 						selectedWorkspaceId={selectedWorkspaceId}
 						workspacesLoading={workspacesLoading}
 						onWorkspaceSelect={handleWorkspaceSelect}
-					// onManagementToggle={handleWorkspaceManagementEnter}
+						// onManagementToggle={handleWorkspaceManagementEnter}
 					/>
 				</Sider>
 
@@ -67,8 +67,14 @@ export default function AppListPage() {
 				<Content className="bg-theme-main-bg rounded-t-3xl p-6 overflow-y-auto">
 					{/* {selectedWorkspaceId && <AppListView workspaceId={selectedWorkspaceId} />} */}
 					<BrowserRouter routes={routes} basename='/apps'>
-						<Route />
-					</BrowserRouter>
+				<Route />
+			</BrowserRouter>
+				{/* <Router>
+					<Route path="/setting" component={WorkspaceSettingView } />
+					<Route path="about" component={About} />
+					</Route>
+					</Route>
+				</Router> */}
 				</Content>
 			</Layout>
 			<DebugMode />
