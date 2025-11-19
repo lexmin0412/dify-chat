@@ -1,5 +1,5 @@
 import { IUser } from '../types';
-import { mockUser } from '@/pages/apps/mockData';
+import { mockUser } from '@/pages/workspaces/mockData';
 
 // 用户服务
 export const userService = {

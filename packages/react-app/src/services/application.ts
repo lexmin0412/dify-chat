@@ -1,5 +1,5 @@
 import { IApplication, IApp } from '../types';
-import { mockApplications } from '@/pages/apps/mockData';
+import { mockApplications } from '@/pages/workspaces/mockData';
 
 // 应用服务
 export const applicationService = {

@@ -1,5 +1,5 @@
 import { Workspace } from '../types';
-import { mockWorkspaces } from '@/pages/apps/mockData';
+import { mockWorkspaces } from '@/pages/workspaces/mockData';
 
 // 工作空间服务
 export const workspaceService = {
