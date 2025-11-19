@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Layout, Tabs, Button, message } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
+import { LeftOutlined, SettingOutlined } from '@ant-design/icons';
 import { Workspace, IUser } from '@/types';
 import MembersTab from './members-tab';
 import SpacesTab from './space-tab';
@@ -85,7 +85,16 @@ export default function WorkspaceSettingView({ workspaceId }: WorkspaceManagemen
           >
             返回
           </Button>
-          <h2 className="text-xl font-bold">空间管理</h2>
+        </div>
+        <div className="flex justify-end items-center">
+          <Button 
+            type="text" 
+            // onClick={handleGoBack}
+            icon={<SettingOutlined />}
+            className="mr-2"
+          >
+            设置
+          </Button>
         </div>
       </div>
       

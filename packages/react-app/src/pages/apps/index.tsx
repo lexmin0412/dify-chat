@@ -15,19 +15,25 @@ export default function AppListPage() {
 	const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>('workspace-1')
 	const [workspaces, setWorkspaces] = useState<Workspace[]>([])
 	const [workspacesLoading, setWorkspacesLoading] = useState<boolean>(false)
+    const [isWorkspaceSettingVisible, setIsWorkspaceSettingVisible] = useState<boolean>(false)
+
+    const handleWorkspaceSettingClick = () => {
+        setIsWorkspaceSettingVisible(true)
+    }
+
 	// const [collapsed, setCollapsed] = useState(false)
 
 
-	const routes: IRoute[] = [
-		{
-			path: '/setting',
-			component: () => <WorkspaceSettingView workspaceId={selectedWorkspaceId} />,
-		},
-		{
-			path: '/',
-			component: () => <AppListView workspaceId={selectedWorkspaceId} />,
-		},
-	]
+	// const routes: IRoute[] = [
+	// 	{
+	// 		path: '/setting',
+	// 		component: () => <WorkspaceSettingView workspaceId={selectedWorkspaceId} />,
+	// 	},
+	// 	{
+	// 		path: '/',
+	// 		component: () => <AppListView workspaceId={selectedWorkspaceId} />,
+	// 	},
+	// ]
 
 
 	useEffect(() => {
@@ -65,16 +71,8 @@ export default function AppListPage() {
 
 				{/* Main Content Area */}
 				<Content className="bg-theme-main-bg rounded-t-3xl p-6 overflow-y-auto">
-					{/* {selectedWorkspaceId && <AppListView workspaceId={selectedWorkspaceId} />} */}
-					<BrowserRouter routes={routes} basename='/apps'>
-				<Route />
-			</BrowserRouter>
-				{/* <Router>
-					<Route path="/setting" component={WorkspaceSettingView } />
-					<Route path="about" component={About} />
-					</Route>
-					</Route>
-				</Router> */}
+					{selectedWorkspaceId && !isWorkspaceSettingVisible && <AppListView workspaceId={selectedWorkspaceId} handleWorkspaceSettingClick={handleWorkspaceSettingClick} />}
+                    {selectedWorkspaceId && isWorkspaceSettingVisible && <WorkspaceSettingView workspaceId={selectedWorkspaceId} />}
 				</Content>
 			</Layout>
 			<DebugMode />
