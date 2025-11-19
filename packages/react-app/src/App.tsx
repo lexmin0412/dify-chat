@@ -21,7 +21,7 @@ const routes: IRoute[] = [
 	{ path: '/app/:appId', component: () => <ChatPage /> },
 	// { path: '/apps', component: () => <AppListPage /> },
 	{ path: '/app-markets', component: () => <AppMarketsPage /> },
-	{ path: '/workspaces/:workspaceId', component: () => <WorkspacePage /> },
+	{ path: '/workspace/:workspaceId', component: () => <WorkspacePage /> },
 ]
 
 /**

@@ -36,7 +36,7 @@ export default function AppMarketsPage() {
     retryCount: 1,
     onError: (err) => {
       console.error('应用市场数据获取失败:', err);
-      message.error('获取应用市场数据失败，请稍后重试');
+      // message.error('获取应用市场数据失败，请稍后重试');
     },
     onSuccess: () => {
       console.log('应用市场数据获取成功');

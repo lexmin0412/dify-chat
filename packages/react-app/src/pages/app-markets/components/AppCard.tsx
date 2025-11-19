@@ -81,7 +81,7 @@ const AppCard = ({ app }: AppCardProps) => {
       handleCloseModal();
       
       // 导航到工作空间界面并高亮显示
-      history.push(`/workspaces/${selectedWorkspace.id}?highlight=true`);
+      history.push(`/workspace/${selectedWorkspace.id}`);
       
       // 延迟一下让页面加载完成，然后高亮显示
       setTimeout(() => {

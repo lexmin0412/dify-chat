@@ -18,9 +18,7 @@ export default function WorkspacePage() {
 	const [workspacesLoading, setWorkspacesLoading] = useState<boolean>(false)
     const [isWorkspaceSettingVisible, setIsWorkspaceSettingVisible] = useState<boolean>(false)
 
-	const params = useParams()
-	// const workspaceId = params.get('workspaceId') || 'workspace-1'
-	// setSelectedWorkspaceId(workspaceId)
+	const { workspaceId: paramsWorkspaceId } = useParams<{ workspaceId: string }>()
 
     const handleWorkspaceSettingClick = () => {
         setIsWorkspaceSettingVisible(true)
@@ -32,17 +30,25 @@ export default function WorkspacePage() {
 
 	// const [collapsed, setCollapsed] = useState(false)
 
-	useEffect(() => {
+	// useEffect(() => {
+	// 	setWorkspacesLoading(true)
+	// 	workspaceService.getWorkspaces().then((res) => {
+	// 		setWorkspaces(res || [])
+	// 		setWorkspacesLoading(false)
+	// 	})
+	// }, [])
+
+	useMount(() => {
 		setWorkspacesLoading(true)
 		workspaceService.getWorkspaces().then((res) => {
 			setWorkspaces(res || [])
 			setWorkspacesLoading(false)
 		})
-	}, [])
-
-	useMount(() => {
-		const workspaceId = params.get('workspaceId') || 'workspace-1'
-		setSelectedWorkspaceId(workspaceId)		
+		if (paramsWorkspaceId) {
+			setSelectedWorkspaceId(paramsWorkspaceId)
+		} else {
+			setSelectedWorkspaceId(workspaces[0]?.id || 'workspace-1')
+		}
 	})
 
 	const handleWorkspaceSelect = (workspaceId: string) => {

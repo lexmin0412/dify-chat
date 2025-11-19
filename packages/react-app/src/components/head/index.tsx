@@ -19,7 +19,7 @@ export default function Header() {
                         />
                         应用市场
                     </div>
-                    <div className="flex items-center cursor-pointer hover:border-blue-500 transition-all duration-200" onClick={() => history.push('/apps')}>
+                    <div className="flex items-center cursor-pointer hover:border-blue-500 transition-all duration-200" onClick={() => history.push('/workspace/workspace-1')}>
                         <LucideIcon
                             name="layout-grid"
                             size={16}
