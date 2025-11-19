@@ -4,6 +4,7 @@ import { LeftOutlined, SettingOutlined } from '@ant-design/icons';
 import { Workspace, IUser } from '@/types';
 import MembersTab from './members-tab';
 import SpacesTab from './space-tab';
+import AppTab from './app-tab';
 import { workspaceService } from '@/services/workspace';
 import { userService } from '@/services/user';
 
@@ -90,7 +91,7 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
         <div className="flex justify-end items-center">
           <Button 
             type="text" 
-            // onClick={handleGoBack}
+            onClick={handleGoBack}
             icon={<SettingOutlined />}
             className="mr-2"
           >
@@ -110,13 +111,11 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
           />
         </Tabs.TabPane>
         
-        {/* 空间管理标签 */}
-        <Tabs.TabPane tab="空间管理" key="spaces">
-          {/* <SpacesTab 
-            spaces={spaces} 
-            onEditSpace={handleEditSpace} 
-            onDeleteSpace={handleDeleteSpace} 
-          /> */}
+        {/* 应用管理标签 */}
+        <Tabs.TabPane tab="应用管理" key="apps">
+          <AppTab 
+            workspaceId={workspaceId}
+          />
         </Tabs.TabPane>
       </Tabs>
     </div>

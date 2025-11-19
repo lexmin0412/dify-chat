@@ -37,7 +37,7 @@ export default function MembersTab({ users, onAddMember, workspaceId }: MembersT
         const newUser: IUser = {
           id: Date.now().toString(),
           username: values.username,
-          workspaceId: '',
+          workspaceId: workspaceId,
           phone: values.phone,
           email: values.email,
           avatar: '',

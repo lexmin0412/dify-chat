@@ -93,20 +93,6 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
           <Button type="primary" size="middle" onClick={handleWorkspaceSettingClick}>
             空间管理
           </Button>
-          {/* <Button
-            type="default"
-            className={`px-4 py-1 rounded-full ${searchKeyword === '' ? 'bg-primary text-white' : ''}`}
-          // onClick={() => onSearchChange('')}
-          >
-            空间管理
-          </Button> */}
-          {/* <Button
-            type="default"
-            className={`px-4 py-1 rounded-full ${searchKeyword === '我创建的' ? 'bg-primary text-white' : ''}`}
-          // onClick={() => onSearchChange('我创建的')}
-          >
-            我创建的
-          </Button> */}
         </div>
         <Input
           placeholder="搜索应用"

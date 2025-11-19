@@ -4,6 +4,7 @@ import { User,  Settings, Info, Github, BookOpen, Map, ExternalLink } from 'luci
 import { useHistory } from 'pure-react-router'
 import { useGlobalStore } from '@/store'
 import { useAuth } from '@/hooks/use-auth'
+import { UserOutlined } from '@ant-design/icons'
 
 // Mock user profile data
 const mockUserProfile = {
@@ -31,16 +32,16 @@ export default function Account() {
 //   }
 
   const menuItems: MenuProps['items'] = [
-    {
-      key: 'profile',
-      label: (
-        <div className="flex items-center gap-2 px-2 py-1">
-          <User size={16} />
-          <span>Profile</span>
-        </div>
-      ),
-      onClick: () => history.push('/account'),
-    },
+    // {
+    //   key: 'profile',
+    //   label: (
+    //     <div className="flex items-center gap-2 px-2 py-1">
+    //       <User size={16} />
+    //       <span>Profile</span>
+    //     </div>
+    //   ),
+    //   onClick: () => history.push('/account'),
+    // },
     {
       key: 'settings',
       label: (
@@ -89,6 +90,7 @@ export default function Account() {
   return (
     <Dropdown
       menu={{ items: menuItems }}
+    //   image={<UserOutlined />}
       trigger={['click']}
       placement="bottomRight"
       overlayStyle={{ width: 200 }}
@@ -102,7 +104,8 @@ export default function Account() {
       </Tooltip> */}
         <Button
           type="text"
-          icon={<Avatar size={24} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} />}
+        //   icon={<Avatar size={24} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} />}
+          icon={<UserOutlined />}
           className="p-1"
         />
     </Dropdown>

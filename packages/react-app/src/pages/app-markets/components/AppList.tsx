@@ -1,5 +1,5 @@
-import { Spin, Empty, Result, Button } from 'antd';
-import { ReloadOutlined, DatabaseOutlined } from '@ant-design/icons';
+import { Empty, Result, Button } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import AppCard from './AppCard';
 import { App } from '../types';
 
