@@ -3,9 +3,8 @@ import { TagOutlined } from '@ant-design/icons';
 import { useIsMobile } from '@dify-chat/helpers';
 import { IApplication } from '@/types';
 import AppCard from './app-card';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { applicationService } from '@/services/application';
-import { useHistory } from 'pure-react-router';
 
 interface AppListViewProps {
   workspaceId: string;
@@ -19,45 +18,39 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
   const [applicationsError, setApplicationsError] = useState<Error | undefined>();
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
-  };
+  }, []);
 
 //   const handleWorkspaceSettingClick = () => {
 //     history.push(`/setting`);
 //   };
 
+  const fetchApplications = useCallback(async (workspaceId: string) => {
+    setApplicationsLoading(true);
+    setApplicationsError(undefined);
+    
+    try {
+      const res = await applicationService.getApplicationsByWorkspaceId(workspaceId);
+      setApplications(res || []);
+    } catch (error) {
+      setApplicationsError(error as Error);
+    } finally {
+      setApplicationsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (workspaceId) {
-      setApplicationsLoading(true)
-      setApplicationsError(undefined)
-      applicationService.getApplicationsByWorkspaceId(workspaceId)
-        .then((res) => {
-          setApplications(res || [])
-          setApplicationsLoading(false)
-        })
-        .catch((error) => {
-          setApplicationsError(error)
-          setApplicationsLoading(false)
-        })
+      fetchApplications(workspaceId);
     }
-  }, [workspaceId])
+  }, [workspaceId, fetchApplications]);
 
-  const onRefresh = () => {
+  const onRefresh = useCallback(() => {
     if (workspaceId) {
-      setApplicationsLoading(true)
-      setApplicationsError(undefined)
-      applicationService.getApplicationsByWorkspaceId(workspaceId)
-        .then((res) => {
-          setApplications(res || [])
-          setApplicationsLoading(false)
-        })
-        .catch((error) => {
-          setApplicationsError(error)
-          setApplicationsLoading(false)
-        })
+      fetchApplications(workspaceId);
     }
-  }
+  }, [workspaceId, fetchApplications]);
 
   if (applicationsError) {
     return (

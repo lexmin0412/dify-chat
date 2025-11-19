@@ -21,19 +21,11 @@ export default function AppListPage() {
         setIsWorkspaceSettingVisible(true)
     }
 
+    const handleGoBack = () => {
+        setIsWorkspaceSettingVisible(false)
+    }
+
 	// const [collapsed, setCollapsed] = useState(false)
-
-
-	// const routes: IRoute[] = [
-	// 	{
-	// 		path: '/setting',
-	// 		component: () => <WorkspaceSettingView workspaceId={selectedWorkspaceId} />,
-	// 	},
-	// 	{
-	// 		path: '/',
-	// 		component: () => <AppListView workspaceId={selectedWorkspaceId} />,
-	// 	},
-	// ]
 
 
 	useEffect(() => {
@@ -72,7 +64,7 @@ export default function AppListPage() {
 				{/* Main Content Area */}
 				<Content className="bg-theme-main-bg rounded-t-3xl p-6 overflow-y-auto">
 					{selectedWorkspaceId && !isWorkspaceSettingVisible && <AppListView workspaceId={selectedWorkspaceId} handleWorkspaceSettingClick={handleWorkspaceSettingClick} />}
-                    {selectedWorkspaceId && isWorkspaceSettingVisible && <WorkspaceSettingView workspaceId={selectedWorkspaceId} />}
+                    {selectedWorkspaceId && isWorkspaceSettingVisible && <WorkspaceSettingView workspaceId={selectedWorkspaceId} handleGoBack={handleGoBack} />}
 				</Content>
 			</Layout>
 			<DebugMode />

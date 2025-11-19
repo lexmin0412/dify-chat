@@ -9,9 +9,10 @@ import { userService } from '@/services/user';
 
 interface WorkspaceManagementViewProps {
   workspaceId: string;
+  handleGoBack: () => void;
 }
 
-export default function WorkspaceSettingView({ workspaceId }: WorkspaceManagementViewProps) {
+export default function WorkspaceSettingView({ workspaceId, handleGoBack }: WorkspaceManagementViewProps) {
   // 多标签状态
   const [activeTab, setActiveTab] = useState<string>('members');
   
@@ -68,9 +69,9 @@ export default function WorkspaceSettingView({ workspaceId }: WorkspaceManagemen
   // };
 
   // // 回退按钮处理函数
-  const handleGoBack = () => {
-    window.history.back();
-  };
+//   const handleGoBack = () => {
+//     window.history.back();
+//   };
 
   return (
     <div className="workspace-management-view">
