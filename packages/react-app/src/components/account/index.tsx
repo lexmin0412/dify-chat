@@ -62,26 +62,26 @@ export default function Account() {
       ),
       onClick: () => history.push('/about'),
     },
-    {
-      key: 'docs',
-      label: (
-        <div className="flex items-center gap-2 px-2 py-1">
-          <BookOpen size={16} />
-          <span>Documentation</span>
-        </div>
-      ),
-      onClick: () => window.open('https://docs.dify.ai', '_blank'),
-    },
-    {
-      key: 'github',
-      label: (
-        <div className="flex items-center gap-2 px-2 py-1">
-          <Github size={16} />
-          <span>GitHub</span>
-        </div>
-      ),
-      onClick: () => window.open('https://github.com/langgenius/dify', '_blank'),
-    },
+    // {
+    //   key: 'docs',
+    //   label: (
+    //     <div className="flex items-center gap-2 px-2 py-1">
+    //       <BookOpen size={16} />
+    //       <span>Documentation</span>
+    //     </div>
+    //   ),
+    //   onClick: () => window.open('https://docs.dify.ai', '_blank'),
+    // },
+    // {
+    //   key: 'github',
+    //   label: (
+    //     <div className="flex items-center gap-2 px-2 py-1">
+    //       <Github size={16} />
+    //       <span>GitHub</span>
+    //     </div>
+    //   ),
+    //   onClick: () => window.open('https://github.com/langgenius/dify', '_blank'),
+    // },
     {
       type: 'divider' as const,
     }
@@ -105,7 +105,8 @@ export default function Account() {
         <Button
           type="text"
         //   icon={<Avatar size={24} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} />}
-          icon={<UserOutlined />}
+          // icon={<UserOutlined />}
+          icon={<User size={24} />}
           className="p-1"
         />
     </Dropdown>

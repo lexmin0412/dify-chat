@@ -50,6 +50,24 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
     setUsers([...users, newUser]);
     message.success('成员添加成功');
   };
+  
+  // 编辑成员处理
+  const handleEditMember = (updatedUser: IUser) => {
+    // 更新用户列表
+    const updatedUsers = users.map(user => 
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUsers(updatedUsers);
+    message.success('成员信息更新成功');
+  };
+  
+  // 删除成员处理
+  const handleDeleteMember = (userId: string) => {
+    // 从用户列表中删除
+    const updatedUsers = users.filter(user => user.id !== userId);
+    setUsers(updatedUsers);
+    message.success('成员删除成功');
+  };
 
   // // 编辑空间处理
   // const handleEditSpace = (updatedSpace: Space) => {
@@ -91,7 +109,7 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
         <div className="flex justify-end items-center">
           <Button 
             type="text" 
-            onClick={handleGoBack}
+            // onClick={handleGoBack}
             icon={<SettingOutlined />}
             className="mr-2"
           >
@@ -108,6 +126,8 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
             workspaceId={workspaceId}
             users={users} 
             onAddMember={handleAddMember} 
+            onEditMember={handleEditMember}
+            onDeleteMember={handleDeleteMember}
           />
         </Tabs.TabPane>
         
