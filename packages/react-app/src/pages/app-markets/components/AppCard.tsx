@@ -67,8 +67,9 @@ const AppCard = ({ app }: AppCardProps) => {
       type="primary" 
       size="middle" 
       block 
-      style={{ height: '30px' }}
+      style={{ height: '32px' }}
       onClick={handleAddToWorkspace}
+      className='rounded-xl'
     >
       添加到工作空间
     </Button>

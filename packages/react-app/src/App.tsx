@@ -46,3 +46,8 @@ export default function App() {
 		</ConfigProvider>
 	)
 }
+
+
+// 练习tailwind css的网站及地址
+// https://play.tailwindcss.com/
+// https://www.creative-tim.com/twcomponents/cheatsheet/

@@ -1,5 +1,4 @@
 import { TagOutlined } from '@ant-design/icons';
-import { Tag } from 'antd';
 import { LucideIcon } from '@/components';
 import { IApp } from '@/types';
 
@@ -154,22 +153,6 @@ const BaseAppCard = ({
     'duration-200'
   ].join(' ');
 
-  // 图标容器统一样式
-  const iconContainerClasses = [
-    'h-12',
-    'w-12',
-    'bg-theme-icon-bg',
-    'border',
-    'border-solid',
-    'border-theme-border',
-    'rounded-lg',
-    'flex',
-    'items-center',
-    'justify-center'
-  ].join(' ');
-
-  // 图标统一样式
-  const iconClasses = 'text-xl text-theme-text';
 
   // 文本统一样式
   const textClasses = 'text-theme-text';
@@ -188,10 +171,9 @@ const BaseAppCard = ({
     >
       {/* 应用头部信息 */}
       <div className="flex items-center overflow-hidden mb-3">
-        <div className={iconContainerClasses}>
+        <div className="flex items-center justify-center h-12 w-12 bg-orange-200 border border-solid rounded-lg">
           <LucideIcon
             name="bot"
-            className={iconClasses}
           />
         </div>
         <div className="flex-1 overflow-hidden ml-3">
@@ -222,14 +204,9 @@ const BaseAppCard = ({
       {/* 应用标签 */}
       {hasTags && (
         <div className="flex flex-wrap gap-2 mt-2 mb-4">
-          <TagOutlined className="text-theme-desc" />
+          <TagOutlined />
           {appTags.map(tag => (
-            <Tag 
-              key={tag} 
-              className="bg-theme-tag-bg text-theme-tag-text border-theme-tag-border px-2 py-0.5 rounded-full text-xs"
-            >
-              #{tag}
-            </Tag>
+            <span key={tag} className='text-sm border border-solid rounded-lg px-2'>{tag}</span>
           ))}
         </div>
       )}
