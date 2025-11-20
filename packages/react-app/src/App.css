@@ -16,6 +16,10 @@
 	--theme-danger-color: #ff4d4f;
 	--theme-bubble-bg-color: #f2f4f7;
 	--theme-code-block-bg-color: #fff;
+	--theme-icon-bg-color: #f0f9ff;
+	--theme-tag-bg-color: #f1f5f9;
+	--theme-tag-text-color: #64748b;
+	--theme-tag-border-color: #e2e8f0;
 }
 
 /* 夜间模式类名 */
@@ -30,6 +34,10 @@
 	--theme-button-border-color: #c9c9c9;
 	--theme-bubble-bg-color: #424242;
 	--theme-code-block-bg-color: #222;
+	--theme-icon-bg-color: #1e3a8a;
+	--theme-tag-bg-color: #1e293b;
+	--theme-tag-text-color: #94a3b8;
+	--theme-tag-border-color: #334155;
 }
 
 .ant-collapse {

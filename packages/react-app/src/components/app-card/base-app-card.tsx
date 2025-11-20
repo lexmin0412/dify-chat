@@ -36,7 +36,7 @@ export interface BaseAppCardProps {
 /**
  * 判断是否为应用市场应用
  */
-function isMarketApp(app: IApp): app is IApp {
+function isMarketApp(app: IApp): app is IApp & { creator?: string; usageCount?: number; conversationCount?: number } {
   return 'creator' in app && 'usageCount' in app;
 }
 
@@ -71,15 +71,42 @@ function getAppTags(app: IApp): string[] {
 /**
  * 获取应用副标题信息
  */
-function getAppSubtitle(app: IApp): string {
-//   if (isMarketApp(app)) {
-//     return app.creator;
-//   }
-//   if (isWorkspaceApp(app)) {
-//     // 这里可以根据需要显示应用模式或其他信息
-//     return app.mode || 'unknown';
-//   }
+function getAppSubtitle(app: IApp, variant: AppCardVariant): string {
+  if (variant === 'market' && isMarketApp(app)) {
+    return app.creator || '未知创作者';
+  }
+  if (variant === 'workspace' && isWorkspaceApp(app)) {
+    return app.mode || 'unknown';
+  }
   return app.mode || 'unknown';
+}
+
+/**
+ * 渲染应用市场特有的元数据
+ */
+function renderMarketMetadata(app: IApp & { usageCount?: number; conversationCount?: number }): React.ReactNode {
+  const hasUsageData = app.usageCount !== undefined || app.conversationCount !== undefined;
+  
+  if (!hasUsageData) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center gap-4 text-xs mb-3">
+      {app.usageCount !== undefined && (
+        <div className="flex items-center gap-1">
+          <span className="text-theme-desc">使用次数:</span>
+          <span className="text-theme-text font-medium">{app.usageCount}</span>
+        </div>
+      )}
+      {app.conversationCount !== undefined && (
+        <div className="flex items-center gap-1">
+          <span className="text-theme-desc">对话次数:</span>
+          <span className="text-theme-text font-medium">{app.conversationCount}</span>
+        </div>
+      )}
+    </div>
+  );
 }
 
 /**
@@ -98,48 +125,64 @@ const BaseAppCard = ({
   const appName = getAppName(app);
   const appDescription = getAppDescription(app);
   const appTags = getAppTags(app);
-  const appSubtitle = getAppSubtitle(app);
+  const appSubtitle = getAppSubtitle(app, variant);
   const hasTags = appTags.length > 0;
 
   // 处理应用信息缺失的情况
   if (!appName) {
     return (
-      <div className={`relative group p-3 bg-theme-btn-bg border border-solid border-theme-border rounded-2xl cursor-pointer hover:border-primary hover:text-primary ${className}`}>
+      <div className={`relative group p-4 bg-theme-btn-bg border border-solid border-theme-border rounded-xl cursor-pointer hover:border-primary hover:text-primary transition-all duration-200 ${className}`}>
         应用信息缺失，请检查
       </div>
     );
   }
 
-  // 根据变体选择样式
-//   const isMarketVariant = variant === 'market';
-  const isMarketVariant = false;
-  const cardClasses = isMarketVariant
-    ? 'relative p-4 bg-[#1e1e1e] border border-[#333] rounded-lg hover:border-blue-500 transition-all duration-200'
-    : 'relative group p-3 bg-theme-btn-bg border border-solid border-theme-border rounded-2xl cursor-pointer hover:border-primary hover:text-primary';
+  // 统一的基础样式类
+  const baseCardClasses = [
+    'relative',
+    'group',
+    'p-4',
+    'bg-theme-btn-bg',
+    'border',
+    'border-solid',
+    'border-theme-border',
+    'rounded-xl',
+    'cursor-pointer',
+    'hover:border-primary',
+    'hover:shadow-sm',
+    'transition-all',
+    'duration-200'
+  ].join(' ');
 
-  const iconContainerClasses = isMarketVariant
-    ? 'h-12 w-12 bg-blue-500/10 border border-blue-500/30 rounded-lg flex items-center justify-center'
-    : 'h-10 w-10 bg-[#ffead5] dark:bg-transparent border border-solid border-transparent dark:border-theme-border rounded-lg flex items-center justify-center';
+  // 图标容器统一样式
+  const iconContainerClasses = [
+    'h-12',
+    'w-12',
+    'bg-theme-icon-bg',
+    'border',
+    'border-solid',
+    'border-theme-border',
+    'rounded-lg',
+    'flex',
+    'items-center',
+    'justify-center'
+  ].join(' ');
 
-  const iconClasses = isMarketVariant
-    ? 'text-xl text-blue-400'
-    : 'text-xl text-theme-text';
+  // 图标统一样式
+  const iconClasses = 'text-xl text-theme-text';
 
-  const textClasses = isMarketVariant
-    ? 'text-white'
-    : 'text-theme-text';
+  // 文本统一样式
+  const textClasses = 'text-theme-text';
 
-  const descClasses = isMarketVariant
-    ? 'text-gray-300'
-    : 'text-theme-desc';
+  // 描述统一样式
+  const descClasses = 'text-theme-desc';
 
-  const subtitleClasses = isMarketVariant
-    ? 'text-xs mt-1 text-gray-400'
-    : 'text-theme-desc text-xs mt-0.5';
+  // 副标题统一样式
+  const subtitleClasses = 'text-xs mt-1 text-theme-desc';
 
   return (
     <div 
-      className={`${cardClasses} ${className}`}
+      className={`${baseCardClasses} ${className}`}
       style={style}
       onClick={onCardClick}
     >
@@ -166,6 +209,9 @@ const BaseAppCard = ({
         {appDescription}
       </div>
 
+      {/* 内置元数据渲染（仅限市场应用） */}
+      {variant === 'market' && isMarketApp(app) && renderMarketMetadata(app)}
+
       {/* 自定义元数据渲染 */}
       {renderMetadata && (
         <div className="mb-3">
@@ -176,11 +222,11 @@ const BaseAppCard = ({
       {/* 应用标签 */}
       {hasTags && (
         <div className="flex flex-wrap gap-2 mt-2 mb-4">
-          <TagOutlined className="mr-2" />
+          <TagOutlined className="text-theme-desc" />
           {appTags.map(tag => (
             <Tag 
               key={tag} 
-              className="bg-gray-700/50 text-gray-300 border-0 px-2 py-0.5 rounded-full text-xs"
+              className="bg-theme-tag-bg text-theme-tag-text border-theme-tag-border px-2 py-0.5 rounded-full text-xs"
             >
               #{tag}
             </Tag>

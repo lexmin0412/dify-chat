@@ -14,6 +14,10 @@ export const colors = {
 	'theme-warning': 'var(--theme-warning-color)', // 警告色
 	'theme-danger': 'var(--theme-danger-color)', // 错误色
 	'theme-code-block-bg': 'var(--theme-code-block-bg-color)', // 代码块背景颜色
+	'theme-icon-bg': 'var(--theme-icon-bg-color)', // 图标背景颜色
+	'theme-tag-bg': 'var(--theme-tag-bg-color)', // 标签背景颜色
+	'theme-tag-text': 'var(--theme-tag-text-color)', // 标签文字颜色
+	'theme-tag-border': 'var(--theme-tag-border-color)', // 标签边框颜色
 	/**
 	 * 主色
 	 */

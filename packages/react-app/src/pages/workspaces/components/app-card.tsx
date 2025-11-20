@@ -27,8 +27,8 @@ const AppCard = ({ application }: AppCardProps) => {
 
   // 渲染元数据（应用模式）
   const renderMetadata = () => (
-    <div className="text-theme-desc text-xs mt-0.5">
-      {application.mode ? AppModeLabels[application.mode] : 'unknown'}
+    <div className="text-theme-desc text-xs">
+      模式: {application.mode ? AppModeLabels[application.mode] : 'unknown'}
     </div>
   );
 

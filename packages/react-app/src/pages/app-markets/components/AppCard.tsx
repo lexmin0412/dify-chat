@@ -1,5 +1,4 @@
 import { Button, message } from 'antd';
-import { UserOutlined, MessageOutlined, LikeOutlined } from '@ant-design/icons';
 import { useHistory } from 'pure-react-router';
 import { BaseAppCard } from '@/components';
 import { IApp, Workspace } from '@/types';
@@ -62,21 +61,6 @@ const AppCard = ({ app }: AppCardProps) => {
     }
   };
 
-  // 渲染元数据（使用次数和对话次数）
-  const renderMetadata = () => (
-    <div className="flex items-center text-xs text-gray-500 mb-3">
-      <div className="flex items-center mr-4">
-        <span><UserOutlined /> {app.usageCount}</span>
-      </div>
-      <div className="flex items-center mr-4">
-        <span><MessageOutlined /> {app.conversationCount}</span>
-      </div>
-      <div className="flex items-center mr-4">
-        <span><LikeOutlined /> {app.conversationCount}</span>
-      </div>
-    </div>
-  );
-
   // 渲染操作按钮
   const renderActions = () => (
     <Button 
@@ -95,7 +79,6 @@ const AppCard = ({ app }: AppCardProps) => {
       <BaseAppCard 
         app={app} 
         variant="market"
-        renderMetadata={renderMetadata}
         renderActions={renderActions}
       />
 
