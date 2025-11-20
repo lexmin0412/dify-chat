@@ -84,11 +84,11 @@ const AppCard = ({ app }: AppCardProps) => {
       history.push(`/workspace/${selectedWorkspace.id}`);
       
       // 延迟一下让页面加载完成，然后高亮显示
-      setTimeout(() => {
-        // 这里可以添加高亮逻辑，比如通过URL参数或状态管理
-        // 暂时通过控制台日志表示高亮
-        console.log(`高亮显示工作空间: ${selectedWorkspace.name}`);
-      }, 500);
+    //   setTimeout(() => {
+    //     // 这里可以添加高亮逻辑，比如通过URL参数或状态管理
+    //     // 暂时通过控制台日志表示高亮
+    //     console.log(`高亮显示工作空间: ${selectedWorkspace.name}`);
+    //   }, 500);
       
     } catch (error) {
       message.error('添加应用失败');
@@ -185,10 +185,10 @@ const AppCard = ({ app }: AppCardProps) => {
               dataSource={workspaces}
               renderItem={(workspace) => (
                 <List.Item
-                  className={`cursor-pointer rounded-lg mb-2 p-3 border ${
+                  className={`cursor-pointer rounded-lg mb-2 p-3 border transition-colors duration-200 ${
                     selectedWorkspace?.id === workspace.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900 dark:border-blue-700'
+                      : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
                   }`}
                   onClick={() => handleSelectWorkspace(workspace)}
                 >
@@ -200,19 +200,23 @@ const AppCard = ({ app }: AppCardProps) => {
                       />
                     }
                     title={
-                      <div className="font-semibold">
+                      <div className={`font-semibold ${
+                        selectedWorkspace?.id === workspace.id 
+                          ? 'text-blue-900 dark:text-white' // 关键修复：选中时文字颜色动态变化
+                          : ''
+                      }`}>
                         {workspace.name}
                         {selectedWorkspace?.id === workspace.id && (
-                          <span className="ml-2 text-blue-500 text-sm">✓ 已选择</span>
+                          <span className="ml-2 text-blue-500 dark:text-blue-300 text-sm">✓ 已选择</span>
                         )}
                       </div>
                     }
                     description={
                       <div>
-                        <div className="text-sm text-gray-600 mb-1">
+                        <div className="text-sm text-gray-600 dark:text-gray-300 mb-1">
                           {workspace.description}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
                           成员数量：{workspace.memberCount} 人
                         </div>
                       </div>
