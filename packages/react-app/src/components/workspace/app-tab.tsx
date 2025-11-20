@@ -1,7 +1,7 @@
 import { Table, Button, Modal, Form, Input, Select, Tag, message, Space } from 'antd';
 import { PlusOutlined, AppstoreOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
-import { IApplication, IApplicationInfo } from '@/types';
+import { IApp } from '@/types';
 import { applicationService } from '@/services/application';
 
 interface AppTabProps {
@@ -10,11 +10,11 @@ interface AppTabProps {
 
 export default function AppTab({ workspaceId }: AppTabProps) {
   // 状态管理
-  const [applications, setApplications] = useState<IApplication[]>([]);
+  const [applications, setApplications] = useState<IApp[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isAddAppModalVisible, setIsAddAppModalVisible] = useState<boolean>(false);
   const [isEditAppModalVisible, setIsEditAppModalVisible] = useState<boolean>(false);
-  const [editingApp, setEditingApp] = useState<IApplication | null>(null);
+  const [editingApp, setEditingApp] = useState<IApp | null>(null);
   const [searchText, setSearchText] = useState<string>('');
   const [filterMode, setFilterMode] = useState<string>('all');
   
@@ -51,13 +51,13 @@ export default function AppTab({ workspaceId }: AppTabProps) {
   };
 
   // 打开编辑应用模态框
-  const handleEditApp = (app: IApplication) => {
+  const handleEditApp = (app: IApp) => {
     setEditingApp(app);
     editAppForm.setFieldsValue({
-      name: app.info.name,
-      description: app.info.description,
-      mode: app.info.mode,
-      tags: app.info.tags
+      name: app.name,
+      description: app.description,
+      mode: app.mode,
+      tags: app.tags
     });
     setIsEditAppModalVisible(true);
   };
@@ -73,15 +73,13 @@ export default function AppTab({ workspaceId }: AppTabProps) {
   const handleSubmitAddApp = () => {
     addAppForm.validateFields()
       .then(values => {
-        const newApp: IApplication = {
+        const newApp: IApp = {
           id: `app-${Date.now()}`,
+          name: values.name,
+          description: values.description,
+          mode: values.mode,
+          tags: values.tags || [],
           workspaceId: workspaceId,
-          info: {
-            name: values.name,
-            description: values.description,
-            mode: values.mode,
-            tags: values.tags || []
-          }
         };
         
         // 模拟添加应用
@@ -107,12 +105,10 @@ export default function AppTab({ workspaceId }: AppTabProps) {
           app.id === editingApp.id 
             ? {
                 ...app,
-                info: {
-                  name: values.name,
-                  description: values.description,
-                  mode: values.mode,
-                  tags: values.tags || []
-                }
+                name: values.name,
+                description: values.description,
+                mode: values.mode,
+                tags: values.tags || []
               }
             : app
         );
@@ -147,11 +143,11 @@ export default function AppTab({ workspaceId }: AppTabProps) {
 
   // 过滤应用
   const filteredApplications = applications.filter(app => {
-    const matchesSearch = app.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                         app.info.description.toLowerCase().includes(searchText.toLowerCase()) ||
-                         app.info.tags.some(tag => tag.toLowerCase().includes(searchText.toLowerCase()));
+    const matchesSearch = app.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                         app.description.toLowerCase().includes(searchText.toLowerCase()) ||
+                         app.tags.some(tag => tag.toLowerCase().includes(searchText.toLowerCase()));
     
-    const matchesMode = filterMode === 'all' || app.info.mode === filterMode;
+    const matchesMode = filterMode === 'all' || app.mode === filterMode;
     
     return matchesSearch && matchesMode;
   });
@@ -160,7 +156,7 @@ export default function AppTab({ workspaceId }: AppTabProps) {
   const columns = [
     {
       title: '应用名称',
-      dataIndex: ['info', 'name'],
+      dataIndex: 'name',
       key: 'name',
       render: (text: string) => (
         <div className="flex items-center">
@@ -171,13 +167,13 @@ export default function AppTab({ workspaceId }: AppTabProps) {
     },
     {
       title: '描述',
-      dataIndex: ['info', 'description'],
+      dataIndex: 'description',
       key: 'description',
       ellipsis: true
     },
     {
       title: '模式',
-      dataIndex: ['info', 'mode'],
+      dataIndex: 'mode',
       key: 'mode',
       render: (mode: string) => {
         const modeConfig = {
@@ -190,12 +186,12 @@ export default function AppTab({ workspaceId }: AppTabProps) {
     },
     {
       title: '标签',
-      dataIndex: ['info', 'tags'],
+      dataIndex: 'tags',
       key: 'tags',
       render: (tags: string[]) => (
         <div className="flex flex-wrap gap-1">
           {tags.map((tag, index) => (
-            <Tag key={index} size="small">{tag}</Tag>
+            <Tag key={index}>{tag}</Tag>
           ))}
         </div>
       )
@@ -203,7 +199,7 @@ export default function AppTab({ workspaceId }: AppTabProps) {
     {
       title: '操作',
       key: 'actions',
-      render: (_, record: IApplication) => (
+      render: (_: any, record: IApp) => (
         <Space size="small">
           <Button 
             type="text" 

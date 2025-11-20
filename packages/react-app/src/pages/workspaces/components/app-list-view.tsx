@@ -1,7 +1,7 @@
-import { Col, Row, Spin, Empty, Alert, Button, Input } from 'antd';
+import { Button, Input } from 'antd';
 import { TagOutlined } from '@ant-design/icons';
-import { useIsMobile } from '@dify-chat/helpers';
-import { IApplication } from '@/types';
+import { BaseAppList } from '@/components';
+import { IApp } from '@/types';
 import AppCard from './app-card';
 import { useState, useEffect, useCallback } from 'react';
 import { applicationService } from '@/services/application';
@@ -12,8 +12,7 @@ interface AppListViewProps {
 }
 
 const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewProps) => {
-  const isMobile = useIsMobile();
-  const [applications, setApplications] = useState<IApplication[]>([]);
+  const [applications, setApplications] = useState<IApp[]>([]);
   const [applicationsLoading, setApplicationsLoading] = useState<boolean>(false);
   const [applicationsError, setApplicationsError] = useState<Error | undefined>();
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -21,10 +20,6 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
   }, []);
-
-//   const handleWorkspaceSettingClick = () => {
-//     history.push(`/setting`);
-//   };
 
   const fetchApplications = useCallback(async (workspaceId: string) => {
     setApplicationsLoading(true);
@@ -52,36 +47,12 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
     }
   }, [workspaceId, fetchApplications]);
 
-  if (applicationsError) {
-    return (
-      <div className="flex justify-center items-center h-48">
-        <Alert
-          message="获取应用列表失败"
-          description="请稍后重试"
-          type="error"
-          showIcon
-          action={<button onClick={onRefresh} className="text-primary hover:underline">重新加载</button>}
-        />
-      </div>
-    );
-  }
-
-  if (applicationsLoading) {
-    return (
-      <div className="flex justify-center items-center h-48">
-        <Spin size="large" />
-        <p className="ml-2 text-theme-text">加载应用列表中...</p>
-      </div>
-    );
-  }
-
-  if (!Array.isArray(applications) || !applications.length) {
-    return (
-      <div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
-        <Empty description="暂无应用" />
-      </div>
-    );
-  }
+  // 过滤应用
+  const filteredApplications = applications.filter(app => 
+    !searchKeyword || 
+    app.name?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+    app.description?.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
   return (
     <div className="">
@@ -105,13 +76,23 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
           style={{ width: 200 }}
         />
       </div>
-      <Row gutter={[16, 16]}>
-        {applications.map(item => (
-          <Col key={item.id} span={isMobile ? 24 : 6}>
-            <AppCard application={item} />
-          </Col>
-        ))}
-      </Row>
+      
+      <BaseAppList
+        apps={filteredApplications}
+        loading={applicationsLoading}
+        error={applicationsError}
+        onRefresh={onRefresh}
+        variant="workspace"
+        layout="grid"
+        skeletonCount={8}
+        renderAppCard={(app, index) => (
+          <AppCard 
+            key={app.id} 
+            application={app}
+          />
+        )}
+        emptyDescription="该工作空间暂无应用"
+      />
     </div>
   );
 };

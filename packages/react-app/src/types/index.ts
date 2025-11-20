@@ -59,31 +59,20 @@ export interface Workspace {
 	memberCount: number;
 }
 
-// 应用信息接口定义
-export interface IApplicationInfo {
-	name: string;
-	description: string;
-	mode: 'chat' | 'workflow';
-	tags: string[];
-}
 
-// 应用接口定义
-export interface IApplication {
-	id: string;
-	workspaceId: string;
-	info: IApplicationInfo;
-}
-
-// 应用市场应用接口
+// 统一的应用接口定义
 export interface IApp {
 	id: string;
 	name: string;
 	description: string;
-	creator: string;
 	mode: 'chat' | 'workflow';
 	tags: string[];
-	usageCount: number;
-	conversationCount: number;
+	// 应用市场相关字段
+	creator?: string;
+	usageCount?: number;
+	conversationCount?: number;
+	// 工作空间相关字段
+	workspaceId?: string;
 }
 
 // 标签分类接口

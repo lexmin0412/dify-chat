@@ -6,7 +6,7 @@
 
 // import { workspaceService } from '@/services/workspace'
 // import { applicationService } from '@/services/application'
-// import { Workspace, IApplication as ApplicationType } from '@/types'
+// import { Workspace, IApp as ApplicationType } from '@/types'
 // import AppListView from './components/app-list-view'
 // import WorkspaceManagementView from '../../components/workspace/workspace-management-view'
 

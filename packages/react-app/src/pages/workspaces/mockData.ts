@@ -1,4 +1,4 @@
-import { Workspace, IApplication, IUser } from '@/types';
+import { Workspace, IApp, IUser } from '@/types';
 
 // Mock data for workspaces
 export const mockWorkspaces: Workspace[] = [
@@ -9,66 +9,54 @@ export const mockWorkspaces: Workspace[] = [
 ];
 
 // Mock data for applications
-export const mockApplications: IApplication[] = [
+export const mockApplications: IApp[] = [
 	{
 		id: 'app-1',
+		name: '个人助手',
+		description: '帮助管理个人日程和任务的智能助手',
+		mode: 'chat',
+		tags: ['个人', '助手'],
 		workspaceId: 'workspace-1',
-		info: {
-			name: '个人助手',
-			description: '帮助管理个人日程和任务的智能助手',
-			mode: 'chat',
-			tags: ['个人', '助手'],
-		},
 	},
 	{
 		id: 'app-2',
+		name: '学习笔记',
+		description: '智能学习笔记管理工具',
+		mode: 'chat',
+		tags: ['学习', '笔记'],
 		workspaceId: 'workspace-1',
-		info: {
-			name: '学习笔记',
-			description: '智能学习笔记管理工具',
-			mode: 'chat',
-			tags: ['学习', '笔记'],
-		},
 	},
 	{
 		id: 'app-3',
+		name: '项目管理',
+		description: '团队项目协作与管理平台',
+		mode: 'workflow',
+		tags: ['团队', '项目'],
 		workspaceId: 'workspace-2',
-		info: {
-			name: '项目管理',
-			description: '团队项目协作与管理平台',
-			mode: 'workflow',
-			tags: ['团队', '项目'],
-		},
 	},
 	{
 		id: 'app-4',
+		name: '文档协作',
+		description: '多人实时文档编辑与协作工具',
+		mode: 'chat',
+		tags: ['协作', '文档'],
 		workspaceId: 'workspace-2',
-		info: {
-			name: '文档协作',
-			description: '多人实时文档编辑与协作工具',
-			mode: 'chat',
-			tags: ['协作', '文档'],
-		},
 	},
 	{
 		id: 'app-5',
+		name: 'API测试',
+		description: 'API接口测试与调试工具',
+		mode: 'workflow',
+		tags: ['测试', 'API'],
 		workspaceId: 'workspace-3',
-		info: {
-			name: 'API测试',
-			description: 'API接口测试与调试工具',
-			mode: 'workflow',
-			tags: ['测试', 'API'],
-		},
 	},
 	{
 		id: 'app-6',
+		name: '产品演示',
+		description: '产品功能演示与介绍应用',
+		mode: 'chat',
+		tags: ['演示', '产品'],
 		workspaceId: 'workspace-4',
-		info: {
-			name: '产品演示',
-			description: '产品功能演示与介绍应用',
-			mode: 'chat',
-			tags: ['演示', '产品'],
-		},
 	},
 ];
 
