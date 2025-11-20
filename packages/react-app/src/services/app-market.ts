@@ -9,7 +9,7 @@ export const appMarketService = {
       // Simulate API call delay
       setTimeout(() => {
         // Randomly fail 40% of the time to test error handling
-        if (Math.random() < 0.4) {
+        if (Math.random() < 0.9) {
           reject(new Error('Failed to fetch apps. Please try again.'));
         } else {
           resolve(mockApps);

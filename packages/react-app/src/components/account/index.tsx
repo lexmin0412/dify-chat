@@ -1,17 +1,7 @@
-import React, { useState } from 'react'
-import { Button, Dropdown, MenuProps, Avatar, Space, Tooltip } from 'antd'
-import { User,  Settings, Info, Github, BookOpen, Map, ExternalLink } from 'lucide-react'
+import { Button, Dropdown, MenuProps, Tooltip } from 'antd'
+import { User,  Settings } from 'lucide-react'
 import { useHistory } from 'pure-react-router'
-import { useGlobalStore } from '@/store'
-import { useAuth } from '@/hooks/use-auth'
 import { UserOutlined } from '@ant-design/icons'
-
-// Mock user profile data
-const mockUserProfile = {
-  name: 'Demo User',
-  email: 'demo@example.com',
-  avatar_url: 'http://192.168.31.84:5200/dify-chat/static/image/logo.8ef08883.png',
-}
 
 export default function Account() {
   const history = useHistory()
@@ -32,36 +22,40 @@ export default function Account() {
 //   }
 
   const menuItems: MenuProps['items'] = [
-    // {
-    //   key: 'profile',
-    //   label: (
-    //     <div className="flex items-center gap-2 px-2 py-1">
-    //       <User size={16} />
-    //       <span>Profile</span>
-    //     </div>
-    //   ),
-    //   onClick: () => history.push('/account'),
-    // },
+    {
+      key: 'account',
+      label: (
+        <div className="flex items-center gap-2 px-2 py-1">
+          <User size={16} />
+          <span>账户</span>
+        </div>
+      ),
+      onClick: () => history.push('/account'),
+    },
     {
       key: 'settings',
       label: (
         <div className="flex items-center gap-2 px-2 py-1">
           <Settings size={16} />
-          <span>Settings</span>
+          <span>设置</span>
         </div>
       ),
-      onClick: () => history.push('/settings'),
+      onClick: () => {
+        // TODO: Add event emitter or context to show settings modal from account page
+        // For now, navigate to account page which has settings button
+        history.push('/setting')
+      },
     },
-    {
-      key: 'about',
-      label: (
-        <div className="flex items-center gap-2 px-2 py-1">
-          <Info size={16} />
-          <span>About</span>
-        </div>
-      ),
-      onClick: () => history.push('/about'),
-    },
+    // {
+    //   key: 'about',
+    //   label: (
+    //     <div className="flex items-center gap-2 px-2 py-1">
+    //       <Info size={16} />
+    //       <span>About</span>
+    //     </div>
+    //   ),
+    //   onClick: () => history.push('/about'),
+    // },
     // {
     //   key: 'docs',
     //   label: (
@@ -82,33 +76,25 @@ export default function Account() {
     //   ),
     //   onClick: () => window.open('https://github.com/langgenius/dify', '_blank'),
     // },
-    {
-      type: 'divider' as const,
-    }
   ]
 
   return (
     <Dropdown
       menu={{ items: menuItems }}
-    //   image={<UserOutlined />}
       trigger={['click']}
       placement="bottomRight"
       overlayStyle={{ width: 200 }}
+      arrow
     >
-      {/* <Tooltip title="Account Menu">
+      <Tooltip title="账户菜单">
         <Button
           type="text"
-          icon={<Avatar size={36} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} />}
+          // icon={<Avatar size={26} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} icon={<UserOutlined />} />}
+          icon={<UserOutlined size={36}/>}
           className="p-1"
+          onClick={(e) => e.preventDefault()}
         />
-      </Tooltip> */}
-        <Button
-          type="text"
-        //   icon={<Avatar size={24} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} />}
-          // icon={<UserOutlined />}
-          icon={<User size={24} />}
-          className="p-1"
-        />
+      </Tooltip>
     </Dropdown>
   )
 }
