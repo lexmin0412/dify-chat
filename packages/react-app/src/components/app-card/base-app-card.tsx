@@ -171,9 +171,11 @@ const BaseAppCard = ({
     >
       {/* 应用头部信息 */}
       <div className="flex items-center overflow-hidden mb-3">
-        <div className="flex items-center justify-center h-12 w-12 bg-orange-200 border border-solid rounded-lg">
+        <div className="flex items-center justify-center h-12 w-12 border border-solid border-gray-600 rounded-lg">
           <LucideIcon
             name="bot"
+            size={24}
+            color='gray'
           />
         </div>
         <div className="flex-1 overflow-hidden ml-3">
