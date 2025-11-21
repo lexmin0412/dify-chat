@@ -1,5 +1,5 @@
 import { Button, Dropdown, MenuProps, Tooltip } from 'antd'
-import { User,  Settings } from 'lucide-react'
+import { User,  Settings, CircleUser } from 'lucide-react'
 import { useHistory } from 'pure-react-router'
 import { UserOutlined } from '@ant-design/icons'
 
@@ -90,7 +90,8 @@ export default function Account() {
         <Button
           type="text"
           // icon={<Avatar size={26} src={mockUserProfile.avatar_url} alt={mockUserProfile.name} icon={<UserOutlined />} />}
-          icon={<UserOutlined size={36}/>}
+        //   icon={<UserOutlined size={36}/>}
+          icon={<CircleUser size={24}/>}
           className="p-1"
           onClick={(e) => e.preventDefault()}
         />

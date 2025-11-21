@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Layout, Tooltip } from 'antd'
-import { PlusOutlined, MenuOutlined } from '@ant-design/icons'
-import { ArrowLeftCircle, ArrowRightCircle, Briefcase } from 'lucide-react'
+import { ArrowLeftCircle, ArrowRightCircle, FolderClosed } from 'lucide-react'
 
 import { Header, DebugMode, WorkspaceNav } from '@/components'
 
 import { workspaceService } from '@/services/workspace'
 import { Workspace } from '@/types'
 import AppListView from './components/app-list-view'
-import { BrowserRouter, type IRoute, Route, useParams} from 'pure-react-router'
+import { useParams} from 'pure-react-router'
 import { WorkspaceSettingView } from '@/components'
 import { useMount } from 'ahooks'
 
@@ -19,6 +18,7 @@ export default function WorkspacePage() {
 	const [workspaces, setWorkspaces] = useState<Workspace[]>([])
 	const [workspacesLoading, setWorkspacesLoading] = useState<boolean>(false)
     const [isWorkspaceSettingVisible, setIsWorkspaceSettingVisible] = useState<boolean>(false)
+    const [isWorkspaceManagement, setIsWorkspaceManagement] = useState<boolean>(false)
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(true)
 
 	const { workspaceId: paramsWorkspaceId } = useParams<{ workspaceId: string }>()
@@ -29,6 +29,10 @@ export default function WorkspacePage() {
 
     const handleGoBack = () => {
         setIsWorkspaceSettingVisible(false)
+    }
+
+    const handleWorkspaceManagementClick = () => {
+        setIsWorkspaceManagement(true)
     }
 
 	useMount(() => {
@@ -70,6 +74,8 @@ export default function WorkspacePage() {
 									selectedWorkspaceId={selectedWorkspaceId}
 									workspacesLoading={workspacesLoading}
 									onWorkspaceSelect={handleWorkspaceSelect}
+                                    isWorkspaceManagement={isWorkspaceManagement}
+                                    onManagementToggle={handleWorkspaceManagementClick}
 								/>
 							</div>
 						) : (
@@ -86,7 +92,7 @@ export default function WorkspacePage() {
 											}`}
 											onClick={() => handleWorkspaceSelect(workspace.id)}
 										>
-											<Briefcase
+											<FolderClosed 
 												strokeWidth={1.25}
 												size={18}
 											/>

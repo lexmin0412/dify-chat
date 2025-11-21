@@ -5,16 +5,16 @@ import { Workspace } from '@/types';
 interface WorkspaceNavProps {
   workspaces: Workspace[];
   selectedWorkspaceId: string;
-  // isWorkspaceManagement: boolean;
+  isWorkspaceManagement: boolean;
   workspacesLoading: boolean;
   onWorkspaceSelect?: (workspaceId: string) => void;
-  // onManagementToggle?: () => void;
+  onManagementToggle?: () => void;
 }
 
 const WorkspaceNav = ({
   workspaces,
   selectedWorkspaceId,
-  // isWorkspaceManagement,
+  isWorkspaceManagement,
   workspacesLoading,
   onWorkspaceSelect,
   // onManagementToggle,
@@ -45,22 +45,22 @@ const WorkspaceNav = ({
               <span className="truncate">{workspace.name}</span>
             </div>
           ))}
-          {/* <Divider size="small" />
+          <Divider size="small" />
           <div
             key="create_workspace"
             className={`flex items-center px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${isWorkspaceManagement
               ? 'bg-primary text-white'
               : 'hover:bg-theme-hover text-theme-text'
               }`}
-            onClick={onManagementToggle}
+            // onClick={onManagementToggle}
           >
             <LucideIcon
-              name="folder"
+              name="folder-pen"
               size={16}
               className="mr-2"
             />
-            <span className="truncate">空间管理</span>
-          </div> */}
+            <span className="truncate">创建空间</span>
+          </div>
         </div>
       )}
     </div>
