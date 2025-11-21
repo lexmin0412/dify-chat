@@ -69,14 +69,11 @@ export default function WorkspacePage() {
             
             // 由于workspaceService没有createWorkspace方法，这里使用模拟创建
             // 在实际应用中，应该使用正确的API调用
-            const newWorkspace = {
+            const newWorkspace : Workspace = {
                 id: `workspace-${Date.now()}`, // 生成临时ID
                 name: workspaceData.name,
                 description: workspaceData.description,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-                avatar_url: '',
-                role: 'owner'
+                memberCount: 1,
             }
             
             // 更新工作空间列表
