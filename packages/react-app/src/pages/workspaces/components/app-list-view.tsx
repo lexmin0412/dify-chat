@@ -58,7 +58,7 @@ const AppListView = ({ workspaceId, handleWorkspaceSettingClick }: AppListViewPr
     <div className="">
       <div className="flex flex-wrap gap-2 mb-4 justify-end">
         <Button type="primary" size="middle">
-          + 创建应用
+          + 添加应用
         </Button>
         <div className="flex gap-2">
           <Button type="primary" size="middle" onClick={handleWorkspaceSettingClick}>

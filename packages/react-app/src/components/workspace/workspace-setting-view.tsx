@@ -11,9 +11,16 @@ import { userService } from '@/services/user';
 interface WorkspaceManagementViewProps {
   workspaceId: string;
   handleGoBack: () => void;
+  onEditWorkspace?: (workspaceData: { name: string; description: string }) => void;
+  workspaceData?: { name: string; description: string };
 }
 
-export default function WorkspaceSettingView({ workspaceId, handleGoBack }: WorkspaceManagementViewProps) {
+export default function WorkspaceSettingView({ 
+  workspaceId, 
+  handleGoBack, 
+  onEditWorkspace,
+  workspaceData 
+}: WorkspaceManagementViewProps) {
   // 多标签状态
   const [activeTab, setActiveTab] = useState<string>('members');
   
@@ -87,10 +94,14 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
   //   message.success('空间删除成功');
   // };
 
-  // // 回退按钮处理函数
-//   const handleGoBack = () => {
-//     window.history.back();
-//   };
+  // 处理编辑工作空间
+  const handleEditClick = () => {
+    if (onEditWorkspace && workspaceData) {
+      onEditWorkspace(workspaceData);
+    } else {
+      message.warning('无法获取工作空间数据，请刷新页面后重试');
+    }
+  };
 
   return (
     <div className="workspace-management-view">
@@ -108,8 +119,10 @@ export default function WorkspaceSettingView({ workspaceId, handleGoBack }: Work
         </div>
         <div className="flex justify-end items-center">
           <Button 
-            type="text" 
-            // onClick={handleGoBack}
+            // type="text" 
+            color="default" 
+            variant="filled"
+            onClick={handleEditClick}
             icon={<SettingOutlined />}
             className="mr-2"
           >

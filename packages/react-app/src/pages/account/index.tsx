@@ -162,7 +162,7 @@ const AccountPage: React.FC = () => {
                   <Text strong>密码</Text>
                   <Text type="secondary" className="ml-2">建议定期修改密码以保障账户安全</Text>
                 </div>
-                <Button type="primary" icon={<LockOutlined />} onClick={showPasswordModal}>
+                <Button color="cyan" variant="filled" icon={<LockOutlined />} onClick={showPasswordModal}>
                   修改密码
                 </Button>
               </div>
@@ -245,7 +245,7 @@ const AccountPage: React.FC = () => {
 
               <div className="flex justify-end gap-2">
                 <Button onClick={handlePasswordCancel}>取消</Button>
-                <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={passwordLoading}>
+                <Button color="cyan" variant="filled" htmlType="submit" icon={<SaveOutlined />} loading={passwordLoading}>
                   保存修改
                 </Button>
               </div>
@@ -297,7 +297,7 @@ const AccountPage: React.FC = () => {
 
               <div className="flex justify-end">
                 <Button onClick={handleSettingsCancel}>取消</Button>
-                <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={settingsLoading}>
+                <Button color="cyan" variant="filled" htmlType="submit" icon={<SaveOutlined />} loading={settingsLoading}>
                   保存设置
                 </Button>
               </div>

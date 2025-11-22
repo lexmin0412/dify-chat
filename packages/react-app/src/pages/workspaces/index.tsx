@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Layout, Tooltip, Modal, Form, Input, Button, message } from 'antd'
+import { Layout, Tooltip, message } from 'antd'
 import { ArrowLeftCircle, ArrowRightCircle, FolderClosed } from 'lucide-react'
 
 import { Header, DebugMode, WorkspaceNav } from '@/components'
+import WorkspaceModal from '@/components/workspace/WorkspaceModal'
 
 import { workspaceService } from '@/services/workspace'
 import { Workspace } from '@/types'
@@ -21,9 +22,10 @@ export default function WorkspacePage() {
     const [isWorkspaceManagement, setIsWorkspaceManagement] = useState<boolean>(false)
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(true)
     const [isCreateModalVisible, setIsCreateModalVisible] = useState<boolean>(false)
-    const [createForm] = Form.useForm()
+    const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [newWorkspaceId, setNewWorkspaceId] = useState<string | null>(null)
+    const [currentWorkspaceData, setCurrentWorkspaceData] = useState<{name: string; description: string} | undefined>(undefined)
 
 	const { workspaceId: paramsWorkspaceId } = useParams<{ workspaceId: string }>()
 
@@ -40,18 +42,18 @@ export default function WorkspacePage() {
         setIsCreateModalVisible(true)
     }
 
-    const handleModalCancel = () => {
+    const handleCreateModalCancel = () => {
         setIsCreateModalVisible(false)
         setIsWorkspaceManagement(false)
-        createForm.resetFields()
+    }
+    
+    const handleEditModalCancel = () => {
+        setIsEditModalVisible(false)
+        setCurrentWorkspaceData(undefined)
     }
 
-    const handleCreateWorkspace = async () => {
+    const handleCreateOrUpdateWorkspace = async (values: {name: string; description: string}) => {
         try {
-            // 验证表单
-            const values = await createForm.validateFields()
-            
-            // 设置提交状态
             setIsSubmitting(true)
             
             // 准备工作空间数据
@@ -61,57 +63,75 @@ export default function WorkspacePage() {
             }
             
             // 检查名称是否已存在
-            const nameExists = workspaces.some(ws => ws.name.toLowerCase() === workspaceData.name.toLowerCase())
+            const isEditMode = isEditModalVisible && currentWorkspaceData
+            const nameExists = workspaces.some(ws => 
+                ws.name.toLowerCase() === workspaceData.name.toLowerCase() && 
+                (isEditMode ? ws.id !== selectedWorkspaceId : true)
+            )
+            
             if (nameExists) {
                 message.error('该工作空间名称已存在，请使用其他名称')
                 return
             }
             
-            // 由于workspaceService没有createWorkspace方法，这里使用模拟创建
-            // 在实际应用中，应该使用正确的API调用
-            const newWorkspace : Workspace = {
-                id: `workspace-${Date.now()}`, // 生成临时ID
-                name: workspaceData.name,
-                description: workspaceData.description,
-                memberCount: 1,
+            if (isEditMode) {
+                // 编辑模式 - 更新现有工作空间
+                // 模拟API调用，实际应用中应使用正确的API
+                // await workspaceAPI.updateWorkspace(selectedWorkspaceId, workspaceData)
+                
+                // 更新本地工作空间列表
+                setWorkspaces(prev => prev.map(ws => 
+                    ws.id === selectedWorkspaceId 
+                        ? { ...ws, ...workspaceData }
+                        : ws
+                ))
+                
+                // 关闭编辑模态框
+                setIsEditModalVisible(false)
+                setCurrentWorkspaceData(undefined)
+                
+                // 显示成功消息
+                message.success('工作空间更新成功')
+            } else {
+                // 创建模式 - 创建新工作空间
+                // 模拟API调用，实际应用中应使用正确的API
+                // const response = await workspaceAPI.createWorkspace(workspaceData)
+                // const newWorkspace = response.data
+                
+                // 模拟创建新工作空间
+                const newWorkspace: Workspace = {
+                    id: `workspace-${Date.now()}`, // 生成临时ID
+                    name: workspaceData.name,
+                    description: workspaceData.description,
+                    memberCount: 1,
+                }
+                
+                // 更新本地工作空间列表
+                setWorkspaces(prev => [...prev, newWorkspace])
+                
+                // 选中新创建的工作空间
+                setSelectedWorkspaceId(newWorkspace.id)
+                
+                // 关闭创建模态框
+                setIsCreateModalVisible(false)
+                setIsWorkspaceManagement(false)
+                
+                // 显示成功消息
+                message.success(`工作空间 "${newWorkspace.name}" 创建成功`)
+                
+                // 设置新创建的工作空间ID，用于高亮显示
+                setNewWorkspaceId(newWorkspace.id)
+                
+                // 3秒后移除高亮效果
+                setTimeout(() => {
+                    setNewWorkspaceId(null)
+                }, 3000)
             }
-            
-            // 更新工作空间列表
-            setWorkspaces(prev => [...prev, newWorkspace])
-            
-            // 选中新创建的工作空间
-            setSelectedWorkspaceId(newWorkspace.id)
-            
-            // 关闭模态框并重置状态
-            setIsCreateModalVisible(false)
-            setIsWorkspaceManagement(false)
-            createForm.resetFields()
-            
-            // 显示成功消息
-            message.success(`工作空间 "${newWorkspace.name}" 创建成功`)
-            
-            // 设置新创建的工作空间ID，用于高亮显示
-            setNewWorkspaceId(newWorkspace.id)
-            
-            // 3秒后移除高亮效果
-            setTimeout(() => {
-                setNewWorkspaceId(null)
-            }, 3000)
-            
         } catch (error: any) {
+            console.error('操作工作空间失败:', error)
             // 显示错误消息
-            if (error.name === 'ValidateError') {
-                // 表单验证错误已通过Form.Item显示
-                return
-            }
-            
-            let errorMessage = '工作空间创建失败'
-            
-            if (error.message) {
-                errorMessage = error.message
-            }
-            
-            message.error(errorMessage)
+            message.error(isEditModalVisible ? '工作空间更新失败' : '工作空间创建失败')
+            throw error; // 向上抛出错误以便组件知道提交失败
         } finally {
             // 确保无论成功失败都重置提交状态
             setIsSubmitting(false)
@@ -228,89 +248,37 @@ export default function WorkspacePage() {
 				{/* Main Content Area */}
 				<Content className="bg-theme-main-bg rounded-t-3xl p-6 overflow-y-auto">
 					{selectedWorkspaceId && !isWorkspaceSettingVisible && <AppListView workspaceId={selectedWorkspaceId} handleWorkspaceSettingClick={handleWorkspaceSettingClick} />}
-                    {selectedWorkspaceId && isWorkspaceSettingVisible && <WorkspaceSettingView workspaceId={selectedWorkspaceId} handleGoBack={handleGoBack} />}
+                    {selectedWorkspaceId && isWorkspaceSettingVisible && (
+                        <WorkspaceSettingView 
+                            workspaceId={selectedWorkspaceId} 
+                            handleGoBack={handleGoBack}
+                            onEditWorkspace={(workspaceData) => {
+                                setCurrentWorkspaceData(workspaceData);
+                                setIsEditModalVisible(true);
+                            }}
+                            workspaceData={workspaces.find(ws => ws.id === selectedWorkspaceId) || undefined}
+                        />
+                    )}
 				</Content>
 
-                {/* 创建工作空间模态框 */}
-                <Modal
-                    title="创建工作空间"
+                {/* 工作空间创建模态框 */}
+                <WorkspaceModal
                     open={isCreateModalVisible}
-                    onCancel={handleModalCancel}
-                    footer={null}
-                    className="workspace-create-modal"
-                    // 可访问性支持
-                    aria-labelledby="create-workspace-title"
-                    keyboard={true}
-                    centered
-                    // 响应式优化
-                    width={{ xs: 320, sm: 500, md: 600 }}
-                >
-                    <Form
-                        form={createForm}
-                        layout="vertical"
-                        className="mt-4"
-                    >
-                        <Form.Item
-                            name="name"
-                            label="工作空间名称"
-                            validateFirst
-                            rules={[
-                                { required: true, message: '请输入工作空间名称' },
-                                { min: 1, max: 50, message: '工作空间名称长度应在1-50个字符之间' },
-                                {
-                                    validator: (_, value) => {
-                                        // 检查名称是否只包含允许的字符
-                                        if (value && !/^[\u4e00-\u9fa5a-zA-Z0-9-_\s]+$/.test(value)) {
-                                            return Promise.reject('工作空间名称只能包含中文、英文、数字、下划线和连字符')
-                                        }
-                                        return Promise.resolve()
-                                    }
-                                }
-                            ]}
-                        >
-                            <Input 
-                                placeholder="请输入工作空间名称" 
-                                showCount 
-                                maxLength={50}
-                                status={createForm.getFieldError('name').length ? 'error' : ''}
-                                // 可访问性支持
-                                aria-required={true}
-                                autoComplete="off"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="description"
-                            label="工作空间描述"
-                            rules={[
-                                { max: 200, message: '工作空间描述不能超过200个字符' }
-                            ]}
-                        >
-                            <Input.TextArea 
-                                rows={4} 
-                                placeholder="请输入工作空间描述（选填）"
-                                showCount
-                                maxLength={200}
-                                status={createForm.getFieldError('description').length ? 'error' : ''}
-                            />
-                        </Form.Item>
-                        <div className="flex flex-col sm:flex-row justify-end gap-2 mt-6">
-                            <Button 
-                                onClick={handleModalCancel}
-                                // 可访问性支持
-                                aria-label="取消创建工作空间"
-                            >取消</Button>
-                            <Button 
-                                type="primary" 
-                                onClick={handleCreateWorkspace}
-                                loading={isSubmitting}
-                                disabled={isSubmitting}
-                                // 可访问性支持
-                                aria-label="确认创建工作空间"
-                                aria-disabled={isSubmitting}
-                            >创建工作空间</Button>
-                        </div>
-                    </Form>
-                </Modal>
+                    onCancel={handleCreateModalCancel}
+                    onSubmit={handleCreateOrUpdateWorkspace}
+                    mode="create"
+                    isSubmitting={isSubmitting}
+                />
+                
+                {/* 工作空间编辑模态框 */}
+                <WorkspaceModal
+                    open={isEditModalVisible}
+                    onCancel={handleEditModalCancel}
+                    onSubmit={handleCreateOrUpdateWorkspace}
+                    mode="edit"
+                    workspaceData={currentWorkspaceData}
+                    isSubmitting={isSubmitting}
+                />
 			</Layout>
 			<DebugMode />
 		</div>

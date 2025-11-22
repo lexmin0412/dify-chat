@@ -1,6 +1,7 @@
 import { TagOutlined } from '@ant-design/icons';
 import { LucideIcon } from '@/components';
 import { IApp } from '@/types';
+import { useThemeContext } from '@dify-chat/theme'
 
 /**
  * 统一的应用数据类型，支持应用市场和工作室的应用
@@ -126,6 +127,8 @@ const BaseAppCard = ({
   const appTags = getAppTags(app);
   const appSubtitle = getAppSubtitle(app, variant);
   const hasTags = appTags.length > 0;
+  const { themeMode } = useThemeContext()
+  const isDark = themeMode === 'dark';
 
   // 处理应用信息缺失的情况
   if (!appName) {

@@ -64,8 +64,8 @@ const AppCard = ({ app }: AppCardProps) => {
   // 渲染操作按钮
   const renderActions = () => (
     <Button 
-      type="primary" 
-      size="middle" 
+      color="default" 
+      variant="filled"
       block 
       style={{ height: '32px' }}
       onClick={handleAddToWorkspace}
