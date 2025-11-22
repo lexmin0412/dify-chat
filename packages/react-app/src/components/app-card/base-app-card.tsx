@@ -128,7 +128,6 @@ const BaseAppCard = ({
   const appSubtitle = getAppSubtitle(app, variant);
   const hasTags = appTags.length > 0;
   const { themeMode } = useThemeContext()
-  const isDark = themeMode === 'dark';
 
   // 处理应用信息缺失的情况
   if (!appName) {
@@ -144,10 +143,11 @@ const BaseAppCard = ({
     'relative',
     'group',
     'p-4',
-    'bg-theme-btn-bg',
     'border',
     'border-solid',
     'border-theme-border',
+    'border-gray-500',
+    'dark:border-white',
     'rounded-xl',
     'cursor-pointer',
     'hover:border-primary',
@@ -174,7 +174,7 @@ const BaseAppCard = ({
     >
       {/* 应用头部信息 */}
       <div className="flex items-center overflow-hidden mb-3">
-        <div className="flex items-center justify-center h-12 w-12 border border-solid border-gray-600 rounded-lg">
+        <div className="flex items-center justify-center h-12 w-12 border border-solid rounded-lg">
           <LucideIcon
             name="bot"
             size={24}
@@ -211,7 +211,7 @@ const BaseAppCard = ({
         <div className="flex flex-wrap gap-2 mt-2 mb-4">
           <TagOutlined />
           {appTags.map(tag => (
-            <span key={tag} className='text-sm border border-solid rounded-lg px-2'>{tag}</span>
+            <span key={tag} className='text-xs border border-solid rounded-lg px-2'>{tag}</span>
           ))}
         </div>
       )}

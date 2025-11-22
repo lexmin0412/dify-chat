@@ -41,22 +41,22 @@ export interface BaseAppListProps<T extends IApp> {
 }
 
 /**
- * 渲染加载骨架屏
+ * 渲染加载骨架屏,dark:适配不同主题色
  */
 const renderLoadingSkeleton = (count: number, layout: AppListLayout) => {
   const skeletonItem = (
-    <div className="relative p-4 bg-[#1e1e1e] border border-[#333] rounded-lg animate-pulse">
+    <div className="relative p-4 bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-lg animate-pulse">
       <div className="flex items-center overflow-hidden mb-3">
-        <div className="h-12 w-12 bg-gray-700 rounded-lg"></div>
+        <div className="h-12 w-12 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
         <div className="flex-1 overflow-hidden ml-3">
-          <div className="h-5 bg-gray-700 rounded w-3/4 mb-2"></div>
-          <div className="h-3 bg-gray-700 rounded w-1/2"></div>
+          <div className="h-5  bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+          <div className="h-3  bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
         </div>
       </div>
-      <div className="h-10 bg-gray-700 rounded mb-4"></div>
-      <div className="h-4 bg-gray-700 rounded w-1/4 mb-3"></div>
-      <div className="h-8 bg-gray-700 rounded mb-2"></div>
-      <div className="h-8 bg-gray-700 rounded"></div>
+      <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+      <div className="h-4  bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-3"></div>
+      <div className="h-8  bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+      <div className="h-8  bg-gray-200 dark:bg-gray-700 rounded"></div>
     </div>
   );
 

@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Layout, Tabs, Button, message } from 'antd';
-import { LeftOutlined, SettingOutlined } from '@ant-design/icons';
+import { Layout, Tabs, Button, message, Modal, Spin } from 'antd';
+import { DeleteOutlined, LeftOutlined, SettingOutlined } from '@ant-design/icons';
 import { Workspace, IUser } from '@/types';
 import MembersTab from './members-tab';
 import SpacesTab from './space-tab';
 import AppTab from './app-tab';
 import { workspaceService } from '@/services/workspace';
 import { userService } from '@/services/user';
+import { useHistory } from 'pure-react-router';
 
 interface WorkspaceManagementViewProps {
   workspaceId: string;
   handleGoBack: () => void;
   onEditWorkspace?: (workspaceData: { name: string; description: string }) => void;
   workspaceData?: { name: string; description: string };
+  onWorkspaceDeleted?: (deletedWorkspaceId: string) => void;
 }
 
 export default function WorkspaceSettingView({ 
@@ -21,6 +23,8 @@ export default function WorkspaceSettingView({
   onEditWorkspace,
   workspaceData 
 }: WorkspaceManagementViewProps) {
+  const history = useHistory();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   // 多标签状态
   const [activeTab, setActiveTab] = useState<string>('members');
   
@@ -86,13 +90,61 @@ export default function WorkspaceSettingView({
   //   message.success('空间信息更新成功');
   // };
 
-  // // 删除空间处理
-  // const handleDeleteSpace = (spaceId: string) => {
-  //   // 从空间列表中删除
-  //   const updatedSpaces = spaces.filter(space => space.id !== spaceId);
-  //   setSpaces(updatedSpaces);
-  //   message.success('空间删除成功');
-  // };
+  // 删除空间处理
+  const handleDeleteSpace = () => {
+    // 从空间列表中删除
+    Modal.confirm({
+      title: '确认删除工作空间',
+      content: (
+        <div>
+          <p className="mb-2 text-red-500 font-medium">此操作不可撤销！</p>
+          <p>删除此工作空间将：</p>
+          <ul className="list-disc list-inside pl-4 text-gray-700">
+            <li>永久删除所有工作空间数据</li>
+            <li>移除与此工作空间关联的所有应用</li>
+            <li>清空相关的所有会话历史记录</li>
+          </ul>
+          <p className="mt-2 text-gray-500 text-sm">请确保您已备份所有重要数据。</p>
+        </div>
+      ),
+      okText: '确认删除',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          // 设置加载状态
+          setIsDeleting(true);
+          
+          // 调用删除工作空间的服务
+          await workspaceService.deleteWorkspace(workspaceId);
+          
+          // // 通知父组件工作空间已被删除
+          // if (onWorkspaceDeleted) {
+          //   onWorkspaceDeleted(workspaceId);
+          // }
+          
+          // 删除成功后显示消息
+          message.success('工作空间删除成功');
+          
+          // 延迟重定向以确保用户看到成功消息
+          setTimeout(() => {
+            // 重定向到工作空间列表页面
+            // 使用正确的应用路由路径
+            history.push('/workspace/workspace-1');
+            // 强制刷新页面以确保数据完全更新
+            window.location.reload();
+          }, 1000);
+        } catch (error: any) {
+          // 错误处理
+          console.error('删除工作空间失败:', error);
+          message.error(error.message || '删除工作空间失败，请稍后重试');
+        } finally {
+          // 确保加载状态被重置
+          setIsDeleting(false);
+        }
+      }
+    });
+  };
 
   // 处理编辑工作空间
   const handleEditClick = () => {
@@ -126,7 +178,23 @@ export default function WorkspaceSettingView({
             icon={<SettingOutlined />}
             className="mr-2"
           >
-            设置
+            编辑
+          </Button>
+          <Button 
+            type="primary" 
+            danger 
+            onClick={handleDeleteSpace}
+            icon={<DeleteOutlined />}
+            className="mr-2"
+            loading={isDeleting}
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <>
+                <Spin size="small" style={{ marginRight: 8 }} />
+                删除中...
+              </>
+            ) : '删除空间'}
           </Button>
         </div>
       </div>
