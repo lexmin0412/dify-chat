@@ -24,7 +24,7 @@ export default function ThemeSelector(props: IThemeSelectorProps) {
 						type: 'item',
 						key: ThemeModeEnum.SYSTEM,
 						label: ThemeModeLabelEnum.SYSTEM,
-						icon: <DynamicIcon name="screen-share" />,
+						icon: <DynamicIcon name="monitor" />,
 					},
 					{
 						type: 'item',

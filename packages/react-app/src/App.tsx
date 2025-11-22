@@ -6,9 +6,13 @@ import { BrowserRouter, type IRoute } from 'pure-react-router'
 
 import './App.css'
 import LayoutIndex from './layout'
-import AppListPage from './pages/apps'
+import WorkspacePage from './pages/workspaces'
+import AppMarketsPage from './pages/app-markets'
 import AuthPage from './pages/auth'
 import ChatPage from './pages/chat'
+import AccountPage from './pages/account'
+import SettingsPage from './pages/setting'
+// import Workspaces from './pages/others'
 
 // 初始化响应式配置
 initResponsiveConfig()
@@ -17,7 +21,11 @@ const routes: IRoute[] = [
 	{ path: '/auth', component: () => <AuthPage /> },
 	{ path: '/chat', component: () => <ChatPage /> },
 	{ path: '/app/:appId', component: () => <ChatPage /> },
-	{ path: '/apps', component: () => <AppListPage /> },
+	// { path: '/apps', component: () => <AppListPage /> },
+	{ path: '/app-markets', component: () => <AppMarketsPage /> },
+	{ path: '/workspace/:workspaceId', component: () => <WorkspacePage /> },
+	{ path: '/account', component: () => <AccountPage /> },
+	{ path: '/setting', component: () => <SettingsPage /> },
 ]
 
 /**
@@ -42,3 +50,8 @@ export default function App() {
 		</ConfigProvider>
 	)
 }
+
+
+// 练习tailwind css的网站及地址
+// https://play.tailwindcss.com/
+// https://www.creative-tim.com/twcomponents/cheatsheet/

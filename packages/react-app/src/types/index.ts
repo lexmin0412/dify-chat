@@ -50,3 +50,54 @@ export interface IAgentMessage {
 	 */
 	retrieverResources?: IRetrieverResource[]
 }
+
+// 工作空间接口定义
+export interface Workspace {
+	id: string;
+	name: string;
+	description: string;
+	memberCount: number;
+}
+
+
+// 统一的应用接口定义
+export interface IApp {
+	id: string;
+	name: string;
+	description: string;
+	mode: 'chat' | 'workflow';
+	tags: string[];
+	// 应用市场相关字段
+	creator?: string;
+	usageCount?: number;
+	conversationCount?: number;
+	// 工作空间相关字段
+	workspaceId?: string;
+}
+
+// 标签分类接口
+export interface TagCategory {
+	name: string;
+	tags: string[];
+}
+
+export type SortByType = 'comprehensive' | 'usageCount' | 'conversationCount';
+
+// 应用市场筛选参数接口
+export interface AppMarketFilterParams {
+	searchTerm?: string;
+	selectedTags?: string[];
+	sortBy?: SortByType;
+}
+
+
+export interface IUser {
+	id: string;
+	username: string;
+	workspaceId: string;
+	phone: string;
+	email: string;
+	avatar: string;
+	role: 'owner' | 'member';
+	joinTime: string;
+}

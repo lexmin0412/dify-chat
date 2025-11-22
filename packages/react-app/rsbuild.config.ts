@@ -43,7 +43,7 @@ export default defineConfig({
 	server: {
 		compress: false, // 解决代理后流式输出失效的问题
 		base: '/dify-chat',
-		port: 5200,
+		port: 5300,
 		// 允许外部访问
 		host: '0.0.0.0',
 	},

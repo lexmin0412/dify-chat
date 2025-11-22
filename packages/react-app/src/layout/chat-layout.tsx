@@ -376,7 +376,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
-					rightIcon={
+					rightContent={
 						isMobile ? (
 							<Dropdown
 								menu={{

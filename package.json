@@ -8,6 +8,7 @@
 		"dev:docs": "pnpm --filter dify-chat-docs dev",
 		"dev:react": "pnpm --filter dify-chat-app-react dev",
 		"dev:platform": "pnpm --filter dify-chat-platform dev",
+		"dev:back": "pnpm --filter @dify-chat/back start:dev",
 		"create-admin": "pnpm --filter dify-chat-platform create-admin",
 		"test": "pnpm -r test",
 		"lint": "pnpm -r lint",

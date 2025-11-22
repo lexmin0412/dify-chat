@@ -7,6 +7,7 @@ export const useRedirect2Index = () => {
 	const history = useHistory()
 
 	return () => {
-		history.push('/apps')
+		// history.push('/workspace/workspace-1')
+		history.push('/app-markets')
 	}
 }

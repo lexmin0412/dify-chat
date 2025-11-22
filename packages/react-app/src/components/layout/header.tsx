@@ -7,6 +7,7 @@ import React from 'react'
 
 import CenterTitleWrapper from './center-title-wrapper'
 import { GithubIcon, Logo } from './logo'
+import { Account } from '@/components'
 
 export interface IHeaderLayoutProps {
 	/**
@@ -18,9 +19,13 @@ export interface IHeaderLayoutProps {
 	 */
 	isTitleWrapped?: boolean
 	/**
-	 * 自定义右侧图标
+	 * 自定义右侧内容
 	 */
-	rightIcon?: React.ReactNode
+	rightContent?: React.ReactNode
+	/**
+	 * 自定义左侧内容
+	 */
+	leftContent?: React.ReactNode
 	/**
 	 * Logo 文本
 	 */
@@ -29,69 +34,111 @@ export interface IHeaderLayoutProps {
 	 * 自定义 Logo 渲染
 	 */
 	renderLogo?: () => React.ReactNode
-}
-
-const HeaderSiderIcon = (props: { align: 'left' | 'right'; children: React.ReactNode }) => {
-	return (
-		<div
-			className={classNames({
-				'flex-1 h-full flex items-center': true,
-				'justify-start': props.align === 'left',
-				'justify-end': props.align === 'right',
-			})}
-		>
-			{props.children}
-		</div>
-	)
+	/**
+	 * 是否隐藏默认右侧内容（主题选择器和Github图标）
+	 */
+	hideDefaultRightContent?: boolean
+	/**
+	 * 额外的CSS类名
+	 */
+	className?: string
+	/**
+	 * 额外的样式
+	 */
+	style?: React.CSSProperties
 }
 
 /**
  * 头部布局组件
  */
 export default function HeaderLayout(props: IHeaderLayoutProps) {
-	const { isTitleWrapped, title, rightIcon, logoText, renderLogo } = props
+	const {
+		isTitleWrapped,
+		title,
+		rightContent,
+		leftContent,
+		logoText,
+		renderLogo,
+		hideDefaultRightContent = false,
+		className,
+		style
+	} = props
 	const { themeMode } = useThemeContext()
 	const isMobile = useIsMobile()
-	return (
-		<div className="h-16 flex items-center justify-between px-4">
-			{/* 🌟 Logo */}
-			<HeaderSiderIcon align="left">
+
+	// 默认右侧内容
+	const defaultRightContent = (
+		<Space
+			className="flex items-center"
+			size={16}
+		>
+			<ThemeSelector>
+				<div className="flex items-center cursor-pointer">
+					<LucideIcon
+						name={
+							themeMode === 'dark'
+								? 'moon-star'
+								: themeMode === 'light'
+									? 'sun'
+									: 'monitor'
+						}
+						size={20}
+					/>
+				</div>
+			</ThemeSelector>
+			{/* <GithubIcon /> */}
+			<Account />
+		</Space>
+	)
+
+	// 左侧内容
+	const renderLeftContent = () => {
+		if (leftContent) {
+			return <div className="flex-1 h-full flex items-center justify-start">{leftContent}</div>
+		}
+
+		return (
+			<div className="flex-1 h-full flex items-center justify-start">
 				<Logo
 					text={logoText}
 					renderLogo={renderLogo}
 					hideText={isMobile}
 					hideGithubIcon
 				/>
-			</HeaderSiderIcon>
+			</div>
+		)
+	}
+
+	// 右侧内容
+	const renderRightContent = () => {
+		if (rightContent) {
+			return <div className="flex-1 h-full flex items-center justify-end">{rightContent}</div>
+		}
+
+		if (!hideDefaultRightContent) {
+			return <div className="flex-1 h-full flex items-center justify-end">{defaultRightContent}</div>
+		}
+
+		return null
+	}
+
+	return (
+		<div 
+			className={classNames('h-16 flex items-center justify-between px-4', className)}
+			style={style}
+		>
+			{/* 左侧内容 */}
+			{renderLeftContent()}
 
 			{/* 中间标题 */}
-			{isTitleWrapped ? title : <CenterTitleWrapper>{title}</CenterTitleWrapper>}
+			{title && (
+				<div className="flex h-full items-center flex-[4] overflow-hidden justify-center">
+					{isTitleWrapped ? title : <CenterTitleWrapper>{title}</CenterTitleWrapper>}
+				</div>
+			)}
 
-			{/* 右侧图标 */}
-			<HeaderSiderIcon align="right">
-				{rightIcon || (
-					<Space
-						className="flex items-center"
-						size={16}
-					>
-						<ThemeSelector>
-							<div className="flex items-center cursor-pointer">
-								<LucideIcon
-									name={
-										themeMode === 'dark'
-											? 'moon-star'
-											: themeMode === 'light'
-												? 'sun'
-												: 'screen-share'
-									}
-									size={20}
-								/>
-							</div>
-						</ThemeSelector>
-						<GithubIcon />
-					</Space>
-				)}
-			</HeaderSiderIcon>
+			{/* 右侧内容 */}
+			{renderRightContent()}
 		</div>
 	)
 }
