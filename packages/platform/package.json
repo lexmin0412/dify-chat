@@ -8,7 +8,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"db:generate": "prisma generate",
+		"db:generate": "prisma generate && tsc -p tsconfig.prisma.json",
 		"db:push": "prisma db push",
 		"db:migrate": "prisma migrate dev",
 		"db:studio": "prisma studio",
@@ -18,7 +18,7 @@
 		"db:switch:sqlite": "npx tsx scripts/switch-db.ts sqlite",
 		"db:switch:postgresql": "npx tsx scripts/switch-db.ts postgresql",
 		"create-admin": "tsx scripts/create-admin.ts",
-		"postinstall": "prisma generate"
+		"postinstall": "pnpm db:generate"
 	},
 	"dependencies": {
 		"@ant-design/icons": "catalog:",

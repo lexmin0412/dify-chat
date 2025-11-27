@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "ES2023",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"strict": false,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"declaration": false,
+		"emitDeclarationOnly": false
+	},
+	"include": ["prisma/generated/**/*.ts"]
+}

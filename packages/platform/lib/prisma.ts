@@ -7,24 +7,29 @@ const globalForPrisma = globalThis as unknown as {
 	prisma: PrismaClient | undefined
 }
 
-const connectionString = process.env.DATABASE_URL
+const connectionString = process.env.DATABASE_URL as string
 
-const parseMySqlOptionsFromConnectionString = (connectionString: string) => {
-	const url = new URL(connectionString)
+const parseMysqlUrl = (urlStr: string) => {
+	const url = new URL(urlStr)
+	const database = url.pathname.replace(/^\//, '')
+	const port = url.port ? parseInt(url.port, 10) : 3306
 	return {
 		host: url.hostname,
-		port: parseInt(url.port),
-		user: url.username,
-		password: url.password,
+		port,
+		user: decodeURIComponent(url.username),
+		password: decodeURIComponent(url.password),
+		database,
 	}
 }
-const mysqlOptions = parseMySqlOptionsFromConnectionString(connectionString as string)
+
+const mysqlOptions = parseMysqlUrl(connectionString)
 
 const adapter = new PrismaMariaDb({
 	host: mysqlOptions.host,
 	port: mysqlOptions.port,
 	user: mysqlOptions.user,
 	password: mysqlOptions.password,
+	database: mysqlOptions.database,
 	connectTimeout: 10000,
 })
 
