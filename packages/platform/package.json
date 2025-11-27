@@ -2,6 +2,7 @@
 	"name": "dify-chat-platform",
 	"version": "0.6.3",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "PORT=5300 next dev",
 		"build": "next build",
@@ -28,6 +29,7 @@
 		"@dify-chat/core": "workspace:^",
 		"@dify-chat/helpers": "workspace:^",
 		"@dify-chat/theme": "workspace:^",
+		"@prisma/adapter-mariadb": "^7.0.1",
 		"@prisma/client": "catalog:",
 		"@radix-ui/react-dialog": "catalog:",
 		"@radix-ui/react-slot": "catalog:",
@@ -38,6 +40,7 @@
 		"classnames": "catalog:",
 		"clsx": "catalog:",
 		"dayjs": "catalog:",
+		"dotenv": "catalog:",
 		"lucide-react": "catalog:",
 		"next": "catalog:",
 		"next-auth": "catalog:",

@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.5.1
+          node-version: v22.21.1
           cache: pnpm
       - name: Provenance downgrade check
         uses: danielroe/provenance-action@0.1.0
