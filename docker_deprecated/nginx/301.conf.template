@@ -1,3 +1,0 @@
-location / {
-    return 301 $scheme://$http_host/dify-chat/;
-    }

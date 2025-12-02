@@ -63,6 +63,7 @@ const MarkdownForm = ({ node, onSend }: any) => {
 			onSend?.(textResult)
 		}
 	}
+
 	return (
 		<form
 			autoComplete="off"
@@ -87,9 +88,12 @@ const MarkdownForm = ({ node, onSend }: any) => {
 						)
 					}
 					if (
-						child.tagName === SUPPORTED_TAGS.INPUT &&
-						Object.values(SUPPORTED_TYPES).includes(child.properties.type)
-					) {
+						child.tagName === SUPPORTED_TAGS.INPUT) {
+						// 隐藏字段
+						if (child.properties.type === 'hidden') {
+							return <Input key={index} hidden {...child.properties || {}} />
+						}
+
 						if (child.properties.type === SUPPORTED_TYPES.DATE || child.properties.type === SUPPORTED_TYPES.DATETIME) {
 							const format = child.properties.type === SUPPORTED_TYPES.DATE ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
 							let value = null
