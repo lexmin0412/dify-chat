@@ -215,7 +215,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 			// 标注
 			{
 				icon: <LucideIcon name="edit-3" />,
-				title: '创建标注',
+				title: '标注',
 				onClick: () => {
 					setAnnotationDrawerVisible(true)
 					annotationForm.setFieldsValue({
