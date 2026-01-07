@@ -37,6 +37,7 @@ model DifyApp {
 
   // 扩展配置
   openingStatementDisplayMode String? @map("opening_statement_display_mode") // 'default' | 'always'
+  enableAnnotation Boolean @default(false) @map("enable_annotation")
 
   @@map("dify_apps")
 }

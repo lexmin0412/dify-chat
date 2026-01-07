@@ -54,6 +54,7 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 				enableUpdateInputAfterStarts: appItem?.inputParams?.enableUpdateAfterCvstStarts || false,
 				openingStatementDisplayMode:
 					appItem?.extConfig?.conversation?.openingStatement?.displayMode || 'default',
+				enableAnnotation: appItem?.extConfig?.annotation?.enabled || false,
 			})
 		} else if (detailDrawerMode === AppDetailDrawerModeEnum.create) {
 			settingForm.setFieldsValue({
@@ -138,6 +139,9 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 											openingStatement: {
 												displayMode: values['openingStatementDisplayMode'],
 											},
+										},
+										annotation: {
+											enabled: values['enableAnnotation'],
 										},
 									},
 								}

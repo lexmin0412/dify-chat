@@ -29,6 +29,7 @@ export default function SettingForm(props: ISettingFormProps) {
 				enableUpdateInputAfterStarts: false,
 				openingStatementDisplayMode: 'default',
 				isEnabled: 1,
+				enableAnnotation: false,
 			}}
 		>
 			<div className="text-base mb-3 flex items-center">
@@ -177,6 +178,28 @@ export default function SettingForm(props: ISettingFormProps) {
 				<div className="h-4 w-1 bg-[#1669ee] rounded"></div>
 				<div className="ml-2 font-semibold">更多配置</div>
 			</div>
+
+			<Form.Item
+				label="允许标注"
+				name="enableAnnotation"
+				tooltip="是否允许在对话中进行标注"
+				rules={[{ required: true }]}
+				required
+			>
+				<Select
+					placeholder="请选择"
+					options={[
+						{
+							label: '启用',
+							value: true,
+						},
+						{
+							label: '禁用',
+							value: false,
+						},
+					]}
+				/>
+			</Form.Item>
 
 			<Form.Item
 				label="表单回复"

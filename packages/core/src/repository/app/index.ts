@@ -98,6 +98,15 @@ export interface IDifyAppItem {
 				displayMode?: 'default' | 'always'
 			}
 		}
+		/**
+		 * 标注相关配置
+		 */
+		annotation?: {
+			/**
+			 * 是否启用
+			 */
+			enabled: boolean
+		}
 	}
 }
 

@@ -33,6 +33,9 @@ export function dbAppToAppItem(dbApp: DifyApp): IDifyAppItem {
 					displayMode: dbApp.openingStatementDisplayMode as 'default' | 'always' | undefined,
 				},
 			},
+			annotation: {
+				enabled: dbApp.enableAnnotation || false,
+			},
 		},
 	}
 }
@@ -56,6 +59,7 @@ export function appItemToDbApp(
 		enableUpdateInputAfterStarts: appItem.inputParams?.enableUpdateAfterCvstStarts || false,
 		openingStatementDisplayMode:
 			appItem.extConfig?.conversation?.openingStatement?.displayMode || null,
+		enableAnnotation: appItem.extConfig?.annotation?.enabled || false,
 	}
 }
 
