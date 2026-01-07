@@ -4,6 +4,7 @@ import {
 	IGetAppParametersResponse,
 	IRating,
 } from '@dify-chat/api'
+import { useAppContext } from '@dify-chat/core'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
@@ -95,6 +96,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		question,
 	} = props
 
+	const { currentApp } = useAppContext()
 	const isLiked = rating === 'like'
 	const isDisLiked = rating === 'dislike'
 	const [loading, setLoading] = useSetState({
@@ -225,7 +227,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 				},
 				active: false,
 				loading: false,
-				hidden: false,
+				hidden: !currentApp?.config.extConfig?.annotation?.enabled,
 			},
 			// 点赞
 			{
