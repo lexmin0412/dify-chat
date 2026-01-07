@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { addApp } from '@/repository/app'
 
 import { deleteApp, getApp, listApp, updateApp } from './actions'
+import { AnnotationManagerDrawer } from './components/annotation-manager-drawer'
 import { AppEditDrawer } from './components/app-edit-drawer'
 import { AppDetailDrawerModeEnum } from './enums'
 
@@ -18,6 +19,9 @@ export default function AppManagementPage() {
 	const [appEditDrawerOpen, setAppEditDrawerOpen] = useState(false)
 	const [appEditDrawerMode, setAppEditDrawerMode] = useState<AppDetailDrawerModeEnum>()
 	const [appEditDrawerAppItem, setAppEditDrawerAppItem] = useState<IDifyAppItem>()
+
+	const [annotationDrawerOpen, setAnnotationDrawerOpen] = useState(false)
+	const [annotationDrawerAppItem, setAnnotationDrawerAppItem] = useState<IDifyAppItem>()
 
 	const {
 		runAsync: getAppList,
@@ -122,7 +126,7 @@ export default function AppManagementPage() {
 						{
 							title: '操作',
 							key: 'action',
-							width: 200,
+							width: 280,
 							fixed: 'right',
 							render: (_, record) => (
 								<Space size="middle">
@@ -172,6 +176,16 @@ export default function AppManagementPage() {
 									>
 										同步应用信息
 									</Button>
+									<Button
+										className="!px-0"
+										type="link"
+										onClick={() => {
+											setAnnotationDrawerAppItem(record)
+											setAnnotationDrawerOpen(true)
+										}}
+									>
+										标注管理
+									</Button>
 									<Popconfirm
 										title="确定删除该应用吗？"
 										description="删除后将无法恢复"
@@ -202,10 +216,17 @@ export default function AppManagementPage() {
 				onClose={() => setAppEditDrawerOpen(false)}
 				appItem={appEditDrawerAppItem}
 				confirmCallback={() => {
+					setAppEditDrawerOpen(false)
 					getAppList()
 				}}
 				addApi={addApp}
 				updateApi={updateApp}
+			/>
+
+			<AnnotationManagerDrawer
+				open={annotationDrawerOpen}
+				onClose={() => setAnnotationDrawerOpen(false)}
+				appItem={annotationDrawerAppItem}
 			/>
 		</>
 	)
