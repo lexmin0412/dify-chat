@@ -416,6 +416,33 @@ export interface IAnnotationItem {
 }
 
 /**
+ * 获取标注列表请求参数
+ */
+export interface IGetAnnotationListRequest {
+	page?: number
+	limit?: number
+}
+
+/**
+ * 获取标注列表响应
+ */
+export interface IGetAnnotationListResponse {
+	data: IAnnotationItem[]
+	has_more: boolean
+	limit: number
+	total: number
+	page: number
+}
+
+/**
+ * 更新标注请求参数
+ */
+export interface IUpdateAnnotationRequest {
+	question: string
+	answer: string
+}
+
+/**
  * Dify API 类
  */
 export class DifyApi {
@@ -725,6 +752,33 @@ export class DifyApi {
 			'/apps/annotations',
 			params as unknown as Record<string, unknown>,
 		) as Promise<IAnnotationItem>
+	}
+
+	/**
+	 * 获取标注列表
+	 */
+	getAnnotationList = async (params?: IGetAnnotationListRequest) => {
+		return this.baseRequest.get('/apps/annotations', {
+			page: (params?.page || 1).toString(),
+			limit: (params?.limit || 20).toString(),
+		}) as Promise<IGetAnnotationListResponse>
+	}
+
+	/**
+	 * 更新标注
+	 */
+	updateAnnotation = async (annotationId: string, params: IUpdateAnnotationRequest) => {
+		return this.baseRequest.jsonRequest(`/apps/annotations/${annotationId}`, {
+			method: 'PUT',
+			body: JSON.stringify(params),
+		}) as Promise<IAnnotationItem>
+	}
+
+	/**
+	 * 删除标注
+	 */
+	deleteAnnotation = async (annotationId: string) => {
+		return this.baseRequest.delete(`/apps/annotations/${annotationId}`)
 	}
 
 	/**
