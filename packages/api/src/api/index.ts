@@ -391,6 +391,31 @@ export interface IAudio2TextResponse {
 }
 
 /**
+ * 创建标注请求参数
+ */
+export interface ICreateAnnotationRequest {
+	/**
+	 * 问题
+	 */
+	question: string
+	/**
+	 * 答案内容
+	 */
+	answer: string
+}
+
+/**
+ * 标注响应
+ */
+export interface IAnnotationItem {
+	id: string
+	question: string
+	answer: string
+	hit_count: number
+	created_at: number
+}
+
+/**
  * Dify API 类
  */
 export class DifyApi {
@@ -690,6 +715,16 @@ export class DifyApi {
 				'Content-Type': 'application/json',
 			},
 		})
+	}
+
+	/**
+	 * 创建标注
+	 */
+	createAnnotation = async (params: ICreateAnnotationRequest) => {
+		return this.baseRequest.post(
+			'/apps/annotations',
+			params as unknown as Record<string, unknown>,
+		) as Promise<IAnnotationItem>
 	}
 
 	/**
