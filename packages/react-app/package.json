@@ -75,7 +75,7 @@
 		"pako": "catalog:",
 		"prettier": "catalog:",
 		"prettier-plugin-tailwindcss": "catalog:",
-		"tailwindcss": "catalog:",
+		"tailwindcss": "^3.4.17",
 		"typescript": "catalog:",
 		"typescript-eslint": "catalog:"
 	}
