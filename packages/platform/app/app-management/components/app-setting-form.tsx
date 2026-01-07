@@ -32,7 +32,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			}}
 		>
 			<div className="text-base mb-3 flex items-center">
-				<div className="h-4 w-1 bg-primary rounded"></div>
+				<div className="h-4 w-1 bg-[#1669ee] rounded"></div>
 				<div className="ml-2 font-semibold">请求配置</div>
 			</div>
 
@@ -63,7 +63,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			</Form.Item>
 
 			<div className="text-base mb-3 flex items-center">
-				<div className="h-4 w-1 bg-primary rounded"></div>
+				<div className="h-4 w-1 bg-[#1669ee] rounded"></div>
 				<div className="ml-2 font-semibold">基本信息</div>
 			</div>
 			<Form.Item
@@ -134,7 +134,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			</Form.Item>
 
 			<div className="text-base mb-3 flex items-center">
-				<div className="h-4 w-1 bg-primary rounded"></div>
+				<div className="h-4 w-1 bg-[#1669ee] rounded"></div>
 				<div className="ml-2 font-semibold">对话配置</div>
 			</div>
 
@@ -174,7 +174,7 @@ export default function SettingForm(props: ISettingFormProps) {
 			</Form.Item>
 
 			<div className="text-base mb-3 flex items-center">
-				<div className="h-4 w-1 bg-primary rounded"></div>
+				<div className="h-4 w-1 bg-[#1669ee] rounded"></div>
 				<div className="ml-2 font-semibold">更多配置</div>
 			</div>
 
