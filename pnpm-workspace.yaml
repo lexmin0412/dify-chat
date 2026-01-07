@@ -3,6 +3,7 @@ packages:
 
 overrides:
   mdast-util-gfm-autolink-literal: 2.0.0
+  typescript: ^5.9.3
 
 onlyBuiltDependencies:
   - '@biomejs/biome'
