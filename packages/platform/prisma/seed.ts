@@ -1,6 +1,4 @@
-import { PrismaClient } from '@/prisma/generated/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
 
 async function main() {
 	console.log('开始数据库种子数据初始化...')

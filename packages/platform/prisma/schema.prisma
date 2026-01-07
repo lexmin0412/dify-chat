@@ -1,13 +1,15 @@
 // SQLite 环境配置模板
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
 	// 指定输出到源码目录，否则 prisma 会默认将 client 构建在 node_modules 中，不利于 docker 部署
-	output   = "./generated/client"
+	output   = "./generated"
+	// 临时修复 Prisma 实例初始化失败的问题：https://github.com/prisma/prisma/issues/27079
+	generatedFileExtension = "ts"
+	importFileExtension = "ts"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model DifyApp {
