@@ -76,6 +76,10 @@ export interface ChatboxProps {
 	 */
 	feedbackApi: DifyApi['createMessageFeedback']
 	/**
+	 * 创建标注 API
+	 */
+	createAnnotationApi: DifyApi['createAnnotation']
+	/**
 	 * 上传文件 API
 	 */
 	uploadFileApi: DifyApi['uploadFile']
@@ -112,6 +116,7 @@ export const Chatbox = (props: ChatboxProps) => {
 		entryForm,
 		hasMore,
 		onLoadMore,
+		createAnnotationApi,
 	} = props
 	const isMobile = useIsMobile()
 	const { currentApp } = useAppContext()
@@ -151,7 +156,7 @@ export const Chatbox = (props: ChatboxProps) => {
 	}
 
 	const items: GetProp<typeof Bubble.List, 'items'> = useMemo(() => {
-		return messageItems?.map(messageItem => {
+		return messageItems?.map((messageItem, index) => {
 			return {
 				key: `${messageItem.id}-${messageItem.role}`,
 				// 不要开启 loading 和 typing, 否则流式会无效
@@ -175,6 +180,8 @@ export const Chatbox = (props: ChatboxProps) => {
 						<MessageFooter
 							ttsConfig={currentApp?.parameters?.text_to_speech}
 							feedbackApi={params => difyApi.createMessageFeedback(params)}
+							createAnnotationApi={createAnnotationApi}
+							question={messageItems?.[index - 1]?.content}
 							ttsApi={params => difyApi.text2Audio(params)}
 							messageId={messageItem.id}
 							messageContent={messageItem.content}

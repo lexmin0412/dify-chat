@@ -452,6 +452,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 							}
 						}}
 						feedbackApi={difyApi.createMessageFeedback}
+						createAnnotationApi={difyApi.createAnnotation}
 						feedbackCallback={fallbackCallback}
 						uploadFileApi={difyApi.uploadFile}
 						difyApi={difyApi}
