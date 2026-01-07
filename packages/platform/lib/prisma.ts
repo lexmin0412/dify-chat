@@ -15,6 +15,7 @@ const adapter = new PrismaMariaDb({
 	port: Number(dbUrl.port),
 	user: dbUrl.username,
 	password: dbUrl.password,
+	database: dbUrl.pathname.slice(1),
 	connectionLimit: 5,
 })
 
