@@ -496,7 +496,7 @@ export class DifyApi {
 	 */
 	createAnnotation = async (params: ICreateAnnotationRequest) => {
 		return this.baseRequest.post(
-			'/apps/annotations',
+			'/annotations',
 			params as unknown as Record<string, unknown>,
 		) as Promise<IAnnotationItem>
 	}
