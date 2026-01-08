@@ -455,7 +455,7 @@ export class DifyApi {
 	}
 
 	options: IDifyApiOptions
-	baseRequest: XRequest
+	private baseRequest: XRequest
 
 	/**
 	 * 更新 API 配置, 一般在切换应用时调用
