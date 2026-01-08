@@ -1,18 +1,18 @@
-import { Dropdown } from 'antd';
-import { useThemeContext } from '../hooks';
-import { ThemeModeEnum, ThemeModeLabelEnum } from '../constants';
-import { DynamicIcon } from 'lucide-react/dynamic';
+import { Dropdown } from 'antd'
+import { useThemeContext } from '../hooks'
+import { ThemeModeEnum, ThemeModeLabelEnum } from '../constants'
+import { DynamicIcon } from 'lucide-react/dynamic'
 
 interface IThemeSelectorProps {
-	children?: React.ReactNode;
+	children?: React.ReactNode
 }
 
 /**
  * 主题选择器组件
  */
 export default function ThemeSelector(props: IThemeSelectorProps) {
-	const { children } = props;
-	const { themeMode, setThemeMode } = useThemeContext();
+	const { children } = props
+	const { themeMode, setThemeMode } = useThemeContext()
 
 	return (
 		<Dropdown
@@ -39,12 +39,12 @@ export default function ThemeSelector(props: IThemeSelectorProps) {
 						icon: <DynamicIcon name="moon-star" />,
 					},
 				],
-				onClick: (item) => {
-					setThemeMode(item.key as ThemeModeEnum);
+				onClick: item => {
+					setThemeMode(item.key as ThemeModeEnum)
 				},
 			}}
 		>
 			{children}
 		</Dropdown>
-	);
+	)
 }

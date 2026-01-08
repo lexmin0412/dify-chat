@@ -8,10 +8,10 @@ interface IPageLayoutProps {
 export default function PageLayout(props: IPageLayoutProps) {
 	const { headerProps, children } = props
 	return (
-		<div className="h-screen relative overflow-hidden flex flex-col bg-theme-bg w-full">
+		<div className="relative flex h-screen w-full flex-col overflow-hidden bg-theme-bg">
 			{/* 头部 */}
 			<HeaderLayout {...headerProps} />
-			<div className="flex-1 bg-theme-main-bg rounded-t-3xl py-6 overflow-y-auto box-border overflow-x-hidden flex items-center">
+			<div className="box-border flex flex-1 items-center overflow-y-auto overflow-x-hidden rounded-t-3xl bg-theme-main-bg py-6">
 				{children}
 			</div>
 		</div>

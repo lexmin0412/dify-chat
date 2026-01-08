@@ -49,19 +49,19 @@ http://localhost:5200/dify-chat/app/${appId}?orderNo=${encodedValue}&isNewCvst=1
 ```javascript
 import zlib from 'zlib'
 
-const originalOrderNo = "123456";
-const buffer = Buffer.from(originalOrderNo, "utf8");
-let encodedValue = "";
+const originalOrderNo = '123456'
+const buffer = Buffer.from(originalOrderNo, 'utf8')
+let encodedValue = ''
 
 zlib.gzip(buffer, (err, compressedBuffer) => {
-  if (err) {
-    console.error("压缩时出错:", err);
-    return;
-  }
-  const encodedString = compressedBuffer.toString("base64");
-  encodedValue = encodeURIComponent(encodedString);
-  console.log("压缩后的 Base64:", encodedValue);
-});
+	if (err) {
+		console.error('压缩时出错:', err)
+		return
+	}
+	const encodedString = compressedBuffer.toString('base64')
+	encodedValue = encodeURIComponent(encodedString)
+	console.log('压缩后的 Base64:', encodedValue)
+})
 ```
 
 将 `encodedValue` 填入链接后访问，可以看到我们定义的 `orderNo: 123456` 已经被填入表单：
@@ -89,4 +89,4 @@ http://localhost:5200/dify-chat/app/cmdx5fmtb0000364zs23s6nez?orderNo=H4sIAAAAAA
 
 - 开启新对话（`isNewCvst=1`）
 - 缓存参数值（`isKeepAll=true`）
-	- 进入其他对话后，会自动将 `orderNo` 参数值填入表单
+  - 进入其他对话后，会自动将 `orderNo` 参数值填入表单

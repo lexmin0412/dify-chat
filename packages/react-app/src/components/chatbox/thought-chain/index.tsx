@@ -114,7 +114,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 														}}
 													/>
 												</div>
-												<pre className="p-1 mt-1 box-border w-full overflow-hidden break-all text-wrap">
+												<pre className="mt-1 box-border w-full overflow-hidden text-wrap break-all p-1">
 													{item.tool_input}
 												</pre>
 											</div>
@@ -130,7 +130,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 														}}
 													/>
 												</div>
-												<pre className="p-1 mt-1 box-border w-full overflow-hidden break-all text-wrap">
+												<pre className="mt-1 box-border w-full overflow-hidden text-wrap break-all p-1">
 													{item.observation}
 												</pre>
 											</div>

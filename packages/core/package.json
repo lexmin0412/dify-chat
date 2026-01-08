@@ -1,7 +1,6 @@
 {
 	"name": "@dify-chat/core",
 	"version": "0.6.9",
-	"type": "module",
 	"description": "Dify Chat 的核心包",
 	"author": {
 		"name": "lexmin0412",
@@ -13,31 +12,35 @@
 		"url": "https://github.com/lexmin0412/dify-chat",
 		"directory": "packages/core"
 	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org"
-	},
+	"source": "./src/index.ts",
+	"files": [
+		"dist"
+	],
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
 			"types": "./dist/index.d.ts",
+			"source": "./src/index.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
 		}
 	},
-	"source": "./src/index.ts",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"scripts": {
 		"build": "rslib build",
 		"check": "biome check --write",
 		"dev": "rslib build --watch",
 		"format": "biome format --write",
 		"test": "vitest run"
+	},
+	"dependencies": {
+		"@dify-chat/helpers": "workspace:^"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
@@ -53,8 +56,5 @@
 	"peerDependencies": {
 		"react": ">=16.9.0",
 		"react-dom": ">=16.9.0"
-	},
-	"dependencies": {
-		"@dify-chat/helpers": "workspace:^"
 	}
 }

@@ -36,13 +36,13 @@ pnpm add @dify-chat/theme
 在最外层组件中使用 `ThemeContextProvider` 包裹应用：
 
 ```tsx
-import { ThemeContextProvider } from '@dify-chat/theme';
+import { ThemeContextProvider } from '@dify-chat/theme'
 function App() {
-  return (
-    <ThemeContextProvider>
-      <YourApp />
-    </ThemeContextProvider>
-  );
+	return (
+		<ThemeContextProvider>
+			<YourApp />
+		</ThemeContextProvider>
+	)
 }
 ```
 
@@ -53,15 +53,15 @@ function App() {
 默认情况下，`ThemeContextProvider` 中已经提供了自适应系统主题的能力。如果你需要支持用户手动切换主题模式，可以引入主题选择器：
 
 ```tsx
-import { ThemeSelector } from '@dify-chat/theme';
+import { ThemeSelector } from '@dify-chat/theme'
 
 function App() {
-  const { themeMode } = useThemeContext();
-  return (
-    <ThemeSelector>
-      <Button>当前主题模式：{themeMode}</Button>
-    </ThemeSelector>
-  );
+	const { themeMode } = useThemeContext()
+	return (
+		<ThemeSelector>
+			<Button>当前主题模式：{themeMode}</Button>
+		</ThemeSelector>
+	)
 }
 ```
 
@@ -78,33 +78,33 @@ function App() {
 你可以使用 `useThemeContext` hook 获取当前应用的主题：
 
 ```tsx
-import { useThemeContext } from '@dify-chat/theme';
+import { useThemeContext } from '@dify-chat/theme'
 
 function ThemeToggle() {
-  const { theme } = useThemeContext();
+	const { theme } = useThemeContext()
 
-  return <div>当前主题模式：{theme}</div>;
+	return <div>当前主题模式：{theme}</div>
 }
 ```
 
 也可以在组件中使用 `setThemeMode` 方法，自定义切换主题模式：
 
 ```tsx
-import { useThemeContext } from '@dify-chat/theme';
+import { useThemeContext } from '@dify-chat/theme'
 
 function ThemeSwitcher() {
-  const { themeMode, setThemeMode } = useThemeContext();
-  return (
-    <div>
-      <h3>当前主题模式：{themeMode}</h3>
+	const { themeMode, setThemeMode } = useThemeContext()
+	return (
+		<div>
+			<h3>当前主题模式：{themeMode}</h3>
 
-      <div>
-        <Button onClick={() => setThemeMode('light')}>浅色模式</Button>
-        <Button onClick={() => setThemeMode('dark')}>深色模式</Button>
-        <Button onClick={() => setThemeMode('system')}>系统主题</Button>
-      </div>
-    </div>
-  );
+			<div>
+				<Button onClick={() => setThemeMode('light')}>浅色模式</Button>
+				<Button onClick={() => setThemeMode('dark')}>深色模式</Button>
+				<Button onClick={() => setThemeMode('system')}>系统主题</Button>
+			</div>
+		</div>
+	)
 }
 ```
 
@@ -129,23 +129,23 @@ function ThemeSwitcher() {
 使用示例:
 
 ```tsx
-import { Select } from 'antd';
-import { ThemeModeEnum, ThemeModeOptions } from '@dify-chat/theme';
+import { Select } from 'antd'
+import { ThemeModeEnum, ThemeModeOptions } from '@dify-chat/theme'
 
 function ThemeSwitcher() {
-  const { themeMode, setThemeMode } = useThemeContext();
-  return (
-    <div>
-      <h3>当前主题模式：{themeMode}</h3>
-      <div>
-        切换主题模式：
-        <Select
-          options={ThemeModeOptions}
-          value={themeMode}
-          onChange={(value) => setThemeMode(value as ThemeModeEnum)}
-        />
-      </div>
-    </div>
-  );
+	const { themeMode, setThemeMode } = useThemeContext()
+	return (
+		<div>
+			<h3>当前主题模式：{themeMode}</h3>
+			<div>
+				切换主题模式：
+				<Select
+					options={ThemeModeOptions}
+					value={themeMode}
+					onChange={value => setThemeMode(value as ThemeModeEnum)}
+				/>
+			</div>
+		</div>
+	)
 }
 ```

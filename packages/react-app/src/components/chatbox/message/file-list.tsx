@@ -90,7 +90,7 @@ export default function MessageFileList(props: IMessageFileListProps) {
 									src={item.url}
 									key={item.id}
 									alt={item.filename}
-									className="w-24 h-24 cursor-zoom-in mr-2 rounded-lg"
+									className="mr-2 h-24 w-24 cursor-zoom-in rounded-lg"
 									style={{
 										objectFit: 'cover',
 									}}

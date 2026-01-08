@@ -44,7 +44,7 @@ const ReferenceItem = (props: IRetrieverResourceGroupedItem) => {
 	const isMobile = useIsMobile()
 	return (
 		<div
-			className="text-gray-600 flex items-center"
+			className="flex items-center text-gray-600"
 			title={props.name}
 		>
 			<Popover
@@ -98,7 +98,7 @@ const ReferenceItem = (props: IRetrieverResourceGroupedItem) => {
 										<div>{item.content}</div>
 										<Space
 											size="middle"
-											className="flex items-center text-desc mt-2 flex-wrap w-full overflow-hidden"
+											className="mt-2 flex w-full flex-wrap items-center overflow-hidden text-desc"
 										>
 											{[
 												{
@@ -154,7 +154,7 @@ const ReferenceItem = (props: IRetrieverResourceGroupedItem) => {
 				) : props.data_source_type === 'upload_file' ? (
 					<FileOutlined />
 				) : null}
-				<span className="cursor-pointer hover:underline ml-1">{props.name}</span>
+				<span className="ml-1 cursor-pointer hover:underline">{props.name}</span>
 			</Popover>
 		</div>
 	)
@@ -197,7 +197,7 @@ export default function MessageReferrence(props: IMessageReferrenceProps) {
 		<div className="pb-3">
 			<div className="flex items-center text-gray-400">
 				<span className="mr-3 text-sm">引用</span>
-				<div className="flex-1 border-gray-400 border-dashed border-0 border-t h-0" />
+				<div className="h-0 flex-1 border-0 border-t border-dashed border-gray-400" />
 			</div>
 			{groupedItems.map(item => {
 				return (

@@ -11,14 +11,14 @@
  * 模拟登录
  */
 const mockLogin = async () => {
-  const fp = await FingerPrintJS.load();
-  const result = await fp.get();
-  return await new Promise<{ userId: string }>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        userId: result.visitorId,
-      });
-    }, 2000);
-  });
-};
+	const fp = await FingerPrintJS.load()
+	const result = await fp.get()
+	return await new Promise<{ userId: string }>(resolve => {
+		setTimeout(() => {
+			resolve({
+				userId: result.visitorId,
+			})
+		}, 2000)
+	})
+}
 ```

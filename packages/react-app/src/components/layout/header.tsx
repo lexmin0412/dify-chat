@@ -53,7 +53,7 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 	const { themeMode } = useThemeContext()
 	const isMobile = useIsMobile()
 	return (
-		<div className="h-16 flex items-center justify-between px-4">
+		<div className="flex h-16 items-center justify-between px-4">
 			{/* 🌟 Logo */}
 			<HeaderSiderIcon align="left">
 				<Logo
@@ -75,7 +75,7 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 						size={16}
 					>
 						<ThemeSelector>
-							<div className="flex items-center cursor-pointer">
+							<div className="flex cursor-pointer items-center">
 								<LucideIcon
 									name={
 										themeMode === 'dark'

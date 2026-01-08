@@ -1,36 +1,36 @@
 {
 	"name": "@dify-chat/api",
 	"version": "0.6.9",
-	"type": "module",
 	"author": {
 		"name": "lexmin0412",
 		"email": "zhangle_dev@outlook.com",
 		"url": "http://github.com/lexmin0412"
-	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lexmin0412/dify-chat.git",
 		"directory": "packages/api"
 	},
+	"source": "./src/index.ts",
+	"files": [
+		"dist"
+	],
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
 			"types": "./dist/index.d.ts",
+			"source": "./src/index.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
 		}
 	},
-	"source": "./src/index.ts",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"scripts": {
 		"build": "rslib build",
 		"check": "biome check --write",
@@ -38,24 +38,24 @@
 		"format": "biome format --write",
 		"test": "vitest run"
 	},
-	"devDependencies": {
-		"@biomejs/biome": "catalog:",
-		"@rslib/core": "catalog:",
-		"react": "catalog:",
-		"react-dom": "catalog:",
-		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:",
-		"typescript": "catalog:",
-		"vitest": "catalog:"
-	},
 	"dependencies": {
 		"@dify-chat/core": "workspace:^",
 		"@dify-chat/helpers": "workspace:^"
 	},
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@rslib/core": "catalog:",
+		"@types/node": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	},
 	"peerDependencies": {
+		"antd": ">=5.0.0",
 		"react": ">=16.9.0",
-		"react-dom": ">=16.9.0",
-		"antd": ">=5.0.0"
+		"react-dom": ">=16.9.0"
 	}
 }

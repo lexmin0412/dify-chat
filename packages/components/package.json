@@ -3,38 +3,38 @@
 	"version": "0.6.9",
 	"description": "Dify Chat Components library",
 	"keywords": [
-		"dify",
 		"chat",
-		"components"
+		"components",
+		"dify"
 	],
 	"author": {
 		"name": "lexmin0412",
 		"email": "zhangle_dev@outlook.com",
 		"url": "http://github.com/lexmin0412"
 	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org"
-	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/lexmin0412/dify-chat.git",
 		"directory": "packages/components"
 	},
-	"type": "module",
-	"exports": {
-		".": {
-			"source": "./src/index.tsx",
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
 	"source": "./src/index.tsx",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
+	"type": "module",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"source": "./src/index.tsx",
+			"import": "./dist/index.js"
+		}
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"scripts": {
 		"build": "rslib build",
 		"build:storybook": "storybook build",
@@ -43,39 +43,6 @@
 		"format": "biome format --write",
 		"storybook": "storybook dev",
 		"test": "vitest run"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "catalog:",
-		"@rsbuild/core": "catalog:",
-		"@rsbuild/plugin-react": "catalog:",
-		"@rslib/core": "catalog:",
-		"@storybook/addon-essentials": "catalog:",
-		"@storybook/addon-interactions": "catalog:",
-		"@storybook/addon-links": "catalog:",
-		"@storybook/addon-onboarding": "catalog:",
-		"@storybook/blocks": "catalog:",
-		"@storybook/react": "catalog:",
-		"@storybook/test": "catalog:",
-		"@testing-library/jest-dom": "catalog:",
-		"@testing-library/react": "catalog:",
-		"@types/hast": "catalog:",
-		"@types/lodash-es": "catalog:",
-		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:",
-		"jsdom": "catalog:",
-		"react": "catalog:",
-		"react-dom": "catalog:",
-		"storybook": "catalog:",
-		"storybook-addon-rslib": "catalog:",
-		"storybook-react-rsbuild": "catalog:",
-		"tailwindcss": "catalog:",
-		"typescript": "catalog:",
-		"vitest": "catalog:"
-	},
-	"peerDependencies": {
-		"react": ">=16.9.0",
-		"react-dom": ">=16.9.0"
 	},
 	"dependencies": {
 		"@ant-design/icons": "catalog:",
@@ -110,5 +77,38 @@
 		"remark-math": "catalog:",
 		"remark-mermaidjs": "catalog:",
 		"tailwind-merge": "catalog:"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@rsbuild/core": "catalog:",
+		"@rsbuild/plugin-react": "catalog:",
+		"@rslib/core": "catalog:",
+		"@storybook/addon-essentials": "catalog:",
+		"@storybook/addon-interactions": "catalog:",
+		"@storybook/addon-links": "catalog:",
+		"@storybook/addon-onboarding": "catalog:",
+		"@storybook/blocks": "catalog:",
+		"@storybook/react": "catalog:",
+		"@storybook/test": "catalog:",
+		"@testing-library/jest-dom": "catalog:",
+		"@testing-library/react": "catalog:",
+		"@types/hast": "catalog:",
+		"@types/lodash-es": "catalog:",
+		"@types/node": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"jsdom": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"storybook": "catalog:",
+		"storybook-addon-rslib": "catalog:",
+		"storybook-react-rsbuild": "catalog:",
+		"tailwindcss": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	},
+	"peerDependencies": {
+		"react": ">=16.9.0",
+		"react-dom": ">=16.9.0"
 	}
 }

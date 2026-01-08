@@ -42,7 +42,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 	const { currentApp } = useAppContext()
 
 	return (
-		<div className="flex justify-center w-full box-border mx-auto my-3">
+		<div className="mx-auto my-3 box-border flex w-full justify-center">
 			<Space
 				size={12}
 				direction="vertical"
@@ -55,7 +55,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 				{showPrompts && currentApp?.parameters?.opening_statement ? (
 					<div className="flex items-center">
 						{/* 左侧展示图标 */}
-						<div className="flex items-center justify-center rounded-[50%] w-14 h-14 border-theme-border border-solid border-[1px] bg-theme-bg">
+						<div className="flex h-14 w-14 items-center justify-center rounded-[50%] border-[1px] border-solid border-theme-border bg-theme-bg">
 							<LucideIcon
 								name="bot"
 								size={30}
@@ -75,16 +75,16 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 										}}
 									/>
 								) : (
-									<div className="font-semibold text-lg truncate">{openingStatement}</div>
+									<div className="truncate text-lg font-semibold">{openingStatement}</div>
 								)
 							})()}
 							{/* 右侧建议选项 */}
 							{currentApp.parameters.suggested_questions?.length ? (
-								<div className="flex items-center flex-wrap w-full">
+								<div className="flex w-full flex-wrap items-center">
 									{currentApp.parameters.suggested_questions?.map(item => {
 										return (
 											<div
-												className="cursor-pointer text-theme-text mt-2 hover:text-primary mr-2 text-sm border border-desc hover:border-primary border-solid py-0.5 px-2 rounded-lg"
+												className="mr-2 mt-2 cursor-pointer rounded-lg border border-solid border-desc px-2 py-0.5 text-sm text-theme-text hover:border-primary hover:text-primary"
 												color="blue"
 												key={item}
 												onClick={() => {

@@ -194,7 +194,7 @@ const CodeBlock = memo(({ inline, className, children, ...props }: ICodeBlockPro
 
 	return (
 		<div className="relative">
-			<div className="flex h-8 items-center justify-between rounded-t-[10px] border-b border-divider-subtle bg-components-input-bg-normal p-1 pl-3">
+			<div className="border-divider-subtle bg-components-input-bg-normal flex h-8 items-center justify-between rounded-t-[10px] border-b p-1 pl-3">
 				<div className="text-gray-700">{languageShowName}</div>
 				<div className="flex items-center gap-1">
 					{['mermaid', 'svg'].includes(language!) && (
@@ -269,7 +269,7 @@ const Link = ({ node, ...props }: ILinkProps) => {
 		<a
 			{...props}
 			target="_blank"
-			className="cursor-pointer underline !decoration-primary-700 decoration-dashed px-1"
+			className="!decoration-primary-700 cursor-pointer px-1 underline decoration-dashed"
 		>
 			{/* @ts-expect-error FIXME: 类型错误待解决 */}
 			{firstChild ? firstChild?.value : 'Download'}
@@ -307,7 +307,7 @@ export function MarkdownRenderer(props: {
 	}, [markdownText])
 
 	return (
-		<div className="text-theme-text dc-react-markdown-container">
+		<div className="dc-react-markdown-container text-theme-text">
 			<ReactMarkdown
 				// urlTransform={(value: string) => defaultUrlTransform(value)}
 				remarkPlugins={[RemarkGfm, [RemarkMath, { singleDollarTextMath: false }], RemarkBreaks]}

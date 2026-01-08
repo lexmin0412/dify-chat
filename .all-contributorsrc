@@ -1,103 +1,78 @@
 {
-  "projectName": "dify-chat",
-  "projectOwner": "lexmin0412",
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": true,
-  "commitConvention": "angular",
-  "contributors": [
-    {
-      "login": "Amourtani",
-      "name": "子休",
-      "avatar_url": "https://avatars.githubusercontent.com/u/48053221?v=4",
-      "profile": "https://github.com/Amourtani",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "Renderz",
-      "name": "jiAng",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17194685?v=4",
-      "profile": "https://github.com/Renderz",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "GavinZha0",
-      "name": "Gavin Zhao",
-      "avatar_url": "https://avatars.githubusercontent.com/u/88469005?v=4",
-      "profile": "https://github.com/GavinZha0",
-      "contributions": [
-        "ideas",
-        "design"
-      ]
-    },
-    {
-      "login": "ranzhengfeng",
-      "name": "ranzhengfeng",
-      "avatar_url": "https://avatars.githubusercontent.com/u/204541953?v=4",
-      "profile": "https://github.com/ranzhengfeng",
-      "contributions": [
-        "example",
-        "tutorial"
-      ]
-    },
-    {
-      "login": "ARShl",
-      "name": "ArsHl",
-      "avatar_url": "https://avatars.githubusercontent.com/u/8003750?v=4",
-      "profile": "https://github.com/ARShl",
-      "contributions": [
-        "code",
-        "design"
-      ]
-    },
-    {
-      "login": "hitechbeijing",
-      "name": "hitechbeijing",
-      "avatar_url": "https://avatars.githubusercontent.com/u/9780601?v=4",
-      "profile": "https://github.com/hitechbeijing",
-      "contributions": [
-        "code",
-        "example"
-      ]
-    },
-    {
-      "login": "saowu",
-      "name": "saowu",
-      "avatar_url": "https://avatars.githubusercontent.com/u/33569619?v=4",
-      "profile": "https://saowu.top/",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "SickoGt",
-      "name": "Sicko",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17882380?v=4",
-      "profile": "https://github.com/SickoGt",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "HZJprince",
-      "name": "HZJprince",
-      "avatar_url": "https://avatars.githubusercontent.com/u/8064272?v=4",
-      "profile": "https://github.com/HZJprince",
-      "contributions": [
-        "bug",
-        "design"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
-  "linkToUsage": true,
-  "commitType": "docs"
+	"projectName": "dify-chat",
+	"projectOwner": "lexmin0412",
+	"repoType": "github",
+	"repoHost": "https://github.com",
+	"files": ["README.md"],
+	"imageSize": 100,
+	"commit": true,
+	"commitConvention": "angular",
+	"contributors": [
+		{
+			"login": "Amourtani",
+			"name": "子休",
+			"avatar_url": "https://avatars.githubusercontent.com/u/48053221?v=4",
+			"profile": "https://github.com/Amourtani",
+			"contributions": ["code"]
+		},
+		{
+			"login": "Renderz",
+			"name": "jiAng",
+			"avatar_url": "https://avatars.githubusercontent.com/u/17194685?v=4",
+			"profile": "https://github.com/Renderz",
+			"contributions": ["code"]
+		},
+		{
+			"login": "GavinZha0",
+			"name": "Gavin Zhao",
+			"avatar_url": "https://avatars.githubusercontent.com/u/88469005?v=4",
+			"profile": "https://github.com/GavinZha0",
+			"contributions": ["ideas", "design"]
+		},
+		{
+			"login": "ranzhengfeng",
+			"name": "ranzhengfeng",
+			"avatar_url": "https://avatars.githubusercontent.com/u/204541953?v=4",
+			"profile": "https://github.com/ranzhengfeng",
+			"contributions": ["example", "tutorial"]
+		},
+		{
+			"login": "ARShl",
+			"name": "ArsHl",
+			"avatar_url": "https://avatars.githubusercontent.com/u/8003750?v=4",
+			"profile": "https://github.com/ARShl",
+			"contributions": ["code", "design"]
+		},
+		{
+			"login": "hitechbeijing",
+			"name": "hitechbeijing",
+			"avatar_url": "https://avatars.githubusercontent.com/u/9780601?v=4",
+			"profile": "https://github.com/hitechbeijing",
+			"contributions": ["code", "example"]
+		},
+		{
+			"login": "saowu",
+			"name": "saowu",
+			"avatar_url": "https://avatars.githubusercontent.com/u/33569619?v=4",
+			"profile": "https://saowu.top/",
+			"contributions": ["code"]
+		},
+		{
+			"login": "SickoGt",
+			"name": "Sicko",
+			"avatar_url": "https://avatars.githubusercontent.com/u/17882380?v=4",
+			"profile": "https://github.com/SickoGt",
+			"contributions": ["code"]
+		},
+		{
+			"login": "HZJprince",
+			"name": "HZJprince",
+			"avatar_url": "https://avatars.githubusercontent.com/u/8064272?v=4",
+			"profile": "https://github.com/HZJprince",
+			"contributions": ["bug", "design"]
+		}
+	],
+	"contributorsPerLine": 7,
+	"linkToUsage": true,
+	"commitType": "docs"
 }

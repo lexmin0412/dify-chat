@@ -49,8 +49,7 @@ export default function ActionButton(props: IActionButtonProps) {
 				<div
 					className={classNames({
 						'text-desc': disabled,
-						'cursor-pointer hover:bg-gray-100 w-5 h-5 flex items-center justify-center rounded':
-							true,
+						'cursor-pointer hover:bg-gray-100 w-5 h-5 flex items-center justify-center rounded': true,
 					})}
 					onClick={() => {
 						if (!disabled) {
@@ -62,7 +61,7 @@ export default function ActionButton(props: IActionButtonProps) {
 				</div>
 			</Tooltip>
 			<Spin
-				className="!absolute left-0 top-0 w-full h-full"
+				className="!absolute left-0 top-0 h-full w-full"
 				spinning={loading}
 			/>
 		</div>

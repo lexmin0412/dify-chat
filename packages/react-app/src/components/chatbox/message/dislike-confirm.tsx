@@ -50,7 +50,7 @@ export default function DislikeConfirm(props: {
 				confirmLoading={confirmLoading}
 			>
 				<div>
-					<div className="text-desc mb-2">请告知我们此回复有何不妥之处。</div>
+					<div className="mb-2 text-desc">请告知我们此回复有何不妥之处。</div>
 					<Input.TextArea
 						autoSize={{
 							minRows: 3,
@@ -61,7 +61,7 @@ export default function DislikeConfirm(props: {
 							setDislikeReason(e.target.value)
 						}}
 						placeholder="请输入"
-						className="h-12 w-full box-border px-3 py-2 border border-solid border-[var(--theme-border-color)] rounded-md"
+						className="box-border h-12 w-full rounded-md border border-solid border-[var(--theme-border-color)] px-3 py-2"
 					/>
 				</div>
 			</Modal>

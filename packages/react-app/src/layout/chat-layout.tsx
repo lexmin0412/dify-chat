@@ -338,7 +338,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						}}
 					/>
 				) : (
-					<div className="w-full h-full flex items-center justify-center">
+					<div className="flex h-full w-full items-center justify-center">
 						<Empty
 							className="pt-6"
 							description="暂无会话"
@@ -372,7 +372,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				currentConversationInfo,
 			}}
 		>
-			<div className={`w-full h-screen flex flex-col overflow-hidden bg-theme-bg`}>
+			<div className={`flex h-screen w-full flex-col overflow-hidden bg-theme-bg`}>
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
@@ -392,16 +392,16 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				/>
 
 				{/* Main */}
-				<div className="flex-1 overflow-hidden flex rounded-t-3xl bg-theme-main-bg">
+				<div className="flex flex-1 overflow-hidden rounded-t-3xl bg-theme-main-bg">
 					{appLoading || initLoading ? (
-						<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
+						<div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
 							<Spin spinning />
 						</div>
 					) : currentApp?.config ? (
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} transition-all h-full flex-col border-0 border-r border-solid border-r-theme-splitter`}
+								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} h-full flex-col border-0 border-r border-solid border-r-theme-splitter transition-all`}
 							>
 								{sidebarOpen ? (
 									<>
@@ -414,19 +414,19 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													onAddConversation()
 												}}
 												type="default"
-												className="h-10 leading-10 rounded-lg border border-solid border-gray-200 mt-3 mx-4 text-theme-text "
+												className="mx-4 mt-3 h-10 rounded-lg border border-solid border-gray-200 leading-10 text-theme-text"
 												icon={<PlusOutlined className="" />}
 											>
 												新增对话
 											</Button>
 										) : null}
 										{/* 🌟 对话管理 */}
-										<div className="px-4 mt-3 flex-1 overflow-auto">
+										<div className="mt-3 flex-1 overflow-auto px-4">
 											{conversationListWithEmpty}
 										</div>
 									</>
 								) : (
-									<div className="flex flex-col justify-start items-center flex-1 pt-6">
+									<div className="flex flex-1 flex-col items-center justify-start pt-6">
 										{/* 应用图标 */}
 										<div className="mb-1.5 flex items-center justify-center">
 											<AppIcon size="small" />
@@ -437,12 +437,12 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											title="新增对话"
 											placement="right"
 										>
-											<div className="text-theme-text my-1.5 hover:text-primary flex items-center">
+											<div className="my-1.5 flex items-center text-theme-text hover:text-primary">
 												<LucideIcon
 													name="plus-circle"
 													strokeWidth={1.25}
 													size={28}
-													className={`${disableNewButton ? 'text-gray-400 cursor-not-allowed' : 'text-theme-text cursor-pointer'}`}
+													className={`${disableNewButton ? "cursor-not-allowed text-gray-400" : "cursor-pointer text-theme-text"}`}
 													onClick={() => {
 														if (disableNewButton) return
 														onAddConversation()
@@ -473,7 +473,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 									</div>
 								)}
 
-								<div className="border-0 border-t border-solid border-theme-splitter flex items-center justify-center h-12">
+								<div className="flex h-12 items-center justify-center border-0 border-t border-solid border-theme-splitter">
 									<Tooltip
 										title={sidebarOpen ? '折叠侧边栏' : '展开侧边栏'}
 										placement="right"
@@ -494,7 +494,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 							</div>
 
 							{/* 右侧聊天窗口 - 移动端全屏 */}
-							<div className="flex-1 min-w-0 flex flex-col overflow-hidden">
+							<div className="flex min-w-0 flex-1 flex-col overflow-hidden">
 								<ChatboxWrapper
 									conversationListLoading={conversationListLoading}
 									onAddConversation={onAddConversation}
@@ -503,7 +503,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 							</div>
 						</>
 					) : (
-						<div className="w-full h-full flex items-center justify-center">
+						<div className="flex h-full w-full items-center justify-center">
 							<Empty
 								description="暂无 Dify 应用配置，请联系管理员"
 								className="text-base"

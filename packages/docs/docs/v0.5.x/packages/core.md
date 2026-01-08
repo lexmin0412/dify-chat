@@ -112,12 +112,12 @@ const YourChatComponent = () => {
 在你的子组件中使用 `useAppContext` 钩子获取应用上下文：
 
 ```tsx
-import { useAppContext } from '@dify-chat/core';
+import { useAppContext } from '@dify-chat/core'
 
 const YourInnerComponent = () => {
-  const { currentApp, currentAppId } = useAppContext();
-  console.log(`当前应用ID：${currentAppId}`, `当前应用：${currentApp}`);
-};
+	const { currentApp, currentAppId } = useAppContext()
+	console.log(`当前应用ID：${currentAppId}`, `当前应用：${currentApp}`)
+}
 ```
 
 #### 对话上下文
@@ -163,13 +163,10 @@ const YourChatComponent = () => {
 在你的子组件中使用 `useConversationsContext` 钩子获取对话上下文：
 
 ```tsx
-import { useConversationsContext } from '@dify-chat/core';
+import { useConversationsContext } from '@dify-chat/core'
 
 const YourInnerComponent = () => {
-  const { conversations, currentConversationId } = useConversationsContext();
-  console.log(
-    `当前对话ID：${currentConversationId}`,
-    `对话列表：${conversations}`,
-  );
-};
+	const { conversations, currentConversationId } = useConversationsContext()
+	console.log(`当前对话ID：${currentConversationId}`, `对话列表：${conversations}`)
+}
 ```

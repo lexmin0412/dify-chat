@@ -1,1 +1,1 @@
-export { default as ThemeSelector } from './theme-selector';
+export { default as ThemeSelector } from './theme-selector'

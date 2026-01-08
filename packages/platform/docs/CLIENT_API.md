@@ -20,19 +20,19 @@
 
 ```json
 [
-  {
-    "id": "app-123",
-    "info": {
-      "name": "聊天助手",
-      "description": "智能聊天助手应用",
-      "tags": ["聊天", "AI"],
-      "mode": "chat"
-    },
-    "requestConfig": {
-      "apiBase": "https://api.dify.ai/v1",
-      "apiKey": "******"
-    }
-  }
+	{
+		"id": "app-123",
+		"info": {
+			"name": "聊天助手",
+			"description": "智能聊天助手应用",
+			"tags": ["聊天", "AI"],
+			"mode": "chat"
+		},
+		"requestConfig": {
+			"apiBase": "https://api.dify.ai/v1",
+			"apiKey": "******"
+		}
+	}
 ]
 ```
 
@@ -81,11 +81,11 @@
 
 ```json
 {
-  "query": "你好",
-  "conversation_id": "conv-123",
-  "response_mode": "streaming",
-  "inputs": {},
-  "files": []
+	"query": "你好",
+	"conversation_id": "conv-123",
+	"response_mode": "streaming",
+	"inputs": {},
+	"files": []
 }
 ```
 
@@ -103,7 +103,7 @@
 
 ```json
 {
-  "inputs": {}
+	"inputs": {}
 }
 ```
 
@@ -134,8 +134,8 @@
 
 ```json
 {
-  "name": "新会话名称",
-  "auto_generate": false
+	"name": "新会话名称",
+	"auto_generate": false
 }
 ```
 
@@ -162,8 +162,8 @@
 
 ```json
 {
-  "message_id": "msg-123",
-  "text": "要转换的文字"
+	"message_id": "msg-123",
+	"text": "要转换的文字"
 }
 ```
 
@@ -178,9 +178,9 @@
 
 ```json
 {
-  "messageId": "msg-123",
-  "rating": "like",
-  "content": "反馈内容"
+	"messageId": "msg-123",
+	"rating": "like",
+	"content": "反馈内容"
 }
 ```
 
@@ -200,7 +200,7 @@
 
 ```json
 {
-  "inputs": {}
+	"inputs": {}
 }
 ```
 
@@ -218,7 +218,7 @@
 
 ```json
 {
-  "error": "错误描述信息"
+	"error": "错误描述信息"
 }
 ```
 
@@ -235,49 +235,49 @@
 ```typescript
 // 获取应用列表
 const getApps = async () => {
-  const response = await fetch('/api/client/apps')
-  if (!response.ok) {
-    throw new Error('Failed to fetch apps')
-  }
-  return response.json()
+	const response = await fetch('/api/client/apps')
+	if (!response.ok) {
+		throw new Error('Failed to fetch apps')
+	}
+	return response.json()
 }
 
 // 获取单个应用
 const getApp = async (id: string) => {
-  const response = await fetch(`/api/client/apps/${id}`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch app')
-  }
-  return response.json()
+	const response = await fetch(`/api/client/apps/${id}`)
+	if (!response.ok) {
+		throw new Error('Failed to fetch app')
+	}
+	return response.json()
 }
 
 // 发送聊天消息
 const sendMessage = async (appId: string, message: string) => {
-  const response = await fetch(`/api/client/dify/${appId}/chat-messages`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: message,
-      response_mode: 'streaming',
-    }),
-  })
+	const response = await fetch(`/api/client/dify/${appId}/chat-messages`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			query: message,
+			response_mode: 'streaming',
+		}),
+	})
 
-  return response
+	return response
 }
 
 // 上传文件
 const uploadFile = async (appId: string, file: File) => {
-  const formData = new FormData()
-  formData.append('file', file)
+	const formData = new FormData()
+	formData.append('file', file)
 
-  const response = await fetch(`/api/client/dify/${appId}/files/upload`, {
-    method: 'POST',
-    body: formData,
-  })
+	const response = await fetch(`/api/client/dify/${appId}/files/upload`, {
+		method: 'POST',
+		body: formData,
+	})
 
-  return response.json()
+	return response.json()
 }
 ```
 

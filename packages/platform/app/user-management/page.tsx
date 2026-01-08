@@ -92,7 +92,7 @@ export default function UserManagementPage() {
 					<UserOutlined />
 					<div>
 						<div>{name || '未设置姓名'}</div>
-						<div className="text-gray-500 text-sm">{record.email}</div>
+						<div className="text-sm text-gray-500">{record.email}</div>
 					</div>
 				</Space>
 			),
@@ -150,11 +150,11 @@ export default function UserManagementPage() {
 	]
 
 	return (
-		<div className="px-6 w-full h-full">
-			<div className="flex justify-between items-center mb-6">
+		<div className="h-full w-full px-6">
+			<div className="mb-6 flex items-center justify-between">
 				<div>
 					<h1 className="text-2xl font-bold">用户管理</h1>
-					<p className="text-gray-600 mt-1">管理系统用户账户</p>
+					<p className="mt-1 text-gray-600">管理系统用户账户</p>
 				</div>
 				<Button
 					type="primary"

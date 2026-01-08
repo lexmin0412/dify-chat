@@ -63,11 +63,11 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 					{status === 'running' ? (
 						<LoadingOutlined />
 					) : status === 'finished' ? (
-						<div className="text-theme-success flex items-center">
+						<div className="flex items-center text-theme-success">
 							<LucideIcon name="circle-check" />
 						</div>
 					) : null}
-					<div className="text-theme-text ml-2">工作流</div>
+					<div className="ml-2 text-theme-text">工作流</div>
 				</div>
 			),
 			...collapseItemVisibleProps,
@@ -81,7 +81,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 							key: item.id,
 							...collapseItemVisibleProps,
 							label: (
-								<div className="flex items-center justify-between w-full">
+								<div className="flex w-full items-center justify-between">
 									<div className="flex items-center">
 										{item.status === 'success' ? (
 											<CheckCircleOutlined className="text-theme-success" />
@@ -97,7 +97,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 										</div>
 										<div className="text-theme-text">{item.title}</div>
 									</div>
-									<div className="flex items-center  text-theme-text">
+									<div className="flex items-center text-theme-text">
 										{item.status === 'success' ? (
 											<>
 												<div className="mr-3">{item.elapsed_time?.toFixed(3)} 秒</div>
@@ -140,7 +140,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	]
 
 	return (
-		<div className={`md:min-w-chat-card mb-3 ${className || ''}`}>
+		<div className={`mb-3 md:min-w-chat-card ${className || ''}`}>
 			<Collapse
 				items={collapseItems}
 				size="small"

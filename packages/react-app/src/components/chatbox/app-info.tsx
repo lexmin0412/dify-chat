@@ -29,14 +29,14 @@ export function AppInfo() {
 	}, [currentApp?.config, currentApp?.site])
 
 	return (
-		<div className="text-theme-text pt-3">
-			<div className="flex items-center px-4 mt-3">
+		<div className="pt-3 text-theme-text">
+			<div className="mt-3 flex items-center px-4">
 				<AppIcon />
-				<div className="px-3 box-border flex-1 overflow-hidden">
-					<div className="text-theme-text text-sm truncate">{info4Render.name}</div>
+				<div className="box-border flex-1 overflow-hidden px-3">
+					<div className="truncate text-sm text-theme-text">{info4Render.name}</div>
 					{info4Render.description ? (
 						<div
-							className="text-sm text-desc truncate"
+							className="truncate text-sm text-desc"
 							title={info4Render.description}
 						>
 							{info4Render.description}

@@ -80,10 +80,10 @@ Dify Chatflow 编排的回复内容示例：
 
 ```json
 {
-  "username": "lexmin",
-  "phone": "13123456789",
-  "content": "快递太慢啦，我要举报",
-  "isFormSubmit": true
+	"username": "lexmin",
+	"phone": "13123456789",
+	"content": "快递太慢啦，我要举报",
+	"isFormSubmit": true
 }
 ```
 

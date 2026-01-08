@@ -184,10 +184,10 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 				<div className="space-y-6">
 					{/* 应用配置编辑 */}
 					<div>
-						<div className="font-semibold text-base">应用配置</div>
+						<div className="text-base font-semibold">应用配置</div>
 						<Text
 							type="secondary"
-							className="block mb-3"
+							className="mb-3 block"
 						>
 							请输入 JSON 格式的应用配置数组。每个应用需要包含 info 和 requestConfig 字段。
 						</Text>
@@ -258,9 +258,9 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 					</div>
 
 					{/* 使用说明 */}
-					<div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-						<div className="font-semibold !mb-2 text-base">使用说明</div>
-						<div className="text-sm space-y-1 text-gray-600 dark:text-gray-300">
+					<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+						<div className="!mb-2 text-base font-semibold">使用说明</div>
+						<div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
 							<div>
 								• 配置格式需要符合{' '}
 								<span className="font-mono">

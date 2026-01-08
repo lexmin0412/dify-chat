@@ -45,8 +45,8 @@ export default function AuthPage() {
 	})
 
 	return (
-		<div className="w-screen h-screen flex flex-col items-center justify-center bg-theme-bg">
-			<div className="absolute flex-col w-full h-full left-0 top-0 z-50 flex items-center justify-center">
+		<div className="flex h-screen w-screen flex-col items-center justify-center bg-theme-bg">
+			<div className="absolute left-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center">
 				<Logo hideGithubIcon />
 				<div className="text-theme-text">授权登录中...</div>
 				<div className="mt-6">

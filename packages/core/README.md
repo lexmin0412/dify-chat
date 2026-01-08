@@ -115,8 +115,8 @@ const YourChatComponent = () => {
 import { useAppContext } from '@dify-chat/core'
 
 const YourInnerComponent = () => {
-  const { currentApp, currentAppId } = useAppContext()
-  console.log(`当前应用ID：${currentAppId}`, `当前应用：${currentApp}`)
+	const { currentApp, currentAppId } = useAppContext()
+	console.log(`当前应用ID：${currentAppId}`, `当前应用：${currentApp}`)
 }
 ```
 
@@ -166,7 +166,7 @@ const YourChatComponent = () => {
 import { useConversationsContext } from '@dify-chat/core'
 
 const YourInnerComponent = () => {
-  const { conversations, currentConversationId } = useConversationsContext()
-  console.log(`当前对话ID：${currentConversationId}`, `对话列表：${conversations}`)
+	const { conversations, currentConversationId } = useConversationsContext()
+	console.log(`当前对话ID：${currentConversationId}`, `对话列表：${conversations}`)
 }
 ```

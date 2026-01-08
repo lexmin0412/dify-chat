@@ -20,7 +20,6 @@ Dify Chat 的管理后台，基于 Next.js 构建，使用 Prisma + 任意数据
 当前系统包含以下数据表：
 
 - **users** - 用户账户表
-
   - `id` - 用户唯一标识
   - `email` - 邮箱地址（唯一）
   - `password` - 加密密码

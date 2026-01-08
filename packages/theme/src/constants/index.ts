@@ -40,4 +40,4 @@ export const ThemeModeOptions = [
 		label: ThemeModeLabelEnum.DARK,
 		value: ThemeModeEnum.DARK,
 	},
-];
+]

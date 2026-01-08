@@ -61,8 +61,8 @@ export default function InitPage() {
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center p-6">
-			<div className="max-w-md w-full bg-white shadow rounded p-6">
+		<div className="flex min-h-screen items-center justify-center p-6">
+			<div className="w-full max-w-md rounded bg-white p-6 shadow">
 				<Typography.Title level={3}>系统初始化</Typography.Title>
 				<Typography.Paragraph>
 					首次使用，请创建管理员账户。初始化完成后将跳转至登录页。

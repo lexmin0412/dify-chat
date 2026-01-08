@@ -81,21 +81,32 @@ const MarkdownForm = ({ node, onSend }: any) => {
 							<label
 								key={index}
 								htmlFor={child.properties.for}
-								className="system-md-semibold my-2 text-text-secondary"
+								className="system-md-semibold text-text-secondary my-2"
 							>
 								{child.children[0]?.value || ''}
 							</label>
 						)
 					}
-					if (
-						child.tagName === SUPPORTED_TAGS.INPUT) {
+					if (child.tagName === SUPPORTED_TAGS.INPUT) {
 						// 隐藏字段
 						if (child.properties.type === 'hidden') {
-							return <Input key={index} hidden {...child.properties || {}} />
+							return (
+								<Input
+									key={index}
+									hidden
+									{...(child.properties || {})}
+								/>
+							)
 						}
 
-						if (child.properties.type === SUPPORTED_TYPES.DATE || child.properties.type === SUPPORTED_TYPES.DATETIME) {
-							const format = child.properties.type === SUPPORTED_TYPES.DATE ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
+						if (
+							child.properties.type === SUPPORTED_TYPES.DATE ||
+							child.properties.type === SUPPORTED_TYPES.DATETIME
+						) {
+							const format =
+								child.properties.type === SUPPORTED_TYPES.DATE
+									? 'YYYY-MM-DD'
+									: 'YYYY-MM-DD HH:mm:ss'
 							let value = null
 							// 如果有值，尝试解析为日期
 							if (formValues[child.properties.name]) {
@@ -107,20 +118,20 @@ const MarkdownForm = ({ node, onSend }: any) => {
 									value = null
 								}
 							}
-						  return (
-						    <DatePicker
-						      key={index}
-						      value={value}
-						      showTime={child.properties.type === SUPPORTED_TYPES.DATETIME}
-						      onChange={(date) => {
-						        setFormValues(prevValues => ({
-						          ...prevValues,
-						          [child.properties.name]: dayjs(date).format(format),
-						        }))
-						      }}
+							return (
+								<DatePicker
+									key={index}
+									value={value}
+									showTime={child.properties.type === SUPPORTED_TYPES.DATETIME}
+									onChange={date => {
+										setFormValues(prevValues => ({
+											...prevValues,
+											[child.properties.name]: dayjs(date).format(format),
+										}))
+									}}
 									allowClear
-						    />
-						  )
+								/>
+							)
 						}
 						// if (child.properties.type === SUPPORTED_TYPES.TIME) {
 						//   return (
@@ -160,35 +171,35 @@ const MarkdownForm = ({ node, onSend }: any) => {
 						//   )
 						// }
 						if (child.properties.type === SUPPORTED_TYPES.SELECT) {
-						  return (
-						    <Select
-						      key={index}
-						      className="w-full"
-						      options={(() => {
-						        let options = child.properties.dataOptions || child.properties['data-options'] || []
-						        if (typeof options === 'string') {
-						          try {
-						            options = JSON.parse(options)
-						          }
-						          catch (e) {
-						            console.error('Failed to parse options:', e)
-						            options = []
-						          }
-						        }
-						        return options.map((option: string) => ({
-						          label: option,
-						          value: option,
-						        }))
-						      })()}
-						      defaultValue={formValues[child.properties.name]}
-						      onChange={(value) => {
-						        setFormValues(prevValues => ({
-						          ...prevValues,
-						          [child.properties.name]: value,
-						        }))
-						      }}
-						    />
-						  )
+							return (
+								<Select
+									key={index}
+									className="w-full"
+									options={(() => {
+										let options =
+											child.properties.dataOptions || child.properties['data-options'] || []
+										if (typeof options === 'string') {
+											try {
+												options = JSON.parse(options)
+											} catch (e) {
+												console.error('Failed to parse options:', e)
+												options = []
+											}
+										}
+										return options.map((option: string) => ({
+											label: option,
+											value: option,
+										}))
+									})()}
+									defaultValue={formValues[child.properties.name]}
+									onChange={value => {
+										setFormValues(prevValues => ({
+											...prevValues,
+											[child.properties.name]: value,
+										}))
+									}}
+								/>
+							)
 						}
 
 						return (

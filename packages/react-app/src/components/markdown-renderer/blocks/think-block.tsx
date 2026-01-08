@@ -77,12 +77,10 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 							d="M9 5l7 7-7 7"
 						/>
 					</svg>
-					{isComplete
-						? `已完成深度思考`
-						: `深度思考中...(${elapsedTime.toFixed(1)}s)`}
+					{isComplete ? `已完成深度思考` : `深度思考中...(${elapsedTime.toFixed(1)}s)`}
 				</div>
 			</summary>
-			<div className={`border-l mt-1 rounded-lg border-gray-300 ml-5 text-theme-desc`}>
+			<div className={`ml-5 mt-1 rounded-lg border-l border-gray-300 text-theme-desc`}>
 				{displayContent}
 			</div>
 		</details>

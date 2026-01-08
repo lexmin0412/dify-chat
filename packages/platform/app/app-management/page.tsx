@@ -42,7 +42,7 @@ export default function AppManagementPage() {
 
 	return (
 		<>
-			<div className="flex-1 h-full overflow-auto px-6">
+			<div className="h-full flex-1 overflow-auto px-6">
 				<div className="mb-3 flex items-center justify-between">
 					<div className="flex items-center">
 						<Title level={3}>应用配置</Title>

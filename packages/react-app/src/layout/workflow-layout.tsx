@@ -208,7 +208,7 @@ export default function WorkflowLayout() {
 			key: 'result',
 			label: '结果',
 			children: (
-				<div className="w-full h-full overflow-x-hidden overflow-y-auto">
+				<div className="h-full w-full overflow-y-auto overflow-x-hidden">
 					{text ? (
 						<MarkdownRenderer markdownText={text} />
 					) : files ? (
@@ -231,7 +231,7 @@ export default function WorkflowLayout() {
 							message.success('已复制到剪贴板')
 						}}
 					/>
-					<pre className="w-full overflow-auto bg-theme-code-block-bg p-3 box-border rounded-lg">
+					<pre className="box-border w-full overflow-auto rounded-lg bg-theme-code-block-bg p-3">
 						{JSON.stringify(resultDetail, null, 2)}
 					</pre>
 				</div>
@@ -241,13 +241,13 @@ export default function WorkflowLayout() {
 	].filter(item => item.visible)
 
 	return (
-		<div className="block md:flex md:items-stretch w-full h-full overflow-y-auto md:overflow-y-hidden">
+		<div className="block h-full w-full overflow-y-auto md:flex md:items-stretch md:overflow-y-hidden">
 			{/* 参数填写区域 */}
-			<div className="md:flex-1 overflow-hidden border-0 border-r border-solid border-theme-border pb-6 md:pb-0">
+			<div className="overflow-hidden border-0 border-r border-solid border-theme-border pb-6 md:flex-1 md:pb-0">
 				<div className="px-2">
 					<AppInfo />
 				</div>
-				<div className="px-6 mt-6">
+				<div className="mt-6 px-6">
 					<AppInputForm
 						onStartConversation={values => {
 							console.log('onStartConversation', values)
@@ -277,9 +277,9 @@ export default function WorkflowLayout() {
 
 			{/* 工作流执行输出区域 */}
 			{appMode === AppModeEnums.WORKFLOW && (
-				<div className="md:flex-1 px-4 pt-6 overflow-x-hidden overflow-y-auto">
+				<div className="overflow-y-auto overflow-x-hidden px-4 pt-6 md:flex-1">
 					{!workflowItems?.length && workflowStatus !== 'running' ? (
-						<div className="w-full h-full flex items-center justify-center">
+						<div className="flex h-full w-full items-center justify-center">
 							<Empty description={`点击 "运行" 试试看, AI 会给你带来意想不到的惊喜。 `} />
 						</div>
 					) : (
@@ -297,9 +297,9 @@ export default function WorkflowLayout() {
 
 			{/* 文本生成结果渲染 */}
 			{appMode === AppModeEnums.TEXT_GENERATOR && (
-				<div className="md:flex-1 px-4 pt-6 relative overflow-x-hidden overflow-y-auto bg-theme-bg">
+				<div className="relative overflow-y-auto overflow-x-hidden bg-theme-bg px-4 pt-6 md:flex-1">
 					{textGenerateStatus === 'init' ? (
-						<div className="w-full h-full flex items-center justify-center">
+						<div className="flex h-full w-full items-center justify-center">
 							<Empty description={`点击 "运行" 试试看, AI 会给你带来意想不到的惊喜。 `} />
 						</div>
 					) : (
@@ -307,7 +307,7 @@ export default function WorkflowLayout() {
 							<MarkdownRenderer markdownText={text} />
 							<Tooltip title="复制内容">
 								<CopyOutlined
-									className="absolute top-6 right-6 cursor-pointer"
+									className="absolute right-6 top-6 cursor-pointer"
 									onClick={async () => {
 										await copyToClipboard(text)
 										message.success('已复制到剪贴板')

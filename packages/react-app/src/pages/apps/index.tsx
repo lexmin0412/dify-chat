@@ -25,7 +25,7 @@ export default function AppListPage() {
 	)
 
 	return (
-		<div className="h-screen relative overflow-hidden flex flex-col bg-theme-bg w-full">
+		<div className="relative flex h-screen w-full flex-col overflow-hidden bg-theme-bg">
 			<HeaderLayout
 				title={
 					<div className="flex items-center">
@@ -38,7 +38,7 @@ export default function AppListPage() {
 					</div>
 				}
 			/>
-			<div className="flex-1 bg-theme-main-bg rounded-t-3xl py-6 overflow-y-auto box-border overflow-x-hidden">
+			<div className="box-border flex-1 overflow-y-auto overflow-x-hidden rounded-t-3xl bg-theme-main-bg py-6">
 				{list?.length ? (
 					<Row
 						gutter={[16, 16]}
@@ -53,7 +53,7 @@ export default function AppListPage() {
 									>
 										<div
 											key={item.id}
-											className={`relative group p-3 bg-theme-btn-bg border border-solid border-theme-border rounded-2xl cursor-pointer hover:border-primary hover:text-primary`}
+											className={`group relative cursor-pointer rounded-2xl border border-solid border-theme-border bg-theme-btn-bg p-3 hover:border-primary hover:text-primary`}
 										>
 											应用信息缺失，请检查
 										</div>
@@ -68,7 +68,7 @@ export default function AppListPage() {
 								>
 									<div
 										key={item.id}
-										className={`relative group p-3 bg-theme-btn-bg border border-solid border-theme-border rounded-2xl cursor-pointer hover:border-primary hover:text-primary`}
+										className={`group relative cursor-pointer rounded-2xl border border-solid border-theme-border bg-theme-btn-bg p-3 hover:border-primary hover:text-primary`}
 									>
 										<div
 											onClick={() => {
@@ -76,24 +76,24 @@ export default function AppListPage() {
 											}}
 										>
 											<div className="flex items-center overflow-hidden">
-												<div className="h-10 w-10 bg-[#ffead5] dark:bg-transparent border border-solid border-transparent dark:border-theme-border rounded-lg flex items-center justify-center">
+												<div className="flex h-10 w-10 items-center justify-center rounded-lg border border-solid border-transparent bg-[#ffead5] dark:border-theme-border dark:bg-transparent">
 													<LucideIcon
 														name="bot"
 														className="text-xl text-theme-text"
 													/>
 												</div>
-												<div className="flex-1 overflow-hidden ml-3 text-theme-text h-10 flex flex-col justify-between">
-													<div className="truncate font-semibold pr-4">{item.info.name}</div>
-													<div className="text-theme-desc text-xs mt-0.5">
+												<div className="ml-3 flex h-10 flex-1 flex-col justify-between overflow-hidden text-theme-text">
+													<div className="truncate pr-4 font-semibold">{item.info.name}</div>
+													<div className="mt-0.5 text-xs text-theme-desc">
 														{item.info.mode ? AppModeLabels[item.info.mode] : 'unknown'}
 													</div>
 												</div>
 											</div>
-											<div className="text-sm mt-3 h-10 overflow-hidden text-ellipsis leading-5 whitespace-normal line-clamp-2 text-theme-desc">
+											<div className="mt-3 line-clamp-2 h-10 overflow-hidden text-ellipsis whitespace-normal text-sm leading-5 text-theme-desc">
 												{item.info.description || '暂无描述'}
 											</div>
 										</div>
-										<div className="flex items-center text-desc truncate mt-3 h-4">
+										<div className="mt-3 flex h-4 items-center truncate text-desc">
 											{hasTags ? (
 												<>
 													<TagOutlined className="mr-2" />
@@ -107,7 +107,7 @@ export default function AppListPage() {
 						})}
 					</Row>
 				) : (
-					<div className="w-full h-full box-border flex flex-col items-center justify-center px-3">
+					<div className="box-border flex h-full w-full flex-col items-center justify-center px-3">
 						<Empty description="暂无应用" />
 					</div>
 				)}

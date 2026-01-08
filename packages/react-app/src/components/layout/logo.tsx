@@ -6,7 +6,7 @@ import LogoImage from '@/assets/images/logo.png'
 export const LogoIcon = () => {
 	return (
 		<img
-			className="w-5 h-5 inline-block"
+			className="inline-block h-5 w-5"
 			src={LogoImage}
 			draggable={false}
 			alt="logo"
@@ -22,7 +22,7 @@ export const GithubIcon = () => {
 			target="_blank"
 			className="!px-0"
 		>
-			<GithubOutlined className="text-xl cursor-pointer text-theme-text" />
+			<GithubOutlined className="cursor-pointer text-xl text-theme-text" />
 		</Button>
 	)
 }
@@ -50,20 +50,20 @@ export const Logo = (props: ILogoProps) => {
 	const { hideGithubIcon, hideText, text, renderLogo } = props
 
 	return (
-		<div className="flex h-16 items-center justify-start !py-0 box-border">
-			<div className="h-full flex items-center flex-1 overflow-hidden">
+		<div className="box-border flex h-16 items-center justify-start !py-0">
+			<div className="flex h-full flex-1 items-center overflow-hidden">
 				{renderLogo ? (
 					renderLogo()
 				) : (
 					<img
-						className="w-8 h-8 inline-block"
+						className="inline-block h-8 w-8"
 						src={LogoImage}
 						draggable={false}
 						alt="logo"
 					/>
 				)}
 				{!hideText ? (
-					<span className="inline-block my-0 ml-3 font-bold text-lg text-theme-text">
+					<span className="my-0 ml-3 inline-block text-lg font-bold text-theme-text">
 						{text || 'Dify Chat'}
 					</span>
 				) : null}
@@ -75,7 +75,7 @@ export const Logo = (props: ILogoProps) => {
 					target="_blank"
 					className="px-0"
 				>
-					<GithubOutlined className="text-lg cursor-pointer text-theme-text" />
+					<GithubOutlined className="cursor-pointer text-lg text-theme-text" />
 				</Button>
 			)}
 		</div>

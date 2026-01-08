@@ -34,7 +34,7 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 			)
 		) : (
 			<img
-				className="w-full h-full inline-block"
+				className="inline-block h-full w-full"
 				src={renderProps.icon}
 			/>
 		)
@@ -46,7 +46,7 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 
 	return (
 		<div
-			className={`rounded-lg flex items-center justify-center ${size === 'small' ? 'w-9 h-9 text-xl' : 'w-11 h-11 text-2xl'} flex items-center overflow-hidden`}
+			className={`flex items-center justify-center rounded-lg ${size === 'small' ? "h-9 w-9 text-xl" : "h-11 w-11 text-2xl"} flex items-center overflow-hidden`}
 			style={{
 				background: isDark ? 'transparent' : renderProps.background,
 			}}

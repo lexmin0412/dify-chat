@@ -238,12 +238,12 @@ CREATE INDEX idx_dify_apps_created_at ON dify_apps(createdAt);
 ```javascript
 // lib/prisma.ts
 export const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-  log: process.env.NODE_ENV === 'development' ? ['query'] : [],
+	datasources: {
+		db: {
+			url: process.env.DATABASE_URL,
+		},
+	},
+	log: process.env.NODE_ENV === 'development' ? ['query'] : [],
 })
 ```
 
@@ -255,9 +255,9 @@ export const prisma = new PrismaClient({
 
 ```json
 {
-  "status": "ok",
-  "timestamp": "2024-01-01T00:00:00.000Z",
-  "database": "connected"
+	"status": "ok",
+	"timestamp": "2024-01-01T00:00:00.000Z",
+	"database": "connected"
 }
 ```
 

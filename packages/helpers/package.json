@@ -1,43 +1,47 @@
 {
 	"name": "@dify-chat/helpers",
-	"description": "Dify Chat 的辅助工具包",
 	"version": "0.6.9",
-	"type": "module",
+	"description": "Dify Chat 的辅助工具包",
 	"author": {
 		"name": "lexmin0412",
 		"email": "zhangle_dev@outlook.com",
 		"url": "http://github.com/lexmin0412"
-	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lexmin0412/dify-chat.git",
 		"directory": "packages/helpers"
 	},
+	"source": "./src/index.ts",
+	"files": [
+		"dist"
+	],
+	"type": "module",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"source": "./src/index.ts",
 			"types": "./dist/index.d.ts",
+			"source": "./src/index.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
 		}
 	},
-	"source": "./src/index.ts",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"scripts": {
 		"build": "rslib build",
 		"check": "biome check --write",
 		"dev": "rslib build --watch",
 		"format": "biome format --write",
 		"test": "vitest run"
+	},
+	"dependencies": {
+		"ahooks": "catalog:",
+		"pako": "catalog:"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
@@ -46,9 +50,5 @@
 		"@types/pako": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "catalog:"
-	},
-	"dependencies": {
-		"ahooks": "catalog:",
-		"pako": "catalog:"
 	}
 }

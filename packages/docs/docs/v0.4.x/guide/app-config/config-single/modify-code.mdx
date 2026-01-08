@@ -1,4 +1,4 @@
-import { Tab, Tabs } from 'rspress/theme';
+import { Tab, Tabs } from 'rspress/theme'
 
 # 按需修改代码
 
@@ -16,14 +16,14 @@ import { Tab, Tabs } from 'rspress/theme';
 
 ```tsx title="src/App.tsx"
 // 初始化全局运行时配置
-difyChatRuntimeConfig.init('multiApp');
+difyChatRuntimeConfig.init('multiApp')
 ```
 
 如果你想要以单应用模式运行，需要对 `difyChatRuntimeConfig.init()` 的参数进行修改：
 
 ```tsx title="src/App.tsx"
 // 初始化全局运行时配置
-difyChatRuntimeConfig.init('singleApp');
+difyChatRuntimeConfig.init('singleApp')
 ```
 
 ### 1. 自定义应用配置管理
@@ -33,15 +33,15 @@ difyChatRuntimeConfig.init('singleApp');
 多应用模式：
 
 ```tsx title="src/services/app/multiApp/index.ts"
-import DifyAppService from './localstorage';
+import DifyAppService from './localstorage'
 
-export const appService = new DifyAppService();
+export const appService = new DifyAppService()
 ```
 
 单应用模式：
 
 ```tsx title="src/services/app/singleApp/index.ts"
-export { appConfig } from './localstorage';
+export { appConfig } from './localstorage'
 ```
 
 在 `src/services/app` 在，分别有 `multiApp` 和 `singleApp` 两个目录，其下又分别有三种应用配置存储的实现形式：
@@ -118,16 +118,8 @@ cp .env.template .env
 默认情况下，代码中的运行模式为 "多应用"，你可以在 `.env` 中进行修改：
 
 <Tabs>
-  <Tab label="多应用模式">
-```bash title=".env"
-RUNNING_MODE=multiApp
-```
-	</Tab>
-  <Tab label="单应用模式">
-```bash title=".env"
-RUNNING_MODE=singleApp
-```
-	</Tab>
+	<Tab label="多应用模式">```bash title=".env" RUNNING_MODE=multiApp ```</Tab>
+	<Tab label="单应用模式">```bash title=".env" RUNNING_MODE=singleApp ```</Tab>
 </Tabs>
 
 ### 1. 选定存储方式

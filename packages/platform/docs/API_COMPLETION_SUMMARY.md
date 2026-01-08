@@ -112,9 +112,9 @@ packages/platform/app/api/client/apps/
 - 发送聊天消息（流式）：
   ```typescript
   const resp = await fetch(`${API_BASE}/dify/${appId}/chat-messages`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: '你好', response_mode: 'streaming' }),
+  	method: 'POST',
+  	headers: { 'Content-Type': 'application/json' },
+  	body: JSON.stringify({ query: '你好', response_mode: 'streaming' }),
   })
   // 使用 EventSource/SSE 方式或手动读取 Response.body 流
   ```
@@ -123,8 +123,8 @@ packages/platform/app/api/client/apps/
   const formData = new FormData()
   formData.append('file', file)
   const upload = await fetch(`${API_BASE}/dify/${appId}/files/upload`, {
-    method: 'POST',
-    body: formData,
+  	method: 'POST',
+  	body: formData,
   })
   const result = await upload.json()
   ```
@@ -136,17 +136,17 @@ packages/platform/app/api/client/apps/
 - 提交反馈（路径参数版）：
   ```typescript
   await fetch(`${API_BASE}/dify/${appId}/messages/${messageId}/feedbacks`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user: userId, rating: 1, content: '👍' }),
+  	method: 'POST',
+  	headers: { 'Content-Type': 'application/json' },
+  	body: JSON.stringify({ user: userId, rating: 1, content: '👍' }),
   })
   ```
 - 提交反馈（消息ID在体内）：
   ```typescript
   await fetch(`${API_BASE}/dify/${appId}/feedback`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-USER-ID': userId },
-    body: JSON.stringify({ messageId, rating: 1, content: '👍' }),
+  	method: 'POST',
+  	headers: { 'Content-Type': 'application/json', 'X-USER-ID': userId },
+  	body: JSON.stringify({ messageId, rating: 1, content: '👍' }),
   })
   ```
 

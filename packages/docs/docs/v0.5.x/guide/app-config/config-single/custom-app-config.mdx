@@ -1,4 +1,4 @@
-import { Tab, Tabs } from 'rspress/theme';
+import { Tab, Tabs } from 'rspress/theme'
 
 # 自定义应用配置
 
@@ -7,17 +7,12 @@ import { Tab, Tabs } from 'rspress/theme';
 在开始配置之前，确保你的运行模式是单应用模式。
 
 <Tabs>
-  <Tab label="React SPA">
-```tsx title="packages/react-app/src/App.tsx"
-// 初始化全局运行时配置
-difyChatRuntimeConfig.init('singleApp')
-```
+	<Tab label="React SPA">
+		```tsx title="packages/react-app/src/App.tsx" // 初始化全局运行时配置
+		difyChatRuntimeConfig.init('singleApp') ```
 	</Tab>
-  <Tab label="Next.js">
-```bash title="packages/nextjs-app/.env"
-# 运行模式
-RUNNING_MODE=singleApp
-```
+	<Tab label="Next.js">
+		```bash title="packages/nextjs-app/.env" # 运行模式 RUNNING_MODE=singleApp ```
 	</Tab>
 </Tabs>
 
@@ -82,10 +77,10 @@ const API_BASE_URL = 'http://localhost:4567'
 
 你需要自行实现以下接口以完成应用配置的读取和保存：
 
-| 接口名称 | 请求方法 | 接口路径 | 请求参数 | 返回参数 |
-|---------|----------|----------|----------|----------|
-| 获取 App 配置详情 | GET | `/app` | 无 | `IDifyAppItem` |
-| 保存 App 配置 | POST | `/app` | `IDifyAppItem` | 无 |
+| 接口名称          | 请求方法 | 接口路径 | 请求参数       | 返回参数       |
+| ----------------- | -------- | -------- | -------------- | -------------- |
+| 获取 App 配置详情 | GET      | `/app`   | 无             | `IDifyAppItem` |
+| 保存 App 配置     | POST     | `/app`   | `IDifyAppItem` | 无             |
 
 ### Next.js 版本
 
@@ -93,7 +88,7 @@ const API_BASE_URL = 'http://localhost:4567'
 
 ```ts title="packages/nextjs-app/services/app/singleApp/index.ts"
 // 使用 fs 实现
-export { appConfig } from "./fs";
+export { appConfig } from './fs'
 ```
 
 #### 内置实现
@@ -106,34 +101,31 @@ export { appConfig } from "./fs";
 
 ```json title="packages/nextjs-app/.dify-chat/storage/app.config.json"
 {
-  "info": {
-    "name": "Chatflow Demo",
-    "description": "",
-    "tags": [
-      "参数",
-      "测试"
-    ],
-    "mode": "advanced-chat",
-    "author_name": "Dify"
-  },
-  "requestConfig": {
-    "apiBase": "https://api.dify.ai/v1",
-    "apiKey": "app-xxx"
-  },
-  "answerForm": {
-    "enabled": false
-  },
-  "inputParams": {
-    "enableUpdateAfterCvstStarts": false
-  },
-  "extConfig": {
-    "conversation": {
-      "openingStatement": {
-        "displayMode": "default"
-      }
-    }
-  },
-  "id": "1751257572123"
+	"info": {
+		"name": "Chatflow Demo",
+		"description": "",
+		"tags": ["参数", "测试"],
+		"mode": "advanced-chat",
+		"author_name": "Dify"
+	},
+	"requestConfig": {
+		"apiBase": "https://api.dify.ai/v1",
+		"apiKey": "app-xxx"
+	},
+	"answerForm": {
+		"enabled": false
+	},
+	"inputParams": {
+		"enableUpdateAfterCvstStarts": false
+	},
+	"extConfig": {
+		"conversation": {
+			"openingStatement": {
+				"displayMode": "default"
+			}
+		}
+	},
+	"id": "1751257572123"
 }
 ```
 
@@ -152,7 +144,7 @@ const API_BASE_URL = 'http://localhost:4567'
 
 你需要自行实现以下接口以完成应用配置的读取和保存：
 
-| 接口名称 | 请求方法 | 接口路径 | 请求参数 | 返回参数 |
-|---------|----------|----------|----------|----------|
-| 获取 App 配置详情 | GET | `/app` | 无 | `IDifyAppItem` |
-| 保存 App 配置 | POST | `/app` | `IDifyAppItem` | 无 |
+| 接口名称          | 请求方法 | 接口路径 | 请求参数       | 返回参数       |
+| ----------------- | -------- | -------- | -------------- | -------------- |
+| 获取 App 配置详情 | GET      | `/app`   | 无             | `IDifyAppItem` |
+| 保存 App 配置     | POST     | `/app`   | `IDifyAppItem` | 无             |

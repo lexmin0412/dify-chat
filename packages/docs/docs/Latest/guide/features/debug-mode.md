@@ -43,8 +43,8 @@ http://localhost:5200/dify-chat/?isDebug=true
 
 ```js title="packages/react-app/public/env.js"
 window.__DIFY_CHAT_ENV__ = {
-  PUBLIC_DEBUG_MODE: 'true',
-};
+	PUBLIC_DEBUG_MODE: 'true',
+}
 ```
 
 如果你是基于 docker compose 构建的，更方便的方式是在 `docker-compose.yml` 中，将 `react-app` 服务的 `PUBLIC_DEBUG_MODE` 变量值改为 `true` 之后重启容器。

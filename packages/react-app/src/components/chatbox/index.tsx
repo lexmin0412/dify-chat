@@ -251,8 +251,8 @@ export const Chatbox = (props: ChatboxProps) => {
 	}, [openingStatementMode, items, conversationId])
 
 	return (
-		<div className="w-full h-full overflow-hidden my-0 mx-auto box-border flex flex-col gap-4 relative">
-			<div className="w-full h-full overflow-hidden pt-1 pb-24">
+		<div className="relative mx-auto my-0 box-border flex h-full w-full flex-col gap-4 overflow-hidden">
+			<div className="h-full w-full overflow-hidden pb-24 pt-1">
 				<div
 					id="scrollableDiv"
 					ref={scrollContainerRef}
@@ -287,7 +287,7 @@ export const Chatbox = (props: ChatboxProps) => {
 							minHeight: 'calc(100vh - 10.25rem)',
 						}}
 					>
-						<div className="flex-1 w-full md:max-w-[720px] mx-auto px-3 md:px-6 pb-6 box-border">
+						<div className="mx-auto box-border w-full flex-1 px-3 pb-6 md:max-w-[720px] md:px-6">
 							{/* 🌟 消息列表 */}
 							<Bubble.List
 								items={items}
@@ -296,7 +296,7 @@ export const Chatbox = (props: ChatboxProps) => {
 
 							{/* 下一步问题建议 当存在消息列表，且非正在对话时才展示 */}
 							{nextSuggestions?.length && items.length && !isRequesting ? (
-								<div className="py-3 mt-3">
+								<div className="mt-3 py-3">
 									<div className="text-desc">🤔 你可能还想问:</div>
 									<div>
 										{nextSuggestions?.map(item => {
@@ -306,7 +306,7 @@ export const Chatbox = (props: ChatboxProps) => {
 													className="mt-3 flex items-center"
 												>
 													<div
-														className="p-2 shrink-0 cursor-pointer rounded-lg flex items-center border border-solid border-theme-border text-sm max-w-full text-theme-desc"
+														className="flex max-w-full shrink-0 cursor-pointer items-center rounded-lg border border-solid border-theme-border p-2 text-sm text-theme-desc"
 														onClick={() => {
 															onPromptsItemClick(item)
 														}}
@@ -333,7 +333,7 @@ export const Chatbox = (props: ChatboxProps) => {
 					</InfiniteScroll>
 				</div>
 				<div
-					className="absolute bottom-0 bg-theme-main-bg w-full md:max-w-[720px] px-3 md:px-6 left-1/2 box-border"
+					className="absolute bottom-0 left-1/2 box-border w-full bg-theme-main-bg px-3 md:max-w-[720px] md:px-6"
 					style={{
 						transform: 'translateX(-50%)',
 					}}
@@ -354,7 +354,7 @@ export const Chatbox = (props: ChatboxProps) => {
 						className="w-full !text-theme-text"
 						onCancel={onCancel}
 					/>
-					<div className="text-theme-desc text-sm text-center h-8 leading-8 truncate">
+					<div className="h-8 truncate text-center text-sm leading-8 text-theme-desc">
 						{currentApp?.site?.custom_disclaimer || '内容由 AI 生成, 仅供参考'}
 					</div>
 				</div>

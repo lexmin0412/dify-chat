@@ -26,7 +26,7 @@ export default function WorkflowNodeDetail(props: IWorkflowNodeDetailProps) {
 							message.success('复制成功')
 						}}
 					/>
-					<pre className="w-full overflow-auto m-0">{JSON.stringify(originalContent, null, 2)}</pre>
+					<pre className="m-0 w-full overflow-auto">{JSON.stringify(originalContent, null, 2)}</pre>
 				</>
 			) : (
 				<pre>空</pre>

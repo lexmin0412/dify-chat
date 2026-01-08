@@ -1,38 +1,41 @@
 {
 	"name": "@dify-chat/theme",
 	"version": "0.6.9",
-	"type": "module",
 	"author": {
 		"name": "lexmin0412",
 		"email": "zhangle_dev@outlook.com",
 		"url": "http://github.com/lexmin0412"
-	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/lexmin0412/dify-chat.git",
 		"directory": "packages/theme"
 	},
-	"exports": {
-		".": {
-			"source": "./src/index.ts",
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
 	"source": "./src/index.ts",
-	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
+	"type": "module",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"source": "./src/index.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org"
+	},
 	"scripts": {
 		"build": "rslib build",
 		"dev": "rslib build --watch",
 		"format": "prettier --write .",
 		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@dify-chat/helpers": "workspace:^"
 	},
 	"devDependencies": {
 		"@eslint/js": "catalog:",
@@ -54,8 +57,5 @@
 		"lucide-react": "catalog:",
 		"react": ">=16.9.0",
 		"react-dom": ">=16.9.0"
-	},
-	"dependencies": {
-		"@dify-chat/helpers": "workspace:^"
 	}
 }

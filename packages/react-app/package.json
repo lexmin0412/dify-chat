@@ -1,7 +1,7 @@
 {
 	"name": "dify-chat-app-react",
-	"private": true,
 	"version": "0.6.9",
+	"private": true,
 	"scripts": {
 		"build": "rsbuild build",
 		"dev": "rsbuild dev",
@@ -9,7 +9,6 @@
 		"lint": "eslint .",
 		"preview": "rsbuild preview"
 	},
-	"packageManager": "pnpm@10.8.1",
 	"dependencies": {
 		"@ant-design/cssinjs": "catalog:",
 		"@ant-design/icons": "catalog:",
@@ -78,5 +77,6 @@
 		"tailwindcss": "catalog:",
 		"typescript": "catalog:",
 		"typescript-eslint": "catalog:"
-	}
+	},
+	"packageManager": "pnpm@10.8.1"
 }

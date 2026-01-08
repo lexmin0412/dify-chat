@@ -46,10 +46,10 @@ export default function LoginPage() {
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-theme-bg">
+		<div className="bg-theme-bg flex min-h-screen items-center justify-center">
 			<Card className="w-full max-w-md dark:bg-gray-700">
-				<div className="text-center mb-8">
-					<div className="flex justify-center mb-4">
+				<div className="mb-8 text-center">
+					<div className="mb-4 flex justify-center">
 						<Image
 							src={LogoIcon}
 							width={64}

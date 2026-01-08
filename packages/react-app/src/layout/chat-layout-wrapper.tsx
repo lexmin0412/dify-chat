@@ -108,7 +108,7 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 								className="mr-1"
 							/>
 							<span
-								className="cursor-pointer inline-block shrink-0"
+								className="inline-block shrink-0 cursor-pointer"
 								onClick={() => {
 									history.push('/apps')
 								}}
@@ -149,8 +149,8 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 											],
 										}}
 									>
-										<div className="cursor-pointer flex-1 flex items-center overflow-hidden">
-											<span className="cursor-pointer w-full inline-block truncate">
+										<div className="flex flex-1 cursor-pointer items-center overflow-hidden">
+											<span className="inline-block w-full cursor-pointer truncate">
 												{currentApp?.config?.info?.name}
 											</span>
 											<DownCircleTwoTone className="ml-1" />

@@ -378,7 +378,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	// 如果应用配置 / 对话列表加载中，则展示 loading
 	if (conversationListLoading || appLoading) {
 		return (
-			<div className="w-full h-full flex items-center justify-center">
+			<div className="flex h-full w-full items-center justify-center">
 				<Spin spinning />
 			</div>
 		)
@@ -386,7 +386,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 
 	if (!currentApp) {
 		return (
-			<div className="w-full h-full flex items-center justify-center">
+			<div className="flex h-full w-full items-center justify-center">
 				<Empty description="请先配置 Dify 应用">
 					<Button
 						type="primary"
@@ -400,10 +400,10 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	}
 
 	return (
-		<div className="flex h-screen flex-col overflow-hidden flex-1">
-			<div className="flex-1 overflow-hidden relative">
+		<div className="flex h-screen flex-1 flex-col overflow-hidden">
+			<div className="relative flex-1 overflow-hidden">
 				{initLoading ? (
-					<div className="absolute w-full h-full left-0 top-0 z-50 flex items-center justify-center">
+					<div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
 						<Spin spinning />
 					</div>
 				) : null}
@@ -440,7 +440,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						entryForm={entryForm}
 					/>
 				) : (
-					<div className="w-full h-full flex items-center justify-center">
+					<div className="flex h-full w-full items-center justify-center">
 						<Spin spinning />
 					</div>
 				)}
