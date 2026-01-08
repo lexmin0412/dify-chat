@@ -25,7 +25,7 @@ import {
 } from 'antd'
 import dayjs from 'dayjs'
 import { useSearchParams } from 'pure-react-router'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
 import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@/components'
 import { HeaderLayout } from '@/components'
@@ -89,7 +89,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	/**
 	 * 获取对话列表
 	 */
-	const getConversationItems = async (showLoading = true) => {
+	const getConversationItems = useEffectEvent(async (showLoading = true) => {
 		if (showLoading) {
 			setCoversationListLoading(true)
 		}
@@ -117,7 +117,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		} finally {
 			setCoversationListLoading(false)
 		}
-	}
+	})
 
 	/**
 	 * 添加临时新对话(要到第一次服务器响应有效的对话 ID 时才真正地创建完成)

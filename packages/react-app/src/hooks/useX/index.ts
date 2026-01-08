@@ -23,6 +23,7 @@ export const useX = (options: {
 	latestProps: React.MutableRefObject<{
 		conversationId: string | undefined
 		appId?: string
+		difyApi?: DifyApi
 	}>
 	entryForm: FormInstance<Record<string, unknown>>
 	getNextSuggestions: (messageId: string) => void
@@ -30,7 +31,6 @@ export const useX = (options: {
 	abortRef: React.MutableRefObject<() => void>
 	getConversationMessages: (conversationId: string) => void
 	onConversationIdChange: (id: string) => void
-	difyApi?: DifyApi
 }) => {
 	const {
 		latestProps,
@@ -40,7 +40,6 @@ export const useX = (options: {
 		getConversationMessages,
 		onConversationIdChange,
 		entryForm,
-		difyApi,
 	} = options
 	const { currentApp } = useAppContext()
 	const { userId: user } = useAuth()
@@ -50,7 +49,7 @@ export const useX = (options: {
 		request: async ({ message }, { onSuccess, onUpdate, onError }) => {
 			const inputs = message?.inputs || entryForm.getFieldsValue() || {}
 			// 发送消息
-			const response = await difyApi!.sendMessage({
+			const response = await latestProps.current.difyApi!.sendMessage({
 				inputs,
 				conversation_id: !isTempId(latestProps.current.conversationId)
 					? latestProps.current.conversationId

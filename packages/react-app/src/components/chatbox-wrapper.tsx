@@ -5,7 +5,7 @@ import { Roles, useConversationsContext } from '@dify-chat/core'
 import { isTempId } from '@dify-chat/helpers'
 import { Button, Empty, Form, Spin } from 'antd'
 import dayjs from 'dayjs'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 
 import { Chatbox } from '@/components'
 import { useLatest } from '@/hooks/use-latest'
@@ -82,13 +82,10 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	/**
 	 * 获取下一轮问题建议
 	 */
-	const getNextSuggestions = useCallback(
-		async (message_id: string) => {
-			const result = await difyApi!.getNextSuggestions({ message_id })
-			setNextSuggestions(result.data)
-		},
-		[difyApi],
-	)
+	const getNextSuggestions = useEffectEvent(async (message_id: string) => {
+		const result = await difyApi!.getNextSuggestions({ message_id })
+		setNextSuggestions(result.data)
+	})
 
 	const updateConversationInputs = useCallback(
 		(formValues: Record<string, unknown>) => {
@@ -112,7 +109,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	 * @param conversationId 对话ID
 	 * @param preserveLoadedCount 是否保持已加载的消息数量（用于反馈后刷新）
 	 */
-	const initConversationMessages = useCallback(
+	const initConversationMessages = useEffectEvent(
 		async (
 			conversationId: string = currentConversationId,
 			preserveLoadedCount: boolean = false,
@@ -198,15 +195,6 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				}
 			}
 		},
-		[
-			difyApi,
-			currentApp?.parameters?.suggested_questions_after_answer?.enabled,
-			currentAppId,
-			getNextSuggestions,
-			updateConversationInputs,
-			currentConversationId,
-			historyMessages.length,
-		],
 	)
 
 	/**
@@ -295,7 +283,6 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			conversationItemsChangeCallback()
 		},
 		entryForm,
-		difyApi: latestProps.current.difyApi!,
 	})
 
 	const initConversationInfo = async () => {
