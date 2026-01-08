@@ -5,7 +5,7 @@ import {
 	PlusCircleOutlined,
 	PlusOutlined,
 } from '@ant-design/icons'
-import { DifyApi, IConversationItem } from '@dify-chat/api'
+import { IConversationItem } from '@dify-chat/api'
 import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@dify-chat/core'
 import { generateUuidV4, isTempId, useIsMobile } from '@dify-chat/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@dify-chat/theme'
@@ -32,6 +32,7 @@ import { HeaderLayout } from '@/components'
 import ChatboxWrapper from '@/components/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/constants'
 import { useLatest } from '@/hooks/use-latest'
+import { useGlobalStore } from '@/store'
 
 interface IChatLayoutProps {
 	/**
@@ -50,14 +51,11 @@ interface IChatLayoutProps {
 	 * 是否正在加载应用配置
 	 */
 	initLoading: boolean
-	/**
-	 * Dify API 实例
-	 */
-	difyApi: DifyApi
 }
 
 export default function ChatLayout(props: IChatLayoutProps) {
-	const { extComponents, renderCenterTitle, initLoading, difyApi } = props
+	const { difyApi } = useGlobalStore()
+	const { extComponents, renderCenterTitle, initLoading } = props
 	const [sidebarOpen, setSidebarOpen] = useState(true)
 	const { themeMode, setThemeMode } = useThemeContext()
 	const { appLoading, currentApp } = useAppContext()
@@ -104,7 +102,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						label: item.name,
 					}
 				}) || []
-			setConversations(result?.data)
+			setConversations(result?.data || [])
 			// 避免闭包问题
 			if (!latestCurrentConversationId.current) {
 				if (newItems.length) {
@@ -166,7 +164,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		})
 		Modal.confirm({
 			centered: true,
-			destroyOnClose: true,
+			destroyOnHidden: true,
 			title: '编辑对话名称',
 			content: (
 				<Form
@@ -362,6 +360,8 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		return conversations?.some(item => isTempId(item.id))
 	}, [conversations])
 
+	console.log('initLoading', initLoading, appLoading)
+
 	return (
 		<ConversationsContextProvider
 			value={{
@@ -496,7 +496,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 							{/* 右侧聊天窗口 - 移动端全屏 */}
 							<div className="flex-1 min-w-0 flex flex-col overflow-hidden">
 								<ChatboxWrapper
-									difyApi={difyApi}
 									conversationListLoading={conversationListLoading}
 									onAddConversation={onAddConversation}
 									conversationItemsChangeCallback={() => getConversationItems(false)}

@@ -4,7 +4,6 @@ import React from 'react'
 
 import { colors } from '@/theme/config'
 import { isChatLikeApp, isWorkflowLikeApp } from '@/utils'
-import { DifyApi } from '@/utils/dify-api'
 
 import ChatLayout from './chat-layout'
 import CommonLayout from './common-layout'
@@ -27,10 +26,6 @@ interface IMainLayoutProps {
 	 * 是否正在加载应用配置
 	 */
 	initLoading: boolean
-	/**
-	 * Dify API 实例
-	 */
-	difyApi: DifyApi
 }
 
 /**
@@ -52,11 +47,7 @@ const MainLayout = (props: IMainLayoutProps) => {
 					renderCenterTitle={props.renderCenterTitle}
 					extComponents={props.extComponents}
 				>
-					{isWorkflowLikeApp(appMode) ? (
-						<WorkflowLayout difyApi={props.difyApi} />
-					) : (
-						<div>不支持的应用类型</div>
-					)}
+					{isWorkflowLikeApp(appMode) ? <WorkflowLayout /> : <div>不支持的应用类型</div>}
 				</CommonLayout>
 			)}
 		</XProvider>

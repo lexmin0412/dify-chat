@@ -1,10 +1,11 @@
 import { Attachments } from '@ant-design/x'
-import { DifyApi, IMessageFileItem } from '@dify-chat/api'
+import { IMessageFileItem } from '@dify-chat/api'
 import { useAppContext } from '@dify-chat/core'
 import { useMemo } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css'
 
+import { useGlobalStore } from '@/store'
 import { completeFileUrl } from '@/utils'
 
 const triggerDownload = (blob: Blob, filename: string) => {
@@ -42,10 +43,6 @@ const parseFilenameFromCD = (contentDisposition: string | null, fallback: string
 
 interface IMessageFileListProps {
 	/**
-	 * 文件预览 API 函数
-	 */
-	previewApi: DifyApi['filePreview']
-	/**
 	 * 消息附件列表
 	 */
 	files?: IMessageFileItem[]
@@ -55,7 +52,8 @@ interface IMessageFileListProps {
  * 消息附件列表展示组件
  */
 export default function MessageFileList(props: IMessageFileListProps) {
-	const { previewApi, files: filesInProps } = props
+	const { files: filesInProps } = props
+	const { difyApi } = useGlobalStore()
 	const { currentApp } = useAppContext()
 
 	/**
@@ -125,7 +123,7 @@ export default function MessageFileList(props: IMessageFileListProps) {
 							// 否则阻止默认行为，调用专用的预览 API
 							e.preventDefault()
 							try {
-								const result = await previewApi({
+								const result = await difyApi?.filePreview({
 									file_id: item.upload_file_id as string,
 									as_attachment: true,
 								})

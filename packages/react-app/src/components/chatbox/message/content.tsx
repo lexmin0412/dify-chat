@@ -1,8 +1,10 @@
 import { QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons'
-import { DifyApi, IFile, IMessageItem4Render } from '@dify-chat/api'
+import { IFile, IMessageItem4Render } from '@dify-chat/api'
 import { AppModeEnums, Roles, useAppContext } from '@dify-chat/core'
 import { Tooltip } from 'antd'
 import { useMemo } from 'react'
+
+import { useGlobalStore } from '@/store'
 
 import { MarkdownRenderer } from '../../markdown-renderer'
 import ThoughtChain from '../thought-chain'
@@ -11,7 +13,6 @@ import MessageReferrence from './referrence'
 import WorkflowLogs from './workflow-logs'
 
 interface IMessageContentProps {
-	previewApi: DifyApi['filePreview']
 	/**
 	 * 提交消息时触发的回调函数
 	 * @param nextContent 下一条消息的内容
@@ -35,7 +36,6 @@ interface IMessageContentProps {
  */
 export default function MessageContent(props: IMessageContentProps) {
 	const {
-		previewApi,
 		onSubmit,
 		messageItem: {
 			id,
@@ -49,6 +49,7 @@ export default function MessageContent(props: IMessageContentProps) {
 			role,
 		},
 	} = props
+	const { difyApi } = useGlobalStore()
 	const { currentApp } = useAppContext()
 
 	const computedContent = useMemo(() => {
@@ -103,7 +104,7 @@ export default function MessageContent(props: IMessageContentProps) {
 	const fileList = files?.length ? (
 		<div className="mt-3">
 			<MessageFileList
-				previewApi={previewApi}
+				previewApi={difyApi!.filePreview}
 				files={files}
 			/>
 		</div>

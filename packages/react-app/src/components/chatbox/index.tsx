@@ -1,13 +1,14 @@
 import { RedoOutlined } from '@ant-design/icons'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Bubble } from '@ant-design/x'
-import { DifyApi, IFile, IMessageItem4Render } from '@dify-chat/api'
+import { IFile, IMessageItem4Render } from '@dify-chat/api'
 import { OpeningStatementDisplayMode, Roles, useAppContext } from '@dify-chat/core'
 import { isTempId, useIsMobile } from '@dify-chat/helpers'
 import { FormInstance, GetProp, message, Spin } from 'antd'
 import { useDeferredValue, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
+import { useGlobalStore } from '@/store'
 import { validateAndGenErrMsgs } from '@/utils'
 
 import { MessageSender } from '../message-sender'
@@ -68,22 +69,6 @@ export interface ChatboxProps {
 	 */
 	feedbackCallback?: (conversationId: string) => void
 	/**
-	 * Dify API 实例
-	 */
-	difyApi: DifyApi
-	/**
-	 * 反馈 API
-	 */
-	feedbackApi: DifyApi['createMessageFeedback']
-	/**
-	 * 创建标注 API
-	 */
-	createAnnotationApi: DifyApi['createAnnotation']
-	/**
-	 * 上传文件 API
-	 */
-	uploadFileApi: DifyApi['uploadFile']
-	/**
 	 * 表单是否填写
 	 */
 	isFormFilled: boolean
@@ -110,14 +95,13 @@ export const Chatbox = (props: ChatboxProps) => {
 		onCancel,
 		conversationId,
 		feedbackCallback,
-		difyApi,
 		isFormFilled,
 		onStartConversation,
 		entryForm,
 		hasMore,
 		onLoadMore,
-		createAnnotationApi,
 	} = props
+	const { difyApi } = useGlobalStore()
 	const isMobile = useIsMobile()
 	const { currentApp } = useAppContext()
 
@@ -167,9 +151,6 @@ export const Chatbox = (props: ChatboxProps) => {
 						<MessageContent
 							onSubmit={onSubmit}
 							messageItem={messageItem}
-							previewApi={params => {
-								return difyApi.filePreview(params)
-							}}
 						/>
 					)
 				},
@@ -179,10 +160,7 @@ export const Chatbox = (props: ChatboxProps) => {
 					<div className="flex items-center">
 						<MessageFooter
 							ttsConfig={currentApp?.parameters?.text_to_speech}
-							feedbackApi={params => difyApi.createMessageFeedback(params)}
-							createAnnotationApi={createAnnotationApi}
 							question={messageItems?.[index - 1]?.content}
-							ttsApi={params => difyApi.text2Audio(params)}
 							messageId={messageItem.id}
 							messageContent={messageItem.content}
 							feedback={{
@@ -351,7 +329,6 @@ export const Chatbox = (props: ChatboxProps) => {
 							onStartConversation={onStartConversation}
 							conversationId={conversationId}
 							entryForm={entryForm}
-							uploadFileApi={(...params) => difyApi.uploadFile(...params)}
 						/>
 					</InfiniteScroll>
 				</div>
@@ -375,10 +352,6 @@ export const Chatbox = (props: ChatboxProps) => {
 						}}
 						isRequesting={isRequesting}
 						className="w-full !text-theme-text"
-						uploadFileApi={(...params) => {
-							return difyApi.uploadFile(...params)
-						}}
-						audio2TextApi={(...params) => difyApi.audio2Text(...params)}
 						onCancel={onCancel}
 					/>
 					<div className="text-theme-desc text-sm text-center h-8 leading-8 truncate">

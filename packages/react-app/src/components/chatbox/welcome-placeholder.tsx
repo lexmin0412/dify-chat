@@ -1,4 +1,3 @@
-import { DifyApi } from '@dify-chat/api'
 import { useAppContext } from '@dify-chat/core'
 import { FormInstance, message, Space } from 'antd'
 import classNames from 'classnames'
@@ -33,17 +32,13 @@ interface IWelcomePlaceholderProps {
 	 * 应用入参的表单实例
 	 */
 	entryForm: FormInstance<Record<string, unknown>>
-	/**
-	 * 上传文件 API
-	 */
-	uploadFileApi: DifyApi['uploadFile']
 }
 
 /**
  * 对话内容区的欢迎占位符
  */
 export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
-	const { onPromptItemClick, showPrompts, uploadFileApi } = props
+	const { onPromptItemClick, showPrompts } = props
 	const { currentApp } = useAppContext()
 
 	return (
@@ -117,7 +112,6 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 					formFilled={props.formFilled}
 					onStartConversation={props.onStartConversation}
 					entryForm={props.entryForm}
-					uploadFileApi={uploadFileApi!}
 				/>
 			</Space>
 		</div>

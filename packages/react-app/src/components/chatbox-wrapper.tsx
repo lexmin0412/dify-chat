@@ -1,4 +1,4 @@
-import { DifyApi, IFile, IMessageFileItem, MessageFileBelongsToEnum } from '@dify-chat/api'
+import { IFile, IMessageFileItem, MessageFileBelongsToEnum } from '@dify-chat/api'
 import { IMessageItem4Render } from '@dify-chat/api'
 import { useAppContext } from '@dify-chat/core'
 import { Roles, useConversationsContext } from '@dify-chat/core'
@@ -11,12 +11,9 @@ import { Chatbox } from '@/components'
 import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
+import { useGlobalStore } from '@/store'
 
 interface IChatboxWrapperProps {
-	/**
-	 * Dify API 实例
-	 */
-	difyApi: DifyApi
 	/**
 	 * 对话列表 loading
 	 */
@@ -39,8 +36,8 @@ interface IChatboxWrapperProps {
  * 聊天容器 进入此组件时, 应保证应用信息和对话列表已经加载完成
  */
 export default function ChatboxWrapper(props: IChatboxWrapperProps) {
+	const { difyApi } = useGlobalStore()
 	const {
-		difyApi,
 		conversationListLoading,
 		onAddConversation,
 		conversationItemsChangeCallback,
@@ -75,6 +72,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	const latestProps = useLatest({
 		conversationId: currentConversationId,
 		appId: currentAppId,
+		difyApi,
 	})
 
 	const defaultRequestLimit = 10
@@ -86,7 +84,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	 */
 	const getNextSuggestions = useCallback(
 		async (message_id: string) => {
-			const result = await difyApi.getNextSuggestions({ message_id })
+			const result = await difyApi!.getNextSuggestions({ message_id })
 			setNextSuggestions(result.data)
 		},
 		[difyApi],
@@ -131,7 +129,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				requestLimit = Math.max(defaultRequestLimit, Math.ceil(historyMessages.length / 2))
 			}
 
-			const result = await difyApi.listMessages(conversationId, {
+			const result = await difyApi!.listMessages(conversationId, {
 				first_id: '', // 从头开始加载
 				limit: requestLimit,
 			})
@@ -226,7 +224,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				firstId = historyMessages[0]?.id.replace('question-', '')
 			}
 
-			const result = await difyApi.listMessages(conversationId, {
+			const result = await difyApi!.listMessages(conversationId, {
 				first_id: firstId,
 				limit: defaultRequestLimit,
 			})
@@ -297,7 +295,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			conversationItemsChangeCallback()
 		},
 		entryForm,
-		difyApi,
+		difyApi: latestProps.current.difyApi!,
 	})
 
 	const initConversationInfo = async () => {
@@ -437,7 +435,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						onCancel={async () => {
 							abortRef.current()
 							if (currentTaskId) {
-								await difyApi.stopTask(currentTaskId)
+								await difyApi!.stopTask(currentTaskId)
 								initConversationMessages(currentConversationId!, false)
 							}
 						}}
@@ -451,11 +449,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 								onAddConversation()
 							}
 						}}
-						feedbackApi={difyApi.createMessageFeedback}
-						createAnnotationApi={difyApi.createAnnotation}
 						feedbackCallback={fallbackCallback}
-						uploadFileApi={difyApi.uploadFile}
-						difyApi={difyApi}
 						entryForm={entryForm}
 					/>
 				) : (

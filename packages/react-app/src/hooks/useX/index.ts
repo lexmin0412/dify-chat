@@ -1,6 +1,5 @@
 import { useXAgent, useXChat, XStream } from '@ant-design/x'
 import {
-	DifyApi,
 	EventEnum,
 	IAgentThought,
 	IChunkChatCompletionResponse,
@@ -15,12 +14,12 @@ import { useState } from 'react'
 
 import { RESPONSE_MODE } from '@/config'
 import { IAgentMessage, IMessageFileItem } from '@/types'
+import { DifyApi } from '@/utils/dify-api'
 
 import { useAuth } from '../use-auth'
 import workflowDataStorage from './workflow-data-storage'
 
 export const useX = (options: {
-	difyApi: DifyApi
 	latestProps: React.MutableRefObject<{
 		conversationId: string | undefined
 		appId?: string
@@ -31,6 +30,7 @@ export const useX = (options: {
 	abortRef: React.MutableRefObject<() => void>
 	getConversationMessages: (conversationId: string) => void
 	onConversationIdChange: (id: string) => void
+	difyApi?: DifyApi
 }) => {
 	const {
 		latestProps,
@@ -50,7 +50,7 @@ export const useX = (options: {
 		request: async ({ message }, { onSuccess, onUpdate, onError }) => {
 			const inputs = message?.inputs || entryForm.getFieldsValue() || {}
 			// 发送消息
-			const response = await difyApi.sendMessage({
+			const response = await difyApi!.sendMessage({
 				inputs,
 				conversation_id: !isTempId(latestProps.current.conversationId)
 					? latestProps.current.conversationId

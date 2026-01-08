@@ -4,6 +4,7 @@ import {
 	DEFAULT_APP_SITE_SETTING,
 	ICurrentApp,
 	IDifyAppItem,
+	useAppContext,
 } from '@dify-chat/core'
 import { useIsMobile } from '@dify-chat/helpers'
 import { useMount, useRequest } from 'ahooks'
@@ -16,21 +17,160 @@ import { DebugMode, LucideIcon } from '@/components'
 import { isDebugMode } from '@/components/debug-mode'
 import { useAuth } from '@/hooks/use-auth'
 import appService from '@/services/app'
+import { useGlobalStore } from '@/store'
 import { createDifyApiInstance, DifyApi } from '@/utils/dify-api'
 
 import MainLayout from './main-layout'
 
-const MultiAppLayout = () => {
+const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
+	const { currentAppId, setCurrentAppId, currentApp, setCurrentApp } = useAppContext()
+	const history = useHistory()
+	const { difyApi } = useGlobalStore()
+	const { appList } = props
+
+	const { runAsync: getAppParameters } = useRequest(
+		() => {
+			return (difyApi as DifyApi).getAppParameters()
+		},
+		{
+			manual: true,
+		},
+	)
+
+	const { runAsync: getAppSiteSettting } = useRequest(
+		() => {
+			return (difyApi as DifyApi)
+				.getAppSiteSetting()
+				.then(res => {
+					return res
+				})
+				.catch(err => {
+					console.error(err)
+					console.warn(
+						'Dify 版本提示: 获取应用 WebApp 设置失败，已降级为使用默认设置。如需与 Dify 配置同步，请确保你的 Dify 版本 >= v1.4.0',
+					)
+					return DEFAULT_APP_SITE_SETTING
+				})
+		},
+		{
+			manual: true,
+		},
+	)
+	const [initLoading, setInitLoading] = useState(false)
+
+	useEffect(() => {
+		if (difyApi) {
+			const init = async () => {
+				const appItem = await appService.getAppByID(currentAppId!)
+				if (!appItem) {
+					return
+				}
+				const getParameters = () => getAppParameters()
+				const getSiteSetting = () => getAppSiteSettting()
+				const promises = [getParameters(), getSiteSetting()] as const
+				Promise.all(promises)
+					.then(res => {
+						const [parameters, siteSetting] = res
+						setCurrentApp({
+							config: appItem,
+							parameters: parameters!,
+							site: siteSetting,
+						})
+					})
+					.catch(err => {
+						message.error(`获取应用参数失败: ${err}`)
+						console.error(err)
+						setCurrentApp(undefined)
+					})
+					.finally(() => {
+						setInitLoading(false)
+					})
+			}
+			init()
+		}
+	}, [difyApi])
+
+	if (!currentAppId || !difyApi) {
+		return null
+	}
+
+	return (
+		<>
+			<MainLayout
+				difyApi={difyApi}
+				initLoading={initLoading}
+				renderCenterTitle={() => {
+					return (
+						<div className="flex items-center overflow-hidden">
+							<LucideIcon
+								name="layout-grid"
+								size={16}
+								className="mr-1"
+							/>
+							<span
+								className="cursor-pointer inline-block shrink-0"
+								onClick={() => {
+									history.push('/apps')
+								}}
+							>
+								应用列表
+							</span>
+							{currentAppId ? (
+								<div className="flex items-center overflow-hidden">
+									<div className="mx-2 font-normal text-desc">/</div>
+									<Dropdown
+										arrow
+										placement="bottom"
+										trigger={['click']}
+										menu={{
+											selectedKeys: [currentAppId],
+											items: [
+												...(appList?.map(item => {
+													const isSelected = currentAppId === item.id
+													return {
+														key: item.id,
+														label: (
+															<div className={isSelected ? 'text-primary' : 'text-theme-text'}>
+																{item.info.name}
+															</div>
+														),
+														onClick: () => {
+															history.push(`/app/${item.id}`)
+															setCurrentAppId(item.id)
+														},
+														icon: (
+															<LucideIcon
+																name="bot"
+																size={18}
+															/>
+														),
+													}
+												}) || []),
+											],
+										}}
+									>
+										<div className="cursor-pointer flex-1 flex items-center overflow-hidden">
+											<span className="cursor-pointer w-full inline-block truncate">
+												{currentApp?.config?.info?.name}
+											</span>
+											<DownCircleTwoTone className="ml-1" />
+										</div>
+									</Dropdown>
+								</div>
+							) : null}
+						</div>
+					)
+				}}
+			/>
+			<DebugMode />
+		</>
+	)
+}
+
+const ChatLayoutWrapper = () => {
 	const history = useHistory()
 	const { userId } = useAuth()
-
-	const [difyApi] = useState(
-		createDifyApiInstance({
-			user: userId,
-			apiBase: '',
-			apiKey: '',
-		}),
-	)
+	const { difyApi, setDifyApi } = useGlobalStore()
 
 	const [selectedAppId, setSelectedAppId] = useState<string>('')
 	const [initLoading, setInitLoading] = useState(false)
@@ -41,12 +181,14 @@ const MultiAppLayout = () => {
 
 	const { runAsync: getAppList } = useRequest(
 		() => {
+			console.log('获取应用列表？')
 			setInitLoading(true)
 			return appService.getApps()
 		},
 		{
 			manual: true,
 			onSuccess: result => {
+				console.log('获取应用列表成功', result)
 				flushSync(() => {
 					setAppList(result)
 				})
@@ -69,37 +211,9 @@ const MultiAppLayout = () => {
 				console.error(error)
 			},
 			onFinally: () => {
+				console.log('关闭 loading')
 				setInitLoading(false)
 			},
-		},
-	)
-
-	const { runAsync: getAppParameters } = useRequest(
-		(difyApi: DifyApi) => {
-			return difyApi.getAppParameters()
-		},
-		{
-			manual: true,
-		},
-	)
-
-	const { runAsync: getAppSiteSettting } = useRequest(
-		(difyApi: DifyApi) => {
-			return difyApi
-				.getAppSiteSetting()
-				.then(res => {
-					return res
-				})
-				.catch(err => {
-					console.error(err)
-					console.warn(
-						'Dify 版本提示: 获取应用 WebApp 设置失败，已降级为使用默认设置。如需与 Dify 配置同步，请确保你的 Dify 版本 >= v1.4.0',
-					)
-					return DEFAULT_APP_SITE_SETTING
-				})
-		},
-		{
-			manual: true,
 		},
 	)
 
@@ -121,29 +235,8 @@ const MultiAppLayout = () => {
 					...appItem.requestConfig,
 					apiBase: `/${selectedAppId}`,
 				}
-		difyApi.updateOptions(newOptions)
-		setInitLoading(true)
-		// 获取应用参数
-		const getParameters = () => getAppParameters(difyApi)
-		const getSiteSetting = () => getAppSiteSettting(difyApi)
-		const promises = [getParameters(), getSiteSetting()] as const
-		Promise.all(promises)
-			.then(res => {
-				const [parameters, siteSetting] = res
-				setCurrentApp({
-					config: appItem,
-					parameters: parameters!,
-					site: siteSetting,
-				})
-			})
-			.catch(err => {
-				message.error(`获取应用参数失败: ${err}`)
-				console.error(err)
-				setCurrentApp(undefined)
-			})
-			.finally(() => {
-				setInitLoading(false)
-			})
+		setDifyApi(null)
+		setDifyApi(createDifyApiInstance(newOptions))
 	}
 
 	useEffect(() => {
@@ -157,6 +250,10 @@ const MultiAppLayout = () => {
 		getAppList()
 	})
 
+	if (!selectedAppId || !difyApi) {
+		return null
+	}
+
 	return (
 		<AppContextProvider
 			value={{
@@ -167,77 +264,9 @@ const MultiAppLayout = () => {
 				setCurrentApp,
 			}}
 		>
-			<>
-				<MainLayout
-					difyApi={difyApi}
-					initLoading={initLoading}
-					renderCenterTitle={() => {
-						return (
-							<div className="flex items-center overflow-hidden">
-								<LucideIcon
-									name="layout-grid"
-									size={16}
-									className="mr-1"
-								/>
-								<span
-									className="cursor-pointer inline-block shrink-0"
-									onClick={() => {
-										history.push('/apps')
-									}}
-								>
-									应用列表
-								</span>
-								{selectedAppId ? (
-									<div className="flex items-center overflow-hidden">
-										<div className="mx-2 font-normal text-desc">/</div>
-										<Dropdown
-											arrow
-											placement="bottom"
-											trigger={['click']}
-											menu={{
-												selectedKeys: [selectedAppId],
-												items: [
-													...(appList?.map(item => {
-														const isSelected = selectedAppId === item.id
-														return {
-															key: item.id,
-															label: (
-																<div className={isSelected ? 'text-primary' : 'text-theme-text'}>
-																	{item.info.name}
-																</div>
-															),
-															onClick: () => {
-																history.push(`/app/${item.id}`)
-																setSelectedAppId(item.id)
-															},
-															icon: (
-																<LucideIcon
-																	name="bot"
-																	size={18}
-																/>
-															),
-														}
-													}) || []),
-												],
-											}}
-										>
-											<div className="cursor-pointer flex-1 flex items-center overflow-hidden">
-												<span className="cursor-pointer w-full inline-block truncate">
-													{currentApp?.config?.info?.name}
-												</span>
-												<DownCircleTwoTone className="ml-1" />
-											</div>
-										</Dropdown>
-									</div>
-								) : null}
-							</div>
-						)
-					}}
-				/>
-				<DebugMode />
-			</>
+			<ChatLayoutInner appList={appList} />
 		</AppContextProvider>
 	)
 }
 
-export default MultiAppLayout
+export default ChatLayoutWrapper

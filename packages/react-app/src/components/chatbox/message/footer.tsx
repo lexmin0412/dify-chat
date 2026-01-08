@@ -1,14 +1,11 @@
-import {
-	DifyApi,
-	ICreateAnnotationRequest,
-	IGetAppParametersResponse,
-	IRating,
-} from '@dify-chat/api'
+import { IGetAppParametersResponse, IRating } from '@dify-chat/api'
 import { useAppContext } from '@dify-chat/core'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
 import { useMemo, useState } from 'react'
+
+import { useGlobalStore } from '@/store'
 
 import LucideIcon from '../../lucide-icon'
 import ActionButton from './action-btn'
@@ -19,31 +16,6 @@ interface IMessageFooterProps {
 	 * 是否正在对话中
 	 */
 	isRequesting?: boolean
-	/**
-	 * 反馈 API
-	 */
-	feedbackApi: (params: {
-		/**
-		 * 反馈的消息 ID
-		 */
-		messageId: string
-		/**
-		 * 反馈操作类型
-		 */
-		rating: IRating
-		/**
-		 * 反馈文本内容
-		 */
-		content: string
-	}) => Promise<unknown>
-	/**
-	 * 创建标注 API
-	 */
-	createAnnotationApi: (params: ICreateAnnotationRequest) => Promise<unknown>
-	/**
-	 * 文本转语音 API
-	 */
-	ttsApi: DifyApi['text2Audio']
 	/**
 	 * 消息 ID
 	 */
@@ -88,13 +60,11 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		messageId,
 		messageContent,
 		feedback: { rating, callback },
-		feedbackApi,
-		createAnnotationApi,
-		ttsApi,
 		ttsConfig,
 		onRegenerateMessage,
 		question,
 	} = props
+	const { difyApi } = useGlobalStore()
 
 	const { currentApp } = useAppContext()
 	const isLiked = rating === 'like'
@@ -114,7 +84,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	const { runAsync: runCreateAnnotation, loading: annotationLoading } = useRequest(
 		async () => {
 			const values = await annotationForm.validateFields()
-			return createAnnotationApi(values)
+			return difyApi!.createAnnotation(values)
 		},
 		{
 			manual: true,
@@ -131,7 +101,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	 */
 	const { runAsync: runFeedback } = useRequest(
 		(rating: IRating, content?: string) => {
-			return feedbackApi({
+			return difyApi!.createMessageFeedback({
 				messageId: (messageId as string).replace('-answer', ''),
 				rating: rating,
 				content: content || '',
@@ -173,9 +143,10 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	 */
 	const { runAsync: runTTS, loading: ttsLoading } = useRequest(
 		(text: string) => {
-			return ttsApi({
-				text,
-			})
+			return difyApi!
+				.text2Audio({
+					text,
+				})
 				.then(response => response.blob())
 				.then(blob => {
 					const audioUrl = URL.createObjectURL(blob)

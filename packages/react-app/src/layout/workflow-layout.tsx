@@ -1,7 +1,6 @@
 import { CopyOutlined } from '@ant-design/icons'
 import { XStream } from '@ant-design/x'
 import {
-	DifyApi,
 	EventEnum,
 	IAgentMessage,
 	IChunkChatCompletionResponse,
@@ -22,16 +21,13 @@ import {
 	MessageFileList,
 	WorkflowLogs,
 } from '@/components'
-
-interface IWorkflowLayoutProps {
-	difyApi: DifyApi
-}
+import { useGlobalStore } from '@/store'
 
 /**
  * 工作流应用详情布局
  */
-export default function WorkflowLayout(props: IWorkflowLayoutProps) {
-	const { difyApi } = props
+export default function WorkflowLayout() {
+	const { difyApi } = useGlobalStore()
 	const [entryForm] = Form.useForm()
 	const { currentApp } = useAppContext()
 	const [text, setText] = useState('')
@@ -48,11 +44,11 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 	const handleTriggerWorkflow = async (values: Record<string, unknown>) => {
 		const runner = () => {
 			if (appMode === AppModeEnums.WORKFLOW) {
-				return difyApi.runWorkflow({
+				return difyApi!.runWorkflow({
 					inputs: values,
 				})
 			} else if (appMode === AppModeEnums.TEXT_GENERATOR) {
-				return difyApi.completion({
+				return difyApi!.completion({
 					inputs: values,
 				})
 			}
@@ -258,7 +254,6 @@ export default function WorkflowLayout(props: IWorkflowLayoutProps) {
 						}}
 						formFilled={false}
 						entryForm={entryForm}
-						uploadFileApi={difyApi.uploadFile}
 					/>
 				</div>
 				<div className="flex justify-end px-6">

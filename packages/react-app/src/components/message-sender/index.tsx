@@ -1,6 +1,6 @@
 import { CloudUploadOutlined, LinkOutlined } from '@ant-design/icons'
 import { Attachments, AttachmentsProps, Sender } from '@ant-design/x'
-import { DifyApi, IFile, IUploadFileResponse } from '@dify-chat/api'
+import { IFile } from '@dify-chat/api'
 import { useAppContext, useConversationsContext } from '@dify-chat/core'
 import { useThemeContext } from '@dify-chat/theme'
 import { useMount } from 'ahooks'
@@ -9,6 +9,8 @@ import { RcFile } from 'antd/es/upload'
 import { useSearchParams } from 'pure-react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
+
+import { useGlobalStore } from '@/store'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from './utils'
 
@@ -21,14 +23,6 @@ interface IMessageSenderProps {
 	 * 是否正在请求
 	 */
 	isRequesting: boolean
-	/**
-	 * 上传文件 Api
-	 */
-	uploadFileApi: (file: File) => Promise<IUploadFileResponse>
-	/**
-	 * 语音转文字 Api
-	 */
-	audio2TextApi?: DifyApi['audio2Text']
 	/**
 	 * 提交事件
 	 * @param value 问题-文本
@@ -51,7 +45,8 @@ interface IMessageSenderProps {
  * 用户消息发送区
  */
 export const MessageSender = (props: IMessageSenderProps) => {
-	const { isRequesting, onSubmit, className, onCancel, uploadFileApi, audio2TextApi } = props
+	const { isRequesting, onSubmit, className, onCancel } = props
+	const { difyApi } = useGlobalStore()
 	const { currentApp } = useAppContext()
 	const [content, setContent] = useState('')
 	const [open, setOpen] = useState(false)
@@ -144,7 +139,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 		}
 		const { clear } = mockLoadingProgress()
 
-		const result = await uploadFileApi(file)
+		const result = await difyApi!.uploadFile(file)
 		clear()
 		setFiles([
 			...prevFiles,
@@ -248,7 +243,8 @@ export const MessageSender = (props: IMessageSenderProps) => {
 							})
 							setAudio2TextLoading(true)
 							setContent('正在识别...')
-							audio2TextApi?.(blob as File)
+							difyApi
+								?.audio2Text?.(blob as File)
 								.then(res => {
 									setContent(res.text)
 									recordedChunks.current = []
@@ -274,7 +270,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 				setRecording(nextRecording)
 			},
 		} as GetProp<typeof Sender, 'allowSpeech'>
-	}, [currentApp, recording, audio2TextApi])
+	}, [currentApp, recording, difyApi])
 
 	// 是否允许文件上传
 	const enableFileUpload = currentApp?.parameters?.file_upload?.enabled
