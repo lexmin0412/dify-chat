@@ -2,7 +2,7 @@
  * @type {import('lint-staged').Configuration}
  */
 export default {
-	'*.{cjs,mjs,js,ts,tsx}': ['eslint', 'prettier --write'],
-	'*.{css,less}': ['prettier --write'],
-	'*.{json,jsonc,html,yml,yaml,md}': ['prettier --write'],
+	'*.{js,jsx,ts,tsx,mjs,cjs}': ['oxlint', 'oxfmt'],
+	'*.{css,less}': ['oxfmt'],
+	'*.{json,jsonc,html,yml,yaml,md}': ['oxfmt'],
 }

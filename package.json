@@ -1,7 +1,7 @@
 {
 	"name": "dify-chat-root",
-	"private": true,
 	"version": "0.6.9",
+	"private": true,
 	"scripts": {
 		"build": "pnpm -r build",
 		"build:pkgs": "pnpm --filter @dify-chat/* build",
@@ -10,11 +10,13 @@
 		"dev:platform": "pnpm --filter dify-chat-platform dev",
 		"create-admin": "pnpm --filter dify-chat-platform create-admin",
 		"test": "pnpm -r test",
-		"lint": "pnpm -r lint",
-		"format": "pnpm -r format",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
-		"release": "pnpm build && changeset publish"
+		"release": "pnpm build && changeset publish",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
+		"format": "oxfmt",
+		"format:check": "oxfmt --check"
 	},
 	"devDependencies": {
 		"@changesets/cli": "catalog:",
@@ -27,6 +29,8 @@
 		"globals": "catalog:",
 		"husky": "catalog:",
 		"lint-staged": "catalog:",
+		"oxfmt": "^0.23.0",
+		"oxlint": "^1.38.0",
 		"prettier": "catalog:",
 		"prettier-plugin-tailwindcss": "catalog:",
 		"typescript": "catalog:",
