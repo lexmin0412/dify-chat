@@ -1,4 +1,10 @@
-import { IAgentThought, IFileType, IRetrieverResource } from '@dify-chat/api'
+import {
+	IAgentThought,
+	IAnnotationItem,
+	ICreateAnnotationRequest,
+	IFileType,
+	IRetrieverResource,
+} from '@dify-chat/api'
 import { DifyApi as DirectDifyApi } from '@dify-chat/api'
 import { IDifyAppItem, IDifyAppSiteSetting } from '@dify-chat/core'
 import { LocalStorageStore, BaseRequest as XRequest } from '@dify-chat/helpers'
@@ -410,7 +416,7 @@ export class DifyApi {
 	}
 
 	options: IDifyApiOptions
-	baseRequest: XRequest
+	private baseRequest: XRequest
 
 	/**
 	 * 更新 API 配置, 一般在切换应用时调用
@@ -483,6 +489,16 @@ export class DifyApi {
 			...restParams,
 			user: this.options.user,
 		})
+	}
+
+	/**
+	 * 创建标注
+	 */
+	createAnnotation = async (params: ICreateAnnotationRequest) => {
+		return this.baseRequest.post(
+			'/apps/annotations',
+			params as unknown as Record<string, unknown>,
+		) as Promise<IAnnotationItem>
 	}
 
 	/**
