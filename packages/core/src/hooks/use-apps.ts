@@ -21,7 +21,7 @@ export interface IAppContext {
 	currentAppId?: string
 	setCurrentAppId: (appId: string) => void
 	currentApp?: ICurrentApp
-	setCurrentApp: (app: ICurrentApp) => void
+	setCurrentApp: (app: ICurrentApp | undefined) => void
 }
 
 /**
