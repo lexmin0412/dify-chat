@@ -169,7 +169,7 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 						调试模式配置
 					</div>
 				}
-				width={600}
+				size={600}
 				open={drawerOpen}
 				onClose={() => setDrawerOpen(false)}
 				extra={

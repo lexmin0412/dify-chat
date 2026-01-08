@@ -79,7 +79,7 @@ export default function UserEditDrawer({
 	return (
 		<Drawer
 			title={isEditing ? '编辑用户' : '添加用户'}
-			width={400}
+			size={400}
 			open={visible}
 			onClose={onClose}
 			extra={

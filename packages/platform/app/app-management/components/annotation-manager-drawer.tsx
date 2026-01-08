@@ -225,7 +225,7 @@ export const AnnotationManagerDrawer = (props: IAnnotationManagerDrawerProps) =>
 	return (
 		<Drawer
 			title="标注管理"
-			width={1000}
+			size={1000}
 			open={open}
 			onClose={onClose}
 			extra={
@@ -262,8 +262,8 @@ export const AnnotationManagerDrawer = (props: IAnnotationManagerDrawerProps) =>
 				title={modalMode === 'create' ? '新增标注' : '编辑标注'}
 				open={modalOpen}
 				onClose={() => setModalOpen(false)}
-				destroyOnClose
-				width={600}
+				destroyOnHidden
+				size={600}
 				extra={
 					<Space>
 						<Button onClick={() => setModalOpen(false)}>取消</Button>

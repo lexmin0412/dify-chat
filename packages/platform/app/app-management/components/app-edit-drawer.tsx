@@ -91,7 +91,7 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 
 	return (
 		<Drawer
-			width={700}
+			size={700}
 			title={`${detailDrawerMode === AppDetailDrawerModeEnum.create ? '新增应用配置' : `编辑应用配置 - ${appItem?.info.name}`}`}
 			open={open}
 			onClose={onClose}
