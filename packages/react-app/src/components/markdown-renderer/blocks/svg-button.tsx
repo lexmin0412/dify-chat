@@ -9,7 +9,7 @@ type ISVGBtnProps = {
 	setIsSVG: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SVGBtn = ({ isSVG, setIsSVG }: ISVGBtnProps) => {
+const SVGBtn = ({ setIsSVG }: ISVGBtnProps) => {
 	return (
 		<Button
 			onClick={() => {

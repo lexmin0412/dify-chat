@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export const SVGRenderer = ({ content }: { content: string }) => {
 	const svgRef = useRef<HTMLDivElement>(null)
-	const [imagePreview, setImagePreview] = useState('')
+	const [_imagePreview, setImagePreview] = useState('')
 	const [windowSize, setWindowSize] = useState({
 		width: typeof window !== 'undefined' ? window.innerWidth : 0,
 		height: typeof window !== 'undefined' ? window.innerHeight : 0,
@@ -49,6 +49,7 @@ export const SVGRenderer = ({ content }: { content: string }) => {
 					setImagePreview(svgToDataURL(svgElement as Element))
 				})
 			} catch (error) {
+				console.warn('Error rendering SVG:', error)
 				if (svgRef.current)
 					svgRef.current.innerHTML =
 						'<span style="padding: 1rem;">Error rendering SVG. Wait for the image content to complete.</span>'
