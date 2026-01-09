@@ -69,7 +69,6 @@ catalog:
   dayjs: ^1.11.18
   dompurify: ^3.2.5
   echarts-for-react: ^3.0.2
-  emoji-dictionary: ^1.0.12
   eslint: ^9.26.0
   eslint-config-next: ^16.0.1
   eslint-plugin-react: ^7.37.5

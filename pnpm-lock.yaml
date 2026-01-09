@@ -159,9 +159,6 @@ catalogs:
     echarts-for-react:
       specifier: ^3.0.2
       version: 3.0.2
-    emoji-dictionary:
-      specifier: ^1.0.12
-      version: 1.0.12
     eslint:
       specifier: ^9.26.0
       version: 9.26.0
@@ -438,9 +435,6 @@ importers:
       echarts-for-react:
         specifier: 'catalog:'
         version: 3.0.2(echarts@5.6.0)(react@19.2.3)
-      emoji-dictionary:
-        specifier: 'catalog:'
-        version: 1.0.12
       hast:
         specifier: 'catalog:'
         version: 1.0.0
@@ -812,6 +806,9 @@ importers:
       '@dify-chat/theme':
         specifier: workspace:^
         version: link:../theme
+      '@emoji-mart/data':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@heroicons/react':
         specifier: 'catalog:'
         version: 2.2.0(react@19.2.3)
@@ -845,9 +842,9 @@ importers:
       echarts-for-react:
         specifier: 'catalog:'
         version: 3.0.2(echarts@5.6.0)(react@19.2.3)
-      emoji-dictionary:
-        specifier: 'catalog:'
-        version: 1.0.12
+      emoji-mart:
+        specifier: ^5.6.0
+        version: 5.6.0
       hast:
         specifier: 'catalog:'
         version: 1.0.0
@@ -1506,6 +1503,9 @@ packages:
 
   '@emnapi/wasi-threads@1.1.0':
     resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
+
+  '@emoji-mart/data@1.2.1':
+    resolution: {integrity: sha512-no2pQMWiBy6gpBEiqGeU77/bFejDqUTRY7KX+0+iur13op3bqUsXdnwoZs6Xb1zbv0gAj5VvS1PWoUUckSr5Dw==}
 
   '@emotion/babel-plugin@11.13.5':
     resolution: {integrity: sha512-pxHCpT2ex+0q+HH91/zsdHkw/lXd468DIN2zvfvLtPKLLMo6gQj7oLObq8PhkrxOZb/gGCq03S3Z7PDhS8pduQ==}
@@ -5037,17 +5037,8 @@ packages:
   elkjs@0.8.2:
     resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}
 
-  emoji-chars@1.0.13:
-    resolution: {integrity: sha512-J8q4HihHiyraR2HygZsqoDhPA7FzT42seKP67lCYu/iAwtQWSMGfj7MRqQIRZZRQ4P1plNOstMkftej6fDn2kw==}
-
-  emoji-dictionary@1.0.12:
-    resolution: {integrity: sha512-QdCfgVM0ZIXgPuUHY/sxwnqj4pcs5hWRWeKTDbsJhBoitUo6lniDRMrjgD4aQ1nX8obF4OhWPScOoZ07OhNb1A==}
-
-  emoji-name-map@1.2.9:
-    resolution: {integrity: sha512-MSM8y6koSqh/2uEMI2VoKA+Ac0qL5RkgFGP/pzL6n5FOrOJ7FOZFxgs7+uNpqA+AT+WmdbMPXkd3HnFXXdz4AA==}
-
-  emoji-names@1.0.13:
-    resolution: {integrity: sha512-HXbqj7vacBfJ0i5GHhHKPjfZS2+Wl+h8YuwZPdUK1eIOBxCz6vdfIk1dP1MTGkHchLI+vkMhQ0/KhKTQNmZ8Gg==}
+  emoji-mart@5.6.0:
+    resolution: {integrity: sha512-eJp3QRe79pjwa+duv+n7+5YsNhRcMl812EcFVwrnRvYKoNPoQb5qxU8DG6Bgwji0akHdp6D4Ln6tYLG58MFSow==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -5057,12 +5048,6 @@ packages:
 
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
-
-  emoji-unicode-map@1.1.12:
-    resolution: {integrity: sha512-YabKdJMJPLHZUWEPnvWgGdKhmTgwgLytEbpMORQ6/L+O337jATx6twvivnhYlmvVns9l4+Kt+qxgd++vnn+rnQ==}
-
-  emojilib@2.4.0:
-    resolution: {integrity: sha512-5U0rVMU5Y2n2+ykNLQqMoqklN9ICBT/KsvC1Gz6vqHbz2AXXGkG+Pm5rMWk/8Vjrr/mY9985Hi8DYzn1F09Nyw==}
 
   emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
@@ -6124,9 +6109,6 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
-  iterate-object@1.3.5:
-    resolution: {integrity: sha512-eL23u8oFooYTq6TtJKjp2RYjZnCkUYQvC0T/6fJfWykXJ3quvdDdzKZ3CEjy8b3JGOvLTjDYMEMIp5243R906A==}
-
   iterator.prototype@1.1.5:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
     engines: {node: '>= 0.4'}
@@ -6452,9 +6434,6 @@ packages:
   make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
-
-  map-o@2.0.11:
-    resolution: {integrity: sha512-zvSGIMfUpr+Dkccnha9JWi5XF1U08eB4CEwDJLdbT9PDx+v+O3bWu53qx6xrXzEPk2jMisNHAIXBPofcD9L31A==}
 
   map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
@@ -10030,6 +10009,8 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@emoji-mart/data@1.2.1': {}
 
   '@emotion/babel-plugin@11.13.5':
     dependencies:
@@ -13850,40 +13831,13 @@ snapshots:
 
   elkjs@0.8.2: {}
 
-  emoji-chars@1.0.13:
-    dependencies:
-      emoji-unicode-map: 1.1.12
-
-  emoji-dictionary@1.0.12:
-    dependencies:
-      emoji-chars: 1.0.13
-      emoji-name-map: 1.2.9
-      emoji-names: 1.0.13
-      emoji-unicode-map: 1.1.12
-      emojilib: 2.4.0
-
-  emoji-name-map@1.2.9:
-    dependencies:
-      emojilib: 2.4.0
-      iterate-object: 1.3.5
-      map-o: 2.0.11
-
-  emoji-names@1.0.13:
-    dependencies:
-      emoji-name-map: 1.2.9
+  emoji-mart@5.6.0: {}
 
   emoji-regex@10.4.0: {}
 
   emoji-regex@8.0.0: {}
 
   emoji-regex@9.2.2: {}
-
-  emoji-unicode-map@1.1.12:
-    dependencies:
-      emoji-name-map: 1.2.9
-      iterate-object: 1.3.5
-
-  emojilib@2.4.0: {}
 
   emojis-list@3.0.0: {}
 
@@ -14138,7 +14092,7 @@ snapshots:
       eslint: 9.26.0(jiti@2.5.1)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.26.0(jiti@2.5.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.26.0(jiti@2.5.1))
       eslint-plugin-react: 7.37.5(eslint@9.26.0(jiti@2.5.1))
       eslint-plugin-react-hooks: 7.0.1(eslint@9.26.0(jiti@2.5.1))
@@ -14171,7 +14125,7 @@ snapshots:
       tinyglobby: 0.2.14
       unrs-resolver: 1.7.2
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.26.0(jiti@2.5.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -14186,7 +14140,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.26.0(jiti@2.5.1)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.46.4(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -15303,8 +15257,6 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  iterate-object@1.3.5: {}
-
   iterator.prototype@1.1.5:
     dependencies:
       define-data-property: 1.1.4
@@ -15627,10 +15579,6 @@ snapshots:
   make-dir@3.1.0:
     dependencies:
       semver: 6.3.1
-
-  map-o@2.0.11:
-    dependencies:
-      iterate-object: 1.3.5
 
   map-or-similar@1.5.0: {}
 

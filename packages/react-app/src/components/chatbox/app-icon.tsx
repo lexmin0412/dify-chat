@@ -1,10 +1,13 @@
 import { useAppContext } from '@dify-chat/core'
 import { useThemeContext } from '@dify-chat/theme'
-// @ts-expect-error no declaration file
-import emoji from 'emoji-dictionary'
 import { useMemo } from 'react'
+import data from '@emoji-mart/data'
+import { init } from 'emoji-mart'
+
+init({ data })
 
 import { completeFileUrl } from '@/utils'
+import { useMount } from 'ahooks'
 
 /**
  * 应用图标
@@ -14,6 +17,11 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 
 	const { currentApp } = useAppContext()
 	const { isDark } = useThemeContext()
+
+	// 初始化 emoji-mart
+	useMount(() => {
+		init({ data })
+	})
 
 	const renderProps = useMemo(() => {
 		return {
@@ -30,7 +38,7 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 			renderProps.icon === '🤖' ? (
 				'🤖'
 			) : (
-				emoji.getUnicode(renderProps.icon)
+				<em-emoji id={renderProps.icon}></em-emoji>
 			)
 		) : (
 			<img
