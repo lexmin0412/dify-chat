@@ -1,7 +1,7 @@
 import { IFile } from '@dify-chat/api'
 import { useThemeContext } from '@dify-chat/theme'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
-import { Button, message } from 'antd'
+import { message, Tooltip } from 'antd'
 import ReactEcharts from 'echarts-for-react'
 import type { Element, Root, Text } from 'hast'
 import 'katex/dist/katex.min.css'
@@ -193,7 +193,7 @@ const CodeBlock = memo(({ inline, className, children, ...props }: ICodeBlockPro
 		)
 
 	return (
-		<div className="relative">
+		<div className="relative rounded-lg border border-solid border-gray-200 dark:border-gray-600">
 			<div className="border-divider-subtle bg-components-input-bg-normal flex h-8 items-center justify-between rounded-t-[10px] border-b p-1 pl-3">
 				<div className="text-gray-700">{languageShowName}</div>
 				<div className="flex items-center gap-1">
@@ -203,15 +203,18 @@ const CodeBlock = memo(({ inline, className, children, ...props }: ICodeBlockPro
 							setIsSVG={setIsSVG}
 						/>
 					)}
-					<Button>
-						<LucideIcon
-							name="copy"
-							onClick={async () => {
-								await copyToClipboard(String(children).replace(/\n$/, ''))
-								message.success('复制成功')
-							}}
-						/>
-					</Button>
+					<Tooltip title="复制代码">
+						<div className="inline-flex items-center rounded p-1 hover:bg-gray-100">
+							<LucideIcon
+								className="cursor-pointer"
+								name="copy"
+								onClick={async () => {
+									await copyToClipboard(String(children).replace(/\n$/, ''))
+									message.success('复制成功')
+								}}
+							/>
+						</div>
+					</Tooltip>
 				</div>
 			</div>
 			{renderCodeContent}
