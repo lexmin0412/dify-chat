@@ -55,7 +55,7 @@ interface IChatLayoutProps {
 }
 
 export default function ChatLayout(props: IChatLayoutProps) {
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
 	const { difyApi } = useGlobalStore()
 	const { extComponents, renderCenterTitle, initLoading } = props
 	const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -262,6 +262,30 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			},
 		]
 
+		const i18nLanguageMenus: GetProp<typeof Dropdown, 'menu'>['items'] = [
+			{
+				key: 'language',
+				label: '语言',
+				type: 'group',
+				children: [
+					{
+						key: 'zh-CN',
+						label: (
+							<Radio.Group
+								value={i18n.language}
+								onChange={e => {
+									i18n.changeLanguage(e.target.value)
+								}}
+							>
+								<Radio value="en">英文</Radio>
+								<Radio value="zh">中文</Radio>
+							</Radio.Group>
+						),
+					},
+				],
+			},
+		]
+
 		const conversationListMenus: GetProp<typeof Dropdown, 'menu'>['items'] = [
 			{
 				key: 'view-mode',
@@ -317,7 +341,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			return [...conversationListMenus]
 		}
 
-		return [...actionMenus, ...conversationListMenus]
+		return [...actionMenus, ...i18nLanguageMenus, ...conversationListMenus]
 	}, [currentConversationId, conversations, themeMode, setThemeMode])
 
 	// 对话列表（包括加载和缺省状态）
