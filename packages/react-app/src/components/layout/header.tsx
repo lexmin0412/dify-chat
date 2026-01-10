@@ -7,6 +7,7 @@ import React from 'react'
 
 import CenterTitleWrapper from './center-title-wrapper'
 import { GithubIcon, Logo } from './logo'
+import I18nSwitcher from '../i18n-switcher'
 
 export interface IHeaderLayoutProps {
 	/**
@@ -88,6 +89,7 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 								/>
 							</div>
 						</ThemeSelector>
+						<I18nSwitcher />
 						<GithubIcon />
 					</Space>
 				)}

@@ -9,6 +9,7 @@ import LayoutIndex from './layout'
 import AppListPage from './pages/apps'
 import AuthPage from './pages/auth'
 import ChatPage from './pages/chat'
+import '@/libs/i18n'
 
 // 初始化响应式配置
 initResponsiveConfig()
