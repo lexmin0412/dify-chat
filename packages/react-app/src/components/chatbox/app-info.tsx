@@ -3,19 +3,21 @@ import { Tag } from 'antd'
 import { useMemo } from 'react'
 
 import AppIcon from './app-icon'
+import { useTranslation } from 'react-i18next'
 
 /**
  * 应用信息
  */
 export function AppInfo() {
 	const context = useAppContext()
+	const { t } = useTranslation()
 
 	const currentApp = context.currentApp
 
 	const info4Render = useMemo(() => {
 		if (!currentApp?.config && !currentApp?.site) {
 			return {
-				name: '暂无标题',
+				name: t('app.no_title_default'),
 				description: '',
 				tags: [],
 			}

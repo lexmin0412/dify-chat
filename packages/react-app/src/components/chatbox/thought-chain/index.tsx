@@ -7,6 +7,7 @@ import { omit } from 'lodash-es'
 import LucideIcon from '../../lucide-icon'
 import { MarkdownRenderer } from '../../markdown-renderer'
 import CollapseItem from './collapse-item'
+import { useTranslation } from 'react-i18next'
 
 interface IThoughtChainProps {
 	/**
@@ -28,6 +29,7 @@ interface IThoughtChainProps {
  */
 export default function ThoughtChain(props: IThoughtChainProps) {
 	const { uniqueKey, items, className } = props
+	const { t } = useTranslation()
 
 	if (!items?.length) {
 		return null
@@ -59,7 +61,9 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 			title: (
 				<div className="text-base">
 					<LucideIcon name="hammer" />
-					{item.tool ? `已使用 ${item.tool}` : '暂无标题'}
+					{item.tool
+						? `${t('message.tool.title_prefix')} ${item.tool}`
+						: t('message.tool.title_default')}
 				</div>
 			),
 			status: 'success',

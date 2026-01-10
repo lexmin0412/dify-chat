@@ -52,9 +52,7 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 			key: COLLAPSE_KEY,
 			label: (
 				<div className="flex items-center">
-					<div className="text-base font-semibold">
-						{t('chat.conversation_input_params_setting')}
-					</div>
+					<div className="text-base font-semibold">{t('chat.input_params_setting')}</div>
 					{!currentApp.config?.inputParams?.enableUpdateAfterCvstStarts ? (
 						<div className="text-desc">（{t('chat.input_disabled_between_chats')}）</div>
 					) : null}

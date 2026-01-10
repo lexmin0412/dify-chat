@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FileTypeMap, getDifyFileType, getFileExtByName } from '@/components/message-sender/utils'
 import { useGlobalStore } from '@/store'
 import { completeFileUrl } from '@/utils'
+import { useTranslation } from 'react-i18next'
 
 export interface IUploadFileItem extends UploadFile {
 	type?: string
@@ -43,6 +44,7 @@ export default function FileUpload(props: IFileUploadProps) {
 	const { difyApi } = useGlobalStore()
 	const [files, setFiles] = useState<GetProp<typeof Upload, 'fileList'>>([])
 	const { currentApp } = useAppContext()
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		if (mode === 'single') {
@@ -187,7 +189,7 @@ export default function FileUpload(props: IFileUploadProps) {
 				disabled={disabled}
 				icon={<UploadOutlined />}
 			>
-				点击上传
+				{t('form.upload_placeholder')}
 			</Button>
 		</Upload>
 	)

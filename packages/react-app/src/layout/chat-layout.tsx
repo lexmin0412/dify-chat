@@ -166,14 +166,14 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		Modal.confirm({
 			centered: true,
 			destroyOnHidden: true,
-			title: '编辑对话名称',
+			title: t('chat.rename'),
 			content: (
 				<Form
 					form={renameForm}
 					className="mt-3"
 				>
 					<Form.Item name="name">
-						<Input placeholder="请输入" />
+						<Input placeholder={t('chat.rename_placeholder')} />
 					</Form.Item>
 				</Form>
 			),
@@ -181,7 +181,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				await renameForm.validateFields()
 				const values = await renameForm.validateFields()
 				await onRenameConversation(currentConversationId, values.name)
-				message.success('对话重命名成功')
+				message.success(t('chat.rename_success'))
 			},
 		})
 	}
@@ -220,7 +220,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			{
 				key: 'add_conversation',
 				icon: <PlusCircleOutlined />,
-				label: '新增对话',
+				label: t('chat.new_chat'),
 				disabled: disableNewButton,
 				onClick: () => {
 					onAddConversation()
@@ -229,7 +229,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			{
 				key: 'rename_conversation',
 				icon: <EditOutlined />,
-				label: '编辑对话名称',
+				label: t('chat.rename'),
 				disabled: isTempId(currentConversationId),
 				onClick: () => {
 					handleRenameConversation()
@@ -238,20 +238,20 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			{
 				key: 'delete_conversation',
 				icon: <MinusCircleOutlined />,
-				label: '删除当前对话',
+				label: t('chat.delete'),
 				disabled: isTempId(currentConversationId),
 				danger: true,
 				onClick: () => {
 					Modal.confirm({
 						centered: true,
-						title: '确定删除当前对话？',
-						content: '删除后，聊天记录将不可恢复。',
-						okText: '删除',
-						cancelText: '取消',
+						title: t('chat.delete_confirm_title'),
+						content: t('chat.delete_confirm_content'),
+						okText: t('common.delete'),
+						cancelText: t('common.cancel'),
 						onOk: async () => {
 							// 执行删除操作
 							await onDeleteConversation(currentConversationId)
-							message.success('删除成功')
+							message.success(t('chat.delete_success'))
 						},
 					})
 				},
@@ -284,14 +284,14 @@ export default function ChatLayout(props: IChatLayoutProps) {
 						),
 					},
 				],
-				label: '主题',
+				label: t('system.theme'),
 			},
 			{
 				type: 'divider',
 			},
 			{
 				type: 'group',
-				label: '对话列表',
+				label: t('chat.chat_list'),
 				children: conversations?.length
 					? conversations.map(item => {
 							return {
@@ -305,7 +305,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 					: [
 							{
 								key: 'no_conversation',
-								label: '暂无对话',
+								label: t('chat.no_data_default'),
 								disabled: true,
 							},
 						],
@@ -342,7 +342,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 					<div className="flex h-full w-full items-center justify-center">
 						<Empty
 							className="pt-6"
-							description="暂无会话"
+							description={t('chat.no_data_default')}
 						/>
 					</div>
 				)}
@@ -506,7 +506,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 					) : (
 						<div className="flex h-full w-full items-center justify-center">
 							<Empty
-								description="暂无 Dify 应用配置，请联系管理员"
+								description={t('app.no_config_default_text')}
 								className="text-base"
 							/>
 						</div>

@@ -198,7 +198,9 @@ export const Chatbox = (props: ChatboxProps) => {
 							}}
 						/>
 						{messageItem.created_at && (
-							<div className="ml-3 text-sm text-desc">回复时间：{messageItem.created_at}</div>
+							<div className="ml-3 text-sm text-desc">
+								{t('message.response_time')}：{messageItem.created_at}
+							</div>
 						)}
 					</div>
 				),

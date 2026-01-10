@@ -10,6 +10,7 @@ import { useGlobalStore } from '@/store'
 import LucideIcon from '../../lucide-icon'
 import ActionButton from './action-btn'
 import DislikeConfirm from './dislike-confirm'
+import { useTranslation } from 'react-i18next'
 
 interface IMessageFooterProps {
 	/**
@@ -65,6 +66,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		question,
 	} = props
 	const { difyApi } = useGlobalStore()
+	const { t } = useTranslation()
 
 	const { currentApp } = useAppContext()
 	const isLiked = rating === 'like'
@@ -167,7 +169,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 			// 重新生成回复
 			{
 				icon: <LucideIcon name="refresh-ccw" />,
-				title: '重新生成回复',
+				title: t('message.action_regenerate'),
 				hidden: false,
 				onClick: () => {
 					onRegenerateMessage?.()
@@ -178,9 +180,9 @@ export default function MessageFooter(props: IMessageFooterProps) {
 				icon: <LucideIcon name="copy" />,
 				onClick: async () => {
 					await copyToClipboard(messageContent)
-					antdMessage.success('复制成功')
+					antdMessage.success(t('message.copy_success'))
 				},
-				title: '复制内容',
+				title: t('message.action_copy'),
 				active: false,
 				loading: false,
 				hidden: false,
@@ -188,7 +190,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 			// 标注
 			{
 				icon: <LucideIcon name="edit-3" />,
-				title: '标注',
+				title: t('message.annotation'),
 				onClick: () => {
 					setAnnotationDrawerVisible(true)
 					annotationForm.setFieldsValue({
@@ -209,7 +211,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 					})
 					runFeedback(isLiked ? null : 'like')
 				},
-				title: '点赞',
+				title: t('message.feedback_positive'),
 				active: isLiked,
 				loading: loading.like,
 				hidden: false,
@@ -222,7 +224,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 						runFeedback={runFeedback}
 					/>
 				),
-				title: '点踩',
+				title: t('message.feedback_negative'),
 				// 如果已经点过踩了，则取消
 				onClick: () => {
 					if (isDisLiked) {
@@ -252,7 +254,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 						strokeWidth={1.75}
 					/>
 				),
-				title: '文本转语音',
+				title: t('message.tts'),
 				onClick: () => {
 					if (ttsPlaying) return
 					if (cachedAudioUrl) {

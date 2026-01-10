@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Conversations } from '@ant-design/x'
 import { Form, Input, message, Modal } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 interface IConversationItem {
 	key: string
@@ -36,7 +37,7 @@ interface IConversationListProps {
 export const ConversationList = (props: IConversationListProps) => {
 	const { deleteConversationPromise, renameConversationPromise, items, activeKey, onActiveChange } =
 		props
-
+	const { t } = useTranslation()
 	const [renameForm] = Form.useForm()
 
 	/**
@@ -58,7 +59,7 @@ export const ConversationList = (props: IConversationListProps) => {
 		})
 		Modal.confirm({
 			destroyOnClose: true,
-			title: '编辑对话名称',
+			title: t('chat.rename'),
 			content: (
 				<Form
 					form={renameForm}
@@ -87,12 +88,12 @@ export const ConversationList = (props: IConversationListProps) => {
 			menu={conversation => ({
 				items: [
 					{
-						label: '重命名',
+						label: t('chat.rename'),
 						key: 'rename',
 						icon: <EditOutlined />,
 					},
 					{
-						label: '删除',
+						label: t('chat.delete'),
 						key: 'delete',
 						icon: <DeleteOutlined />,
 						danger: true,

@@ -110,7 +110,7 @@ export default function AppListPage() {
 					</Row>
 				) : (
 					<div className="box-border flex h-full w-full flex-col items-center justify-center px-3">
-						<Empty description="暂无应用" />
+						<Empty description={t('app.no_data_default')} />
 					</div>
 				)}
 			</div>
