@@ -55,6 +55,7 @@ interface IChatLayoutProps {
 }
 
 export default function ChatLayout(props: IChatLayoutProps) {
+	const { t } = useTranslation()
 	const { difyApi } = useGlobalStore()
 	const { extComponents, renderCenterTitle, initLoading } = props
 	const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -360,8 +361,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	const disableNewButton = useMemo(() => {
 		return conversations?.some(item => isTempId(item.id))
 	}, [conversations])
-
-	const { t } = useTranslation()
 
 	return (
 		<ConversationsContextProvider
