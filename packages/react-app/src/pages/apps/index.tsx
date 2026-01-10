@@ -7,10 +7,12 @@ import { useHistory } from 'pure-react-router'
 
 import { DebugMode, HeaderLayout, LucideIcon } from '@/components'
 import appService from '@/services/app'
+import { useTranslation } from 'react-i18next'
 
 export default function AppListPage() {
 	const history = useHistory()
 	const isMobile = useIsMobile()
+	const { t } = useTranslation()
 
 	const { data: list } = useRequest(
 		() => {
@@ -34,7 +36,7 @@ export default function AppListPage() {
 							size={16}
 							className="mr-1"
 						/>
-						应用列表
+						{t('app.list')}
 					</div>
 				}
 			/>
@@ -90,7 +92,7 @@ export default function AppListPage() {
 												</div>
 											</div>
 											<div className="mt-3 line-clamp-2 h-10 overflow-hidden text-ellipsis whitespace-normal text-sm leading-5 text-theme-desc">
-												{item.info.description || '暂无描述'}
+												{item.info.description || t('app.no_description')}
 											</div>
 										</div>
 										<div className="mt-3 flex h-4 items-center truncate text-desc">

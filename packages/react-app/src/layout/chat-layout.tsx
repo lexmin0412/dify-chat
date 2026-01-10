@@ -33,6 +33,7 @@ import ChatboxWrapper from '@/components/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/constants'
 import { useLatest } from '@/hooks/use-latest'
 import { useGlobalStore } from '@/store'
+import { useTranslation } from 'react-i18next'
 
 interface IChatLayoutProps {
 	/**
@@ -360,7 +361,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		return conversations?.some(item => isTempId(item.id))
 	}, [conversations])
 
-	console.log('initLoading', initLoading, appLoading)
+	const { t } = useTranslation()
 
 	return (
 		<ConversationsContextProvider
@@ -417,7 +418,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 												className="mx-4 mt-3 h-10 rounded-lg border border-solid border-gray-200 leading-10 text-theme-text"
 												icon={<PlusOutlined className="" />}
 											>
-												新增对话
+												{t('chat.new_chat')}
 											</Button>
 										) : null}
 										{/* 🌟 对话管理 */}
@@ -475,7 +476,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 
 								<div className="flex h-12 items-center justify-center border-0 border-t border-solid border-theme-splitter">
 									<Tooltip
-										title={sidebarOpen ? '折叠侧边栏' : '展开侧边栏'}
+										title={sidebarOpen ? t('chat.sidebar_close') : t('chat.sidebar_open')}
 										placement="right"
 									>
 										<div className="flex items-center justify-center">

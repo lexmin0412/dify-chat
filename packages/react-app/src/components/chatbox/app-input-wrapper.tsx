@@ -5,6 +5,7 @@ import { Collapse, CollapseProps, theme } from 'antd'
 import { CSSProperties, useEffect, useMemo, useState } from 'react'
 
 import AppInputForm, { IAppInputFormProps } from './app-input-form'
+import { useTranslation } from 'react-i18next'
 
 const COLLAPSE_KEY = 'conversation-input-params-setting'
 
@@ -16,6 +17,7 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 	const { currentConversationId } = useConversationsContext()
 	const { token } = theme.useToken()
 	const [activeKey, setActiveKey] = useState<string[]>([])
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		// 每当切换对话时，都默认打开 Collapse，目的是渲染一遍表单（Collpase 后续关掉了也不会清除 form），以便 entryForm 能获取到表单值
@@ -50,9 +52,11 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 			key: COLLAPSE_KEY,
 			label: (
 				<div className="flex items-center">
-					<div className="text-base font-semibold">对话参数设置</div>
+					<div className="text-base font-semibold">
+						{t('chat.conversation_input_params_setting')}
+					</div>
 					{!currentApp.config?.inputParams?.enableUpdateAfterCvstStarts ? (
-						<div className="text-desc">（注意：对话开始后，参数设置将无法修改）</div>
+						<div className="text-desc">（{t('chat.input_disabled_between_chats')}）</div>
 					) : null}
 				</div>
 			),

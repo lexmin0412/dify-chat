@@ -15,6 +15,7 @@ import { MessageSender } from '../message-sender'
 import MessageContent from './message/content'
 import MessageFooter from './message/footer'
 import { WelcomePlaceholder } from './welcome-placeholder'
+import { useTranslation } from 'react-i18next'
 
 export interface ChatboxProps {
 	/**
@@ -104,6 +105,7 @@ export const Chatbox = (props: ChatboxProps) => {
 	const { difyApi } = useGlobalStore()
 	const isMobile = useIsMobile()
 	const { currentApp } = useAppContext()
+	const { t } = useTranslation()
 
 	// 控制回答过程中是否需要自动滚动到最底部
 	const [shouldAutoScroll2Bottom, setShouldAutoScroll2Bottom] = useState(false)
@@ -355,7 +357,7 @@ export const Chatbox = (props: ChatboxProps) => {
 						onCancel={onCancel}
 					/>
 					<div className="h-8 truncate text-center text-sm leading-8 text-theme-desc">
-						{currentApp?.site?.custom_disclaimer || '内容由 AI 生成, 仅供参考'}
+						{currentApp?.site?.custom_disclaimer || t('system.default_disclaimer_content')}
 					</div>
 				</div>
 			</div>

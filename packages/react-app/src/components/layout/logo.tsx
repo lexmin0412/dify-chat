@@ -17,6 +17,7 @@ export const LogoIcon = () => {
 export const GithubIcon = () => {
 	return (
 		<Button
+			title="Github"
 			type="link"
 			href="https://github.com/lexmin0412/dify-chat"
 			target="_blank"
