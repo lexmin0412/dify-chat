@@ -7,6 +7,7 @@ import { Button, Drawer, FloatButton, Form, Input, message, Space, Typography } 
 import React, { useEffect, useState } from 'react'
 
 import config from '@/config'
+import { useTranslation } from 'react-i18next'
 
 const { TextArea } = Input
 const { Text } = Typography
@@ -33,6 +34,7 @@ const isDebugModeFromURL = (): boolean => {
 const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 	const [drawerOpen, setDrawerOpen] = useState(false)
 	const [form] = Form.useForm()
+	const { t } = useTranslation()
 
 	// 检查是否应该显示调试按钮
 	const shouldShowDebugButton = isDebugMode()
@@ -166,7 +168,7 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 				title={
 					<div className="flex items-center">
 						<BugOutlined className="mr-2" />
-						调试模式配置
+						{t('debug.title')}
 					</div>
 				}
 				size={600}
@@ -177,19 +179,19 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 						icon={<CloseOutlined />}
 						onClick={() => setDrawerOpen(false)}
 					>
-						关闭
+						{t('common.close')}
 					</Button>
 				}
 			>
 				<div className="space-y-6">
 					{/* 应用配置编辑 */}
 					<div>
-						<div className="text-base font-semibold">应用配置</div>
+						<div className="text-base font-semibold">{t('debug.config_title')}</div>
 						<Text
 							type="secondary"
 							className="mb-3 block"
 						>
-							请输入 JSON 格式的应用配置数组。每个应用需要包含 info 和 requestConfig 字段。
+							{t('debug.config_description')}
 						</Text>
 
 						<Form
@@ -230,7 +232,7 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 									})
 								}}
 							>
-								使用示例配置
+								{t('debug.use_sample')}
 							</Button>
 							<Button
 								type="default"
@@ -238,13 +240,13 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 								onClick={() => {
 									localStorage.removeItem(DEBUG_APPS_KEY)
 									sessionStorage.removeItem(DEBUG_MODE_KEY)
-									message.success('调试配置已清空')
+									message.success(t('debug.exit_success'))
 									setTimeout(() => {
 										window.location.href = '/dify-chat'
 									}, 1000)
 								}}
 							>
-								{isAlwaysDebugMode() ? '清空调试配置' : '退出调试模式'}
+								{isAlwaysDebugMode() ? t('debug.clear') : t('debug.exit')}
 							</Button>
 							<Button
 								type="primary"
@@ -252,23 +254,23 @@ const DebugMode: React.FC<DebugModeProps> = ({ className }) => {
 								loading={saveDebugAppsLoading}
 								onClick={handleSaveConfig}
 							>
-								保存配置
+								{t('debug.save')}
 							</Button>
 						</Space>
 					</div>
 
 					{/* 使用说明 */}
 					<div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-						<div className="!mb-2 text-base font-semibold">使用说明</div>
+						<div className="!mb-2 text-base font-semibold">{t('debug.usage_title')}</div>
 						<div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
 							<div>
-								• 配置格式需要符合{' '}
+								• {t('debug.interface_schema_prefix')}{' '}
 								<span className="font-mono">
 									<a target="_blank">IDifyAppItem</a>
 								</span>{' '}
-								接口规范
+								{t('debug.interface_schema')}
 							</div>
-							<div>• 保存配置后页面会自动刷新以应用新设置</div>
+							<div>• {t('debug.usage_item_2')}</div>
 						</div>
 					</div>
 				</div>
