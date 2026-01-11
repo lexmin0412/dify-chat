@@ -8,7 +8,7 @@ import {
 } from '@dify-chat/core'
 import { useIsMobile } from '@dify-chat/helpers'
 import { useMount, useRequest } from 'ahooks'
-import { Dropdown, message } from 'antd'
+import { Dropdown, Empty, message } from 'antd'
 import { useHistory, useParams } from 'pure-react-router'
 import { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
@@ -21,6 +21,7 @@ import { useGlobalStore } from '@/store'
 import { createDifyApiInstance, DifyApi } from '@/utils/dify-api'
 
 import MainLayout from './main-layout'
+import { useTranslation } from 'react-i18next'
 
 const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 	const { currentAppId, setCurrentAppId, currentApp, setCurrentApp } = useAppContext()
@@ -170,7 +171,9 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 const ChatLayoutWrapper = () => {
 	const history = useHistory()
 	const { userId } = useAuth()
-	const { difyApi, setDifyApi } = useGlobalStore()
+	const { setDifyApi } = useGlobalStore()
+	const [appExists, setAppExists] = useState(true)
+	const { t } = useTranslation()
 
 	const [selectedAppId, setSelectedAppId] = useState<string>('')
 	const [initLoading, setInitLoading] = useState(false)
@@ -222,7 +225,9 @@ const ChatLayoutWrapper = () => {
 	 */
 	const initApp = async () => {
 		const appItem = await appService.getAppByID(selectedAppId)
+		console.log('appItem', appItem)
 		if (!appItem) {
+			setAppExists(false)
 			return
 		}
 		const newOptions = isDebugMode()
@@ -250,8 +255,12 @@ const ChatLayoutWrapper = () => {
 		getAppList()
 	})
 
-	if (!selectedAppId || !difyApi) {
-		return null
+	if (!selectedAppId || !appExists) {
+		return (
+			<div className="flex h-screen w-screen items-center justify-center">
+				<Empty description={t('app.no_config_default_text')} />
+			</div>
+		)
 	}
 
 	return (
