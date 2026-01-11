@@ -61,6 +61,7 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 	useEffect(() => {
 		if (difyApi) {
 			const init = async () => {
+				setInitLoading(true)
 				const appItem = await appService.getAppByID(currentAppId!)
 				if (!appItem) {
 					return
