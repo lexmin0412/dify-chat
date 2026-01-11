@@ -213,7 +213,6 @@ const ChatLayoutWrapper = () => {
 				console.error(error)
 			},
 			onFinally: () => {
-				console.log('关闭 loading')
 				setInitLoading(false)
 			},
 		},
@@ -222,9 +221,8 @@ const ChatLayoutWrapper = () => {
 	/**
 	 * 初始化应用信息
 	 */
-	const initApp = async () => {
-		const appItem = await appService.getAppByID(selectedAppId)
-		console.log('appItem', appItem)
+	const initApp = async (appId: string) => {
+		const appItem = await appService.getAppByID(appId)
 		if (!appItem) {
 			setAppExists(false)
 			return
@@ -237,7 +235,7 @@ const ChatLayoutWrapper = () => {
 			: {
 					user: userId,
 					...appItem.requestConfig,
-					apiBase: `/${selectedAppId}`,
+					apiBase: `/${appId}`,
 				}
 		setDifyApi(null)
 		setDifyApi(createDifyApiInstance(newOptions) as DifyApi)
@@ -245,7 +243,9 @@ const ChatLayoutWrapper = () => {
 	}
 
 	useEffect(() => {
-		initApp()
+		if (selectedAppId) {
+			initApp(selectedAppId)
+		}
 	}, [selectedAppId])
 
 	const isMobile = useIsMobile()
