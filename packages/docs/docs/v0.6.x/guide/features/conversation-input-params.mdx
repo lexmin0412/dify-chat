@@ -1,0 +1,92 @@
+# 对话输入参数
+
+Dify 应用支持配置初始参数，在对话开启时，展示在界面上供用户输入。
+
+默认情况下，同一个对话只允许输入一次参数值，在后续对话时，将会禁用输入控件。
+
+![应用输入参数-默认](/sample_app_input_disabled.png)
+
+## 1. 支持在对话开始后更新参数
+
+在应用配置中，你可以选择是否允许用户在对话开始后更新参数值。
+
+在界面上编辑应用配置，将 "对话参数配置" 中的 "更新历史参数" 设为 "启用" 即可。
+
+![应用输入参数-配置](/sample_app_input_setting.png)
+
+### 读取 URL 作为应用参数
+
+在实际应用场景下，我们可能有需要在 URL 中动态传入参数值，填入表单。
+
+![读取 URL 作为应用参数-说明](/sample_app_input_intro.png)
+
+为了支持此功能，你的 URL 需要定义成如下形式：
+
+```shell
+<dify-chat-address>/dify-chat/app/<appId>?<paramName>=<encodedParamValue>&isNewCvst=1
+```
+
+#### 应用示例 - 订单号填入
+
+默认情况下，对话参数的值为空：
+
+![读取 URL 作为应用参数-默认](/sample_app_input_default.jpg)
+
+我们可以在 URL 中拼接参数：
+
+```shell
+http://localhost:5200/dify-chat/app/${appId}?orderNo=${encodedValue}&isNewCvst=1
+```
+
+说明：
+
+- `appId`, 应用 ID
+- `encodedValue`, 经过 `Gzip` 和 `encodeUriComponent` 处理后的参数值
+- `isNewCvst`, 指定需要开启新对话（如果不指定且存在历史对话时，默认将会选中最近一个对话）
+
+`encodedValue` 生成方式（NodeJS）：
+
+```javascript
+import zlib from 'zlib'
+
+const originalOrderNo = '123456'
+const buffer = Buffer.from(originalOrderNo, 'utf8')
+let encodedValue = ''
+
+zlib.gzip(buffer, (err, compressedBuffer) => {
+	if (err) {
+		console.error('压缩时出错:', err)
+		return
+	}
+	const encodedString = compressedBuffer.toString('base64')
+	encodedValue = encodeURIComponent(encodedString)
+	console.log('压缩后的 Base64:', encodedValue)
+})
+```
+
+将 `encodedValue` 填入链接后访问，可以看到我们定义的 `orderNo: 123456` 已经被填入表单：
+
+![读取 URL 作为应用参数-结果](/sample_app_input_filled.jpg)
+
+## 2. 全局参数缓存
+
+有时候，对于一些固定的业务参数，我们可能需要在多个应用/对话中共享输出参数值，不需要用户重复输入，这时候可以使用全局参数缓存功能。
+
+要使用全局参数缓存非常简单，只需要在正常传递参数的同时，加上一个 `&isKeepAll=true` 即可。
+
+例如：
+
+```bash
+http://localhost:5200/dify-chat/app/cmdx5fmtb0000364zs23s6nez?orderNo=H4sIAAAAAAAAEzM0MjYxNQMAYdNyCQYAAAA%3D&isNewCvst=1&isKeepAll=true
+```
+
+参数说明：
+
+- `isKeepAll`, 指定是否需要缓存参数值, 在进入其他对话时复用
+  - `true`, 缓存参数值
+
+整个链接将会有如下效果：
+
+- 开启新对话（`isNewCvst=1`）
+- 缓存参数值（`isKeepAll=true`）
+  - 进入其他对话后，会自动将 `orderNo` 参数值填入表单

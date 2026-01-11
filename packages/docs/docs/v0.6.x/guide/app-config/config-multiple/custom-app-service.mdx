@@ -1,0 +1,194 @@
+import { Tab, Tabs } from 'rspress/theme'
+
+# 自定义应用配置管理
+
+为方便演示, 在 React SPA 版本中，我们默认使用 LocalStorage 进行应用配置管理，而在 Next.js 版本中，我们默认使用的是本地 JSON 文件。
+
+如果你想自定义应用配置管理服务，请阅读以下内容。
+
+## 确定运行模式
+
+在开始配置之前，确保你的运行模式是多应用模式。
+
+<Tabs>
+	<Tab label="React SPA">
+		```tsx title="packages/react-app/src/App.tsx" // 初始化全局运行时配置
+		difyChatRuntimeConfig.init('multiApp') ```
+	</Tab>
+	<Tab label="Next.js">
+		```bash title="packages/nextjs-app/.env" # 运行模式 RUNNING_MODE=multiApp ```
+	</Tab>
+</Tabs>
+
+## 自定义应用配置管理
+
+### React SPA 版本
+
+#### 配置入口
+
+```tsx title="packages/react-app/src/services/app/multiApp/index.ts"
+// 默认使用 LocalStorage 存储
+import DifyAppService from './localstorage'
+
+export const appService = new DifyAppService()
+```
+
+#### 内置实现
+
+**1. LocalStorage**
+
+使用 LocalStorage 数据进行存储，当用户切换浏览器后，数据会丢失，仅作为演示用。
+
+**2. 静态数据**
+
+使用静态数据进行存储，仅支持查询，不支持修改数据，适用于用户无需自定义应用的场景。
+
+定义用户可访问的应用列表：
+
+```ts title="packages/react-app/src/services/app/multiApp/static-readonly/data.ts"
+import { AppModeEnums, IDifyAppItem } from '@dify-chat/core'
+
+/**
+ * 静态的应用列表，用于演示
+ */
+export const staticAppList: IDifyAppItem[] = [
+	{
+		// 应用唯一标识，不重复即可
+		id: '0.270357011315995',
+		// 应用信息，包括名称、描述、标签、模式等
+		info: {
+			// 应用名称
+			name: 'My Chatflow APP',
+			// 应用描述
+			description: '我的 Chatflow 应用',
+			// 应用标签
+			tags: [],
+			// 应用模式
+			mode: AppModeEnums.CHATFLOW,
+		},
+		// API 请求配置，包括 API Base 和 API Key
+		requestConfig: {
+			// API Base 地址
+			apiBase: 'https://api.dify.ai/v1',
+			// API 密钥
+			apiKey: 'app-xxxxxxx',
+		},
+	},
+]
+```
+
+**3. Restful API**
+
+通过接口获取和修改数据，推荐使用🌟
+
+默认请求的后端服务地址为 `http://localhost:5300`，你可以根据你的需要修改。
+
+启动后端服务：
+
+```bash title="packages/server"
+pnpm dev
+```
+
+#### 自定义后端服务
+
+如果内置的 Restful 实现无法满足你的需求，你可以自定义你的后端服务，请遵循以下步骤进行操作。
+
+首先，修改后端服务地址为你的自定义地址。
+
+```ts title="packages/react-app/src/services/app/multiApp/restful.ts"
+// 比如你的自定义后端服务地址是 http://localhost:4567
+const API_BASE_URL = 'http://localhost:4567'
+```
+
+然后，实现以下接口：
+
+| 接口名称          | 请求方法 | 接口路径    | 请求参数       | 返回参数         |
+| ----------------- | -------- | ----------- | -------------- | ---------------- |
+| 获取 App 配置列表 | GET      | `/apps`     | 无             | `IDifyAppItem[]` |
+| 获取 App 配置详情 | GET      | `/apps/:id` | 无             | `IDifyAppItem`   |
+| 添加 App 配置     | POST     | `/apps`     | `IDifyAppItem` | 无               |
+| 更新 App 配置     | PUT      | `/apps/:id` | `IDifyAppItem` | 无               |
+| 删除 App 配置     | DELETE   | `/apps/:id` | 无             | 无               |
+
+### Next.js 版本
+
+#### 配置入口
+
+```ts title="packages/nextjs-app/services/app/multiApp/index.ts"
+# 使用 fs 实现
+export * from "./fs";
+```
+
+#### 内置实现
+
+**1. 本地文件存储**
+
+使用本地文件进行存储，支持完整的 CRUD，但存在丢失数据的风险。
+
+配置示例：
+
+```json title="packages/nextjs-app/.dify-chat/storage/apps.json"
+[
+	{
+		"id": "1751001348066",
+		"info": {
+			"name": "Chatflow Demo",
+			"description": "",
+			"tags": ["参数", "测试"],
+			"mode": "advanced-chat",
+			"author_name": "Dify"
+		},
+		"requestConfig": {
+			"apiBase": "https://api.dify.ai/v1",
+			"apiKey": "app-xxx"
+		},
+		"answerForm": {
+			"enabled": true,
+			"feedbackText": "你提交了一个表单"
+		},
+		"inputParams": {
+			"enableUpdateAfterCvstStarts": true
+		},
+		"extConfig": {
+			"conversation": {
+				"openingStatement": {
+					"displayMode": "always"
+				}
+			}
+		}
+	}
+]
+```
+
+**2. Restful API**
+
+通过 API 接口管理，支持完整的 CRUD，推荐使用🌟
+
+默认请求的后端服务地址为 `http://localhost:5300`，你可以根据你的需要修改。
+
+启动后端服务：
+
+```bash title="packages/server"
+pnpm dev
+```
+
+#### 自定义后端服务
+
+如果内置的 Restful 实现无法满足你的需求，你可以自定义你的后端服务，请遵循以下步骤进行操作。
+
+首先，修改后端服务地址为你的自定义地址。
+
+```ts title="packages/nextjs-app/services/app/multiApp/restful.ts"
+// 比如你的自定义后端服务地址是 http://localhost:4567
+const API_BASE_URL = 'http://localhost:4567'
+```
+
+然后，实现以下接口：
+
+| 接口名称          | 请求方法 | 接口路径    | 请求参数       | 返回参数         |
+| ----------------- | -------- | ----------- | -------------- | ---------------- |
+| 获取 App 配置列表 | GET      | `/apps`     | 无             | `IDifyAppItem[]` |
+| 获取 App 配置详情 | GET      | `/apps/:id` | 无             | `IDifyAppItem`   |
+| 添加 App 配置     | POST     | `/apps`     | `IDifyAppItem` | 无               |
+| 更新 App 配置     | PUT      | `/apps/:id` | `IDifyAppItem` | 无               |
+| 删除 App 配置     | DELETE   | `/apps/:id` | 无             | 无               |

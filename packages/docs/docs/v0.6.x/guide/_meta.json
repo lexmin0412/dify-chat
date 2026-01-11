@@ -1,0 +1,23 @@
+[
+	{
+		"type": "dir",
+		"name": "getting-started",
+		"label": "入门",
+		"collapsible": true,
+		"collapsed": false
+	},
+	{
+		"type": "dir",
+		"name": "deploy",
+		"label": "部署",
+		"collapsible": true,
+		"collapsed": false
+	},
+	{
+		"type": "dir",
+		"name": "features",
+		"label": "功能介绍",
+		"collapsible": true,
+		"collapsed": false
+	}
+]

@@ -1,0 +1,109 @@
+import { Tab, Tabs } from 'rspress/theme'
+
+# 部署 - 使用 PM2
+
+本文将会介绍如何配置 Nginx，将 Dify Chat 部署到生产环境。
+
+## 生产构建
+
+首先需要构建生产版本：
+
+<Tabs>
+	<Tab label="React SPA">```bash pnpm build ```</Tab>
+	<Tab label="Next.js">```bash pnpm build:next ```</Tab>
+</Tabs>
+
+## Nginx 配置
+
+<Tabs>
+  <Tab label="React SPA">
+```nginx title="nginx.conf"
+# 注意：
+# 将 dify-chat.com 替换为你的域名
+# 将 /path/to/dify-chat/packages/react-app/dist/ 替换为你的构建产物路径
+http {
+    server {
+        listen 443 ssl;
+        server_name dify-chat.com;
+
+        ssl_certificate     /etc/nginx/ssl/dify-chat.com_bundle.crt;
+        ssl_certificate_key /etc/nginx/ssl/dify-chat.com.key;
+
+        location /dify-chat/ {
+            alias /path/to/dify-chat/packages/react-app/dist/;
+            try_files $uri $uri/ /dify-chat/index.html;
+        }
+    }
+
+}
+
+````
+	</Tab>
+  <Tab label="Next.js">
+```nginx title="nginx.conf"
+# 注意：
+# 将 dify-chat-next.com 替换为你的域名
+# 将 /path/to/dify-chat/packages/nextjs-app/ 替换为你的 Next.js 项目根目录
+http {
+	server {
+		listen 443 ssl;
+		server_name dify-chat-next.com;
+		root /path/to/dify-chat/packages/nextjs-app;
+
+		ssl_certificate /etc/nginx/ssl/dify-chat-next.com_bundle.crt;
+		ssl_certificate_key /etc/nginx/ssl/dify-chat-next.com.key;
+
+		# 静态资源缓存
+		location /_next/static/ {
+			alias /path/to/dify-chat/packages/nextjs-app/.next/static/;
+			expires 30d;
+			access_log off;
+		}
+
+		# 反向代理所有其他请求到 Next.js 服务
+		location / {
+			proxy_pass http://127.0.0.1:5300;
+			proxy_http_version 1.1;
+			proxy_set_header Upgrade $http_upgrade;
+			proxy_set_header Connection 'upgrade';
+			proxy_set_header Host $host;
+			proxy_cache_bypass $http_upgrade;
+		}
+	}
+}
+````
+
+    </Tab>
+
+</Tabs>
+
+### 启动 Next.js 项目
+
+如果你使用的是 Next.js 版本，推荐使用 PM2 启动项目。
+
+在 PM2 中配置：
+
+```js title="ecosystem.config.js"
+module.exports = {
+	apps: [
+		{
+			name: 'dify-chat-nextjs-app',
+			cwd: '/path/to/dify-chat/packages/nextjs-app', // 工作目录
+			script: 'pnpm',
+			args: 'start', // 例如 nextjs 启动命令
+			env: {
+				NODE_ENV: 'production',
+				PORT: 5300,
+			},
+		},
+	],
+}
+```
+
+使用 PM2 启动项目：
+
+```bash
+pm2 start /path/to/ecosystem.config.js
+```
+
+## Docker 部署

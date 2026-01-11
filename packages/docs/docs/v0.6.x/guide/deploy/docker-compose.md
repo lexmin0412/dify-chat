@@ -35,7 +35,7 @@ docker-compose -f docker-compose.yml up -d
 
 > serverip 是你的服务器 IP，如果是本机启动，直接使用 localhost 访问即可
 
-- React App: http://serverip:5200/dify-chat/
+- React App: http://serverip:5200
 - Platform API: http://serverip:5300
 
 ## 二开后自行构建镜像

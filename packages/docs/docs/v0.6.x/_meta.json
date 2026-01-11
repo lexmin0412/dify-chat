@@ -1,0 +1,17 @@
+[
+	{
+		"text": "Guide",
+		"link": "/guide/getting-started/introduction",
+		"activeMatch": "/guide"
+	},
+	{
+		"text": "Packages",
+		"link": "/packages",
+		"activeMatch": "/packages"
+	},
+	{
+		"text": "FAQ",
+		"link": "/faq/",
+		"activeMatch": "/faq/"
+	}
+]

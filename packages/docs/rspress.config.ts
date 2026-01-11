@@ -8,7 +8,7 @@ export default defineConfig({
 	base: '/dify-chat-docs/',
 	multiVersion: {
 		default: 'Latest',
-		versions: ['Latest', 'v0.5.x', 'v0.4.x'],
+		versions: ['Latest', 'v0.6.x', 'v0.5.x', 'v0.4.x'],
 	},
 	search: {
 		versioned: true,

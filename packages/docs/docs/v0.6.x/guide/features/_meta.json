@@ -5,7 +5,5 @@
 	"conversation-input-params",
 	"sender-text",
 	"opening-statement",
-	"debug-mode",
-	"annotation",
-	"i18n"
+	"debug-mode"
 ]

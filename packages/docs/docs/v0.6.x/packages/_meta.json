@@ -1,0 +1,22 @@
+[
+	{
+		"type": "file",
+		"name": "index",
+		"label": "介绍"
+	},
+	{
+		"type": "file",
+		"name": "api",
+		"label": "API"
+	},
+	{
+		"type": "file",
+		"name": "core",
+		"label": "Core"
+	},
+	{
+		"type": "file",
+		"name": "theme",
+		"label": "Theme"
+	}
+]
