@@ -216,7 +216,11 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		}
 	}
 
-	const mobileMenuItems: GetProp<typeof Dropdown, 'menu'>['items'] = useMemo(() => {
+	const disableNewButton = useMemo(() => {
+		return conversations?.some(item => isTempId(item.id))
+	}, [conversations])
+
+	const mobileMenuItems: GetProp<typeof Dropdown, 'menu'>['items'] = (() => {
 		const actionMenus: GetProp<typeof Dropdown, 'menu'>['items'] = [
 			{
 				key: 'add_conversation',
@@ -342,7 +346,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		}
 
 		return [...actionMenus, ...i18nLanguageMenus, ...conversationListMenus]
-	}, [currentConversationId, conversations, themeMode, setThemeMode])
+	})()
 
 	// 对话列表（包括加载和缺省状态）
 	const conversationListWithEmpty = useMemo(() => {
@@ -381,10 +385,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		onDeleteConversation,
 		setCurrentConversationId,
 	])
-
-	const disableNewButton = useMemo(() => {
-		return conversations?.some(item => isTempId(item.id))
-	}, [conversations])
 
 	return (
 		<ConversationsContextProvider
