@@ -98,7 +98,6 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 	return (
 		<>
 			<MainLayout
-				difyApi={difyApi}
 				initLoading={initLoading}
 				renderCenterTitle={() => {
 					return (
@@ -237,7 +236,7 @@ const ChatLayoutWrapper = () => {
 					apiBase: `/${selectedAppId}`,
 				}
 		setDifyApi(null)
-		setDifyApi(createDifyApiInstance(newOptions))
+		setDifyApi(createDifyApiInstance(newOptions) as DifyApi)
 	}
 
 	useEffect(() => {
