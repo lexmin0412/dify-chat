@@ -171,7 +171,7 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 const ChatLayoutWrapper = () => {
 	const history = useHistory()
 	const { userId } = useAuth()
-	const { setDifyApi } = useGlobalStore()
+	const { difyApi, setDifyApi } = useGlobalStore()
 	const [appExists, setAppExists] = useState(true)
 	const { t } = useTranslation()
 
@@ -191,7 +191,6 @@ const ChatLayoutWrapper = () => {
 		{
 			manual: true,
 			onSuccess: result => {
-				console.log('获取应用列表成功', result)
 				flushSync(() => {
 					setAppList(result)
 				})
@@ -242,6 +241,7 @@ const ChatLayoutWrapper = () => {
 				}
 		setDifyApi(null)
 		setDifyApi(createDifyApiInstance(newOptions) as DifyApi)
+		setAppExists(true)
 	}
 
 	useEffect(() => {
@@ -254,6 +254,10 @@ const ChatLayoutWrapper = () => {
 	useMount(() => {
 		getAppList()
 	})
+
+	if (!difyApi) {
+		return null
+	}
 
 	if (!selectedAppId || !appExists) {
 		return (
