@@ -35,5 +35,7 @@ jobs:
           AUTO_PUSH: 'true'
           VERSION: ${{ github.ref_name }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          # 开启 Compose Bake
+          COMPOSE_BAKE: 'true'
         run: |
           ./scripts/docker-build.sh "$VERSION" "$DOCKERHUB_USERNAME"
