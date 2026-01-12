@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 
-import { prisma } from '@/lib/prisma'
+import { getPrisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
 	try {
+		const prisma = getPrisma()
 		const count = await prisma.user.count()
 		return NextResponse.json({ initialized: count > 0 })
 	} catch (error) {

@@ -1,7 +1,9 @@
 import bcrypt from 'bcryptjs'
 import * as readline from 'readline'
 
-import { prisma } from '../lib/prisma'
+import { getPrisma } from '../lib/prisma'
+
+const prisma = getPrisma()
 
 // 创建 readline 接口
 const rl = readline.createInterface({

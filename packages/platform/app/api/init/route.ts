@@ -1,12 +1,14 @@
 import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { prisma } from '@/lib/prisma'
+import { getPrisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
 	try {
+		const prisma = getPrisma()
+
 		// 如果已经初始化（存在至少一个用户），则拒绝再次初始化
 		const userCount = await prisma.user.count()
 		if (userCount > 0) {

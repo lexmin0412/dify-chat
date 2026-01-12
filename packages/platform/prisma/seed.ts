@@ -1,4 +1,6 @@
-import { prisma } from '@/lib/prisma'
+import { getPrisma } from '@/lib/prisma'
+
+const prisma = getPrisma()
 
 async function main() {
 	console.log('开始数据库种子数据初始化...')

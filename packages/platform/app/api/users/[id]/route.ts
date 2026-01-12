@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import { getPrisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +16,7 @@ interface RouteParams {
 // 更新用户
 export async function PUT(request: NextRequest, { params }: RouteParams) {
 	try {
+		const prisma = getPrisma()
 		const session = await getServerSession(authOptions)
 
 		if (!session) {
@@ -82,6 +83,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 // 删除用户
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
 	try {
+		const prisma = getPrisma()
 		const session = (await getServerSession(authOptions)) as { user: { id: string } }
 
 		if (!session) {

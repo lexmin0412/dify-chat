@@ -1,7 +1,7 @@
 'use server'
 
 import { appItemToDbApp, appItemToDbAppUpdate, dbAppToAppItem } from '@/lib/db/types'
-import { prisma } from '@/lib/prisma'
+import { getPrisma } from '@/lib/prisma'
 import { IDifyAppItem } from '@/types'
 
 /**
@@ -9,6 +9,7 @@ import { IDifyAppItem } from '@/types'
  */
 export const getAppList = async (): Promise<IDifyAppItem[]> => {
 	try {
+		const prisma = getPrisma()
 		const dbApps = await prisma.difyApp.findMany({
 			orderBy: {
 				createdAt: 'desc',
@@ -26,6 +27,7 @@ export const getAppList = async (): Promise<IDifyAppItem[]> => {
  */
 export const getAppItem = async (id: string): Promise<IDifyAppItem | null> => {
 	try {
+		const prisma = getPrisma()
 		const dbApp = await prisma.difyApp.findUnique({
 			where: { id },
 		})
@@ -41,6 +43,7 @@ export const getAppItem = async (id: string): Promise<IDifyAppItem | null> => {
  */
 export const addApp = async (app: Omit<IDifyAppItem, 'id'>): Promise<IDifyAppItem> => {
 	try {
+		const prisma = getPrisma()
 		const dbAppData = appItemToDbApp(app)
 		const dbApp = await prisma.difyApp.create({
 			data: dbAppData,
@@ -57,6 +60,7 @@ export const addApp = async (app: Omit<IDifyAppItem, 'id'>): Promise<IDifyAppIte
  */
 export const updateApp = async (app: IDifyAppItem): Promise<IDifyAppItem> => {
 	try {
+		const prisma = getPrisma()
 		const dbAppData = appItemToDbAppUpdate(app)
 		const { id, ...updateData } = dbAppData
 		const dbApp = await prisma.difyApp.update({
@@ -75,6 +79,7 @@ export const updateApp = async (app: IDifyAppItem): Promise<IDifyAppItem> => {
  */
 export const deleteApp = async (id: string): Promise<void> => {
 	try {
+		const prisma = getPrisma()
 		await prisma.difyApp.delete({
 			where: { id },
 		})
