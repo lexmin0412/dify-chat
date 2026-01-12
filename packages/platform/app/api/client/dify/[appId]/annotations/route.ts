@@ -1,9 +1,9 @@
-'use server'
-
 import { NextRequest } from 'next/server'
 
 import { createDifyApiResponse, handleApiError, proxyDifyRequest } from '@/lib/api-utils'
 import { getAppItem } from '@/repository/app'
+
+export const dynamic = 'force-dynamic'
 
 /**
  * 创建标注

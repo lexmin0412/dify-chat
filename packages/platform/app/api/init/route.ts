@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
 	try {
 		// 如果已经初始化（存在至少一个用户），则拒绝再次初始化

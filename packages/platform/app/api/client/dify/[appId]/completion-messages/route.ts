@@ -1,9 +1,9 @@
-'use server'
-
 import { NextRequest } from 'next/server'
 
 import { createDifyResponseProxy, getUserIdFromRequest } from '@/lib/api-utils'
 import { getAppItem } from '@/repository/app'
+
+export const dynamic = 'force-dynamic'
 
 /**
  * 发送完成消息（文本生成）

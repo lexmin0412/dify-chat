@@ -1,5 +1,4 @@
-'use server'
-
+export const dynamic = 'force-dynamic'
 import { NextRequest } from 'next/server'
 
 import { createDifyResponseProxy, getUserIdFromRequest } from '@/lib/api-utils'

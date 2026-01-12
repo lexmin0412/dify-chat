@@ -1,9 +1,9 @@
-'use server'
-
 import { NextResponse } from 'next/server'
 
 import { createSafeApp, handleApiError } from '@/lib/api-utils'
 import { getAppList } from '@/repository/app'
+
+export const dynamic = 'force-dynamic'
 
 /**
  * 获取应用列表 (供客户端使用)

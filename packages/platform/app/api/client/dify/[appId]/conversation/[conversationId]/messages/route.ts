@@ -1,8 +1,7 @@
-'use server'
-
 import { NextRequest, NextResponse } from 'next/server'
 
 import { getAppItem } from '@/repository/app'
+export const dynamic = 'force-dynamic'
 
 /**
  * 代理 Dify API 的会话消息历史请求
