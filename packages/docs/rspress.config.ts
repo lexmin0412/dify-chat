@@ -6,6 +6,10 @@ export default defineConfig({
 	title: 'Dify Chat Docs',
 	icon: '/logo.png',
 	base: '/dify-chat-docs/',
+	head: [
+		// 引入 Rybbit 配置
+		['script', { src: 'https://app.rybbit.io/api/script.js', 'data-site-id': '8c5e6e8f95e0' }],
+	],
 	multiVersion: {
 		default: 'Latest',
 		versions: ['Latest', 'v0.6.x', 'v0.5.x', 'v0.4.x'],
