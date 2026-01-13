@@ -56,14 +56,11 @@
 	},
 	"devDependencies": {
 		"@changesets/cli": "catalog:",
-		"@eslint/compat": "catalog:",
-		"@eslint/js": "catalog:",
 		"@fingerprintjs/fingerprintjs": "catalog:",
 		"@rsbuild/core": "catalog:",
 		"@rsbuild/plugin-less": "catalog:",
 		"@rsbuild/plugin-react": "catalog:",
 		"@rsbuild/plugin-source-build": "catalog:",
-		"@trivago/prettier-plugin-sort-imports": "catalog:",
 		"@types/hast": "catalog:",
 		"@types/lodash-es": "catalog:",
 		"@types/node": "catalog:",
@@ -71,16 +68,10 @@
 		"@types/react-dom": "catalog:",
 		"@types/react-syntax-highlighter": "catalog:",
 		"dayjs": "catalog:",
-		"eslint": "catalog:",
-		"eslint-plugin-react": "catalog:",
-		"eslint-plugin-react-hooks": "catalog:",
 		"globals": "catalog:",
 		"pako": "catalog:",
-		"prettier": "catalog:",
-		"prettier-plugin-tailwindcss": "catalog:",
 		"tailwindcss": "catalog:",
-		"typescript": "catalog:",
-		"typescript-eslint": "catalog:"
+		"typescript": "catalog:"
 	},
 	"packageManager": "pnpm@10.8.1"
 }

@@ -30,27 +30,21 @@
 	},
 	"scripts": {
 		"build": "rslib build",
-		"dev": "rslib build --watch",
-		"format": "prettier --write .",
-		"lint": "eslint ."
+		"dev": "rslib build --watch"
 	},
 	"dependencies": {
 		"@dify-chat/helpers": "workspace:^"
 	},
 	"devDependencies": {
-		"@eslint/js": "catalog:",
 		"@rsbuild/plugin-react": "catalog:",
 		"@rslib/core": "catalog:",
 		"@types/react": "catalog:",
 		"antd": "catalog:",
-		"eslint": "catalog:",
 		"globals": "catalog:",
 		"lucide-react": "catalog:",
-		"prettier": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"typescript": "catalog:",
-		"typescript-eslint": "catalog:"
+		"typescript": "catalog:"
 	},
 	"peerDependencies": {
 		"antd": ">=5.0.0",

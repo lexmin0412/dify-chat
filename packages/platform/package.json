@@ -52,14 +52,11 @@
 		"vaul": "catalog:"
 	},
 	"devDependencies": {
-		"@eslint/eslintrc": "catalog:",
 		"@tailwindcss/postcss": "catalog:",
 		"@types/bcryptjs": "catalog:",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
-		"eslint": "catalog:",
-		"eslint-config-next": "catalog:",
 		"tailwindcss": "^4",
 		"tsx": "catalog:",
 		"tw-animate-css": "catalog:",

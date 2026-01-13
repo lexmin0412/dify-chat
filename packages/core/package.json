@@ -34,16 +34,13 @@
 	},
 	"scripts": {
 		"build": "rslib build",
-		"check": "biome check --write",
 		"dev": "rslib build --watch",
-		"format": "biome format --write",
 		"test": "vitest run"
 	},
 	"dependencies": {
 		"@dify-chat/helpers": "workspace:^"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "catalog:",
 		"@rslib/core": "catalog:",
 		"@types/node": "catalog:",
 		"@types/react": "catalog:",
