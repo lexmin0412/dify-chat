@@ -1,7 +1,7 @@
 # ================================
 # 阶段 1: 基础环境和依赖安装、构建
 # ================================
-FROM node:22.5.1-alpine AS builder
+FROM node:22.21.1-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -54,7 +54,7 @@ RUN pnpm --filter dify-chat-app-react build
 # ================================
 # 阶段 2: 运行时
 # ================================
-FROM nginx:latest AS runtime
+FROM nginx:alpine-slim AS runtime
 
 # 复制自定义 nginx 配置
 COPY packages/react-app/docker/nginx.conf /etc/nginx/conf.d/default.conf
