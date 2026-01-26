@@ -1,6 +1,6 @@
 # Docker Compose 配置文件 - 本地开发环境
 # 适用场景：本地开发，需要构建镜像并支持代码修改
-# 使用方法: docker-compose -f docker-compose.dev.yml up --build
+# 使用方法: COMPOSE_BAKE=true docker-compose -f docker-compose.dev.yml up --build
 
 services:
   # React App 前端应用

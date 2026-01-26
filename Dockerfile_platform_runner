@@ -1,0 +1,18 @@
+# 构建新的基础镜像：docker build -f Dockerfile_platform_runner -t lexmin0412/dify-chat-platform-runner:latest .
+
+# 本地调试：
+# 1. docker build -f Dockerfile_platform_runner -t lexmin0412/dify-chat-platform-runner:local .
+# 2. 修改 Dockerfile_platform 的第二步运行基础镜像为 FROM lexmin0412/dify-chat-platform-runner:local AS runner
+# 3. 使用本地调试的 docker-compose 配置启动：COMPOSE_BAKE=true docker-compose -f docker-compose.dev.yml up --build
+
+FROM node:22.21.1-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+RUN corepack prepare pnpm@10.8.1 --activate
+
+RUN pnpm add -g prisma@7.2.0
+
+RUN prisma version
