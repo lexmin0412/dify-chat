@@ -40,7 +40,6 @@
 		"classnames": "catalog:",
 		"clsx": "catalog:",
 		"dayjs": "catalog:",
-		"dotenv": "^17.2.3",
 		"lucide-react": "catalog:",
 		"next": "catalog:",
 		"next-auth": "catalog:",

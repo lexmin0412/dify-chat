@@ -1,10 +1,10 @@
-import { loadEnvFile } from 'node:process'
+import { existsSync } from 'node:fs'
 import type { PrismaConfig } from 'prisma'
 
-try {
-	loadEnvFile()
-} catch (error) {
-	console.warn('加载 .env 文件失败，请确保你通过其他方式注入了环境变量', error)
+// 判断 .env 存在时才从 .env 中加载环境变量
+if (existsSync('.env')) {
+	const process = await import('node:process')
+	process.loadEnvFile()
 }
 
 export default {
