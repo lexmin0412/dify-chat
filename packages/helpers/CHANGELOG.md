@@ -1,5 +1,11 @@
 # @dify-chat/helpers
 
+## 0.7.1
+
+### Patch Changes
+
+- 4a60cf1: 移除 dotenv, 精简 prisma 初始化迁移流程
+
 ## 0.7.0
 
 ### Minor Changes

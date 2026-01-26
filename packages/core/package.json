@@ -1,6 +1,6 @@
 {
 	"name": "@dify-chat/core",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"description": "Dify Chat 的核心包",
 	"author": {
 		"name": "lexmin0412",

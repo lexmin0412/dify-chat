@@ -1,5 +1,16 @@
 # @dify-chat/components
 
+## 0.7.1
+
+### Patch Changes
+
+- 4a60cf1: 移除 dotenv, 精简 prisma 初始化迁移流程
+- Updated dependencies [4a60cf1]
+  - @dify-chat/api@0.7.1
+  - @dify-chat/core@0.7.1
+  - @dify-chat/helpers@0.7.1
+  - @dify-chat/theme@0.7.1
+
 ## 0.7.0
 
 ### Minor Changes
