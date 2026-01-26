@@ -1,5 +1,4 @@
 import { PrismaMariaDb } from '@prisma/adapter-mariadb'
-import 'dotenv/config'
 import { PrismaClient } from '@/prisma/generated/client'
 import { isNextBuild } from './is-next-build'
 
