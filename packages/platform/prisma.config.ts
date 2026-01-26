@@ -1,9 +1,13 @@
-import { defineConfig } from 'prisma/config'
-import { loadEnv } from './lib/load-env'
+import { loadEnvFile } from 'node:process'
+import type { PrismaConfig } from 'prisma'
 
-loadEnv()
+try {
+	loadEnvFile()
+} catch (error) {
+	console.warn('加载 .env 文件失败，请确保你通过其他方式注入了环境变量', error)
+}
 
-export default defineConfig({
+export default {
 	schema: 'prisma/schema.prisma',
 	migrations: {
 		path: 'prisma/migrations',
@@ -13,4 +17,4 @@ export default defineConfig({
 	datasource: {
 		url: process.env.DATABASE_URL,
 	},
-})
+} satisfies PrismaConfig
