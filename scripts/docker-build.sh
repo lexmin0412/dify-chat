@@ -44,6 +44,12 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
+# 检查 Buildx 是否可用
+BUILDX_AVAILABLE=false
+if docker buildx version &> /dev/null; then
+    BUILDX_AVAILABLE=true
+fi
+
 # 检查是否在项目根目录
 if [ ! -f "package.json" ] || [ ! -f "docker-compose.yml" ]; then
     print_error "请在项目根目录运行此脚本"
@@ -53,25 +59,97 @@ fi
 print_info "开始构建 Dify Chat Docker 镜像..."
 print_info "版本: $VERSION"
 
-# 构建 React App 镜像
-print_info "构建 React App 镜像..."
-docker build -f Dockerfile_react_app -t ${REACT_APP_IMAGE}:${VERSION} .
-if [ $? -eq 0 ]; then
-    print_success "React App 镜像构建完成: ${REACT_APP_IMAGE}:${VERSION}"
+# 构建逻辑
+if [ "$COMPOSE_BAKE" = "true" ] && [ "$BUILDX_AVAILABLE" = "true" ]; then
+    print_info "使用 Docker Buildx Bake 进行多平台构建..."
+
+    # 准备环境变量
+    export VERSION=$VERSION
+    export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+
+    BAKE_ARGS="--push"
+    if [ "$AUTO_PUSH" != "true" ] && [ "$CI" != "true" ]; then
+        BAKE_ARGS="--load"
+    fi
+
+    # 使用 docker-bake.hcl
+    if [ -f "docker-bake.hcl" ]; then
+        docker buildx bake -f docker-bake.hcl $BAKE_ARGS
+    else
+        # 降级到 compose 文件 (如果存在 build 字段)
+        docker buildx bake $BAKE_ARGS
+    fi
+
+    if [ $? -eq 0 ]; then
+        print_success "Buildx Bake 构建并推送完成: $VERSION"
+    else
+        print_error "Buildx Bake 构建失败"
+        exit 1
+    fi
 else
-    print_error "React App 镜像构建失败"
-    exit 1
+    # 构建并推送逻辑 (非 Bake 模式)
+    PUSH_ARG=""
+    if [ "$AUTO_PUSH" = "true" ] || [ "$CI" = "true" ]; then
+        if [ "$BUILDX_AVAILABLE" = "true" ]; then
+            PUSH_ARG="--push"
+        fi
+    fi
+
+    # 构建 React App 镜像
+    print_info "构建 React App 镜像..."
+    if [ "$BUILDX_AVAILABLE" = "true" ]; then
+        # 如果是多平台构建且需要推送，直接使用 buildx build --push
+        if [ -n "$PUSH_ARG" ] && [ -n "$DOCKERHUB_USERNAME" ]; then
+            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_react_app \
+                -t ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION} \
+                $( [ "$VERSION" != "latest" ] && echo "-t ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:latest" ) \
+                --push .
+        else
+            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_react_app -t ${REACT_APP_IMAGE}:${VERSION} --load .
+        fi
+    else
+        docker build -f Dockerfile_react_app -t ${REACT_APP_IMAGE}:${VERSION} .
+    fi
+
+    if [ $? -eq 0 ]; then
+        print_success "React App 镜像构建完成"
+    else
+        print_error "React App 镜像构建失败"
+        exit 1
+    fi
+
+    # 构建 Platform 镜像
+    print_info "构建 Platform 镜像..."
+    if [ "$BUILDX_AVAILABLE" = "true" ]; then
+        if [ -n "$PUSH_ARG" ] && [ -n "$DOCKERHUB_USERNAME" ]; then
+            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_platform \
+                -t ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION} \
+                $( [ "$VERSION" != "latest" ] && echo "-t ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:latest" ) \
+                --push .
+        else
+            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_platform -t ${PLATFORM_IMAGE}:${VERSION} --load .
+        fi
+    else
+        docker build -f Dockerfile_platform -t ${PLATFORM_IMAGE}:${VERSION} .
+    fi
+
+    if [ $? -eq 0 ]; then
+        print_success "Platform 镜像构建完成"
+    else
+        print_error "Platform 镜像构建失败"
+        exit 1
+    fi
 fi
 
-# 构建 Platform 镜像
-print_info "构建 Platform 镜像..."
-docker build -f Dockerfile_platform -t ${PLATFORM_IMAGE}:${VERSION} .
-if [ $? -eq 0 ]; then
-    print_success "Platform 镜像构建完成: ${PLATFORM_IMAGE}:${VERSION}"
-else
-    print_error "Platform 镜像构建失败"
-    exit 1
+# 如果是 Bake 模式或者已经通过 buildx --push 推送，则跳过后面的手动推送逻辑
+if [ "$COMPOSE_BAKE" = "true" ] || ([ "$BUILDX_AVAILABLE" = "true" ] && [ -n "$PUSH_ARG" ]); then
+    print_success "构建和推送任务已完成 (通过 Buildx)"
+    exit 0
 fi
+
+# =================================================================================================
+# 以下逻辑仅在非 Bake 且非 Buildx Push 模式下执行 (主要用于本地单架构构建)
+# =================================================================================================
 
 # 如果版本不是 latest，也创建 latest 标签
 if [ "$VERSION" != "latest" ]; then
