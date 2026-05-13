@@ -1,3 +1,0 @@
-# Database - 生产环境请使用 PostgreSQL 或 MySQL
-DATABASE_URL="file:./prod.db"
-NEXTAUTH_SECRET="h0lcrGVxvN0+W049s05NB7kW6DSbk84nIDuiTFrKa9U="

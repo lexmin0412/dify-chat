@@ -1,4 +1,0 @@
-# 应用配置 API 基础路径
-PUBLIC_APP_API_BASE=http://192.168.82.131:5300/api/client
-# Dify 代理 API 基础路径
-PUBLIC_DIFY_PROXY_API_BASE=http://192.168.82.131:5300/api/client/dify
