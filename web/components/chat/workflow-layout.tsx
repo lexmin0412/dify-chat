@@ -21,13 +21,13 @@ import {
 	MessageFileList,
 	WorkflowLogs,
 } from '@/components'
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 
 /**
  * 工作流应用详情布局
  */
 export default function WorkflowLayout() {
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const [entryForm] = Form.useForm()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [text, setText] = useState('')

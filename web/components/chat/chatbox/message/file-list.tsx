@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { completeFileUrl } from '@/components/chat/utils-index'
 
 const triggerDownload = (blob: Blob, filename: string) => {
@@ -53,7 +53,7 @@ interface IMessageFileListProps {
  */
 export default function MessageFileList(props: IMessageFileListProps) {
 	const { files: filesInProps } = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	/**

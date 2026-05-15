@@ -10,7 +10,7 @@ import { useSearchParams } from 'pure-react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from './utils'
 
@@ -46,7 +46,7 @@ interface IMessageSenderProps {
  */
 export const MessageSender = (props: IMessageSenderProps) => {
 	const { isRequesting, onSubmit, className, onCancel } = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [content, setContent] = useState('')
 	const [open, setOpen] = useState(false)

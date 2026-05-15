@@ -6,7 +6,7 @@ import { RcFile, UploadFile } from 'antd/es/upload'
 import { useEffect, useMemo, useState } from 'react'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from '@/components/message-sender/utils'
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { completeFileUrl } from '@/components/chat/utils-index'
 import { useTranslation } from 'react-i18next'
 
@@ -41,7 +41,7 @@ type IFileUploadProps = IFileUploadSingleProps | IFileUploadMultipleProps
 
 export default function FileUpload(props: IFileUploadProps) {
 	const { mode = 'multiple', maxCount, disabled, allowed_file_types, value, onChange } = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const [files, setFiles] = useState<GetProp<typeof Upload, 'fileList'>>([])
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()

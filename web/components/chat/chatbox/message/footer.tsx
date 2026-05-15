@@ -5,7 +5,7 @@ import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
 import { useMemo, useState } from 'react'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 
 import LucideIcon from '../../lucide-icon'
 import ActionButton from './action-btn'
@@ -65,7 +65,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		onRegenerateMessage,
 		question,
 	} = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const { t } = useTranslation()
 
 	const currentApp = useDifyChatStore(s => s.currentApp)

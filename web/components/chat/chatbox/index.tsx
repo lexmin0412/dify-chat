@@ -8,7 +8,7 @@ import { FormInstance, GetProp, message, Spin } from 'antd'
 import { useDeferredValue, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { validateAndGenErrMsgs } from '@/components/chat/utils-index'
 
 import { MessageSender } from '../message-sender'
@@ -102,7 +102,7 @@ export const Chatbox = (props: ChatboxProps) => {
 		hasMore,
 		onLoadMore,
 	} = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const isMobile = useIsMobile()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()

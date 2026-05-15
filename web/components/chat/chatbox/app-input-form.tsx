@@ -16,7 +16,7 @@ import {
 import { useHistory, useSearchParams } from 'pure-react-router'
 import { useEffect, useRef, useState } from 'react'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { isChatLikeApp } from '@/components/chat/utils-index'
 
 import FileUpload from './form-controls/file-upload'
@@ -94,7 +94,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 	} = useHistory()
 	const [userInputItems, setUserInputItems] = useState<IConversationEntryFormItem[]>([])
 	const cachedSearchParams = useRef<URLSearchParams>(new URLSearchParams(searchParams))
-	const store = useGlobalStore()
+	const store = useDifyChatStore()
 
 	useEffect(() => {
 		const user_input_form = currentApp?.parameters.user_input_form

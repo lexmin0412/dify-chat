@@ -4,7 +4,7 @@ import { AppModeEnums, Roles } from '@/lib/core'
 import { Tooltip } from 'antd'
 import { useMemo } from 'react'
 
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 
 import { MarkdownRenderer } from '../../markdown-renderer'
 import ThoughtChain from '../thought-chain'
@@ -49,7 +49,7 @@ export default function MessageContent(props: IMessageContentProps) {
 			role,
 		},
 	} = props
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	const computedContent = useMemo(() => {
