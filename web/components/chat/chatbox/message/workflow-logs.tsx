@@ -5,7 +5,7 @@ import {
 	LoadingOutlined,
 } from '@ant-design/icons'
 import { IAgentMessage, IWorkflowNode } from '@/lib/api'
-import { useAppContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { Collapse, CollapseProps, GetProp } from 'antd'
 import { useMemo } from 'react'
 
@@ -21,7 +21,7 @@ interface IWorkflowLogsProps {
 
 export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	const { items, status, className } = props
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	// Collapse 组件的通用 props
 	const collapseCommonProps: Pick<CollapseProps, 'expandIconPlacement' | 'classNames'> = {

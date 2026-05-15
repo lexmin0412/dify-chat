@@ -2,14 +2,14 @@ import { RedoOutlined } from '@ant-design/icons'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import { Bubble } from '@ant-design/x'
 import { IFile, IMessageItem4Render } from '@/lib/api'
-import { OpeningStatementDisplayMode, Roles, useAppContext } from '@/lib/core'
+import { OpeningStatementDisplayMode, Roles, useDifyChatStore } from '@/lib/core'
 import { isTempId, useIsMobile } from '@/lib/helpers'
 import { FormInstance, GetProp, message, Spin } from 'antd'
 import { useDeferredValue, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { useGlobalStore } from '@/lib/core'
-import { validateAndGenErrMsgs } from '@/utils'
+import { validateAndGenErrMsgs } from '@/components/chat/utils-index'
 
 import { MessageSender } from '../message-sender'
 import MessageContent from './message/content'
@@ -104,7 +104,7 @@ export const Chatbox = (props: ChatboxProps) => {
 	} = props
 	const { difyApi } = useGlobalStore()
 	const isMobile = useIsMobile()
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()
 
 	// 控制回答过程中是否需要自动滚动到最底部

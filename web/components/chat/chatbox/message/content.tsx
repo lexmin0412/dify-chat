@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { IFile, IMessageItem4Render } from '@/lib/api'
-import { AppModeEnums, Roles, useAppContext } from '@/lib/core'
+import { AppModeEnums, Roles } from '@/lib/core'
 import { Tooltip } from 'antd'
 import { useMemo } from 'react'
 
@@ -50,7 +50,7 @@ export default function MessageContent(props: IMessageContentProps) {
 		},
 	} = props
 	const { difyApi } = useGlobalStore()
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	const computedContent = useMemo(() => {
 		const likelyJSON = content?.startsWith('{') && content?.endsWith('}')

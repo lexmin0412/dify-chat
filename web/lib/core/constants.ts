@@ -68,3 +68,20 @@ export const OpeningStatementDisplayModeOptions = [
 	{ label: '默认（开始对话前展示）', value: OpeningStatementDisplayMode.Default },
 	{ label: '总是展示', value: OpeningStatementDisplayMode.Always },
 ]
+
+export const DEFAULT_APP_SITE_SETTING = {
+	title: '',
+	chat_color_theme: '',
+	chat_color_theme_inverted: false,
+	icon_type: 'emoji' as const,
+	icon: '🤖',
+	icon_background: '#1C64F2',
+	icon_url: '',
+	description: '',
+	copyright: '',
+	privacy_policy: '',
+	custom_disclaimer: '',
+	default_language: 'zh-CN',
+	show_workflow_steps: false,
+	use_icon_as_answer_icon: false,
+}

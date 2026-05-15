@@ -1,8 +1,8 @@
-import { useAppContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { FormInstance, message, Space } from 'antd'
 import classNames from 'classnames'
 
-import { validateAndGenErrMsgs } from '@/utils'
+import { validateAndGenErrMsgs } from '@/components/chat/utils-index'
 
 import LucideIcon from '../lucide-icon'
 import AppInputWrapper from './app-input-wrapper'
@@ -39,7 +39,7 @@ interface IWelcomePlaceholderProps {
  */
 export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 	const { onPromptItemClick, showPrompts } = props
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	return (
 		<div className="mx-auto my-3 box-border flex w-full justify-center">

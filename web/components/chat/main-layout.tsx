@@ -1,9 +1,9 @@
 import { XProvider } from '@ant-design/x'
-import { AppModeEnums, IDifyAppItem, useAppContext } from '@/lib/core'
+import { AppModeEnums, IDifyAppItem } from '@/lib/core'
 import React from 'react'
 
-import { colors } from '@/theme/config'
-import { isChatLikeApp, isWorkflowLikeApp } from '@/utils'
+import { colors } from '@/components/chat/theme-config'
+import { isChatLikeApp, isWorkflowLikeApp } from '@/components/chat/utils-index'
 
 import ChatLayout from './chat-layout'
 import CommonLayout from './common-layout'
@@ -32,7 +32,7 @@ interface IMainLayoutProps {
  * 应用详情主界面布局
  */
 const MainLayout = (props: IMainLayoutProps) => {
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 
 	// FIXME: 去掉这里的默认值
 	const appMode = currentApp?.config?.info?.mode || AppModeEnums.CHATBOT

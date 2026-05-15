@@ -8,7 +8,7 @@ import {
 	IMessageFileItem,
 	IWorkflowNode,
 } from '@/lib/api'
-import { AppModeEnums, useAppContext } from '@/lib/core'
+import { AppModeEnums, useDifyChatStore } from '@/lib/core'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { Button, Empty, Form, message, Tabs, Tooltip } from 'antd'
 import { useState } from 'react'
@@ -29,7 +29,7 @@ import { useGlobalStore } from '@/lib/core'
 export default function WorkflowLayout() {
 	const { difyApi } = useGlobalStore()
 	const [entryForm] = Form.useForm()
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [text, setText] = useState('')
 	const [workflowStatus, setWorkflowStatus] = useState<'running' | 'finished'>()
 	const [workflowItems, setWorkflowItems] = useState<IWorkflowNode[]>([])

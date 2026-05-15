@@ -1,4 +1,4 @@
-import { ICurrentApp, useAppContext } from '@/lib/core'
+import { ICurrentApp, useDifyChatStore } from '@/lib/core'
 import { Tag } from 'antd'
 import { useMemo } from 'react'
 
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
  * 应用信息
  */
 export function AppInfo() {
-	const context = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()
 
 	const currentApp = context.currentApp

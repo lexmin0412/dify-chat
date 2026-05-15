@@ -1,5 +1,5 @@
 import { IGetAppParametersResponse, IRating } from '@/lib/api'
-import { useAppContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
@@ -68,7 +68,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	const { difyApi } = useGlobalStore()
 	const { t } = useTranslation()
 
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const isLiked = rating === 'like'
 	const isDisLiked = rating === 'dislike'
 	const [loading, setLoading] = useSetState({

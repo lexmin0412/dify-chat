@@ -5,7 +5,7 @@ import {
 	PlusCircleOutlined,
 	PlusOutlined,
 } from '@ant-design/icons'
-import { IConversationItem } from '@/lib/api'
+import { IConversationItem } from '@/lib/core'
 import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@/lib/core'
 import { generateUuidV4, isTempId, useIsMobile } from '@/lib/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@/lib/theme'
@@ -29,8 +29,8 @@ import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
 import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@/components'
 import { HeaderLayout } from '@/components'
-import ChatboxWrapper from '@/components/chatbox-wrapper'
-import { DEFAULT_CONVERSATION_NAME } from '@/constants'
+import ChatboxWrapper from '@/components/chat/chatbox-wrapper'
+import { DEFAULT_CONVERSATION_NAME } from '@/components/chat/constants-index'
 import { useLatest } from '@/hooks/use-latest'
 import { useGlobalStore } from '@/lib/core'
 import { useTranslation } from 'react-i18next'

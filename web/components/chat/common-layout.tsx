@@ -1,5 +1,5 @@
 import { HeaderLayout } from '@/components'
-import { IDifyAppItem, useAppContext } from '@/lib/core'
+import { IDifyAppItem, useDifyChatStore } from '@/lib/core'
 import { Empty, Spin } from 'antd'
 import { useTranslation } from 'react-i18next'
 

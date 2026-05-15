@@ -1,13 +1,13 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { IGetAppParametersResponse } from '@/lib/api'
-import { useAppContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { Button, GetProp, message, Upload } from 'antd'
 import { RcFile, UploadFile } from 'antd/es/upload'
 import { useEffect, useMemo, useState } from 'react'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from '@/components/message-sender/utils'
 import { useGlobalStore } from '@/lib/core'
-import { completeFileUrl } from '@/utils'
+import { completeFileUrl } from '@/components/chat/utils-index'
 import { useTranslation } from 'react-i18next'
 
 export interface IUploadFileItem extends UploadFile {
@@ -43,7 +43,7 @@ export default function FileUpload(props: IFileUploadProps) {
 	const { mode = 'multiple', maxCount, disabled, allowed_file_types, value, onChange } = props
 	const { difyApi } = useGlobalStore()
 	const [files, setFiles] = useState<GetProp<typeof Upload, 'fileList'>>([])
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import { useAppContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { useThemeContext } from '@/lib/theme'
 import { useMemo } from 'react'
 import data from '@emoji-mart/data'
@@ -6,7 +6,7 @@ import { init } from 'emoji-mart'
 
 init({ data })
 
-import { completeFileUrl } from '@/utils'
+import { completeFileUrl } from '@/components/chat/utils-index'
 import { useMount } from 'ahooks'
 
 /**
@@ -15,7 +15,7 @@ import { useMount } from 'ahooks'
 export default function AppIcon(props: { size?: 'small' | 'default'; hasContainer?: boolean }) {
 	const { size = 'default', hasContainer = false } = props
 
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { isDark } = useThemeContext()
 
 	// 初始化 emoji-mart

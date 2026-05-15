@@ -1,6 +1,6 @@
 import { IUserInputFormItemType, IUserInputFormItemValueBase } from '@/lib/api'
-import { AppModeEnums, useAppContext } from '@/lib/core'
-import { useConversationsContext } from '@/lib/core'
+import { AppModeEnums, useDifyChatStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { isTempId, unParseGzipString } from '@/lib/helpers'
 import {
 	Form,
@@ -17,7 +17,7 @@ import { useHistory, useSearchParams } from 'pure-react-router'
 import { useEffect, useRef, useState } from 'react'
 
 import { useGlobalStore } from '@/lib/core'
-import { isChatLikeApp } from '@/utils'
+import { isChatLikeApp } from '@/components/chat/utils-index'
 
 import FileUpload from './form-controls/file-upload'
 import { IDifyConversationInputFile } from './types'
@@ -84,7 +84,7 @@ function normalizeFieldValue(type: IUserInputFormItemType, value: unknown): unkn
  */
 export default function AppInputForm(props: IAppInputFormProps) {
 	const { entryForm, disabled } = props
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { currentConversationId, currentConversationInfo, setConversations } =
 		useConversationsContext()
 	const history = useHistory()

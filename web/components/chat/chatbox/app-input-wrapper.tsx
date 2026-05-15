@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons'
-import { useAppContext, useConversationsContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 import { Collapse, CollapseProps, theme } from 'antd'
 import { CSSProperties, useEffect, useMemo, useState } from 'react'
@@ -13,8 +13,8 @@ const COLLAPSE_KEY = 'conversation-input-params-setting'
  * 应用输入参数管理容器
  */
 export default function AppInputWrapper(props: IAppInputFormProps) {
-	const { currentApp } = useAppContext()
-	const { currentConversationId } = useConversationsContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
+	const currentConversationId = useDifyChatStore(s => s.currentConversationId)
 	const { token } = theme.useToken()
 	const [activeKey, setActiveKey] = useState<string[]>([])
 	const { t } = useTranslation()

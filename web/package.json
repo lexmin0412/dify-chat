@@ -63,7 +63,18 @@
 		"remark-math": "catalog:",
 		"tailwind-merge": "catalog:",
 		"vaul": "catalog:",
-		"zustand": "catalog:"
+		"zustand": "catalog:",
+		"@ant-design/x": "^2.2.1",
+		"@ant-design/x-sdk": "^2.2.1",
+		"@ant-design/cssinjs": "catalog:",
+		"@svgdotjs/svg.js": "catalog:",
+		"@toolkit-fe/clipboard": "catalog:",
+		"@toolkit-fe/where-am-i": "catalog:",
+		"hast": "catalog:",
+		"antd-style": "catalog:",
+		"emoji-mart": "^5.6.0",
+		"@emoji-mart/data": "^1.2.1",
+		"react-infinite-scroll-component": "catalog:"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "catalog:",

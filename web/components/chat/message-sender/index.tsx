@@ -1,7 +1,7 @@
 import { CloudUploadOutlined, LinkOutlined } from '@ant-design/icons'
 import { Attachments, AttachmentsProps, Sender } from '@ant-design/x'
 import { IFile } from '@/lib/api'
-import { useAppContext, useConversationsContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { useThemeContext } from '@/lib/theme'
 import { useMount } from 'ahooks'
 import { Badge, Button, GetProp, GetRef, message } from 'antd'
@@ -47,7 +47,7 @@ interface IMessageSenderProps {
 export const MessageSender = (props: IMessageSenderProps) => {
 	const { isRequesting, onSubmit, className, onCancel } = props
 	const { difyApi } = useGlobalStore()
-	const { currentApp } = useAppContext()
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [content, setContent] = useState('')
 	const [open, setOpen] = useState(false)
 	const [files, setFiles] = useState<GetProp<AttachmentsProps, 'items'>>([])
@@ -57,7 +57,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 	const attachmentsRef = useRef<GetRef<typeof Attachments>>(null)
 	const senderRef = useRef<GetRef<typeof Sender>>(null)
 	const { isLight } = useThemeContext()
-	const { currentConversationId } = useConversationsContext()
+	const currentConversationId = useDifyChatStore(s => s.currentConversationId)
 	const searchParams = useSearchParams()
 
 	// 初始化时，从 URL 参数中获取 sender_text 并解码

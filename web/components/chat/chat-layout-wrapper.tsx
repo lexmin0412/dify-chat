@@ -15,7 +15,7 @@ import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
 import { DebugMode, LucideIcon } from '@/components'
-import { isDebugMode } from '@/components/debug-mode'
+import { isDebugMode } from '@/components/chat/debug-mode'
 import { useAuth } from '@/hooks/use-auth'
 import appService from '@/services/app'
 import { useGlobalStore } from '@/lib/core'
