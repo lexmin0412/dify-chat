@@ -351,6 +351,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	// 对话列表（包括加载和缺省状态）
 	const conversationListWithEmpty = useMemo(() => {
 		return (
+		<>
 			<Spin spinning={conversationListLoading}>
 				{conversations?.length ? (
 					<ConversationList
@@ -391,6 +392,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	}, [conversations, currentConversationId])
 
 	return (
+		<>
 		<div className={`h-screen w-full flex flex-col overflow-hidden`}>
 				{/* 头部 */}
 				<HeaderLayout
