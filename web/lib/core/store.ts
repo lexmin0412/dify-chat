@@ -19,6 +19,7 @@ export interface DifyChatState {
 	appLoading: boolean
 	currentConversationId: string
 	conversations: IConversationItem[]
+	globalParams: Record<string, string>
 }
 
 export interface DifyChatActions {
@@ -26,6 +27,7 @@ export interface DifyChatActions {
 	setAppLoading: (loading: boolean) => void
 	setCurrentConversationId: (id: string) => void
 	setConversations: (list: IConversationItem[]) => void
+	setGlobalParams: (params: Record<string, string>) => void
 }
 
 type DifyChatStore = DifyChatState & DifyChatActions
@@ -40,4 +42,5 @@ export const useDifyChatStore = create<DifyChatStore>(set => ({
 	setAppLoading: loading => set({ appLoading: loading }),
 	setCurrentConversationId: id => set({ currentConversationId: id }),
 	setConversations: list => set({ conversations: list }),
+	setGlobalParams: params => set(state => ({ globalParams: { ...state.globalParams, ...params } })),
 }))
