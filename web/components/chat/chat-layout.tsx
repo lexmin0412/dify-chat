@@ -532,6 +532,5 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				</div>
 			</div>
 			{extComponents}
-		</div>
 	)
 }
