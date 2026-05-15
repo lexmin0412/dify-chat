@@ -15,6 +15,7 @@ export interface IConversationItem {
 }
 
 export interface DifyChatState {
+	currentAppId: string
 	currentApp: ICurrentApp | null
 	appLoading: boolean
 	currentConversationId: string
@@ -24,6 +25,7 @@ export interface DifyChatState {
 }
 
 export interface DifyChatActions {
+	setCurrentAppId: (id: string) => void
 	setCurrentApp: (app: ICurrentApp | null) => void
 	setAppLoading: (loading: boolean) => void
 	setCurrentConversationId: (id: string) => void
@@ -35,6 +37,7 @@ export interface DifyChatActions {
 type DifyChatStore = DifyChatState & DifyChatActions
 
 export const useDifyChatStore = create<DifyChatStore>(set => ({
+	currentAppId: '',
 	currentApp: null,
 	appLoading: false,
 	currentConversationId: '',
@@ -42,6 +45,7 @@ export const useDifyChatStore = create<DifyChatStore>(set => ({
 	globalParams: {},
 	difyApi: null,
 
+	setCurrentAppId: id => set({ currentAppId: id }),
 	setCurrentApp: app => set({ currentApp: app, appLoading: false }),
 	setAppLoading: loading => set({ appLoading: loading }),
 	setCurrentConversationId: id => set({ currentConversationId: id }),
