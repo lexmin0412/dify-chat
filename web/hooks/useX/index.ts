@@ -7,7 +7,7 @@ import { FormInstance } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 
 import { RESPONSE_MODE } from '@/config'
-import { IAgentMessage } from '@/types'
+import { IAgentMessage } from '@/lib/api'
 import { DifyApi } from '@/utils/dify-api'
 
 import { useAuth } from '../use-auth'

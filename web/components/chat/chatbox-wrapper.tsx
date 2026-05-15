@@ -1,7 +1,7 @@
 import { IFile, MessageFileBelongsToEnum } from '@/lib/api'
 import { IMessageItem4Render } from '@/lib/api'
-import { useAppContext } from '@/lib/core'
-import { Roles, useConversationsContext } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
+import { Roles, useDifyChatStore } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 import { Button, Empty, Form, Spin } from 'antd'
 import dayjs from 'dayjs'
@@ -49,8 +49,8 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		setCurrentConversationId,
 		setConversations,
 		currentConversationInfo,
-	} = useConversationsContext()
-	const { currentAppId, currentApp, appLoading } = useAppContext()
+	} = useDifyChatStore()
+	const { currentAppId, currentApp, appLoading } = useDifyChatStore()
 
 	const [entryForm] = Form.useForm()
 	// 是否允许消息列表请求时展示 loading
