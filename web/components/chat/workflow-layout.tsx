@@ -20,7 +20,7 @@ import {
 	MarkdownRenderer,
 	MessageFileList,
 	WorkflowLogs,
-} from '@/components'
+} from '@/components/chat/chatbox'
 import { useDifyChatStore } from '@/lib/core'
 
 /**
