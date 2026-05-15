@@ -5,7 +5,7 @@ import {
 	PlusCircleOutlined,
 	PlusOutlined,
 } from '@ant-design/icons'
-import { IConversationItem } from '@/lib/api'
+import { IConversationItem } from '@/lib/core'
 import { IDifyAppItem, useDifyChatStore } from '@/lib/core'
 import { generateUuidV4, isTempId, useIsMobile } from '@/lib/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@/lib/theme'
