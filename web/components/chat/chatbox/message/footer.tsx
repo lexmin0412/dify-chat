@@ -1,13 +1,10 @@
 import { IGetAppParametersResponse, IRating } from '@/lib/api'
-import { useDifyChatStore } from '@/lib/core'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
 import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
 import { useMemo, useState } from 'react'
 
-import { useDifyChatStore } from '@/lib/core'
 
-import LucideIcon from '@/components/shared/lucide-icon'
 import ActionButton from './action-btn'
 import DislikeConfirm from './dislike-confirm'
 import { useTranslation } from 'react-i18next'

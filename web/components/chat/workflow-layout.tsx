@@ -21,7 +21,6 @@ import {
 	WorkflowLogs,
 } from '@/components/chat/chatbox/exports'
 import { LucideIcon } from '@/components/shared'
-import { useDifyChatStore } from '@/lib/core'
 
 /**
  * 工作流应用详情布局
