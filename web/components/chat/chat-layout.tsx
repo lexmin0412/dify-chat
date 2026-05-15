@@ -100,7 +100,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		try {
 			const result = await difyApi?.listConversations()
 			const newItems =
-				result?.data?.map(item => {
+				result?.data?.map((item: any) => {
 					return {
 						key: item.id,
 						label: item.name,
