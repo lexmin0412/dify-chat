@@ -9,7 +9,7 @@ import { DifyApi as DirectDifyApi } from '@/lib/api'
 import { IDifyAppItem, IDifyAppSiteSetting } from '@/lib/core'
 import { LocalStorageStore, BaseRequest as XRequest } from '@/lib/helpers'
 
-import { isDebugMode } from '@/components/debug-mode'
+import { isDebugMode } from '@/components/chat/debug-mode'
 
 /**
  * 用户输入表单控件类型
