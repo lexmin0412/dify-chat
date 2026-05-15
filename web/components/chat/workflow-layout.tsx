@@ -16,11 +16,11 @@ import { useState } from 'react'
 import {
 	AppInfo,
 	AppInputForm,
-	LucideIcon,
 	MarkdownRenderer,
 	MessageFileList,
 	WorkflowLogs,
 } from '@/components/chat/chatbox/exports'
+import { LucideIcon } from '@/components/shared'
 import { useDifyChatStore } from '@/lib/core'
 
 /**
