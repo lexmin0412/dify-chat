@@ -1,0 +1,89 @@
+.dc-answer-form-button {
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 12px;
+
+	label {
+		margin-top: 12px;
+		margin-bottom: 2px;
+	}
+
+	input,
+	textarea {
+		display: inline-block;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		padding: 8px;
+		width: 100% !important;
+		resize: none;
+		box-sizing: border-box;
+	}
+
+	.dc-answer-form-button {
+		background: #4c84ff;
+		border: none;
+		height: 32px;
+		line-height: 32px;
+		text-align: center;
+		color: white;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 12px;
+	}
+}
+
+.dc-react-markdown-container {
+	/* GitHub 风格的 Markdown 表格 */
+	table {
+		display: block;
+		width: 100%;
+		/* 圆角外边框 */
+		border-radius: 0.5rem;
+		/* 裁剪内部单元格角以匹配圆角 */
+		overflow: hidden;
+		/* 使用 separate 确保圆角和外部边框正确渲染 */
+		border-collapse: separate;
+		border-spacing: 0;
+		/* 在表格本身绘制外部边框，使角保持圆角 */
+		border: 1px solid var(--theme-border-color);
+	}
+
+	thead th {
+		/* 表头背景跟随主题；确保在亮色模式下可见 */
+		background-color: var(--theme-bubble-bg-color);
+		font-weight: 600;
+		/* 表头和表格主体的分隔线 */
+		border-bottom: 1px solid var(--theme-border-color);
+	}
+
+	th,
+	td {
+		/* 移除完整单元格边框以避免与外部表格边框重叠 */
+		border: 0;
+		padding: 6px 13px;
+		text-align: left;
+		/* 保持单元格透明以便斑马纹行可见 */
+		background-color: transparent;
+	}
+
+	/* 列之间的垂直分隔线 */
+	td + td,
+	th + th {
+		border-left: 1px solid var(--theme-border-color);
+	}
+
+	/* 行之间的水平分隔线（跳过第一行） */
+	tbody tr + tr td,
+	tbody tr + tr th {
+		border-top: 1px solid var(--theme-border-color);
+	}
+
+	/* 为单元格应用斑马纹背景以提高特异性 */
+	tbody tr:nth-child(2n) td,
+	tbody tr:nth-child(2n) th {
+		background-color: var(--theme-bubble-bg-color);
+	}
+}
