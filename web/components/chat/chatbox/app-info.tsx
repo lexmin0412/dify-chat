@@ -12,7 +12,6 @@ export function AppInfo() {
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()
 
-	const currentApp = context.currentApp
 
 	const info4Render = useMemo(() => {
 		if (!currentApp?.config && !currentApp?.site) {
