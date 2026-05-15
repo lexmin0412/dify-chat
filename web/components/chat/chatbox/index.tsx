@@ -8,7 +8,6 @@ import { FormInstance, GetProp, message, Spin } from 'antd'
 import { useDeferredValue, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { useDifyChatStore } from '@/lib/core'
 import { validateAndGenErrMsgs } from '@/components/chat/utils-index'
 
 import { MessageSender } from '../message-sender'

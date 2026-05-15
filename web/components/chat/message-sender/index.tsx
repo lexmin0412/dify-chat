@@ -10,7 +10,6 @@ import { useSearchParams } from 'pure-react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
-import { useDifyChatStore } from '@/lib/core'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from './utils'
 
