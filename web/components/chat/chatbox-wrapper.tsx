@@ -11,7 +11,7 @@ import { Chatbox } from '@/components'
 import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { IAgentMessage } from '@/types'
 
 interface IChatboxWrapperProps {
@@ -37,7 +37,7 @@ interface IChatboxWrapperProps {
  * 聊天容器 进入此组件时, 应保证应用信息和对话列表已经加载完成
  */
 export default function ChatboxWrapper(props: IChatboxWrapperProps) {
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const {
 		conversationListLoading,
 		onAddConversation,
