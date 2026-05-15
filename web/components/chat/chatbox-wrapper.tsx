@@ -46,9 +46,10 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	const {
 		currentConversationId,
 		setCurrentConversationId,
-		setConversations,
-		currentConversationInfo,
 	} = useDifyChatStore()
+	const setConversations = useDifyChatStore(s => s.setConversations)
+	const conversations = useDifyChatStore(s => s.conversations)
+	const currentConversationInfo = conversations?.find(item => item.id === currentConversationId)
 	const { currentAppId, currentApp, appLoading } = useDifyChatStore()
 
 	const [entryForm] = Form.useForm()
