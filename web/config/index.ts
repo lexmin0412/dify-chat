@@ -5,3 +5,4 @@ const config = {
 }
 
 export default config
+export const RESPONSE_MODE = "streaming"

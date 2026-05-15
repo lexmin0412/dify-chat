@@ -16,3 +16,4 @@ export { default as DislikeConfirm } from './message/dislike-confirm'
 export { default as Reference } from './message/referrence'
 
 export { MarkdownRenderer } from '@/components/chat/markdown-renderer'
+export { default as ConversationList } from "@/components/chat/conversation-list"
