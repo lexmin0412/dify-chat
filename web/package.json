@@ -38,18 +38,21 @@
 		"lucide-react": "catalog:",
 		"next": "catalog:",
 		"next-auth": "catalog:",
+		"pako": "catalog:",
 		"prisma": "^7.2.0",
 		"pure-react-router": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"tailwind-merge": "catalog:",
-		"vaul": "catalog:"
+		"vaul": "catalog:",
+		"zustand": "catalog:"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "catalog:",
 		"@tailwindcss/postcss": "catalog:",
 		"@types/bcryptjs": "catalog:",
 		"@types/node": "catalog:",
+		"@types/pako": "catalog:",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"eslint": "catalog:",

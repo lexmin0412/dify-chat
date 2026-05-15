@@ -1,13 +1,13 @@
 import { GithubOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-import LogoImage from '../assets/images/logo.png'
+import LogoImage from './assets/logo.png'
 
 export const LogoIcon = () => {
 	return (
 		<img
 			className="inline-block h-5 w-5"
-			src={LogoImage}
+			src={LogoImage.src}
 			draggable={false}
 			alt="logo"
 		/>
@@ -57,7 +57,7 @@ export const Logo = (props: ILogoProps) => {
 				) : (
 					<img
 						className="inline-block h-8 w-8"
-						src={LogoImage}
+						src={LogoImage.src}
 						draggable={false}
 						alt="logo"
 					/>

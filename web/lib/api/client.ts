@@ -1,8 +1,7 @@
 import { IDifyAppItem, IDifyAppSiteSetting } from '@/lib/core'
 
-import XRequest from './../base-request'
-import { IAgentThought, IRetrieverResource } from './../types'
-import { IFileType } from './../types/file'
+import XRequest from './base-request'
+import { IAgentThought, IRetrieverResource, IFileType, IFile } from './types'
 
 /**
  * 用户输入表单控件类型
@@ -335,37 +334,6 @@ export interface IGetAppMetaResponse {
 		}
 	}
 }
-
-export interface IFileBase {
-	/**
-	 * 文件类型
-	 */
-	type: IFileType
-}
-
-export interface IFileRemote extends IFileBase {
-	/**
-	 * 传递方式 remote_url-远程地址 local_file-本地文件
-	 */
-	transfer_method: 'remote_url'
-	/**
-	 * 图片地址（仅当传递方式为 remote_url 时）
-	 */
-	url?: string
-}
-
-export interface IFileLocal extends IFileBase {
-	/**
-	 * 传递方式 remote_url-远程地址 local_file-本地文件
-	 */
-	transfer_method: 'local_file'
-	/**
-	 * 上传文件 ID（仅当传递方式为 local_file 时）
-	 */
-	upload_file_id?: string
-}
-
-export type IFile = IFileRemote | IFileLocal
 
 /**
  * 上传文件接口详情

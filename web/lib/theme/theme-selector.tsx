@@ -1,6 +1,6 @@
 import { Dropdown } from 'antd'
-import { useThemeContext } from '../hooks'
-import { ThemeModeEnum, ThemeModeLabelEnum } from '../constants'
+import { useThemeContext } from './theme-context'
+import { ThemeModeEnum, ThemeModeLabelEnum } from './constants'
 import { DynamicIcon } from 'lucide-react/dynamic'
 
 interface IThemeSelectorProps {

@@ -14,14 +14,14 @@ export interface IConversationItem {
 	updated_at: string
 }
 
-interface DifyChatState {
+export interface DifyChatState {
 	currentApp: ICurrentApp | null
 	appLoading: boolean
 	currentConversationId: string
 	conversations: IConversationItem[]
 }
 
-interface DifyChatActions {
+export interface DifyChatActions {
 	setCurrentApp: (app: ICurrentApp | null) => void
 	setAppLoading: (loading: boolean) => void
 	setCurrentConversationId: (id: string) => void

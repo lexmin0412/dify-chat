@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { ThemeEnum, ThemeModeEnum } from '../constants'
+import { ThemeEnum, ThemeModeEnum } from './constants'
 import { LocalStorageKeys, LocalStorageStore } from '@/lib/helpers'
 
 /**

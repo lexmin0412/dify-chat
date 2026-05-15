@@ -1,5 +1,5 @@
 export { useDifyChatStore } from './store'
-export type { ICurrentApp, IConversationItem, DifyChatState, DifyChatActions } from './store'
+export type { ICurrentApp, IConversationItem } from './store'
 export * from './constants'
 export * from './enums'
 export * from './repository'
