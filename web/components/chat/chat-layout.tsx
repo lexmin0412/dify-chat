@@ -5,7 +5,7 @@ import {
 	PlusCircleOutlined,
 	PlusOutlined,
 } from '@ant-design/icons'
-import { IConversationItem } from '@/lib/core'
+import { IConversationItem } from '@/lib/api'
 import { IDifyAppItem, useDifyChatStore } from '@/lib/core'
 import { generateUuidV4, isTempId, useIsMobile } from '@/lib/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@/lib/theme'
@@ -27,10 +27,10 @@ import dayjs from 'dayjs'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
-import { AppIcon, AppInfo, ConversationList } from '@/components/shared'
+import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@/components/shared'
 import { HeaderLayout } from '@/components/shared'
 import ChatboxWrapper from '@/components/chat/chatbox-wrapper'
-import { DEFAULT_CONVERSATION_NAME } from '@/components/chat/constants-index'
+import { DEFAULT_CONVERSATION_NAME } from '@/constants'
 import { useLatest } from '@/hooks/use-latest'
 import { useDifyChatStore } from '@/lib/core'
 import { useTranslation } from 'react-i18next'
@@ -56,11 +56,12 @@ interface IChatLayoutProps {
 
 export default function ChatLayout(props: IChatLayoutProps) {
 	const { t, i18n } = useTranslation()
-	const { difyApi } = useDifyChatStore()
+	const difyApi = useDifyChatStore(s => s.difyApi)
 	const { extComponents, renderCenterTitle, initLoading } = props
 	const [sidebarOpen, setSidebarOpen] = useState(true)
 	const { themeMode, setThemeMode } = useThemeContext()
-	const appLoading = useDifyChatStore(s => s.appLoading); const currentApp = useDifyChatStore(s => s.currentApp)
+	const appLoading = useDifyChatStore(s => s.appLoading)
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [renameForm] = Form.useForm()
 	const [conversations, setConversations] = useState<IConversationItem[]>([])
 	const [currentConversationId, setCurrentConversationId] = useState<string>('')
@@ -351,7 +352,6 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	// 对话列表（包括加载和缺省状态）
 	const conversationListWithEmpty = useMemo(() => {
 		return (
-		<>
 			<Spin spinning={conversationListLoading}>
 				{conversations?.length ? (
 					<ConversationList
@@ -393,7 +393,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 
 	return (
 		<>
-		<div className={`h-screen w-full flex flex-col overflow-hidden`}>
+			<div className={`flex h-screen w-full flex-col overflow-hidden bg-theme-bg`}>
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
@@ -413,16 +413,16 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				/>
 
 				{/* Main */}
-				<div className="bg-theme-main-bg flex flex-1 overflow-hidden rounded-t-3xl">
+				<div className="flex flex-1 overflow-hidden rounded-t-3xl bg-theme-main-bg">
 					{appLoading || initLoading ? (
-						<div className="absolute top-0 left-0 z-50 flex h-full w-full items-center justify-center">
+						<div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
 							<Spin spinning />
 						</div>
 					) : currentApp?.config ? (
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} border-r-theme-splitter h-full flex-col border-0 border-r border-solid transition-all`}
+								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} h-full flex-col border-0 border-r border-solid border-r-theme-splitter transition-all`}
 							>
 								{sidebarOpen ? (
 									<>
@@ -435,7 +435,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													onAddConversation()
 												}}
 												type="default"
-												className="text-theme-text mx-4 mt-3 h-10 rounded-lg border border-solid border-gray-200 leading-10"
+												className="mx-4 mt-3 h-10 rounded-lg border border-solid border-gray-200 leading-10 text-theme-text"
 												icon={<PlusOutlined className="" />}
 											>
 												{t('chat.new_chat')}
@@ -458,12 +458,12 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											title="新增对话"
 											placement="right"
 										>
-											<div className="text-theme-text hover:text-primary my-1.5 flex items-center">
+											<div className="my-1.5 flex items-center text-theme-text hover:text-primary">
 												<LucideIcon
 													name="plus-circle"
 													strokeWidth={1.25}
 													size={28}
-													className={`${disableNewButton ? "cursor-not-allowed text-gray-400" : "text-theme-text cursor-pointer"}`}
+													className={`${disableNewButton ? "cursor-not-allowed text-gray-400" : "cursor-pointer text-theme-text"}`}
 													onClick={() => {
 														if (disableNewButton) return
 														onAddConversation()
@@ -484,7 +484,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											{/* 必须包裹一个 HTML 标签才能正常展示 Popover */}
 											<div className="flex items-center justify-center">
 												<LucideIcon
-													className="hover:text-primary my-1.5 cursor-pointer"
+													className="my-1.5 cursor-pointer hover:text-primary"
 													strokeWidth={1.25}
 													size={28}
 													name="menu"
@@ -494,7 +494,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 									</div>
 								)}
 
-								<div className="border-theme-splitter flex h-12 items-center justify-center border-0 border-t border-solid">
+								<div className="flex h-12 items-center justify-center border-0 border-t border-solid border-theme-splitter">
 									<Tooltip
 										title={sidebarOpen ? t('chat.sidebar_close') : t('chat.sidebar_open')}
 										placement="right"
@@ -505,7 +505,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													setSidebarOpen(!sidebarOpen)
 												}}
 												name={sidebarOpen ? 'arrow-left-circle' : 'arrow-right-circle'}
-												className="hover:text-primary cursor-pointer"
+												className="cursor-pointer hover:text-primary"
 												strokeWidth={1.25}
 												size={28}
 											/>
@@ -533,6 +533,8 @@ export default function ChatLayout(props: IChatLayoutProps) {
 					)}
 				</div>
 			</div>
+
 			{extComponents}
+		</>
 	)
 }
