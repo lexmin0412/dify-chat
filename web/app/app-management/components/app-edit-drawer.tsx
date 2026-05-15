@@ -1,8 +1,8 @@
 'use client'
 
-import { DifyApi } from '@dify-chat/api'
-import { AppModeEnums } from '@dify-chat/core'
-import { generateUuidV4 } from '@dify-chat/helpers'
+import { DifyApi } from '@/lib/api'
+import { AppModeEnums } from '@/lib/core'
+import { generateUuidV4 } from '@/lib/helpers'
 import { useRequest } from 'ahooks'
 import { Button, Drawer, DrawerProps, Form, message, Space } from 'antd'
 import { useEffect, useState } from 'react'

@@ -1,7 +1,7 @@
 'use client'
 
-import { initResponsiveConfig } from '@dify-chat/helpers'
-import { ThemeContextProvider, useThemeContext } from '@dify-chat/theme'
+import { initResponsiveConfig } from '@/lib/helpers'
+import { ThemeContextProvider, useThemeContext } from '@/lib/theme'
 import { ConfigProvider, theme } from 'antd'
 import { usePathname } from 'next/navigation'
 import React from 'react'

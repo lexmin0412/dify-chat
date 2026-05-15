@@ -1,4 +1,4 @@
-import { AppModeOptions, OpeningStatementDisplayModeOptions } from '@dify-chat/core'
+import { AppModeOptions, OpeningStatementDisplayModeOptions } from '@/lib/core'
 import { Form, FormInstance, Input, Select } from 'antd'
 
 import { IDifyAppItem } from '@/types'

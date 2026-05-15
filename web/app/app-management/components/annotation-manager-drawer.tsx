@@ -1,5 +1,5 @@
-import { DifyApi, IAnnotationItem } from '@dify-chat/api'
-import { IDifyAppItem } from '@dify-chat/core'
+import { DifyApi, IAnnotationItem } from '@/lib/api'
+import { IDifyAppItem } from '@/lib/core'
 import { useRequest } from 'ahooks'
 import { Button, Drawer, Form, Input, message, Popconfirm, Popover, Space, Table } from 'antd'
 import { useEffect, useState } from 'react'

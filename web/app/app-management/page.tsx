@@ -1,8 +1,8 @@
 'use client'
 
-import { DifyApi } from '@dify-chat/api'
-import { AppModeEnums, IDifyAppItem } from '@dify-chat/core'
-import { AppModeNames } from '@dify-chat/core'
+import { DifyApi } from '@/lib/api'
+import { AppModeEnums, IDifyAppItem } from '@/lib/core'
+import { AppModeNames } from '@/lib/core'
 import { useMount, useRequest } from 'ahooks'
 import { Button, message, Popconfirm, Space, Table, Tag } from 'antd'
 import Title from 'antd/es/typography/Title'
