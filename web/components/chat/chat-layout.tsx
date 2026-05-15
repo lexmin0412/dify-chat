@@ -389,7 +389,8 @@ export default function ChatLayout(props: IChatLayoutProps) {
 	])
 
 	useEffect(() => {
-		useDifyChatStore.setState({ conversations, currentConversationId })
+		useDifyChatStore.getState().setConversations(conversations)
+		useDifyChatStore.getState().setCurrentConversationId(currentConversationId)
 	}, [conversations, currentConversationId])
 
 	return (
