@@ -6,7 +6,7 @@ import {
 	PlusOutlined,
 } from '@ant-design/icons'
 import { IConversationItem } from '@/lib/core'
-import { ConversationsContextProvider, IDifyAppItem, useAppContext } from '@/lib/core'
+import { IDifyAppItem, useDifyChatStore } from '@/lib/core'
 import { generateUuidV4, isTempId, useIsMobile } from '@/lib/helpers'
 import { ThemeModeEnum, ThemeModeLabelEnum, useThemeContext } from '@/lib/theme'
 import {
@@ -24,15 +24,15 @@ import {
 	Tooltip,
 } from 'antd'
 import dayjs from 'dayjs'
-import { useSearchParams } from 'pure-react-router'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
-import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@/components'
-import { HeaderLayout } from '@/components'
+import { AppIcon, AppInfo, ConversationList, LucideIcon } from '@/components/shared'
+import { HeaderLayout } from '@/components/shared'
 import ChatboxWrapper from '@/components/chat/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/components/chat/constants-index'
 import { useLatest } from '@/hooks/use-latest'
-import { useGlobalStore } from '@/lib/core'
+import { useDifyChatStore } from '@/lib/core'
 import { useTranslation } from 'react-i18next'
 
 interface IChatLayoutProps {
@@ -56,11 +56,11 @@ interface IChatLayoutProps {
 
 export default function ChatLayout(props: IChatLayoutProps) {
 	const { t, i18n } = useTranslation()
-	const { difyApi } = useGlobalStore()
+	const { difyApi } = useDifyChatStore()
 	const { extComponents, renderCenterTitle, initLoading } = props
 	const [sidebarOpen, setSidebarOpen] = useState(true)
 	const { themeMode, setThemeMode } = useThemeContext()
-	const { appLoading, currentApp } = useAppContext()
+	const appLoading = useDifyChatStore(s => s.appLoading); const currentApp = useDifyChatStore(s => s.currentApp)
 	const [renameForm] = Form.useForm()
 	const [conversations, setConversations] = useState<IConversationItem[]>([])
 	const [currentConversationId, setCurrentConversationId] = useState<string>('')
@@ -386,17 +386,12 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		setCurrentConversationId,
 	])
 
+	useEffect(() => {
+		useDifyChatStore.setState({ conversations, currentConversationId })
+	}, [conversations, currentConversationId])
+
 	return (
-		<ConversationsContextProvider
-			value={{
-				conversations,
-				setConversations,
-				currentConversationId,
-				setCurrentConversationId,
-				currentConversationInfo,
-			}}
-		>
-			<div className={`bg-theme-bg flex h-screen w-full flex-col overflow-hidden`}>
+		<div className={`h-screen w-full flex flex-col overflow-hidden`}>
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
@@ -538,6 +533,5 @@ export default function ChatLayout(props: IChatLayoutProps) {
 			</div>
 
 			{extComponents}
-		</ConversationsContextProvider>
 	)
 }
