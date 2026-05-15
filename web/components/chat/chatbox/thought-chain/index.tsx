@@ -4,7 +4,7 @@ import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { Collapse, message } from 'antd'
 import { omit } from 'lodash-es'
 
-import LucideIcon from '../../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 import { MarkdownRenderer } from '../../markdown-renderer'
 import CollapseItem from './collapse-item'
 import { useTranslation } from 'react-i18next'

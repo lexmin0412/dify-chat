@@ -1,7 +1,7 @@
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { message } from 'antd'
 
-import LucideIcon from '../../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 
 interface IWorkflowNodeDetailProps {
 	/**

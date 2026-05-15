@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { validateAndGenErrMsgs } from '@/components/chat/utils-index'
 
-import LucideIcon from '../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 import AppInputWrapper from './app-input-wrapper'
 
 interface IWelcomePlaceholderProps {

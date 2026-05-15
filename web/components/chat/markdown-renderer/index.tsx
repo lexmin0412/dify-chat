@@ -16,7 +16,7 @@ import RemarkBreaks from 'remark-breaks'
 import RemarkGfm from 'remark-gfm'
 import RemarkMath from 'remark-math'
 
-import LucideIcon from '../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 import ButtonBlock from './blocks/button'
 import MarkdownForm from './blocks/form'
 import ImageBlock from './blocks/image'

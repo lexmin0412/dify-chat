@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
-import { LucideIcon } from '@/components/chat/chatbox'
+import { LucideIcon } from '@/components/chat/chatbox/exports'
 import DebugMode from '@/components/chat/debug-mode'
 import { useAuth } from '@/hooks/use-auth'
 import appService from '@/services/app'

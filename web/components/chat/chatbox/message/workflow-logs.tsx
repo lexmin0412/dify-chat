@@ -9,7 +9,7 @@ import { useDifyChatStore } from '@/lib/core'
 import { Collapse, CollapseProps, GetProp } from 'antd'
 import { useMemo } from 'react'
 
-import LucideIcon from '../../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 import WorkflowNodeDetail from './workflow-node-detail'
 import WorkflowNodeIcon from './workflow-node-icon'
 

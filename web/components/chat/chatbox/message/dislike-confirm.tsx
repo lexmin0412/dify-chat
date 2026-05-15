@@ -2,7 +2,7 @@ import { IRating } from '@/lib/api'
 import { Input, Modal } from 'antd'
 import { useState } from 'react'
 
-import LucideIcon from '@/components/lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 
 /**
  * 点踩确认

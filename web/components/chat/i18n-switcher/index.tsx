@@ -1,7 +1,7 @@
 import { Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
 
-import LucideIcon from '../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 
 const lngs = {
 	en: { nativeName: 'English' },

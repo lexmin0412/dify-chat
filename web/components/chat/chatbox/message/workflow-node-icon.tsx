@@ -1,4 +1,4 @@
-import LucideIcon from '../../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 
 type IIconType = 'start' | 'question-classifier' | 'llm'
 

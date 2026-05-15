@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react'
 
 import { useDifyChatStore } from '@/lib/core'
 
-import LucideIcon from '../../lucide-icon'
+import LucideIcon from '@/components/shared/lucide-icon'
 import ActionButton from './action-btn'
 import DislikeConfirm from './dislike-confirm'
 import { useTranslation } from 'react-i18next'
