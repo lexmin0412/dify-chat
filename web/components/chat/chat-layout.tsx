@@ -27,7 +27,7 @@ import dayjs from 'dayjs'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
-import { AppIcon, AppInfo } from '@/components/chat/chatbox/exports'
+import { AppIcon, AppInfo } from '@/components/chat/chatbox'
 import { LucideIcon } from '@/components/shared'
 import { ConversationList } from '@/components/chat/conversation-list'
 import { HeaderLayout } from '@/components/shared'

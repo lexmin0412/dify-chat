@@ -19,7 +19,7 @@ import {
 	MarkdownRenderer,
 	MessageFileList,
 	WorkflowLogs,
-} from '@/components/chat/chatbox/exports'
+} from '@/components/chat/chatbox'
 import { LucideIcon } from '@/components/shared'
 
 /**

@@ -7,7 +7,7 @@ import { Button, Empty, Form, Spin } from 'antd'
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react'
 
-import { Chatbox } from '@/components/chat/chatbox/exports'
+import { Chatbox } from '@/components/chat/chatbox'
 import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
