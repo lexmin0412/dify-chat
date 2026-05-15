@@ -6,7 +6,6 @@ import { RcFile, UploadFile } from 'antd/es/upload'
 import { useEffect, useMemo, useState } from 'react'
 
 import { FileTypeMap, getDifyFileType, getFileExtByName } from '@/components/chat/message-sender/utils'
-import { useDifyChatStore } from '@/lib/core'
 import { completeFileUrl } from '@/components/chat/utils-index'
 import { useTranslation } from 'react-i18next'
 

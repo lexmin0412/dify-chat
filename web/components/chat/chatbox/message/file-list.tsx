@@ -5,7 +5,6 @@ import { useMemo } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css'
 
-import { useDifyChatStore } from '@/lib/core'
 import { completeFileUrl } from '@/components/chat/utils-index'
 
 const triggerDownload = (blob: Blob, filename: string) => {
