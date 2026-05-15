@@ -34,7 +34,6 @@ import { HeaderLayout } from '@/components/shared'
 import ChatboxWrapper from '@/components/chat/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/components/chat/constants-index'
 import { useLatest } from '@/hooks/use-latest'
-import { useDifyChatStore } from '@/lib/core'
 import { useTranslation } from 'react-i18next'
 
 interface IChatLayoutProps {

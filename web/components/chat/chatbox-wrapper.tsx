@@ -11,7 +11,6 @@ import { Chatbox } from '@/components'
 import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
-import { useDifyChatStore } from '@/lib/core'
 import { IAgentMessage } from '@/lib/api'
 
 interface IChatboxWrapperProps {
