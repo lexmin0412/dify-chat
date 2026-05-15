@@ -1,6 +1,5 @@
 import { IUserInputFormItemType, IUserInputFormItemValueBase } from '@/lib/api'
 import { AppModeEnums, useDifyChatStore } from '@/lib/core'
-import { useDifyChatStore } from '@/lib/core'
 import { isTempId, unParseGzipString } from '@/lib/helpers'
 import {
 	Form,
@@ -16,7 +15,6 @@ import {
 import { useHistory, useSearchParams } from 'pure-react-router'
 import { useEffect, useRef, useState } from 'react'
 
-import { useDifyChatStore } from '@/lib/core'
 import { isChatLikeApp } from '@/components/chat/utils-index'
 
 import FileUpload from './form-controls/file-upload'
