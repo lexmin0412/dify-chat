@@ -1,3 +1,4 @@
+import { getToken } from 'next-auth/jwt'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
@@ -10,6 +11,14 @@ export async function proxy(request: NextRequest) {
 
 	// 允许访问初始化页面本身
 	if (pathname.startsWith('/init')) return NextResponse.next()
+
+	// 管理端路由鉴权
+	if (pathname.startsWith('/app-management') || pathname.startsWith('/user-management')) {
+		const token = await getToken({ req: request })
+		if (!token) {
+			return NextResponse.redirect(new URL('/login', request.url))
+		}
+	}
 
 	try {
 		const res = await fetch(`${origin}/api/init/status`, { cache: 'no-store' })
