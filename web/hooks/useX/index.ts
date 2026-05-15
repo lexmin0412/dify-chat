@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { RESPONSE_MODE } from '@/config'
 import { IAgentMessage } from '@/lib/api'
-import { DifyApi } from '@/utils/dify-api'
+import { DifyApi } from '@/lib/dify-client'
 
 import { useAuth } from '../use-auth'
 import { CustomInput, CustomOutput, CustomProvider } from './x-provider'

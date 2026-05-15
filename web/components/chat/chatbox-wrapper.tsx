@@ -1,7 +1,7 @@
 import { IFile, MessageFileBelongsToEnum } from '@/lib/api'
 import { IMessageItem4Render } from '@/lib/api'
 import { useDifyChatStore } from '@/lib/core'
-import { Roles, useDifyChatStore } from '@/lib/core'
+import { Roles } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 import { Button, Empty, Form, Spin } from 'antd'
 import dayjs from 'dayjs'
