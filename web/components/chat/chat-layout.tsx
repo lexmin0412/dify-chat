@@ -29,7 +29,7 @@ import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 
 import { AppIcon, AppInfo } from '@/components/chat/chatbox/exports'
 import { LucideIcon } from '@/components/shared'
-import ConversationList from '@/components/chat/conversation-list'
+import { ConversationList } from '@/components/chat/conversation-list'
 import { HeaderLayout } from '@/components/shared'
 import ChatboxWrapper from '@/components/chat/chatbox-wrapper'
 import { DEFAULT_CONVERSATION_NAME } from '@/components/chat/constants-index'
