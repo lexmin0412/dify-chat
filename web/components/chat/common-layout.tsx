@@ -12,7 +12,8 @@ interface ICommonLayoutProps {
 
 export default function CommonLayout(props: ICommonLayoutProps) {
 	const { initLoading, renderCenterTitle, children, extComponents } = props
-	const { appLoading, currentApp } = useAppContext()
+	const appLoading = useDifyChatStore(s => s.appLoading)
+	const currentApp = useDifyChatStore(s => s.currentApp)
 	const { t } = useTranslation()
 
 	return (
