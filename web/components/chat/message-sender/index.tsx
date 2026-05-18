@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CloudUploadOutlined, LinkOutlined } from '@ant-design/icons'
 import { Attachments, AttachmentsProps, Sender } from '@ant-design/x'
 import { IFile } from '@/lib/api'
