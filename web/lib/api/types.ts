@@ -1,4 +1,11 @@
 // web/lib/api/types.ts
+
+export enum MessageFileBelongsToEnum {
+	user = 'user',
+	assistant = 'assistant',
+}
+
+// ── 文件类型 (原 file.ts) ──
 // 合并自 src/types/file.ts, src/types/event.ts, src/types/message.ts
 
 import { EventEnum } from './enums'
