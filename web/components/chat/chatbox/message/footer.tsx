@@ -1,4 +1,5 @@
 import { useDifyChatStore } from '@/lib/core'
+import { LucideIcon } from '@/components/shared'
 import { IGetAppParametersResponse, IRating } from '@/lib/api'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
