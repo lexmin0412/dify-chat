@@ -12,7 +12,7 @@ import {
 	Select,
 	Upload,
 } from 'antd'
-import { useHistory, useSearchParams } from 'pure-react-router'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 import { isChatLikeApp } from '@/components/chat/utils-index'
@@ -84,16 +84,15 @@ function normalizeFieldValue(type: IUserInputFormItemType, value: unknown): unkn
 export default function AppInputForm(props: IAppInputFormProps) {
 	const { entryForm, disabled } = props
 	const currentApp = useDifyChatStore(s => s.currentApp)
-	const { currentConversationId, currentConversationInfo, setConversations } =
-		useConversationsContext()
-	const history = useHistory()
+	const currentConversationId = useDifyChatStore(s => s.currentConversationId)
+	const conversations = useDifyChatStore(s => s.conversations)
+	const currentConversationInfo = conversations?.find(item => item.id === currentConversationId)
+	const router = useRouter()
 	const searchParams = useSearchParams()
-	const {
-		location: { pathname },
-	} = useHistory()
+	const pathname = usePathname()
 	const [userInputItems, setUserInputItems] = useState<IConversationEntryFormItem[]>([])
 	const cachedSearchParams = useRef<URLSearchParams>(new URLSearchParams(searchParams))
-	const store = useDifyChatStore()
+	const globalParams = useDifyChatStore(s => s.globalParams)
 
 	useEffect(() => {
 		const user_input_form = currentApp?.parameters.user_input_form
@@ -116,7 +115,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 					hidden: originalProps.hide,
 				}
 				const searchValue = cachedSearchParams.current.get(originalProps.variable)
-				const cachedValue = store.globalParams[originalProps.variable]
+				const cachedValue = globalParams[originalProps.variable]
 				const currentConversationInputs = currentConversationInfo?.inputs || {}
 				// 如果 URL 或者缓存中存在该参数，则使用它
 				if (searchValue || cachedValue) {
