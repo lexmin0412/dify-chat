@@ -147,7 +147,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						content: item.query,
 						status: 'success',
 						isHistory: true,
-						files: item.message_files?.filter(item => {
+						files: item.message_files?.filter((item: any) => {
 							return item.belongs_to === MessageFileBelongsToEnum.user
 						}),
 						role: Roles.USER,
@@ -159,7 +159,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						status: item.status === 'error' ? item.status : 'success',
 						error: item.error || '',
 						isHistory: true,
-						files: item.message_files?.filter(item => {
+						files: item.message_files?.filter((item: any) => {
 							return item.belongs_to === MessageFileBelongsToEnum.assistant
 						}),
 						feedback: item.feedback,
@@ -227,7 +227,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						content: item.query,
 						status: 'success',
 						isHistory: true,
-						files: item.message_files?.filter(item => {
+						files: item.message_files?.filter((item: any) => {
 							return item.belongs_to === MessageFileBelongsToEnum.user
 						}),
 						role: Roles.USER,
@@ -239,7 +239,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						status: item.status === 'error' ? item.status : 'success',
 						error: item.error || '',
 						isHistory: true,
-						files: item.message_files?.filter(item => {
+						files: item.message_files?.filter((item: any) => {
 							return item.belongs_to === MessageFileBelongsToEnum.assistant
 						}),
 						feedback: item.feedback,
