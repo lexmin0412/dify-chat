@@ -348,7 +348,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			return {
 				id: item.id,
 				status: item.status,
-				// @ts-expect-error TODO: 类型待优化
+				
 				error: item.message?.error || '',
 				workflows: item.message?.workflows,
 				agentThoughts: item.message?.agentThoughts,
