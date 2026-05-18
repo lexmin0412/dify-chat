@@ -301,7 +301,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 			// @ts-expect-error FIXME: antd Upload onPasteFile 类型兼容
 			onPasteFile={
 				enableFileUpload
-					? (firstFile, files) => {
+					? (firstFile: any, files: any) => {
 							if (files?.length > 1) {
 								message.warning('暂不支持一次性上传多个文件，请逐个上传')
 								return
