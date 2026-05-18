@@ -1,3 +1,4 @@
+import { useDifyChatStore } from '@/lib/core'
 import { IGetAppParametersResponse, IRating } from '@/lib/api'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
