@@ -298,7 +298,8 @@ export const MessageSender = (props: IMessageSenderProps) => {
 			loading={isRequesting}
 			disabled={audio2TextLoading}
 			className={className}
-// @ts-expect-error FIXME: antd Upload beforeUpload 类型			onPasteFile={
+			// @ts-expect-error FIXME: antd Upload onPasteFile 类型兼容
+			onPasteFile={
 				enableFileUpload
 					? (firstFile, files) => {
 							if (files?.length > 1) {
