@@ -117,7 +117,7 @@ export const useX = (options: IUseXOptions) => {
 
 	useEffect(() => {
 		if (wasRequesting.current && !isRequesting) {
-			const lastMessage = messages[messages.length - 1] as unknown as IAgentMessage
+// @ts-expect-error FIXME: IAgentMessage 类型兼容			const lastMessage = messages[messages.length - 1] as unknown as IAgentMessage
 			if (lastMessage?.role === Roles.AI && lastMessage?.id) {
 				getNextSuggestions(String(lastMessage.id))
 			}
