@@ -226,6 +226,7 @@ export interface IAgentMessage {
 	}
 	files?: IMessageFileItem[]
 	content: string
+	error?: string
 	agentThoughts?: IAgentThought[]
 	retrieverResources?: IRetrieverResource[]
 }
