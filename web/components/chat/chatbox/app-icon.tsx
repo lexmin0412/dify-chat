@@ -38,6 +38,7 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 			renderProps.icon === '🤖' ? (
 				'🤖'
 			) : (
+				{/* @ts-expect-error em-emoji web component */}
 				<em-emoji id={renderProps.icon}></em-emoji>
 			)
 		) : (
