@@ -386,3 +386,4 @@ a {
 		background-color: var(--theme-bubble-bg-color);
 	}
 }
+declare namespace JSX { interface IntrinsicElements { 'em-emoji': any } }
