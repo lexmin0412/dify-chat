@@ -62,7 +62,7 @@ function normalizeFieldValue(type: IUserInputFormItemType, value: unknown): unkn
 		name: (file as IUploadFileItem).name || (file as IDifyConversationInputFile).filename,
 		url: (file as IUploadFileItem).url || (file as IDifyConversationInputFile).remote_url,
 		status: (file as IUploadFileItem).status || 'done',
-		upload_file_id:
+// @ts-expect-error FIXME: 类型待优化 		upload_file_id:
 			(file as IUploadFileItem).upload_file_id || (file as IDifyConversationInputFile).related_id,
 	})
 	if (type === 'file-list' && Array.isArray(value)) {
