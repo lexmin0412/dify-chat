@@ -15,7 +15,7 @@ import {
 import { Roles } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 
-import { IAgentMessage } from '@/types'
+import { IAgentMessage } from '@/lib/api'
 
 import workflowDataStorage, { IWorkflowDataSetOptions } from './workflow-data-storage'
 
@@ -181,7 +181,7 @@ export class CustomProvider<
 			return {
 				...originMessage,
 				workflows,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		} else if (parsedData.event === EventEnum.WORKFLOW_FINISHED) {
 			console.log('工作流结束', parsedData)
 			workflows.status = 'finished'
@@ -193,7 +193,7 @@ export class CustomProvider<
 			return {
 				...originMessage,
 				workflows,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		} else if (parsedData.event === EventEnum.WORKFLOW_NODE_STARTED) {
 			console.log('节点开始', parsedData)
 			workflows.nodes = [
@@ -213,9 +213,9 @@ export class CustomProvider<
 			return {
 				...originMessage,
 				workflows,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		} else if (parsedData.event === EventEnum.WORKFLOW_NODE_FINISHED) {
-			workflows.nodes = workflows.nodes?.map(item => {
+			workflows.nodes = workflows.nodes?.map((item: any) => {
 				if (item.id === innerData.id) {
 					return {
 						...item,
@@ -237,14 +237,14 @@ export class CustomProvider<
 			return {
 				...originMessage,
 				workflows,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		}
 		if (parsedData.event === EventEnum.MESSAGE_FILE) {
 			const newContent = originMessage?.content + `<img src=""${parsedData.url} />`
 			return {
 				...originMessage,
 				content: newContent,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		}
 		if (parsedData.event === EventEnum.MESSAGE) {
 			return {
@@ -252,7 +252,7 @@ export class CustomProvider<
 				taskId: this.currentTaskId,
 				content: (originMessage?.content || '') + parsedData.answer,
 				id: messageId,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		}
 		// if (parsedData.event === EventEnum.ERROR) {
 		// 	onError({
@@ -275,7 +275,7 @@ export class CustomProvider<
 				taskId: this.currentTaskId,
 				agentThoughts,
 				id: messageId,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		}
 		if (parsedData.event === EventEnum.AGENT_THOUGHT) {
 			const existAgentThoughtIndex = agentThoughts.findIndex(
@@ -307,7 +307,7 @@ export class CustomProvider<
 				taskId: this.currentTaskId,
 				agentThoughts,
 				id: messageId,
-			} as ChatMessage
+			} as unknown as ChatMessage
 		}
 		console.log('parsedData', parsedData)
 		return {

@@ -120,7 +120,6 @@ export const useX = (options: IUseXOptions) => {
 			const lastMessage = messages[messages.length - 1] as unknown as IAgentMessage
 			// @ts-expect-error FIXME: IAgentMessage 类型兼容
 			if (lastMessage?.role === Roles.AI && lastMessage?.id) {
-// @ts-expect-error FIXME: IAgentMessage 类型缺失 id				getNextSuggestions(String(lastMessage.id))
 			}
 		}
 		wasRequesting.current = isRequesting

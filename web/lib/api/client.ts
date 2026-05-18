@@ -2,6 +2,7 @@ import { IDifyAppItem, IDifyAppSiteSetting } from '@/lib/core'
 
 import XRequest from './base-request'
 import { IAgentThought, IRetrieverResource, IFileType, IFile } from './types'
+import { MessageFileBelongsToEnum } from './types'
 
 /**
  * 用户输入表单控件类型
@@ -223,11 +224,6 @@ interface IGetConversationListResponse {
 /**
  * 消息文件所属类型
  */
-export enum MessageFileBelongsToEnum {
-	'user' = 'user', // 用户
-	'assistant' = 'assistant', // 助手
-}
-
 /**
  * 消息文件 Item 结构
  */

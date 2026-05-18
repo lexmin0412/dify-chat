@@ -1,3 +1,4 @@
+// @ts-expect-error next-auth v4 jwt type resolution
 import { getToken } from 'next-auth/jwt'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
