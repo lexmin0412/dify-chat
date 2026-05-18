@@ -180,7 +180,7 @@ export default function AppInputForm(props: IAppInputFormProps) {
 			const searchString = cachedSearchParams.current.size
 				? `?${cachedSearchParams.current.toString()}`
 				: ''
-			history.push(`${pathname}${searchString}`)
+			router.push(`${pathname}${searchString}`)
 		}
 	}, [currentApp?.parameters.user_input_form, currentConversationInfo])
 
