@@ -248,7 +248,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 									setContent(res.text)
 									recordedChunks.current = []
 								})
-								.catch(error => {
+								.catch((error: any) => {
 									console.error('语音转文本错误', error)
 									message.error(`语音转文本错误: ${error}`)
 									setContent('')
