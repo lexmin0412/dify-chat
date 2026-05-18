@@ -1,3 +1,4 @@
+import { useDifyChatStore } from '@/lib/core'
 import { XProvider } from '@ant-design/x'
 import { AppModeEnums, IDifyAppItem } from '@/lib/core'
 import React from 'react'
