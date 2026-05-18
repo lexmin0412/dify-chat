@@ -193,17 +193,18 @@ export default function AppInputForm(props: IAppInputFormProps) {
 						form={entryForm}
 						labelCol={{ span: 5 }}
 						onValuesChange={(_changedValues, allValues) => {
-							setConversations(prev => {
-								return prev.map(item => {
-									if (item.id === currentConversationId) {
-										return {
-											...item,
-											inputs: allValues,
-										}
+							const prev = useDifyChatStore.getState().conversations
+							const next = prev.map(item => {
+								if (item.id === currentConversationId) {
+									return {
+										...item,
+										inputs: allValues,
 									}
-									return item
-								})
+								}
+								return item
 							})
+							useDifyChatStore.getState().setConversations(next)
+						}}
 						}}
 					>
 						{userInputItems
