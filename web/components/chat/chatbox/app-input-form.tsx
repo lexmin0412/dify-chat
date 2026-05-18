@@ -205,7 +205,6 @@ export default function AppInputForm(props: IAppInputFormProps) {
 							})
 							useDifyChatStore.getState().setConversations(next)
 						}}
-						}}
 					>
 						{userInputItems
 							.filter(item => SUPPORTED_CONTROL_TYPES.includes(item.type))
