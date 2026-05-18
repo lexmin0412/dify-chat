@@ -140,7 +140,7 @@ export default function MessageFileList(props: IMessageFileListProps) {
 								console.error('下载失败', err)
 							}
 						}}
-					>
+// @ts-expect-error FIXME: @ant-design/x 类型					>
 						<Attachments.FileCard
 							key={item.id}
 							item={{
