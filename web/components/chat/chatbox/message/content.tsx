@@ -103,7 +103,8 @@ export default function MessageContent(props: IMessageContentProps) {
 	// 消息附件列表 用户文件展示在消息体上方，AI 消息文件展示在消息体下方
 	const fileList = files?.length ? (
 		<div className="mt-3">
-// @ts-expect-error FIXME: 类型待优化 			<MessageFileList
+			<MessageFileList
+				// @ts-expect-error FIXME: 类型待优化
 				previewApi={difyApi!.filePreview}
 				files={files}
 			/>
