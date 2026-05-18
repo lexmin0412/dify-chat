@@ -1,6 +1,7 @@
 import { useDifyChatStore } from '@/lib/core'
 import { useThemeContext } from '@/lib/theme'
 import { useMemo } from 'react'
+import React from 'react'
 import data from '@emoji-mart/data'
 import { init } from 'emoji-mart'
 
@@ -38,8 +39,7 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 			renderProps.icon === '🤖' ? (
 				'🤖'
 			) : (
-				{/* @ts-expect-error em-emoji web component */}
-				<em-emoji id={renderProps.icon}></em-emoji>
+				{React.createElement('em-emoji', { id: renderProps.icon })}
 			)
 		) : (
 			<img
