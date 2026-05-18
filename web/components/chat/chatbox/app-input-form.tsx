@@ -64,6 +64,7 @@ function normalizeFieldValue(type: IUserInputFormItemType, value: unknown): unkn
 		status: (file as IUploadFileItem).status || 'done',
 		// @ts-expect-error FIXME: 类型待优化
 		upload_file_id:
+			// @ts-expect-error FIXME: 类型待优化
 			(file as IUploadFileItem).upload_file_id || (file as IDifyConversationInputFile).related_id,
 	})
 	if (type === 'file-list' && Array.isArray(value)) {
