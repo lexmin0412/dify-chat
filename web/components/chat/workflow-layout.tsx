@@ -55,7 +55,7 @@ export default function WorkflowLayout() {
 		}
 
 		runner()
-			.then(async res => {
+			.then(async (res: any) => {
 				const readableStream = XStream({
 					readableStream: res.body as NonNullable<ReadableStream>,
 				})
