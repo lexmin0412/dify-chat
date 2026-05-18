@@ -667,6 +667,9 @@ importers:
       '@types/bcryptjs':
         specifier: 'catalog:'
         version: 3.0.0
+      '@types/hast':
+        specifier: 'catalog:'
+        version: 3.0.4
       '@types/lodash-es':
         specifier: 'catalog:'
         version: 4.17.12

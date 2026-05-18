@@ -90,6 +90,7 @@
 		"tsx": "catalog:",
 		"tw-animate-css": "catalog:",
 		"typescript": "catalog:",
-		"@types/lodash-es": "catalog:"
+		"@types/lodash-es": "catalog:",
+		"@types/hast": "catalog:"
 	}
 }
