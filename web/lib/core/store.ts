@@ -3,6 +3,7 @@ import { create } from 'zustand'
 export interface ICurrentApp {
 	config: import('./repository').IDifyAppItem
 	parameters: import('./types').IDifyAppParameters
+	site?: import('./types').IDifyAppSiteSetting
 }
 
 export interface IConversationItem {
