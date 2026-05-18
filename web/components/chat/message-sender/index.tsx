@@ -244,7 +244,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 							setContent('正在识别...')
 							difyApi
 								?.audio2Text?.(blob as File)
-								.then(res => {
+								.then((res: any) => {
 									setContent(res.text)
 									recordedChunks.current = []
 								})
