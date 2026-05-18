@@ -21,7 +21,7 @@ function I18nSwitcher() {
 			menu={{
 				items: Object.keys(lngs).map(lng => ({
 					key: lng,
-					label: lngs[lng].nativeName,
+					label: lngs[lng as keyof typeof lngs].nativeName,
 					onClick: () => i18n.changeLanguage(lng),
 					className: lng === i18n.language ? '!text-primary' : '',
 				})),
