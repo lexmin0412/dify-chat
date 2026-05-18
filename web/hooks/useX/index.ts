@@ -23,7 +23,7 @@ interface IUseXOptions {
 	filesRef: React.MutableRefObject<IFile[]>
 	onConversationIdChange: (id: string) => void
 	onTaskIdChange: (id: string) => void
-	abortRef: React.MutableRefObject<() => void>
+	abortRef?: React.MutableRefObject<() => void>
 	getNextSuggestions: (messageId: string) => void
 }
 
