@@ -147,7 +147,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 				.text2Audio({
 					text,
 				})
-				.then(response => response.blob())
+				.then((response: Response) => response.blob())
 				.then(blob => {
 					const audioUrl = URL.createObjectURL(blob)
 					setCachedAudioUrl(audioUrl)
