@@ -57,7 +57,7 @@ export const ConversationList = (props: IConversationListProps) => {
 		renameForm.setFieldsValue({
 			name: conversation.label,
 		})
-		Modal.confirm({
+// @ts-expect-error FIXME: antd v6 API 变更		Modal.confirm({
 			destroyOnClose: true,
 			title: t('chat.rename'),
 			content: (
