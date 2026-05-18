@@ -84,8 +84,8 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 
 	const updateConversationInputs = useCallback(
 		(formValues: Record<string, unknown>) => {
-			setConversations(prev => {
-				return prev.map(item => {
+			setConversations(useDifyChatStore.getState().conversations.map(item => {
+				setConversations(useDifyChatStore.getState().conversations.map(item => {
 					if (item.id === currentConversationId) {
 						return {
 							...item,
