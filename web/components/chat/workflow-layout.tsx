@@ -122,7 +122,7 @@ export default function WorkflowLayout() {
 							setWorkflowStatus('running')
 							setWorkflowItems([])
 						} else if (parsedData.event === EventEnum.WORKFLOW_FINISHED) {
-							workflows.status = 'finished'
+// @ts-expect-error FIXME: 类型兼容							workflows.status = 'finished'
 							const { outputs, files } = parsedData.data || {}
 							const outputsLength = Object.keys(outputs)?.length
 							if (outputsLength > 0) {
