@@ -89,6 +89,7 @@
 		"tailwindcss": "^4",
 		"tsx": "catalog:",
 		"tw-animate-css": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"@types/lodash-es": "catalog:"
 	}
 }
