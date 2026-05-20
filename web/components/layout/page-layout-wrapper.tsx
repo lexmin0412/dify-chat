@@ -32,7 +32,9 @@ export default function PageLayoutWrapper({ children }: { children: React.ReactN
 	const pathname = usePathname()
 	const isLoginPage = pathname === '/login'
 	const isInitPage = pathname?.startsWith('/init')
-	const isPublicPage = isLoginPage || isInitPage
+	const isUserRoute =
+		pathname?.startsWith('/chat') || pathname?.startsWith('/apps') || pathname?.startsWith('/auth')
+	const isPublicPage = isLoginPage || isInitPage || isUserRoute
 
 	return (
 		<ThemeContextProvider>

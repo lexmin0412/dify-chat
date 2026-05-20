@@ -18,31 +18,25 @@ import { createDifyApiInstance, DifyApi } from '@/lib/dify-client'
 
 import MainLayout from './main-layout'
 
-const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
+const ChatLayoutInner = (props: { appList: IDifyAppItem[]; difyApi: DifyApi | null }) => {
 	const currentAppId = useDifyChatStore(s => s.currentAppId)
 	const setCurrentAppId = useDifyChatStore(s => s.setCurrentAppId)
 	const currentApp = useDifyChatStore(s => s.currentApp)
-	const setCurrentApp = useDifyChatStore(s => s.setCurrentApp)
-	const globalParams = useDifyChatStore(s => s.globalParams)
+	const _setCurrentApp = useDifyChatStore(s => s.setCurrentApp)
+	const _globalParams = useDifyChatStore(s => s.globalParams)
 	const router = useRouter()
-	const { appList } = props
+	const { appList, difyApi } = props
 
-	// DifyApi instance is kept as local state since it needs createDifyApiInstance
-	const [difyApi, setDifyApi] = useState<DifyApi | null>(null)
-
-	const { runAsync: getAppParameters } = useRequest(
-		() => (difyApi as DifyApi).getAppParameters(),
-		{ manual: true },
-	)
+	const { runAsync: getAppParameters } = useRequest(() => (difyApi as DifyApi).getAppParameters(), {
+		manual: true,
+	})
 
 	const { runAsync: getAppSiteSettting } = useRequest(
 		() =>
-			(difyApi as DifyApi)
-				.getAppSiteSetting()
-				.catch(err => {
-					console.error(err)
-					return DEFAULT_APP_SITE_SETTING
-				}),
+			(difyApi as DifyApi).getAppSiteSetting().catch(err => {
+				console.error(err)
+				return DEFAULT_APP_SITE_SETTING
+			}),
 		{ manual: true },
 	)
 
@@ -83,7 +77,11 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 				initLoading={initLoading}
 				renderCenterTitle={() => (
 					<div className="flex items-center overflow-hidden">
-						<LucideIcon name="layout-grid" size={16} className="mr-1" />
+						<LucideIcon
+							name="layout-grid"
+							size={16}
+							className="mr-1"
+						/>
 						<span
 							className="inline-block shrink-0 cursor-pointer"
 							onClick={() => router.push('/apps')}
@@ -99,15 +97,21 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[] }) => {
 									trigger={['click']}
 									menu={{
 										selectedKeys: [currentAppId],
-										items: (appList?.map(item => ({
-											key: item.id,
-											label: <div>{item.info.name}</div>,
-											onClick: () => {
-												router.push(`/chat/${item.id}`)
-												setCurrentAppId(item.id)
-											},
-											icon: <LucideIcon name="bot" size={18} />,
-										})) || []),
+										items:
+											appList?.map(item => ({
+												key: item.id,
+												label: <div>{item.info.name}</div>,
+												onClick: () => {
+													router.push(`/chat/${item.id}`)
+													setCurrentAppId(item.id)
+												},
+												icon: (
+													<LucideIcon
+														name="bot"
+														size={18}
+													/>
+												),
+											})) || [],
 									}}
 								>
 									<div className="flex flex-1 cursor-pointer items-center overflow-hidden">
@@ -152,61 +156,73 @@ const ChatLayoutWrapper = () => {
 	const [appList, setAppList] = useState<IDifyAppItem[]>([])
 
 	const { appId } = useParams<{ appId: string }>()
-	const [currentApp, setCurrentApp] = useState<any>()
+	const [currentApp, _setCurrentApp2] = useState<any>()
 	const [error, setError] = useState<Error | null>(null)
 
 	const isMobile = useIsMobile()
 
-	const { runAsync: getAppList } = useRequest(
-		() => appService.getApps(),
-		{
-			manual: true,
-			onSuccess: result => {
-				flushSync(() => setAppList(result))
-				if (isMobile && !result?.length) {
-					router.replace('/apps')
-					return
-				}
-				if (appId) {
-					setSelectedAppId(appId as string)
-				} else if (!selectedAppId && result?.length) {
-					setSelectedAppId(result[0]?.id || '')
-				}
-			},
-			onError: error => {
-				setError(error)
-				console.error(error)
-			},
-			onFinally: () => setInitLoading(false),
+	const { runAsync: getAppList } = useRequest(() => appService.getApps(), {
+		manual: true,
+		onSuccess: result => {
+			flushSync(() => setAppList(result))
+			if (isMobile && !result?.length) {
+				router.replace('/apps')
+				return
+			}
+			if (appId) {
+				setSelectedAppId(appId as string)
+			} else if (!selectedAppId && result?.length) {
+				setSelectedAppId(result[0]?.id || '')
+			}
 		},
-	)
+		onError: error => {
+			setError(error)
+			console.error(error)
+		},
+		onFinally: () => setInitLoading(false),
+	})
 
-	const initApp = async (id: string) => {
+	useEffect(() => {
+		if (!selectedAppId) return
 		try {
 			setError(null)
-			const appItem = await appService.getAppByID(id)
-			if (!appItem) { setAppExists(false); return }
-			setDifyApi(createDifyApiInstance({
-				user: userId,
-				...appItem.requestConfig,
-			}) as DifyApi)
+			const appItem = appList.find(item => item.id === selectedAppId)
+			if (!appItem) {
+				setAppExists(false)
+				return
+			}
+			setDifyApi(
+				createDifyApiInstance({
+					appId: appItem.id,
+					user: userId,
+					...appItem.requestConfig,
+				}) as DifyApi,
+			)
 			setAppExists(true)
 		} catch (err) {
 			console.error(err)
 			setError(err as Error)
 		}
-	}
-
-	useEffect(() => {
-		if (selectedAppId) initApp(selectedAppId)
-	}, [selectedAppId])
+	}, [selectedAppId, appList])
 
 	useMount(() => getAppList())
 
 	if (error) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
-				<Result status="500" title="加载失败" subTitle={error.message} extra={<Button type="primary" onClick={() => window.location.reload()}>刷新页面</Button>} />
+				<Result
+					status="500"
+					title="加载失败"
+					subTitle={error.message}
+					extra={
+						<Button
+							type="primary"
+							onClick={() => window.location.reload()}
+						>
+							刷新页面
+						</Button>
+					}
+				/>
 			</div>
 		)
 	}
@@ -214,7 +230,10 @@ const ChatLayoutWrapper = () => {
 	if (initLoading || (!difyApi && appExists)) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
-				<Spin size="large" tip="应用加载中..." />
+				<Spin
+					size="large"
+					tip="应用加载中..."
+				/>
 			</div>
 		)
 	}
@@ -234,7 +253,12 @@ const ChatLayoutWrapper = () => {
 	useDifyChatStore.getState().setCurrentApp(currentApp)
 	useDifyChatStore.getState().setAppLoading(initLoading)
 
-	return <ChatLayoutInner appList={appList} />
+	return (
+		<ChatLayoutInner
+			appList={appList}
+			difyApi={difyApi}
+		/>
+	)
 }
 
 export default ChatLayoutWrapper

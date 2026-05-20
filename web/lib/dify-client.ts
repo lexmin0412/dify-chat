@@ -325,6 +325,7 @@ interface IListMessagesResponse {
 }
 
 export interface IDifyApiOptions {
+	appId: string
 	apiBase: string
 	apiKey: string
 	user: string
@@ -399,7 +400,7 @@ export interface IAudio2TextResponse {
 const PLATFORM_API_BASE = '/api/client/dify'
 
 const genXRequestOptions = (options: IDifyApiOptions) => ({
-	baseURL: `${PLATFORM_API_BASE}${options.apiBase}`,
+	baseURL: `${PLATFORM_API_BASE}/${options.appId}`,
 	headers: {
 		'x-user-id': LocalStorageStore.get('USER_ID'),
 	},
