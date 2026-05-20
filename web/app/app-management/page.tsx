@@ -133,6 +133,13 @@ export default function AppManagementPage() {
 									<Button
 										className="!px-0"
 										type="link"
+										onClick={() => window.open(`/chat/${record.id}`, '_blank')}
+									>
+										用户端
+									</Button>
+									<Button
+										className="!px-0"
+										type="link"
 										onClick={() => {
 											setAppEditDrawerMode(AppDetailDrawerModeEnum.edit)
 											setAppEditDrawerOpen(true)
