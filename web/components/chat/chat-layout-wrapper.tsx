@@ -22,7 +22,6 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[]; difyApi: DifyApi | nu
 	const currentAppId = useDifyChatStore(s => s.currentAppId)
 	const setCurrentAppId = useDifyChatStore(s => s.setCurrentAppId)
 	const currentApp = useDifyChatStore(s => s.currentApp)
-	const _setCurrentApp = useDifyChatStore(s => s.setCurrentApp)
 	const _globalParams = useDifyChatStore(s => s.globalParams)
 	const router = useRouter()
 	const { appList, difyApi } = props
@@ -52,7 +51,7 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[]; difyApi: DifyApi | nu
 				Promise.all(promises)
 					.then(res => {
 						const [parameters, siteSetting] = res
-						setCurrentApp({
+						useDifyChatStore.getState().setCurrentApp({
 							config: appItem,
 							parameters: parameters!,
 							site: siteSetting,
@@ -61,7 +60,7 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[]; difyApi: DifyApi | nu
 					.catch(err => {
 						message.error(`获取应用参数失败: ${err}`)
 						console.error(err)
-						setCurrentApp(null)
+						useDifyChatStore.getState().setCurrentApp(null)
 					})
 					.finally(() => setInitLoading(false))
 			}
@@ -183,7 +182,7 @@ const ChatLayoutWrapper = () => {
 	})
 
 	useEffect(() => {
-		if (!selectedAppId) return
+		if (!selectedAppId || !userId) return
 		try {
 			setError(null)
 			const appItem = appList.find(item => item.id === selectedAppId)
@@ -203,7 +202,7 @@ const ChatLayoutWrapper = () => {
 			console.error(err)
 			setError(err as Error)
 		}
-	}, [selectedAppId, appList])
+	}, [selectedAppId, appList, userId])
 
 	useMount(() => getAppList())
 
