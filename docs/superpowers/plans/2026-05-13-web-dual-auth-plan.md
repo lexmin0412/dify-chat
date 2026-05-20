@@ -671,7 +671,74 @@ git commit -m "feat: update root page to redirect admin/user appropriately"
 
 ---
 
-### Task 12: 验证构建
+### Task 12: 创建 (admin)/ 路由组并迁移管理端页面
+
+**Files:**
+
+- Move: `web/app/login/` → `web/app/(admin)/login/`
+- Move: `web/app/app-management/` → `web/app/(admin)/app-management/`
+- Move: `web/app/user-management/` → `web/app/(admin)/user-management/`
+- Create: `web/app/(admin)/layout.tsx`
+
+- [ ] **Step 1: 创建 (admin)/ 目录并移动现有页面**
+
+```bash
+mkdir -p web/app/\(admin\)
+mv web/app/login web/app/\(admin\)/login
+mv web/app/app-management web/app/\(admin\)/app-management
+mv web/app/user-management web/app/\(admin\)/user-management
+```
+
+- [ ] **Step 2: 创建 (admin)/layout.tsx**
+
+```tsx
+// web/app/(admin)/layout.tsx
+'use client'
+
+import AuthGuard from '@/components/auth/auth-guard'
+import AdminPageLayout from '@/components/layout/admin-page-layout'
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<AuthGuard>
+			<AdminPageLayout>{children}</AdminPageLayout>
+		</AuthGuard>
+	)
+}
+```
+
+- [ ] **Step 3: 验证路由不受影响**
+
+```bash
+# Route Group 不改变 URL 路径，原有路径全部保持不变：
+# /login       → (admin)/login/page.tsx
+# /app-management → (admin)/app-management/page.tsx
+# /user-management → (admin)/user-management/page.tsx
+# middleware.ts 的路由匹配无需修改
+ls web/app/\(admin\)/
+```
+
+Expected output:
+
+```
+login
+app-management
+user-management
+layout.tsx
+```
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add web/app/\(admin\)/
+git rm -r web/app/login web/app/app-management web/app/user-management 2>/dev/null; true
+git add -A
+git commit -m "feat: create (admin) route group and migrate existing pages"
+```
+
+---
+
+### Task 13: 验证构建
 
 - [ ] **Step 1: 运行 next build**
 
