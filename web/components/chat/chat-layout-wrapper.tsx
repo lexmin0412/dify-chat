@@ -247,10 +247,11 @@ const ChatLayoutWrapper = () => {
 		)
 	}
 
-	// Set Zustand store before rendering children
-	useDifyChatStore.getState().setCurrentAppId(selectedAppId)
-	useDifyChatStore.getState().setCurrentApp(currentApp)
-	useDifyChatStore.getState().setAppLoading(initLoading)
+	useEffect(() => {
+		useDifyChatStore.getState().setCurrentAppId(selectedAppId)
+		useDifyChatStore.getState().setCurrentApp(currentApp)
+		useDifyChatStore.getState().setAppLoading(initLoading)
+	}, [selectedAppId, currentApp, initLoading])
 
 	return (
 		<ChatLayoutInner
