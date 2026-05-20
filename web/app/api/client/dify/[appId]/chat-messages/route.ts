@@ -37,6 +37,11 @@ export async function POST(
 			body: JSON.stringify(data),
 		})
 
+		// Dify API 返回错误时直接透传
+		if (!response.ok) {
+			return NextResponse.json(await response.json(), { status: response.status })
+		}
+
 		// 如果是流式响应，需要特殊处理
 		if (data.response_mode === 'streaming') {
 			// 创建一个新的 ReadableStream
