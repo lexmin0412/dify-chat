@@ -206,6 +206,12 @@ const ChatLayoutWrapper = () => {
 
 	useMount(() => getAppList())
 
+	useEffect(() => {
+		useDifyChatStore.getState().setCurrentAppId(selectedAppId)
+		useDifyChatStore.getState().setCurrentApp(currentApp)
+		useDifyChatStore.getState().setAppLoading(initLoading)
+	}, [selectedAppId, currentApp, initLoading])
+
 	if (error) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
@@ -246,12 +252,6 @@ const ChatLayoutWrapper = () => {
 			</div>
 		)
 	}
-
-	useEffect(() => {
-		useDifyChatStore.getState().setCurrentAppId(selectedAppId)
-		useDifyChatStore.getState().setCurrentApp(currentApp)
-		useDifyChatStore.getState().setAppLoading(initLoading)
-	}, [selectedAppId, currentApp, initLoading])
 
 	return (
 		<ChatLayoutInner
