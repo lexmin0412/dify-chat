@@ -156,6 +156,40 @@
 	--theme-code-block-bg-color: #222;
 }
 
+/* 主题 CSS 变量工具类 */
+.bg-theme-bg {
+	background-color: var(--theme-bg-color);
+}
+.bg-theme-main-bg {
+	background-color: var(--theme-main-bg-color);
+}
+.bg-theme-btn-bg {
+	background-color: var(--theme-btn-bg-color);
+}
+.bg-theme-bubble {
+	background-color: var(--theme-bubble-bg-color);
+}
+.bg-theme-code-block {
+	background-color: var(--theme-code-block-bg-color);
+}
+
+.text-theme-text {
+	color: var(--theme-text-color);
+}
+.text-theme-desc {
+	color: var(--theme-desc-color);
+}
+
+.border-theme {
+	border-color: var(--theme-border-color);
+}
+.border-theme-splitter {
+	border-color: var(--theme-splitter-color);
+}
+.border-theme-button {
+	border-color: var(--theme-button-border-color);
+}
+
 .ant-collapse {
 	.ant-collapse-item {
 		border-bottom: none;
@@ -386,4 +420,8 @@ a {
 		background-color: var(--theme-bubble-bg-color);
 	}
 }
-declare namespace JSX { interface IntrinsicElements { 'em-emoji': any } }
+declare namespace JSX {
+	interface IntrinsicElements {
+		'em-emoji':any;
+	}
+}

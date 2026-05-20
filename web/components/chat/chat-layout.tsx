@@ -396,7 +396,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 
 	return (
 		<>
-			<div className={`flex h-screen w-full flex-col overflow-hidden bg-theme-bg`}>
+			<div className={`bg-theme-bg flex h-screen w-full flex-col overflow-hidden`}>
 				{/* 头部 */}
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
@@ -416,16 +416,16 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				/>
 
 				{/* Main */}
-				<div className="flex flex-1 overflow-hidden rounded-t-3xl bg-theme-main-bg">
+				<div className="bg-theme-main-bg flex flex-1 overflow-hidden rounded-t-3xl">
 					{appLoading || initLoading ? (
-						<div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
+						<div className="absolute top-0 left-0 z-50 flex h-full w-full items-center justify-center">
 							<Spin spinning />
 						</div>
 					) : currentApp?.config ? (
 						<>
 							{/* 左侧对话列表 */}
 							<div
-								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} h-full flex-col border-0 border-r border-solid border-r-theme-splitter transition-all`}
+								className={`hidden md:!flex ${sidebarOpen ? 'w-72' : 'w-14'} border-r-theme-splitter h-full flex-col border-0 border-r border-solid transition-all`}
 							>
 								{sidebarOpen ? (
 									<>
@@ -438,7 +438,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													onAddConversation()
 												}}
 												type="default"
-												className="mx-4 mt-3 h-10 rounded-lg border border-solid border-gray-200 leading-10 text-theme-text"
+												className="border-theme text-theme-text mx-4 mt-3 h-10 rounded-lg border border-solid leading-10"
 												icon={<PlusOutlined className="" />}
 											>
 												{t('chat.new_chat')}
@@ -461,12 +461,12 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											title="新增对话"
 											placement="right"
 										>
-											<div className="my-1.5 flex items-center text-theme-text hover:text-primary">
+											<div className="text-theme-text hover:text-primary my-1.5 flex items-center">
 												<LucideIcon
 													name="plus-circle"
 													strokeWidth={1.25}
 													size={28}
-													className={`${disableNewButton ? "cursor-not-allowed text-gray-400" : "cursor-pointer text-theme-text"}`}
+													className={`${disableNewButton ? "text-theme-desc cursor-not-allowed" : "text-theme-text cursor-pointer"}`}
 													onClick={() => {
 														if (disableNewButton) return
 														onAddConversation()
@@ -487,7 +487,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 											{/* 必须包裹一个 HTML 标签才能正常展示 Popover */}
 											<div className="flex items-center justify-center">
 												<LucideIcon
-													className="my-1.5 cursor-pointer hover:text-primary"
+													className="hover:text-primary my-1.5 cursor-pointer"
 													strokeWidth={1.25}
 													size={28}
 													name="menu"
@@ -497,7 +497,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 									</div>
 								)}
 
-								<div className="flex h-12 items-center justify-center border-0 border-t border-solid border-theme-splitter">
+								<div className="border-theme-splitter flex h-12 items-center justify-center border-0 border-t border-solid">
 									<Tooltip
 										title={sidebarOpen ? t('chat.sidebar_close') : t('chat.sidebar_open')}
 										placement="right"
@@ -508,7 +508,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 													setSidebarOpen(!sidebarOpen)
 												}}
 												name={sidebarOpen ? 'arrow-left-circle' : 'arrow-right-circle'}
-												className="cursor-pointer hover:text-primary"
+												className="hover:text-primary cursor-pointer"
 												strokeWidth={1.25}
 												size={28}
 											/>
