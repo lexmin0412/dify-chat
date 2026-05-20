@@ -44,7 +44,7 @@ export default function AppListPage() {
 										key={item.id}
 										span={isMobile ? 24 : 6}
 									>
-										<div className="hover:border-primary cursor-pointer rounded-2xl border p-3">
+										<div className="hover:border-primary bg-theme-main-bg border-theme text-theme-text cursor-pointer rounded-2xl border p-3">
 											应用信息缺失，请检查
 										</div>
 									</Col>
@@ -57,27 +57,29 @@ export default function AppListPage() {
 									span={isMobile ? 24 : 6}
 								>
 									<div
-										className="hover:border-primary hover:text-primary cursor-pointer rounded-2xl border p-3"
+										className="hover:border-primary hover:text-primary bg-theme-main-bg border-theme cursor-pointer rounded-2xl border p-3"
 										onClick={() => router.push(`/chat/${item.id}`)}
 									>
 										<div className="flex items-center overflow-hidden">
-											<div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-[#ffead5]">
+											<div className="border-theme bg-theme-btn-bg flex h-10 w-10 items-center justify-center rounded-lg border">
 												<LucideIcon
 													name="bot"
-													className="text-xl"
+													className="text-theme-text text-xl"
 												/>
 											</div>
 											<div className="ml-3 flex-1 overflow-hidden">
-												<div className="truncate font-semibold">{item.info.name}</div>
-												<div className="text-xs opacity-60">
+												<div className="text-theme-text truncate font-semibold">
+													{item.info.name}
+												</div>
+												<div className="text-theme-desc text-xs">
 													{item.info.mode ? AppModeLabels[item.info.mode] : 'unknown'}
 												</div>
 											</div>
 										</div>
-										<div className="mt-3 line-clamp-2 text-sm opacity-60">
+										<div className="text-theme-desc mt-3 line-clamp-2 text-sm">
 											{item.info.description || '该应用暂无描述'}
 										</div>
-										<div className="mt-3 flex items-center truncate text-xs opacity-60">
+										<div className="text-theme-desc mt-3 flex items-center truncate text-xs">
 											{hasTags && (
 												<>
 													<TagOutlined className="mr-2" />
