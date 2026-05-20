@@ -24,3 +24,6 @@ dist/
 
 packages/server/apps.json
 .dify-chat
+
+# 工作目录/工具目录
+.omo/
