@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/use-auth'
 import { initResponsiveConfig } from '@/lib/helpers'
 
+import '@/libs/i18n'
+
 initResponsiveConfig()
 
 function UserLayoutInner({ children }: { children: React.ReactNode }) {
