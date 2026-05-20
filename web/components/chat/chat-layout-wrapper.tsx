@@ -210,7 +210,8 @@ const ChatLayoutWrapper = () => {
 		useDifyChatStore.getState().setCurrentAppId(selectedAppId)
 		useDifyChatStore.getState().setCurrentApp(currentApp)
 		useDifyChatStore.getState().setAppLoading(initLoading)
-	}, [selectedAppId, currentApp, initLoading])
+		useDifyChatStore.getState().setDifyApi(difyApi)
+	}, [selectedAppId, currentApp, initLoading, difyApi])
 
 	if (error) {
 		return (
