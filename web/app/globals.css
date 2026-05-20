@@ -249,9 +249,8 @@
 
 hr {
 	margin: 0.25rem auto;
-	color: #9ca3b3;
+	color: var(--theme-border-color);
 	height: 0;
-	display: none;
 }
 
 h3 {
@@ -265,7 +264,7 @@ body {
 	color: var(--theme-text-color);
 
 	font-family: AibabaPuHuiTi, sans-serif;
-	background: white;
+	background: var(--theme-bg-color);
 }
 
 a {
@@ -301,35 +300,16 @@ a {
 
 ::-webkit-scrollbar-track {
 	border-radius: 4px;
-	background-color: #f0f0f0;
+	background-color: var(--theme-bg-color);
 }
-
-.dark {
-	::-webkit-scrollbar-track {
-		background-color: #333;
-	}
-}
-
-/* 滚动条的滑块样式 */
 
 ::-webkit-scrollbar-thumb {
-	background-color: #ccc;
-
+	background-color: var(--theme-desc-color);
 	border-radius: 4px;
 }
 
-.dark::-webkit-scrollbar-thumb {
-	background-color: #555;
-}
-
-/* 滚动条在鼠标悬停时的滑块颜色 */
-
 ::-webkit-scrollbar-thumb:hover {
-	background-color: #999;
-}
-
-.dark::-webkit-scrollbar-thumb:hover {
-	background-color: #777;
+	background-color: var(--theme-text-color);
 }
 .dc-answer-form-button {
 	max-width: 300px;
@@ -345,12 +325,14 @@ a {
 	input,
 	textarea {
 		display: inline-block;
-		border: 1px solid #ccc;
+		border: 1px solid var(--theme-border-color);
 		border-radius: 8px;
 		padding: 8px;
 		width: 100% !important;
 		resize: none;
 		box-sizing: border-box;
+		color: var(--theme-text-color);
+		background-color: var(--theme-main-bg-color);
 	}
 
 	.dc-answer-form-button {
