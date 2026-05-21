@@ -112,18 +112,14 @@
 	--sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
-@layer base {
-	* {
-		@apply border-border outline-ring/50;
-	}
-	body {
-		@apply bg-background text-foreground;
-	}
+* {
+	border-color: var(--border);
+	outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
 }
-
-/* === User-facing styles (from react-app) === */
-@tailwind components;
-@tailwind utilities;
+body {
+	background-color: var(--background);
+	color: var(--foreground);
+}
 
 :root {
 	--theme-text-color: #333;
