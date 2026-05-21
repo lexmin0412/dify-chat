@@ -67,6 +67,7 @@ export default function AppManagementPage() {
 					</Button>
 				</div>
 				<Table
+					rowKey="id"
 					dataSource={list}
 					loading={listLoading}
 					scroll={{ x: 1200 }}
