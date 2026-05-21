@@ -1,9 +1,11 @@
 import bcrypt from 'bcryptjs'
 import * as readline from 'readline'
+import { eq } from 'drizzle-orm'
 
-import { getPrisma } from '../lib/prisma'
+import { getDb } from '../db'
+import { users } from '../db/schema'
 
-const prisma = getPrisma()
+const db = getDb()
 
 // 创建 readline 接口
 const rl = readline.createInterface({
@@ -42,11 +44,9 @@ async function createAdmin() {
 	}
 
 	// 检查管理员是否已存在
-	const existingUser = await prisma.user.findUnique({
-		where: { email },
-	})
+	const rows = await db.select().from(users).where(eq(users.email, email)).limit(1)
 
-	if (existingUser) {
+	if (rows[0]) {
 		console.log('管理员账户已存在')
 		rl.close()
 		return
@@ -56,18 +56,12 @@ async function createAdmin() {
 	const hashedPassword = await bcrypt.hash(password, 12)
 
 	// 创建管理员账户
-	const admin = await prisma.user.create({
-		data: {
-			email,
-			password: hashedPassword,
-			name,
-		},
-	})
+	await db.insert(users).values({ email, password: hashedPassword, name })
 
 	console.log('\n管理员账户创建成功:')
-	console.log(`邮箱: ${admin.email}`)
+	console.log(`邮箱: ${email}`)
 	console.log(`密码: ${password}`)
-	console.log(`姓名: ${admin.name}`)
+	console.log(`姓名: ${name}`)
 
 	rl.close()
 }
@@ -78,5 +72,5 @@ createAdmin()
 		process.exit(1)
 	})
 	.finally(async () => {
-		await prisma.$disconnect()
+		await db.$client.end()
 	})
