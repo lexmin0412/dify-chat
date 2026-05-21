@@ -6,7 +6,6 @@ overrides:
   mdast-util-gfm-autolink-literal: 2.0.0
 
 onlyBuiltDependencies:
-  - '@biomejs/biome'
   - '@prisma/client'
   - '@prisma/engines'
   - '@tailwindcss/oxide'
