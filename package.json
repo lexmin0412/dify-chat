@@ -4,7 +4,6 @@
 	"private": true,
 	"scripts": {
 		"build": "pnpm -r build",
-		"build:pkgs": "pnpm --filter @dify-chat/* build",
 		"dev:docs": "pnpm --filter dify-chat-docs dev",
 		"dev:platform": "pnpm --filter dify-chat-platform dev",
 		"create-admin": "pnpm --filter dify-chat-platform create-admin",
