@@ -6,8 +6,6 @@ WORKDIR /app
 # 复制 platform 源码
 COPY packages/platform/ ./packages/platform/
 
-# 生成 Prisma 客户端
-RUN pnpm --filter dify-chat-platform exec prisma generate
 # 构建 platform
 RUN pnpm --filter dify-chat-platform build
 
@@ -20,10 +18,6 @@ WORKDIR /app
 COPY --from=builder /app/packages/platform/.next/standalone ./
 COPY --from=builder /app/packages/platform/.next/static ./packages/platform/.next/static
 COPY --from=builder /app/packages/platform/public ./packages/platform/public
-# 复制 Prisma 生成的客户端文件（必需）
-COPY --from=builder /app/packages/platform/prisma ./packages/platform/prisma
-# Prisma 配置文件，执行 Prisma CLI 时必需
-COPY --from=builder /app/packages/platform/prisma.config.ts ./packages/platform/prisma.config.ts
 COPY packages/platform/docker/entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 

@@ -31,14 +31,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # database
-/prisma/dev.db
-/prisma/dev.db-journal
 /data/
 *.db
 *.db-journal
-
-# migration files (uncomment if you want to ignore them)
-# /prisma/migrations/
 
 # vercel
 .vercel
@@ -46,5 +41,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-prisma/generated

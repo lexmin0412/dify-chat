@@ -67,10 +67,9 @@ if ! grep -q "^NEXTAUTH_SECRET=" .env; then
     echo "✅ 已自动生成 NEXTAUTH_SECRET"
 fi
 
-# 生成 Prisma 客户端
+# 数据库迁移
 echo "🗄️ 初始化数据库..."
-pnpm prisma generate
-pnpm prisma migrate deploy
+npx drizzle-kit migrate
 
 # 构建 Platform
 echo "🏗️ 构建 Platform..."

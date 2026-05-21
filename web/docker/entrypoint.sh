@@ -2,7 +2,7 @@
 
 # 数据库迁移
 echo "开始数据库迁移"
-npx prisma@7.2.0 migrate deploy
+npx drizzle-kit migrate
 echo "数据库迁移成功"
 
 # 启动应用
