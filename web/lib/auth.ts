@@ -1,12 +1,11 @@
-import { PrismaAdapter } from '@auth/prisma-adapter'
 import bcrypt from 'bcryptjs'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { eq } from 'drizzle-orm'
 
-import { getPrisma } from './prisma'
+import { getDb } from '@/db'
+import { users } from '@/db/schema'
 
 export const authOptions = {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	adapter: PrismaAdapter(getPrisma() as any),
 	providers: [
 		CredentialsProvider({
 			name: 'credentials',
@@ -19,20 +18,21 @@ export const authOptions = {
 					return null
 				}
 
-				const prisma = getPrisma()
-				const user = await prisma.user.findUnique({
-					where: {
-						email: credentials.email,
-					},
-				})
+				const db = getDb()
+				const rows = await db
+					.select()
+					.from(users)
+					.where(eq(users.email, credentials.email))
+					.limit(1)
+				const user = rows[0]
 
 				if (!user) {
 					return null
 				}
 
-				const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
+				const valid = await bcrypt.compare(credentials.password, user.password)
 
-				if (!isPasswordValid) {
+				if (!valid) {
 					return null
 				}
 
