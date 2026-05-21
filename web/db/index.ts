@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/mysql2'
-import mysql from 'mysql2/promise'
+import * as mysql from 'mysql2/promise'
 import { isNextBuild } from '@/lib/is-next-build'
 import * as schema from './schema'
 
