@@ -39,9 +39,8 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 	}, [appItem?.info.mode])
 
 	useEffect(() => {
-		if (!open) {
-			settingForm.resetFields()
-		} else if (detailDrawerMode === AppDetailDrawerModeEnum.edit) {
+		if (!open) return
+		if (detailDrawerMode === AppDetailDrawerModeEnum.edit) {
 			settingForm.setFieldsValue({
 				apiBase: appItem?.requestConfig.apiBase,
 				apiKey: appItem?.requestConfig.apiKey,
@@ -57,6 +56,7 @@ export const AppEditDrawer = (props: IAppEditDrawerProps) => {
 				enableAnnotation: appItem?.extConfig?.annotation?.enabled || false,
 			})
 		} else if (detailDrawerMode === AppDetailDrawerModeEnum.create) {
+			settingForm.resetFields()
 			settingForm.setFieldsValue({
 				'info.mode': AppModeEnums.CHATBOT,
 			})
