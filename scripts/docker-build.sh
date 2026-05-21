@@ -35,7 +35,6 @@ VERSION=${1:-"latest"}
 DOCKERHUB_USERNAME=${2:-""}
 
 # 镜像名称配置
-REACT_APP_IMAGE="dify-chat-app-react"
 PLATFORM_IMAGE="dify-chat-platform"
 
 # 检查 Docker 是否安装
@@ -95,29 +94,6 @@ else
         fi
     fi
 
-    # 构建 React App 镜像
-    print_info "构建 React App 镜像..."
-    if [ "$BUILDX_AVAILABLE" = "true" ]; then
-        # 如果是多平台构建且需要推送，直接使用 buildx build --push
-        if [ -n "$PUSH_ARG" ] && [ -n "$DOCKERHUB_USERNAME" ]; then
-            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_react_app \
-                -t ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION} \
-                $( [ "$VERSION" != "latest" ] && echo "-t ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:latest" ) \
-                --push .
-        else
-            docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile_react_app -t ${REACT_APP_IMAGE}:${VERSION} --load .
-        fi
-    else
-        docker build -f Dockerfile_react_app -t ${REACT_APP_IMAGE}:${VERSION} .
-    fi
-
-    if [ $? -eq 0 ]; then
-        print_success "React App 镜像构建完成"
-    else
-        print_error "React App 镜像构建失败"
-        exit 1
-    fi
-
     # 构建 Platform 镜像
     print_info "构建 Platform 镜像..."
     if [ "$BUILDX_AVAILABLE" = "true" ]; then
@@ -154,14 +130,13 @@ fi
 # 如果版本不是 latest，也创建 latest 标签
 if [ "$VERSION" != "latest" ]; then
     print_info "创建 latest 标签..."
-    docker tag ${REACT_APP_IMAGE}:${VERSION} ${REACT_APP_IMAGE}:latest
     docker tag ${PLATFORM_IMAGE}:${VERSION} ${PLATFORM_IMAGE}:latest
     print_success "latest 标签创建完成"
 fi
 
 # 显示构建的镜像
 print_info "构建完成的镜像:"
-docker images | grep -E "(${REACT_APP_IMAGE}|${PLATFORM_IMAGE})" | head -10
+docker images | grep -E "${PLATFORM_IMAGE}" | head -10
 
 # 如果提供了 DockerHub 用户名，询问是否推送；在 CI 或设置 AUTO_PUSH=true 时自动推送
 if [ -n "$DOCKERHUB_USERNAME" ]; then
@@ -185,21 +160,13 @@ if [ -n "$DOCKERHUB_USERNAME" ]; then
 
         # 为镜像添加 DockerHub 标签
         print_info "添加 DockerHub 标签..."
-        docker tag ${REACT_APP_IMAGE}:${VERSION} ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION}
         docker tag ${PLATFORM_IMAGE}:${VERSION} ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION}
 
         if [ "$VERSION" != "latest" ]; then
-            docker tag ${REACT_APP_IMAGE}:latest ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:latest
             docker tag ${PLATFORM_IMAGE}:latest ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:latest
         fi
 
         # 推送镜像
-        print_info "推送 React App 镜像..."
-        docker push ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION}
-        if [ "$VERSION" != "latest" ]; then
-            docker push ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:latest
-        fi
-
         print_info "推送 Platform 镜像..."
         docker push ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION}
         if [ "$VERSION" != "latest" ]; then
@@ -207,18 +174,14 @@ if [ -n "$DOCKERHUB_USERNAME" ]; then
         fi
 
         print_success "镜像推送完成!"
-        print_info "React App 镜像: ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION}"
         print_info "Platform 镜像: ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION}"
 
         # 生成使用示例
         echo
         print_info "使用示例:"
-        echo "docker pull ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION}"
         echo "docker pull ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION}"
         echo
         echo "或者更新 docker-compose.yml 中的镜像名称:"
-        echo "  react-app:"
-        echo "    image: ${DOCKERHUB_USERNAME}/${REACT_APP_IMAGE}:${VERSION}"
         echo "  platform:"
         echo "    image: ${DOCKERHUB_USERNAME}/${PLATFORM_IMAGE}:${VERSION}"
     fi

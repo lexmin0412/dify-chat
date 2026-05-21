@@ -17,7 +17,6 @@ COPY packages/components/package.json ./packages/components/
 COPY packages/core/package.json ./packages/core/
 COPY packages/helpers/package.json ./packages/helpers/
 COPY packages/theme/package.json ./packages/theme/
-COPY packages/react-app/package.json ./packages/react-app/
 COPY packages/platform/package.json ./packages/platform/
 
 # 安装所有依赖
@@ -29,8 +28,6 @@ COPY packages/components ./packages/components
 COPY packages/core ./packages/core
 COPY packages/helpers ./packages/helpers
 COPY packages/theme ./packages/theme
-# components 子包有依赖到 react-app 的 tailwind.config.ts，暂时复制整个 react-app 目录
-COPY packages/react-app ./packages/react-app
 
 # 复制构建配置文件
 COPY packages/*/tsconfig.json ./packages/*/

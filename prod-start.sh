@@ -40,60 +40,6 @@ pnpm install --frozen-lockfile
 echo "🔨 构建基础包..."
 pnpm build:pkgs
 
-# 构建 React App
-echo "🏗️ 构建 React App..."
-cd packages/react-app
-
-# 检查 React App 环境配置文件
-if [ ! -f .env ]; then
-    echo "创建 React App 环境配置文件..."
-    cat > .env << EOF
-# 应用配置 API 基础路径
-PUBLIC_APP_API_BASE=http://localhost:5300/api/client
-# Dify 代理 API 基础路径
-PUBLIC_DIFY_PROXY_API_BASE=http://localhost:5300/api/client/dify
-EOF
-    echo "✅ 已创建 React App .env 配置文件"
-else
-    echo "📝 React App .env 配置文件已存在"
-    # 检查必要的环境变量
-    if ! grep -q "^PUBLIC_APP_API_BASE=" .env; then
-        echo "添加 PUBLIC_APP_API_BASE 配置..."
-        echo "PUBLIC_APP_API_BASE=http://localhost:5300/api/client" >> .env
-    fi
-
-    if ! grep -q "^PUBLIC_DIFY_PROXY_API_BASE=" .env; then
-        echo "添加 PUBLIC_DIFY_PROXY_API_BASE 配置..."
-        echo "PUBLIC_DIFY_PROXY_API_BASE=http://localhost:5300/api/client/dify" >> .env
-    fi
-fi
-
-pnpm build
-
-echo "🔄 替换 React App 环境变量..."
-
-# Load environment variables from .env
-if [ -f .env ]; then
-  source .env
-else
-  echo "⚠️ .env file not found in packages/react-app. Using default values for replacement."
-fi
-
-# Ensure variables are set, using defaults if not present in .env or environment
-PUBLIC_APP_API_BASE=${PUBLIC_APP_API_BASE:-"http://localhost:5300/api/client"}
-PUBLIC_DIFY_PROXY_API_BASE=${PUBLIC_DIFY_PROXY_API_BASE:-"http://localhost:5300/api/client/dify"}
-PUBLIC_DEBUG_MODE=${PUBLIC_DEBUG_MODE:-"false"}
-
-# Perform replacements in dist/env.js
-${SED_INPLACE} "s|{{__PUBLIC_APP_API_BASE__}}|$PUBLIC_APP_API_BASE|g" dist/env.js
-${SED_INPLACE} "s|{{__PUBLIC_DIFY_PROXY_API_BASE__}}|$PUBLIC_DIFY_PROXY_API_BASE|g" dist/env.js
-${SED_INPLACE} "s|{{__PUBLIC_DEBUG_MODE__}}|$PUBLIC_DEBUG_MODE|g" dist/env.js
-
-echo "✅ React App 环境变量替换完成"
-
-echo "✅ React App 构建完成，静态文件位于: packages/react-app/dist"
-cd ../..
-
 # 配置 Platform 环境
 echo "⚙️ 配置 Platform 环境..."
 cd packages/platform
@@ -181,7 +127,6 @@ pm2 save
 echo ""
 echo "✅ 生产环境启动成功！"
 echo ""
-echo "📱 React App 静态文件: packages/react-app/dist"
 echo "🔧 Platform API:      http://localhost:5300"
 echo "🔑 生成管理员账户请运行: pnpm create-admin"
 echo ""

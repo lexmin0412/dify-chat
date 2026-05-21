@@ -1,22 +1,6 @@
 # Dify Chat 独立部署配置
 # 此文件可以独立使用，无需 clone 源码仓库
 services:
-  react-app:
-    image: lexmin0412/dify-chat-app-react:latest
-    container_name: dify-chat-app-react
-    ports:
-      - '5200:80'
-    # 自定义环境变量
-    environment:
-      - PUBLIC_APP_API_BASE=http://localhost:5300/api/client
-      - PUBLIC_DIFY_PROXY_API_BASE=http://localhost:5300/api/client/dify
-      - PUBLIC_DEBUG_MODE=false
-    depends_on:
-      - platform
-    restart: unless-stopped
-    networks:
-      - dify-chat-network
-
   platform:
     image: lexmin0412/dify-chat-platform:latest
     container_name: dify-chat-platform

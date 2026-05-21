@@ -7,17 +7,7 @@ variable "VERSION" {
 }
 
 group "default" {
-  targets = ["react-app", "platform"]
-}
-
-target "react-app" {
-  context = "."
-  dockerfile = "Dockerfile_react_app"
-  platforms = ["linux/amd64", "linux/arm64"]
-  tags = [
-    "${DOCKERHUB_USERNAME}/dify-chat-app-react:${VERSION}",
-    "${VERSION}" != "latest" ? "${DOCKERHUB_USERNAME}/dify-chat-app-react:latest" : ""
-  ]
+  targets = ["platform"]
 }
 
 target "platform" {

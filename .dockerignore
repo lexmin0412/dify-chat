@@ -17,7 +17,6 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.env.react_app
 .env.platform
 
 # 测试和覆盖率
@@ -67,9 +66,6 @@ example
 tsconfig.json
 biome.json
 vitest.config.ts
-
-# React App 专用 .dockerignore 文件
-# 使用方法：docker build -f Dockerfile_react_app -t dify-chat-app-react:latest .
 
 # ================================
 # 开发和构建产物

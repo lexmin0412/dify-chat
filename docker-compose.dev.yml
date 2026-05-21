@@ -3,23 +3,6 @@
 # 使用方法: COMPOSE_BAKE=true docker-compose -f docker-compose.dev.yml up --build
 
 services:
-  # React App 前端应用
-  react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile_react_app
-    container_name: dify-chat-app-react-self-deploy
-    ports:
-      - '5200:80'
-    # 通过文件读取环境变量
-    env_file:
-      - packages/react-app/.env
-    depends_on:
-      - platform
-    restart: unless-stopped
-    networks:
-      - dify-chat-network
-
   # Platform 平台应用
   platform:
     build:
