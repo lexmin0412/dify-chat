@@ -1,5 +1,8 @@
-import { DifyApp } from '@/prisma/generated/client'
+import { difyApps } from '@/db/schema'
 import { AppModeEnums, IDifyAppItem } from '@/types'
+
+type DifyApp = typeof difyApps.$inferSelect
+type DifyAppInsert = typeof difyApps.$inferInsert
 
 /**
  * 将数据库模型转换为应用类型
@@ -43,9 +46,7 @@ export function dbAppToAppItem(dbApp: DifyApp): IDifyAppItem {
 /**
  * 将应用类型转换为数据库模型数据
  */
-export function appItemToDbApp(
-	appItem: Omit<IDifyAppItem, 'id'>,
-): Omit<DifyApp, 'id' | 'createdAt' | 'updatedAt'> {
+export function appItemToDbApp(appItem: Omit<IDifyAppItem, 'id'>): Omit<DifyAppInsert, 'id'> {
 	return {
 		name: appItem.info.name,
 		mode: appItem.info.mode || null,
