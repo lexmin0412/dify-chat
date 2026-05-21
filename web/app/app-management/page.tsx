@@ -4,7 +4,7 @@ import { DifyApi } from '@/lib/api'
 import { AppModeEnums, IDifyAppItem } from '@/lib/core'
 import { AppModeNames } from '@/lib/core'
 import { useMount, useRequest } from 'ahooks'
-import { Button, message, Popconfirm, Space, Table, Tag } from 'antd'
+import { Button, message, Popconfirm, Space, Spin, Table, Tag } from 'antd'
 import Title from 'antd/es/typography/Title'
 import { useState } from 'react'
 
@@ -39,6 +39,14 @@ export default function AppManagementPage() {
 	useMount(() => {
 		getAppList()
 	})
+
+	if (listLoading && !list) {
+		return (
+			<div className="flex flex-1 items-center justify-center">
+				<Spin spinning />
+			</div>
+		)
+	}
 
 	return (
 		<>
