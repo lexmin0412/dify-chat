@@ -262,7 +262,6 @@ export const AnnotationManagerDrawer = (props: IAnnotationManagerDrawerProps) =>
 				title={modalMode === 'create' ? '新增标注' : '编辑标注'}
 				open={modalOpen}
 				onClose={() => setModalOpen(false)}
-				destroyOnHidden
 				size={600}
 				extra={
 					<Space>
