@@ -61,13 +61,26 @@ Dify Chatflow 编排的回复内容示例：
 
 ```html
 <form data-format="json">
-  <label for="username">用户名字:</label>
-  <input type="text" name="username" value="{{ username }}" />
-  <label for="phone">联系电话:</label>
-  <input type="text" name="phone" value="{{ phone }}" />
-  <label for="content">投诉内容:</label>
-  <textarea name="content"></textarea>
-  <button data-size="small" data-variant="primary">提交</button>
+	<label for="username">用户名字:</label>
+	<input
+		type="text"
+		name="username"
+		value="{{ username }}"
+	/>
+	<label for="phone">联系电话:</label>
+	<input
+		type="text"
+		name="phone"
+		value="{{ phone }}"
+	/>
+	<label for="content">投诉内容:</label>
+	<textarea name="content"></textarea>
+	<button
+		data-size="small"
+		data-variant="primary"
+	>
+		提交
+	</button>
 </form>
 ```
 
