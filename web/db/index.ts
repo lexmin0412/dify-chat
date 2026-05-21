@@ -1,5 +1,4 @@
 import { drizzle } from 'drizzle-orm/mysql2'
-import * as mysql from 'mysql2/promise'
 import { isNextBuild } from '@/lib/is-next-build'
 import * as schema from './schema'
 
@@ -20,29 +19,7 @@ const createDb = () => {
 		throw new Error('DATABASE_URL 环境变量缺失, 请检查')
 	}
 
-	let dbUrl: URL
-	try {
-		dbUrl = new URL(databaseUrl)
-	} catch {
-		throw new Error('DATABASE_URL 环境变量格式错误, 请检查')
-	}
-
-	if (!dbUrl.hostname || !dbUrl.username || !dbUrl.password || !dbUrl.pathname) {
-		throw new Error('DATABASE_URL 环境变量格式错误, 请检查')
-	}
-
-	const pool = mysql.createPool({
-		host: dbUrl.hostname,
-		port: Number(dbUrl.port),
-		user: dbUrl.username,
-		password: dbUrl.password,
-		database: dbUrl.pathname.slice(1),
-	})
-
-	return drizzle(pool, {
-		schema,
-		logger: true,
-	})
+	return drizzle(databaseUrl, { schema, logger: true })
 }
 
 const globalForDb = globalThis as unknown as {
