@@ -1,21 +1,17 @@
 import { NextResponse } from 'next/server'
-
-import { getPrisma } from '@/lib/prisma'
+import { count } from 'drizzle-orm'
+import { getDb } from '@/db'
+import { users } from '@/db/schema'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
 	try {
-		const prisma = getPrisma()
-		const count = await prisma.user.count()
-		return NextResponse.json({ initialized: count > 0 })
+		const db = getDb()
+		const result = await db.select({ count: count() }).from(users)
+		return NextResponse.json({ initialized: (result[0]?.count ?? 0) > 0 })
 	} catch (error) {
-		return NextResponse.json(
-			{
-				initialized: false,
-				error: error instanceof Error ? error.message : 'Unknown error',
-			},
-			{ status: 500 },
-		)
+		console.error('Error checking init status:', error)
+		return NextResponse.json({ message: '服务器错误' }, { status: 500 })
 	}
 }
