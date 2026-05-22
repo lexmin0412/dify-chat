@@ -270,7 +270,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 
 	const [currentTaskId, setCurrentTaskId] = useState('')
 
-	const { abort, isRequesting, onRequest, messages, setMessages } = useX({
+	const { abort, isRequesting, onRequest, messages, setMessages, reconnectWorkflow } = useX({
 		latestProps,
 		filesRef,
 		onConversationIdChange: id => {
@@ -410,15 +410,18 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			if (!difyApi || !hitl.formToken || !userId) return
 			setSubmitting(true)
 			try {
-				await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
-				setHITLState({ active: false, formData: null })
-			} catch (e) {
-				throw e
-			} finally {
-				setSubmitting(false)
+			await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
+			setHITLState({ active: false, formData: null })
+			if (hitl.taskId) {
+				reconnectWorkflow(hitl.taskId)
 			}
-		},
-		[difyApi, hitl.formToken, userId, setHITLState],
+		} catch (e) {
+			throw e
+		} finally {
+			setSubmitting(false)
+		}
+	},
+	[difyApi, hitl.formToken, hitl.taskId, reconnectWorkflow, userId, setHITLState],
 	)
 
 	// 如果应用配置 / 对话列表加载中，则展示 loading
