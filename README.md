@@ -102,7 +102,7 @@ docker compose up -d
 
 - 📦 开箱即用：运行启动脚本，填入 Dify API Key，直接开始使用
 - 👏 完全开源：采用 MIT 开源协议，所有源代码完全开放
-- 💃 灵活架构：你可以只部署轻量前端应用，也可以集成全栈 Platform 服务以获取完整功能
+- 💃 全栈架构：基于 Next.js App Router，集成了 Dify API 代理、应用管理、用户认证等完整功能
 - 📱 响应式设计：确保在不同屏幕尺寸下都能提供一致的用户体验和功能表现
 - 📝 支持渲染图片、视频、代码、图表等丰富的交互性内容，让 AI 自由发挥。
 
@@ -111,10 +111,10 @@ docker compose up -d
 - React v19
 - Next.js v16 (App Router)
 - Ant Design v6
-- Ant Design X v1
-- Rsbuild v1
-- Tailwind CSS (v3 in react-app and v4 in platform)
+- Ant Design X v2
+- Tailwind CSS v4
 - TypeScript v5
+- Drizzle ORM + MySQL
 
 ## 运行环境
 
