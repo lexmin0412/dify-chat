@@ -11,7 +11,6 @@ import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
 import { LucideIcon } from '@/components/shared'
-import DebugMode from '@/components/chat/debug-mode'
 import { useAuth } from '@/hooks/use-auth'
 import appService from '@/services/app'
 import { createDifyApiInstance, DifyApi } from '@/lib/dify-client'
@@ -125,7 +124,6 @@ const ChatLayoutInner = (props: { appList: IDifyAppItem[]; difyApi: DifyApi | nu
 					</div>
 				)}
 			/>
-			<DebugMode />
 		</>
 	)
 }

@@ -1,9 +1,6 @@
 import { IAnnotationItem, ICreateAnnotationRequest } from '@/lib/api'
-import { DifyApi as DirectDifyApi } from '@/lib/api'
 import { IDifyAppSiteSetting } from '@/lib/core'
 import { LocalStorageStore, BaseRequest as XRequest } from '@/lib/helpers'
-
-import { isDebugMode } from '@/components/chat/debug-mode'
 
 // Re-export types from canonical source
 export type {
@@ -381,8 +378,5 @@ export class DifyApi {
  * 创建 Dify API 实例
  */
 export const createDifyApiInstance = (options: IDifyApiOptions) => {
-	if (isDebugMode()) {
-		return new DirectDifyApi(options)
-	}
 	return new DifyApi(options)
 }
