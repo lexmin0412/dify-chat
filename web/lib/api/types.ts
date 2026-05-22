@@ -189,6 +189,7 @@ export type IChunkChatCompletionResponse =
 	| IWorkflowFinishedEvent
 	| IWorkflowNodeStarted
 	| IWorkflowNodeFinished
+	| IHumanInputRequiredEvent
 
 // ── 消息类型 (原 message.ts) ──
 export interface IWorkflowNode {
