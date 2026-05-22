@@ -6,7 +6,9 @@ export const difyApps = mysqlTable('dify_apps', {
 	createdAt: datetime('created_at', { fsp: 3 })
 		.default(sql`CURRENT_TIMESTAMP(3)`)
 		.notNull(),
-	updatedAt: datetime('updated_at', { fsp: 3 }).notNull(),
+	updatedAt: datetime('updated_at', { fsp: 3 })
+		.default(sql`CURRENT_TIMESTAMP(3)`)
+		.notNull(),
 	name: varchar({ length: 191 }).notNull(),
 	mode: varchar({ length: 191 }),
 	description: varchar({ length: 191 }),
