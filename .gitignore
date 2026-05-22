@@ -27,3 +27,4 @@ packages/server/apps.json
 
 # 工作目录/工具目录
 .omo/
+.worktrees/
