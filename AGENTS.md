@@ -93,6 +93,6 @@ packages/docs/              # Rspress 文档站点 (dify-chat-docs)
 1. 审视本次代码变更，判断哪些项的状态发生了变化
 2. 更新 `.cii-assessment.md` 对应项的状态（✅/⚠️/❌）
 3. 更新文件底部的「变更记录」表格，记录本次变更内容
-4. 在 git commit 时一并提交 `.cii-assessment.md` 的变更
+4. **单独提交** `.cii-assessment.md` 的变更，不要与业务代码改动混在同一个 commit 中
 
-例如：本次添加了 `CONTRIBUTING.md`，则应更新 #2（改为 ✅ 并填写证据链接）、#13（改为 ✅），并在变更记录中加一行。
+例如：本次添加了 `CONTRIBUTING.md`，则应更新 #2（改为 ✅ 并填写证据链接）、#13（改为 ✅），并在变更记录中加一行，然后单独 `git commit -m "docs: update CII assessment"` 。
