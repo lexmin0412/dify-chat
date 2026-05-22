@@ -244,3 +244,52 @@ export interface IMessageItem4Render extends IAgentMessage {
 	}
 	created_at: string
 }
+
+/**
+ * HITL 流事件载荷
+ * 由 human_input_required SSE 事件返回
+ */
+export interface IHumanInputRequiredEvent {
+	event: EventEnum.HUMAN_INPUT_REQUIRED
+	task_id: string
+	message_id: string
+	conversation_id: string
+	form_token: string
+	created_at: number
+}
+
+/**
+ * GET /form/human_input/{form_token} 响应
+ */
+export interface IHumanInputFormData {
+	form_content: string
+	inputs: IHumanInputField[]
+	resolved_default_values: Record<string, string>
+	user_actions: IHumanInputAction[]
+	expiration_time: number
+}
+
+export interface IHumanInputField {
+	type: 'text_input' | 'select' | 'paragraph' | 'number'
+	output_variable_name: string
+	default: {
+		type: string
+		selector: string[]
+		value: string
+	}
+}
+
+export interface IHumanInputAction {
+	id: string
+	title: string
+	button_style: 'primary' | 'default'
+}
+
+/**
+ * POST /form/human_input/{form_token} 请求体
+ */
+export interface IHumanInputSubmitBody {
+	inputs: Record<string, string>
+	action: string
+	user: string
+}

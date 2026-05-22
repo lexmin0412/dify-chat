@@ -58,4 +58,8 @@ export enum EventEnum {
 	 * 工作流节点结束事件，代表工作流中的某个节点执行完成
 	 */
 	WORKFLOW_NODE_FINISHED = 'node_finished',
+	/**
+	 * 人工介入 — 工作流暂停，等待用户输入
+	 */
+	HUMAN_INPUT_REQUIRED = 'human_input_required',
 }
