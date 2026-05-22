@@ -12,6 +12,9 @@ import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
 import { IAgentMessage } from '@/lib/api'
+import type { IHumanInputRequiredEvent } from '@/lib/api'
+import HumanInterventionForm from './hitl-form'
+import { useAuth } from '@/hooks/use-auth'
 
 interface IChatboxWrapperProps {
 	/**
@@ -48,6 +51,11 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	const conversations = useDifyChatStore(s => s.conversations)
 	const currentConversationInfo = conversations?.find(item => item.id === currentConversationId)
 	const { currentAppId, currentApp, appLoading } = useDifyChatStore()
+	const hitl = useDifyChatStore(s => s.hitl)
+	const setHITLState = useDifyChatStore(s => s.setHITLState)
+	const clearHITLState = useDifyChatStore(s => s.clearHITLState)
+	const { userId } = useAuth()
+	const [submitting, setSubmitting] = useState(false)
 
 	const [entryForm] = Form.useForm()
 	// 是否允许消息列表请求时展示 loading
@@ -275,6 +283,13 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setCurrentTaskId(newTaskId)
 		},
 		getNextSuggestions,
+		onHumanInputRequired: (data: IHumanInputRequiredEvent) => {
+			setHITLState({
+				active: true,
+				formToken: data.form_token,
+				taskId: data.task_id,
+			})
+		},
 	})
 
 	const initConversationInfo = async () => {
@@ -298,6 +313,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setMessages([])
 			setNextSuggestions([])
 			setHistoryMessages([])
+			clearHITLState()
 			setIsSwitchingConversation(true)
 		}
 	}, [currentConversationId])
@@ -310,6 +326,26 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setIsSwitchingConversation(false) // 重置切换状态
 		}
 	}, [isSwitchingConversation, currentConversationId])
+
+	// 获取 HITL 表单内容
+	useEffect(() => {
+		if (!hitl.active || !hitl.formToken) return
+		let cancelled = false
+		const fetchForm = async () => {
+			try {
+				const formData = await difyApi?.getHumanInputForm(hitl.formToken!)
+				if (!cancelled && formData) {
+					setHITLState({ formData })
+				}
+			} catch (e) {
+				console.error('Failed to fetch HITL form:', e)
+			}
+		}
+		fetchForm()
+		return () => {
+			cancelled = true
+		}
+	}, [hitl.active, hitl.formToken])
 
 	const onPromptsItemClick = (content: string) => {
 		onRequest({
@@ -369,6 +405,22 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		[initConversationMessages],
 	)
 
+	const handleHITLSubmit = useCallback(
+		async (inputs: Record<string, string>, action: string) => {
+			if (!difyApi || !hitl.formToken || !userId) return
+			setSubmitting(true)
+			try {
+				await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
+				setHITLState({ active: false, formData: null })
+			} catch (e) {
+				throw e
+			} finally {
+				setSubmitting(false)
+			}
+		},
+		[difyApi, hitl.formToken, userId, setHITLState],
+	)
+
 	// 如果应用配置 / 对话列表加载中，则展示 loading
 	if (conversationListLoading || appLoading) {
 		return (
@@ -392,6 +444,14 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			</div>
 		)
 	}
+
+	const hitlForm = hitl.active && hitl.formData ? (
+		<HumanInterventionForm
+			formData={hitl.formData}
+			onSubmit={handleHITLSubmit}
+			disabled={submitting}
+		/>
+	) : null
 
 	return (
 		<div className="flex h-screen flex-1 flex-col overflow-hidden">
@@ -432,6 +492,8 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						}}
 						feedbackCallback={fallbackCallback}
 						entryForm={entryForm}
+						disabled={hitl.active}
+						hitlForm={hitlForm}
 					/>
 				) : (
 					<div className="flex h-full w-full items-center justify-center">

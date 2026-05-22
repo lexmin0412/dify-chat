@@ -80,6 +80,14 @@ export interface ChatboxProps {
 	 * 应用入参表单实例
 	 */
 	entryForm: FormInstance<Record<string, unknown>>
+	/**
+	 * HITL 表单节点
+	 */
+	hitlForm?: React.ReactNode
+	/**
+	 * 是否禁用输入
+	 */
+	disabled?: boolean
 }
 
 /**
@@ -100,6 +108,8 @@ export const Chatbox = (props: ChatboxProps) => {
 		entryForm,
 		hasMore,
 		onLoadMore,
+		disabled,
+		hitlForm,
 	} = props
 	const { difyApi } = useDifyChatStore()
 	const isMobile = useIsMobile()
@@ -341,6 +351,8 @@ export const Chatbox = (props: ChatboxProps) => {
 						transform: 'translateX(-50%)',
 					}}
 				>
+					{/* 🌟 HITL 人工介入表单 */}
+					{hitlForm}
 					{/* 🌟 输入框 */}
 					<MessageSender
 						onSubmit={async (...params) => {
@@ -354,6 +366,7 @@ export const Chatbox = (props: ChatboxProps) => {
 							})
 						}}
 						isRequesting={isRequesting}
+						disabled={disabled}
 						className="!text-theme-text w-full"
 						onCancel={onCancel}
 					/>
