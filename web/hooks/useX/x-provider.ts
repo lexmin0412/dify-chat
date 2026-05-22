@@ -9,6 +9,7 @@ import {
 	IAgentThought,
 	IChunkChatCompletionResponse,
 	IFile,
+	IHumanInputRequiredEvent,
 	IMessageFileItem,
 	IWorkflowNode,
 } from '@/lib/api'
@@ -50,8 +51,8 @@ interface ISetWorkflowDataOption {
 export interface CustomProviderOptions<Input, Output> {
 	onTaskIdChange?: (taskId: string) => void
 	onConversationIdChange?: (conversationId: string) => void
+	onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	request?: unknown
-	// 占位使用，避免 TS 报错
 	_ignore?: Input | Output
 }
 
@@ -62,6 +63,7 @@ export class CustomProvider<
 > extends AbstractChatProvider<ChatMessage, Input, Output> {
 	private onTaskIdChange?: (taskId: string) => void
 	private onConversationIdChange?: (conversationId: string) => void
+	private onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	private currentTaskId?: string
 	private currentConversationId?: string
 
@@ -69,6 +71,7 @@ export class CustomProvider<
 		super(options as unknown as ChatProviderConfig<Input, Output>)
 		this.onTaskIdChange = options?.onTaskIdChange
 		this.onConversationIdChange = options?.onConversationIdChange
+		this.onHumanInputRequired = options?.onHumanInputRequired
 	}
 
 	// 处理请求参数
@@ -317,10 +320,11 @@ export class CustomProvider<
 				id: messageId,
 			} as unknown as ChatMessage
 		}
-		if (
-			parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED ||
-			parsedData.event === 'workflow_paused'
-		) {
+		if (parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED) {
+			this.onHumanInputRequired?.(parsedData as unknown as IHumanInputRequiredEvent)
+			return originMessage as ChatMessage
+		}
+		if (parsedData.event === 'workflow_paused') {
 			return originMessage as ChatMessage
 		}
 		console.log('parsedData', parsedData)
