@@ -43,10 +43,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		conversationItemsChangeCallback,
 		handleStartConfig,
 	} = props
-	const {
-		currentConversationId,
-		setCurrentConversationId,
-	} = useDifyChatStore()
+	const { currentConversationId, setCurrentConversationId } = useDifyChatStore()
 	const setConversations = useDifyChatStore(s => s.setConversations)
 	const conversations = useDifyChatStore(s => s.conversations)
 	const currentConversationInfo = conversations?.find(item => item.id === currentConversationId)
@@ -292,7 +289,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	}
 
 	useEffect(() => {
-		if (!messagesloadingEnabled) {
+		if (!messagesloadingEnabled && !isTempId(currentConversationId)) {
 			setMessagesloadingEnabled(true)
 		} else {
 			// 只有允许 loading 时，才清空对话列表数据
@@ -348,7 +345,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			return {
 				id: item.id,
 				status: item.status,
-				
+
 				error: item.message?.error || '',
 				workflows: item.message?.workflows,
 				agentThoughts: item.message?.agentThoughts,
