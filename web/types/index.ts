@@ -1,3 +1,5 @@
+import { EIsEnabled } from '@/lib/core'
+
 export interface IDifyAppRequestConfig {
 	/**
 	 * 请求地址
@@ -64,7 +66,7 @@ export interface IDifyAppItem4View {
 	/**
 	 * 应用状态 1-启用 2-禁用
 	 */
-	isEnabled: 1 | 2
+	isEnabled: EIsEnabled
 }
 
 /**
