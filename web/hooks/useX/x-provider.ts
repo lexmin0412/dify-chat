@@ -159,12 +159,13 @@ export class CustomProvider<
 			return originMessage as ChatMessage
 		}
 		if (parsedData.conversation_id && parsedData.conversation_id !== this.currentConversationId) {
-			// 以下事件不触发 conversation 切换
-			const skipConversationChange = [
-				EventEnum.HUMAN_INPUT_REQUIRED,
-				'workflow_paused',
-			].includes(parsedData.event as string)
-			if (!skipConversationChange) {
+			const allowConversationChange = [
+				EventEnum.MESSAGE,
+				EventEnum.AGENT_MESSAGE,
+				EventEnum.AGENT_THOUGHT,
+				EventEnum.MESSAGE_REPLACE,
+			].includes(parsedData.event as EventEnum)
+			if (allowConversationChange) {
 				this.currentConversationId = parsedData.conversation_id
 				this.onConversationIdChange?.(this.currentConversationId)
 			}
@@ -316,7 +317,10 @@ export class CustomProvider<
 				id: messageId,
 			} as unknown as ChatMessage
 		}
-		if (parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED || parsedData.event === 'workflow_paused') {
+		if (
+			parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED ||
+			parsedData.event === 'workflow_paused'
+		) {
 			return originMessage as ChatMessage
 		}
 		console.log('parsedData', parsedData)
