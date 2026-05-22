@@ -1,6 +1,6 @@
 // import { useXAgent, useXChat, XStream } from '@ant-design/x'
 import { useXChat, XRequest } from '@ant-design/x-sdk'
-import { IFile } from '@/lib/api'
+import { IFile, IHumanInputRequiredEvent } from '@/lib/api'
 import { Roles } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 import { FormInstance } from 'antd'
@@ -23,6 +23,7 @@ interface IUseXOptions {
 	filesRef: React.MutableRefObject<IFile[]>
 	onConversationIdChange: (id: string) => void
 	onTaskIdChange: (id: string) => void
+	onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	abortRef?: React.MutableRefObject<() => void>
 	getNextSuggestions: (messageId: string) => void
 }
@@ -35,6 +36,7 @@ export const useX = (options: IUseXOptions) => {
 		entryForm,
 		getNextSuggestions,
 		onConversationIdChange,
+		onHumanInputRequired,
 	} = options
 
 	const { userId: user } = useAuth()
@@ -44,6 +46,9 @@ export const useX = (options: IUseXOptions) => {
 	const onTaskIdChangeRef = useRef(onTaskIdChange)
 	onTaskIdChangeRef.current = onTaskIdChange
 
+	const onHumanInputRequiredRef = useRef(onHumanInputRequired)
+	onHumanInputRequiredRef.current = onHumanInputRequired
+
 	const [provider] = useState(
 		new CustomProvider({
 			onTaskIdChange: (id: string) => {
@@ -51,6 +56,9 @@ export const useX = (options: IUseXOptions) => {
 			},
 			onConversationIdChange: (id: string) => {
 				onConversationIdChangeRef.current(id)
+			},
+			onHumanInputRequired: (data) => {
+				onHumanInputRequiredRef.current?.(data)
 			},
 			request: XRequest<CustomInput, CustomOutput>(
 				// 这个参数没有意义，只是为了符合传参规范
