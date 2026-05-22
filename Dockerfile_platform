@@ -1,24 +1,42 @@
-# 构建阶段
-ARG BASE_IMAGE=dify-chat-base
-FROM ${BASE_IMAGE} AS builder
+# ================================
+# 阶段 1: 构建
+# ================================
+FROM node:22.21.1-alpine AS builder
 WORKDIR /app
 
-# 复制 platform 源码
-COPY packages/platform/ ./packages/platform/
+# 安装 pnpm
+RUN npm install -g pnpm@10.8.1
 
-# 构建 platform
-RUN pnpm --filter dify-chat-platform build
+# 复制根配置文件（用于 pnpm install）
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
+# 复制 web/package.json（用于安装依赖）
+COPY web/package.json ./web/
 
+# 安装依赖
+RUN pnpm install --frozen-lockfile
+
+# 复制 web/ 源码
+COPY web/ ./web/
+
+# 构建
+RUN cd web && pnpm build
+
+# ================================
+# 阶段 2: 运行时
+# ================================
 FROM node:22.21.1-alpine AS runner
-
 WORKDIR /app
 
-# 复制整个 standalone 目录（包含所有必需的文件和依赖）
-COPY --from=builder /app/packages/platform/.next/standalone ./
-COPY --from=builder /app/packages/platform/.next/static ./packages/platform/.next/static
-COPY --from=builder /app/packages/platform/public ./packages/platform/public
-COPY packages/platform/docker/entrypoint.sh /docker-entrypoint.sh
+# 复制 standalone 输出
+COPY --from=builder /app/web/.next/standalone ./
+COPY --from=builder /app/web/.next/static ./web/.next/static
+COPY --from=builder /app/web/public ./web/public
+
+# 复制迁移文件（不在 standalone 中）
+COPY --from=builder /app/web/db ./web/db
+COPY --from=builder /app/web/drizzle.config.ts ./web/drizzle.config.ts
+COPY web/docker/entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENV NODE_ENV=production
@@ -26,10 +44,5 @@ ENV PORT=5300
 
 EXPOSE 5300
 
-WORKDIR /app/packages/platform
-
-# 入口脚本
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-# 启动
 CMD ["node", "server.js"]
