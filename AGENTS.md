@@ -78,3 +78,21 @@ packages/docs/              # Rspress 文档站点 (dify-chat-docs)
 **🚫 禁止 `drizzle-kit push`**：该命令会直接修改数据库结构而不生成可 review 的 SQL 文件，可能导致数据丢失。
 
 **迁移文件**：存放在 `web/db/migrations/` 目录，应纳入 git 版本控制。
+
+## 项目成熟度追踪
+
+本项目使用 OpenSSF 标准进行项目成熟度评估：
+
+- **自动化扫描**：`.github/workflows/scorecard.yml` 每周自动运行 OpenSSF Scorecard，结果推送到 GitHub Security 面板和 [公开 API](https://api.scorecard.dev/projects/github.com/lexmin0412/dify-chat)。
+- **人工自评**：`.cii-assessment.md` 基于 CII Best Practices（通过级）35 项标准，记录每项的证据和差距。
+
+### 代码变更前必须重新评估
+
+在用户明确要求提交代码之前，**必须**做以下操作：
+
+1. 审视本次代码变更，判断哪些项的状态发生了变化
+2. 更新 `.cii-assessment.md` 对应项的状态（✅/⚠️/❌）
+3. 更新文件底部的「变更记录」表格，记录本次变更内容
+4. 在 git commit 时一并提交 `.cii-assessment.md` 的变更
+
+例如：本次添加了 `CONTRIBUTING.md`，则应更新 #2（改为 ✅ 并填写证据链接）、#13（改为 ✅），并在变更记录中加一行。
