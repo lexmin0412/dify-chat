@@ -2,8 +2,8 @@ module.exports = {
 	apps: [
 		{
 			name: 'dify-chat-platform',
-			cwd: './packages/platform',
-			script: 'pnpm',
+			cwd: './web',
+			script: 'node_modules/.bin/next',
 			args: 'start',
 			env: {
 				NODE_ENV: 'production',
@@ -13,9 +13,9 @@ module.exports = {
 			exec_mode: 'fork',
 			watch: false,
 			max_memory_restart: '1G',
-			error_file: './logs/platform-error.log',
-			out_file: './logs/platform-out.log',
-			log_file: './logs/platform-combined.log',
+			error_file: './web/logs/platform-error.log',
+			out_file: './web/logs/platform-out.log',
+			log_file: './web/logs/platform-combined.log',
 			time: true,
 			autorestart: true,
 			max_restarts: 10,
