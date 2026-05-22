@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import type { IHumanInputFormData } from '@/lib/api/types'
 
 export interface ICurrentApp {
 	config: import('./repository').IDifyAppItem
@@ -15,6 +16,20 @@ export interface IConversationItem {
 	updated_at: number
 }
 
+export interface IHITLState {
+	active: boolean
+	formToken: string | null
+	taskId: string | null
+	formData: IHumanInputFormData | null
+}
+
+const initialHITLState: IHITLState = {
+	active: false,
+	formToken: null,
+	taskId: null,
+	formData: null,
+}
+
 export interface DifyChatState {
 	currentAppId: string
 	currentApp: ICurrentApp | null
@@ -23,6 +38,7 @@ export interface DifyChatState {
 	conversations: IConversationItem[]
 	globalParams: Record<string, string>
 	difyApi: any
+	hitl: IHITLState
 }
 
 export interface DifyChatActions {
@@ -33,6 +49,8 @@ export interface DifyChatActions {
 	setConversations: (list: IConversationItem[]) => void
 	setGlobalParams: (params: Record<string, string>) => void
 	setDifyApi: (api: any) => void
+	setHITLState: (partial: Partial<IHITLState>) => void
+	clearHITLState: () => void
 }
 
 type DifyChatStore = DifyChatState & DifyChatActions
@@ -45,6 +63,13 @@ export const useDifyChatStore = create<DifyChatStore>(set => ({
 	conversations: [],
 	globalParams: {},
 	difyApi: null,
+	hitl: initialHITLState,
+
+	setHITLState: (partial: Partial<IHITLState>) =>
+		set(state => ({ hitl: { ...state.hitl, ...partial } })),
+
+	clearHITLState: () =>
+		set({ hitl: initialHITLState }),
 
 	setCurrentAppId: id => set({ currentAppId: id }),
 	setCurrentApp: app => set({ currentApp: app, appLoading: false }),
