@@ -307,6 +307,8 @@ export const Chatbox = (props: ChatboxProps) => {
 								role={roles}
 							/>
 
+							{hitlForm}
+
 							{/* 下一步问题建议 当存在消息列表，且非正在对话时才展示 */}
 							{nextSuggestions?.length && items.length && !isRequesting ? (
 								<div className="mt-3 py-3">
@@ -351,9 +353,6 @@ export const Chatbox = (props: ChatboxProps) => {
 						transform: 'translateX(-50%)',
 					}}
 				>
-					{/* 🌟 HITL 人工介入表单 */}
-					{hitlForm}
-					{/* 🌟 输入框 */}
 					<MessageSender
 						onSubmit={async (...params) => {
 							return validateAndGenErrMsgs(entryForm).then(res => {

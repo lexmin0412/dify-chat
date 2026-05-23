@@ -255,8 +255,18 @@ export interface IHumanInputRequiredEvent {
 	task_id: string
 	message_id: string
 	conversation_id: string
-	form_token: string
+	workflow_run_id: string
 	created_at: number
+	data: IHumanInputRequiredEventData
+}
+
+export interface IHumanInputRequiredEventData {
+	form_token: string
+	form_content: string
+	inputs: IHumanInputField[]
+	actions: IHumanInputAction[]
+	resolved_default_values: Record<string, string>
+	expiration_time: number
 }
 
 /**

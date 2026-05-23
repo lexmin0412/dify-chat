@@ -21,6 +21,8 @@ export interface IHITLState {
 	formToken: string | null
 	taskId: string | null
 	formData: IHumanInputFormData | null
+	continuationMap: Record<string, string>
+	activeContinuationId: string | null
 }
 
 const initialHITLState: IHITLState = {
@@ -28,6 +30,8 @@ const initialHITLState: IHITLState = {
 	formToken: null,
 	taskId: null,
 	formData: null,
+	continuationMap: {},
+	activeContinuationId: null,
 }
 
 export interface DifyChatState {
@@ -68,8 +72,7 @@ export const useDifyChatStore = create<DifyChatStore>(set => ({
 	setHITLState: (partial: Partial<IHITLState>) =>
 		set(state => ({ hitl: { ...state.hitl, ...partial } })),
 
-	clearHITLState: () =>
-		set({ hitl: initialHITLState }),
+	clearHITLState: () => set({ hitl: initialHITLState }),
 
 	setCurrentAppId: id => set({ currentAppId: id }),
 	setCurrentApp: app => set({ currentApp: app, appLoading: false }),

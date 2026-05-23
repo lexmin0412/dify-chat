@@ -1,0 +1,175 @@
+<h2>人工介入表单 — 展示方式</h2>
+<p class="subtitle">当工作流触发 human_input_required 事件时，表单应该出现在哪里？</p>
+
+<div class="section">
+	<h3>触发流程</h3>
+	<p>
+		流式响应中收到 <code>human_input_required</code> 事件 → 携带 <code>form_token</code> → 调用 GET
+		接口获取表单详情 → 展示表单 → 用户填写并提交 → POST 提交 → 工作流继续
+	</p>
+</div>
+
+<div class="options">
+	<div
+		class="option"
+		data-choice="inline"
+		onclick="toggleSelect(this)"
+	>
+		<div class="letter">A</div>
+		<div class="content">
+			<h3>内联展示（推荐）</h3>
+			<p>
+				表单直接嵌入在聊天消息流中，作为一条特殊的"系统消息"出现。用户在同一对话上下文中直接填写。<br />
+				<strong>优点：</strong>上下文完整，用户不离开对话流程<br />
+				<strong>缺点：</strong>复杂表单可能使聊天区域变得拥挤
+			</p>
+			<div
+				class="mockup"
+				style="margin-top: 12px"
+			>
+				<div class="mockup-header">聊天界面示意</div>
+				<div class="mockup-body">
+					<div style="background: #1a1a2e; border-radius: 8px; padding: 16px; color: #e0e0e0">
+						<div style="margin-bottom: 12px; display: flex; gap: 8px">
+							<div style="width: 24px; height: 24px; background: #6c5ce7; border-radius: 50%"></div>
+							<div style="background: #16213e; border-radius: 12px; padding: 10px 14px; flex: 1">
+								你好，请问需要什么帮助？
+							</div>
+						</div>
+						<div style="margin-bottom: 12px; display: flex; gap: 8px; justify-content: flex-end">
+							<div style="background: #7c3aed; border-radius: 12px; padding: 10px 14px">
+								我想订一张机票
+							</div>
+							<div style="width: 24px; height: 24px; background: #f59e0b; border-radius: 50%"></div>
+						</div>
+						<div
+							style="
+								background: #0f3460;
+								border: 1px solid #e94560;
+								border-radius: 8px;
+								padding: 14px;
+							"
+						>
+							<p style="margin: 0 0 8px; color: #e94560; font-size: 13px">🔔 人工介入 — 请审核</p>
+							<div
+								class="mock-input"
+								style="margin-bottom: 8px"
+							>
+								备注（可选）
+							</div>
+							<div style="display: flex; gap: 8px">
+								<button
+									class="mock-button"
+									style="background: #22c55e; color: #fff"
+								>
+									✅ 批准
+								</button>
+								<button
+									class="mock-button"
+									style="background: #ef4444; color: #fff"
+								>
+									❌ 拒绝
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div
+		class="option"
+		data-choice="modal"
+		onclick="toggleSelect(this)"
+	>
+		<div class="letter">B</div>
+		<div class="content">
+			<h3>模态弹窗</h3>
+			<p>
+				表单以全屏或居中弹窗形式覆盖在聊天界面之上。用户必须先处理表单才能继续对话。<br />
+				<strong>优点：</strong>聚焦任务，不干扰消息流布局<br />
+				<strong>缺点：</strong>打断对话流，失去上下文可见性
+			</p>
+			<div
+				class="mockup"
+				style="margin-top: 12px"
+			>
+				<div class="mockup-header">弹窗示意</div>
+				<div class="mockup-body">
+					<div
+						style="
+							background: #1a1a2e;
+							border-radius: 8px;
+							padding: 16px;
+							color: #e0e0e0;
+							position: relative;
+							min-height: 120px;
+						"
+					>
+						<div
+							style="
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								background: rgba(0, 0, 0, 0.6);
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								border-radius: 8px;
+							"
+						>
+							<div
+								style="
+									background: #16213e;
+									border: 2px solid #e94560;
+									border-radius: 12px;
+									padding: 24px;
+									width: 300px;
+								"
+							>
+								<p style="margin: 0 0 12px; color: #e94560; font-size: 14px">
+									🔔 人工介入 — 请审核机票订单
+								</p>
+								<div
+									class="mock-input"
+									style="margin-bottom: 12px"
+								>
+									备注（可选）
+								</div>
+								<div style="display: flex; gap: 8px">
+									<button
+										class="mock-button"
+										style="background: #22c55e; color: #fff; flex: 1"
+									>
+										批准
+									</button>
+									<button
+										class="mock-button"
+										style="background: #ef4444; color: #fff; flex: 1"
+									>
+										拒绝
+									</button>
+								</div>
+							</div>
+						</div>
+						<div style="margin-bottom: 8px; display: flex; gap: 8px">
+							<div style="width: 24px; height: 24px; background: #6c5ce7; border-radius: 50%"></div>
+							<div style="background: #16213e; border-radius: 12px; padding: 8px 12px">
+								你好，请问需要什么帮助？
+							</div>
+						</div>
+						<div style="display: flex; gap: 8px; justify-content: flex-end">
+							<div style="background: #7c3aed; border-radius: 12px; padding: 8px 12px">
+								我想订一张机票
+							</div>
+							<div style="width: 24px; height: 24px; background: #f59e0b; border-radius: 50%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

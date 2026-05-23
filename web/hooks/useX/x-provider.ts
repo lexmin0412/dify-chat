@@ -321,7 +321,8 @@ export class CustomProvider<
 			} as unknown as ChatMessage
 		}
 		if (parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED) {
-			this.onHumanInputRequired?.(parsedData as unknown as IHumanInputRequiredEvent)
+			const eventData = parsedData as unknown as IHumanInputRequiredEvent
+			this.onHumanInputRequired?.(eventData)
 			return originMessage as ChatMessage
 		}
 		if (parsedData.event === 'workflow_paused') {

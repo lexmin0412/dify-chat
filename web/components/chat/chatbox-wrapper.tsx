@@ -284,11 +284,27 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		},
 		getNextSuggestions,
 		onHumanInputRequired: (data: IHumanInputRequiredEvent) => {
+			const lastAiMsg = messages.findLast(m => m.status !== 'local')
+			const msgId = lastAiMsg?.id || ''
 			setHITLState({
 				active: true,
-				formToken: data.form_token,
-				taskId: data.task_id,
+				formToken: data.data.form_token,
+				taskId: data.workflow_run_id,
+				activeContinuationId: msgId,
+				formData: {
+					form_content: data.data.form_content,
+					inputs: data.data.inputs,
+					resolved_default_values: data.data.resolved_default_values,
+					user_actions: data.data.actions.map(a => ({
+						id: a.id,
+						title: a.title,
+						button_style: a.button_style,
+					})),
+					expiration_time: data.data.expiration_time,
+				},
 			})
+			// 模仿 Dify：workflow_paused 后立即重连 SSE，等待后续事件
+			reconnectWorkflow(data.workflow_run_id, msgId)
 		},
 	})
 
@@ -327,25 +343,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		}
 	}, [isSwitchingConversation, currentConversationId])
 
-	// 获取 HITL 表单内容
-	useEffect(() => {
-		if (!hitl.active || !hitl.formToken) return
-		let cancelled = false
-		const fetchForm = async () => {
-			try {
-				const formData = await difyApi?.getHumanInputForm(hitl.formToken!)
-				if (!cancelled && formData) {
-					setHITLState({ formData })
-				}
-			} catch (e) {
-				console.error('Failed to fetch HITL form:', e)
-			}
-		}
-		fetchForm()
-		return () => {
-			cancelled = true
-		}
-	}, [hitl.active, hitl.formToken])
+	// HITL 表单数据已在 onHumanInputRequired 回调中直接存入 store
 
 	const onPromptsItemClick = (content: string) => {
 		onRequest({
@@ -394,8 +392,22 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	}, [messages])
 
 	const messageItems = useMemo(() => {
-		return [...historyMessages, ...unStoredMessages4Render]
-	}, [historyMessages, unStoredMessages4Render])
+		const map = hitl.continuationMap
+		const entries = Object.entries(map)
+		if (entries.length === 0) return [...historyMessages, ...unStoredMessages4Render]
+		const items = [...historyMessages, ...unStoredMessages4Render]
+		for (const [msgId, content] of entries) {
+			const targetIdx = items.findIndex(
+				(item: any) => item.id === msgId || item.message?.id === msgId,
+			)
+			if (targetIdx !== -1 && content) {
+				const target = { ...items[targetIdx] } as any
+				target.content = (target.content || '') + content
+				items[targetIdx] = target
+			}
+		}
+		return items
+	}, [historyMessages, unStoredMessages4Render, hitl.continuationMap])
 
 	const fallbackCallback = useCallback(
 		(conversationId: string) => {
@@ -410,18 +422,24 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			if (!difyApi || !hitl.formToken || !userId) return
 			setSubmitting(true)
 			try {
-			await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
-			setHITLState({ active: false, formData: null })
-			if (hitl.taskId) {
-				reconnectWorkflow(hitl.taskId)
+				await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
+				setHITLState({ active: false, formData: null })
+			} catch (e) {
+				console.error('HITL submit failed:', e)
+				throw e
+			} finally {
+				setSubmitting(false)
 			}
-		} catch (e) {
-			throw e
-		} finally {
-			setSubmitting(false)
-		}
-	},
-	[difyApi, hitl.formToken, hitl.taskId, reconnectWorkflow, userId, setHITLState],
+		},
+		[
+			difyApi,
+			hitl.formToken,
+			hitl.taskId,
+			reconnectWorkflow,
+			userId,
+			setHITLState,
+			currentConversationId,
+		],
 	)
 
 	// 如果应用配置 / 对话列表加载中，则展示 loading
@@ -448,13 +466,14 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 		)
 	}
 
-	const hitlForm = hitl.active && hitl.formData ? (
-		<HumanInterventionForm
-			formData={hitl.formData}
-			onSubmit={handleHITLSubmit}
-			disabled={submitting}
-		/>
-	) : null
+	const hitlForm =
+		hitl.active && hitl.formData ? (
+			<HumanInterventionForm
+				formData={hitl.formData}
+				onSubmit={handleHITLSubmit}
+				disabled={submitting}
+			/>
+		) : null
 
 	return (
 		<div className="flex h-screen flex-1 flex-col overflow-hidden">

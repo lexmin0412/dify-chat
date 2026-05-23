@@ -1,6 +1,6 @@
 // import { useXAgent, useXChat, XStream } from '@ant-design/x'
 import { useXChat, XRequest } from '@ant-design/x-sdk'
-import { EventEnum, IFile, IHumanInputRequiredEvent } from '@/lib/api'
+import { IFile, IHumanInputRequiredEvent } from '@/lib/api'
 import { Roles } from '@/lib/core'
 import { isTempId } from '@/lib/helpers'
 import { FormInstance } from 'antd'
@@ -11,6 +11,7 @@ import { IAgentMessage } from '@/lib/api'
 import { DifyApi } from '@/lib/dify-client'
 
 import { useAuth } from '../use-auth'
+import { useDifyChatStore } from '@/lib/core/store'
 import { CustomInput, CustomOutput, CustomProvider } from './x-provider'
 
 interface IUseXOptions {
@@ -57,7 +58,7 @@ export const useX = (options: IUseXOptions) => {
 			onConversationIdChange: (id: string) => {
 				onConversationIdChangeRef.current(id)
 			},
-			onHumanInputRequired: (data) => {
+			onHumanInputRequired: data => {
 				onHumanInputRequiredRef.current?.(data)
 			},
 			request: XRequest<CustomInput, CustomOutput>(
@@ -137,91 +138,71 @@ export const useX = (options: IUseXOptions) => {
 	 * 在 HITL 表单提交后重新连接到 Dify 工作流 SSE 事件流，
 	 * 获取从暂停点之后剩余的 workflow 事件。
 	 */
-	const reconnectWorkflow = useCallback(async (taskId: string) => {
-		const appId = latestProps.current.appId
-		const currentUser = user
-		if (!appId || !currentUser || !taskId) return
+	const reconnectWorkflow = useCallback(
+		async (taskId: string, msgId: string): Promise<string> => {
+			const appId = latestProps.current.appId
+			const currentUser = user
+			if (!appId || !currentUser || !taskId || !msgId) return ''
+			const response = await fetch(
+				`/api/client/dify/${appId}/workflow/${taskId}/events?user=${currentUser}`,
+			)
+			if (!response.ok) {
+				console.error('[reconnectWorkflow] failed to connect', response.status)
+				return ''
+			}
 
-		const response = await fetch(
-			`/api/client/dify/${appId}/workflow/${taskId}/events?user=${currentUser}`,
-		)
-		if (!response.ok) {
-			console.error('Failed to reconnect workflow SSE stream', response.status)
-			return
-		}
+			const reader = response.body?.getReader()
+			if (!reader) {
+				console.log('[reconnectWorkflow] no reader')
+				return ''
+			}
 
-		const reader = response.body?.getReader()
-		if (!reader) return
+			const decoder = new TextDecoder()
+			let buffer = ''
+			let accumulatedContent = ''
 
-		const decoder = new TextDecoder()
-		let buffer = ''
+			const updateContent = (text: string) => {
+				accumulatedContent += text
+				const store = useDifyChatStore.getState()
+				const map = { ...store.hitl.continuationMap }
+				map[msgId] = accumulatedContent
+				store.setHITLState({ continuationMap: map, activeContinuationId: msgId })
+			}
 
-		// 获取当前消息列表中最后一条 AI 消息作为 originMessage，
-		// 用于积累 workflow 状态（nodes、status 等）
-		let originMessage = (messages.findLast(
-			m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
-		)?.message ?? null) as unknown as IAgentMessage | null
+			try {
+				while (true) {
+					const { done, value } = await reader.read()
+					if (done) break
 
-		try {
-			while (true) {
-				const { done, value } = await reader.read()
-				if (done) break
+					buffer += decoder.decode(value, { stream: true })
+					const lines = buffer.split('\n')
+					buffer = lines.pop() || ''
 
-				buffer += decoder.decode(value, { stream: true })
-				const lines = buffer.split('\n')
-				buffer = lines.pop() || ''
+					for (const line of lines) {
+						if (!line.startsWith('data: ')) continue
+						const dataStr = line.slice(6)
+						if (dataStr === '[DONE]') continue
 
-				for (const line of lines) {
-					if (!line.startsWith('data: ')) continue
-					const dataStr = line.slice(6)
-					if (dataStr === '[DONE]') continue
-
-					try {
-						const parsedData = JSON.parse(dataStr)
-						const chunk: CustomOutput = { data: JSON.stringify(parsedData) }
-
-						const result = provider.transformMessage({
-							originMessage: originMessage as unknown as IAgentMessage,
-							chunk,
-							chunks: [chunk],
-							status: 'updating',
-							responseHeaders: new Headers(),
-						})
-
-						if (result && (result as unknown as { type: string }).type !== 'event') {
-							originMessage = result as unknown as IAgentMessage
-
-							setMessages(prev => {
-								const lastAiIdx = [...prev].reverse().findIndex(
-									m =>
-										(m.message as unknown as IAgentMessage)?.role === Roles.AI &&
-										m.status !== 'local',
-								)
-								if (lastAiIdx === -1) return prev
-								const idx = prev.length - 1 - lastAiIdx
-								const updated = [...prev]
-								updated[idx] = {
-									...updated[idx],
-									message: result as unknown as IAgentMessage,
-									status:
-										parsedData.event === EventEnum.WORKFLOW_FINISHED
-											? 'success'
-											: updated[idx].status,
-								}
-								return updated
-							})
+						try {
+							const parsedData = JSON.parse(dataStr)
+							if (parsedData.event === 'message') {
+								updateContent(parsedData.answer || '')
+							}
+						} catch (e) {
+							console.error('Failed to parse workflow event SSE data:', e)
 						}
-					} catch (e) {
-						console.error('Failed to parse workflow event SSE data:', e)
 					}
 				}
+				return accumulatedContent
+			} catch (e) {
+				console.error('Error reading workflow events stream:', e)
+				return accumulatedContent
+			} finally {
+				reader.releaseLock()
 			}
-		} catch (e) {
-			console.error('Error reading workflow events stream:', e)
-		} finally {
-			reader.releaseLock()
-		}
-	}, [latestProps, user, messages, provider, setMessages])
+		},
+		[latestProps, user],
+	)
 
 	return {
 		onRequest,

@@ -29,7 +29,7 @@ export async function GET(
 		}
 
 		// 转发请求到 Dify API
-		const url = `${app.requestConfig.apiBase}/workflows/${taskId}/events${user ? `?user=${encodeURIComponent(user)}` : ''}`
+		const url = `${app.requestConfig.apiBase}/workflow/${taskId}/events${user ? `?user=${encodeURIComponent(user)}` : ''}`
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
@@ -39,7 +39,14 @@ export async function GET(
 
 		// Dify API 返回错误时直接透传
 		if (!response.ok) {
-			return new Response(JSON.stringify(await response.json()), { status: response.status })
+			const text = await response.text().catch(() => 'Unknown error')
+			let errorData: Record<string, unknown>
+			try {
+				errorData = JSON.parse(text)
+			} catch {
+				errorData = { error: text.substring(0, 200) }
+			}
+			return new Response(JSON.stringify(errorData), { status: response.status })
 		}
 
 		// 透传 SSE 流式响应
