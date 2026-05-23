@@ -161,6 +161,12 @@ export const useX = (options: IUseXOptions) => {
 			let buffer = ''
 			let accumulatedContent = ''
 
+			// 找到当前消息用于更新工作流状态
+			let originMessage = (messages.findLast(
+				m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
+			)?.message ?? null) as unknown as IAgentMessage | null
+			if (originMessage) originMessage = { ...originMessage, content: '' }
+
 			const updateContent = (text: string) => {
 				accumulatedContent += text
 				const store = useDifyChatStore.getState()
@@ -168,6 +174,12 @@ export const useX = (options: IUseXOptions) => {
 				map[msgId] = accumulatedContent
 				store.setHITLState({ continuationMap: map, activeContinuationId: msgId })
 			}
+
+			const isWorkflowEvent = (event: string) =>
+				event === 'workflow_started' ||
+				event === 'workflow_finished' ||
+				event === 'node_started' ||
+				event === 'node_finished'
 
 			try {
 				while (true) {
@@ -187,6 +199,32 @@ export const useX = (options: IUseXOptions) => {
 							const parsedData = JSON.parse(dataStr)
 							if (parsedData.event === 'message') {
 								updateContent(parsedData.answer || '')
+							}
+							if (isWorkflowEvent(parsedData.event)) {
+								const chunk: CustomOutput = { data: JSON.stringify(parsedData) }
+								const result = provider.transformMessage({
+									originMessage: originMessage as unknown as IAgentMessage,
+									chunk,
+									chunks: [chunk],
+									status: 'updating',
+									responseHeaders: new Headers(),
+								})
+								if (result && (result as unknown as { type: string }).type !== 'event') {
+									originMessage = result as unknown as IAgentMessage
+									setMessages(prev => {
+										const lastAiIdx = [...prev].reverse().findIndex(m => m.status !== 'local')
+										if (lastAiIdx === -1) return prev
+										const idx = prev.length - 1 - lastAiIdx
+										const updated = [...prev]
+										updated[idx] = {
+											...updated[idx],
+											message: result as unknown as IAgentMessage,
+											status:
+												parsedData.event === 'workflow_finished' ? 'success' : updated[idx].status,
+										}
+										return updated
+									})
+								}
 							}
 						} catch (e) {
 							console.error('Failed to parse workflow event SSE data:', e)
