@@ -27,7 +27,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	const collapseCommonProps: Pick<CollapseProps, 'expandIconPlacement' | 'classNames'> = {
 		expandIconPlacement: 'end',
 		classNames: {
-			root: 'border-none rounded-lg',
+			root: 'border-none',
 			body: 'border border-solid border-[#eff0f5] border-t-0 rounded-b-lg',
 		},
 	}
@@ -138,7 +138,7 @@ export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	]
 
 	return (
-		<div className={`md:min-w-chat-card mb-3 rounded-lg overflow-hidden ${className || ''}`}>
+		<div className={`md:min-w-chat-card mb-3 ${className || ''}`}>
 			<Collapse
 				{...collapseCommonProps}
 				items={collapseItems}
