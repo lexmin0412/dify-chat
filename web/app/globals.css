@@ -403,3 +403,8 @@ declare namespace JSX {
 		'em-emoji':any;
 	}
 }
+
+/* 宽屏模式 */
+html.wide-screen .md\:max-w-\[720px\] {
+	max-width: none;
+}
