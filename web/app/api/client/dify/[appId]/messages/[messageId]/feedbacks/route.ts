@@ -38,6 +38,19 @@ export async function POST(
 			},
 		)
 
+		const contentType = response.headers.get('content-type') || ''
+		if (!response.ok || !contentType.includes('application/json')) {
+			const text = await response.text().catch(() => 'Unknown error')
+			console.error(
+				`[feedbacks] Dify returned non-JSON (${response.status}):`,
+				text.substring(0, 500),
+			)
+			return createDifyApiResponse(
+				{ error: `Upstream error: ${response.status}`, detail: text.substring(0, 200) },
+				response.status,
+			)
+		}
+
 		const data = await response.json()
 		return createDifyApiResponse(data, response.status)
 	} catch (error) {
