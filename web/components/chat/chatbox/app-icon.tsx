@@ -35,14 +35,16 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 	}, [currentApp])
 
 	const renderIcon = useMemo(() => {
-		return renderProps.type === 'emoji' ? (
-			renderProps.icon || '🤖'
-		) : (
-			<img
-				className="inline-block h-full w-full"
-				src={renderProps.icon}
-			/>
-		)
+		if (renderProps.type === 'image') {
+			return (
+				<img
+					className="inline-block h-full w-full"
+					src={renderProps.icon}
+				/>
+			)
+		}
+		const emoji = data.emojis[renderProps.icon]?.skins?.[0]?.native
+		return emoji || renderProps.icon || '🤖'
 	}, [renderProps])
 
 	if (hasContainer) {
