@@ -9,6 +9,7 @@ import {
 	IAgentThought,
 	IChunkChatCompletionResponse,
 	IFile,
+	IHumanInputRequiredEvent,
 	IMessageFileItem,
 	IWorkflowNode,
 } from '@/lib/api'
@@ -50,8 +51,8 @@ interface ISetWorkflowDataOption {
 export interface CustomProviderOptions<Input, Output> {
 	onTaskIdChange?: (taskId: string) => void
 	onConversationIdChange?: (conversationId: string) => void
+	onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	request?: unknown
-	// 占位使用，避免 TS 报错
 	_ignore?: Input | Output
 }
 
@@ -62,13 +63,16 @@ export class CustomProvider<
 > extends AbstractChatProvider<ChatMessage, Input, Output> {
 	private onTaskIdChange?: (taskId: string) => void
 	private onConversationIdChange?: (conversationId: string) => void
+	private onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	private currentTaskId?: string
 	private currentConversationId?: string
+	private preInterventionWorkflows: NonNullable<IAgentMessage['workflows']> | null = null
 
 	constructor(options?: CustomProviderOptions<Input, Output>) {
 		super(options as unknown as ChatProviderConfig<Input, Output>)
 		this.onTaskIdChange = options?.onTaskIdChange
 		this.onConversationIdChange = options?.onConversationIdChange
+		this.onHumanInputRequired = options?.onHumanInputRequired
 	}
 
 	// 处理请求参数
@@ -159,8 +163,16 @@ export class CustomProvider<
 			return originMessage as ChatMessage
 		}
 		if (parsedData.conversation_id && parsedData.conversation_id !== this.currentConversationId) {
-			this.currentConversationId = parsedData.conversation_id
-			this.onConversationIdChange?.(this.currentConversationId)
+			const allowConversationChange = [
+				EventEnum.MESSAGE,
+				EventEnum.AGENT_MESSAGE,
+				EventEnum.AGENT_THOUGHT,
+				EventEnum.MESSAGE_REPLACE,
+			].includes(parsedData.event as EventEnum)
+			if (allowConversationChange) {
+				this.currentConversationId = parsedData.conversation_id
+				this.onConversationIdChange?.(this.currentConversationId)
+			}
 		}
 		const innerData = parsedData.data
 		if (parsedData.message_id && parsedData.message_id !== messageId) {
@@ -172,7 +184,11 @@ export class CustomProvider<
 		}
 		if (parsedData.event === EventEnum.WORKFLOW_STARTED) {
 			workflows.status = 'running'
-			workflows.nodes = []
+			if (!workflows.nodes?.length) {
+				workflows.nodes = this.preInterventionWorkflows?.nodes
+					? [...this.preInterventionWorkflows.nodes]
+					: []
+			}
 			this.setWorkflowDataStorage({
 				conversationId: this.currentConversationId!,
 				messageId,
@@ -196,15 +212,17 @@ export class CustomProvider<
 			} as unknown as ChatMessage
 		} else if (parsedData.event === EventEnum.WORKFLOW_NODE_STARTED) {
 			console.log('节点开始', parsedData)
-			workflows.nodes = [
-				...(workflows.nodes || []),
-				{
-					id: innerData.id,
-					status: 'running',
-					type: innerData.node_type,
-					title: innerData.title,
-				} as IWorkflowNode,
-			]
+			if (!(workflows.nodes || []).some(n => n.id === innerData.id)) {
+				workflows.nodes = [
+					...(workflows.nodes || []),
+					{
+						id: innerData.id,
+						status: 'running',
+						type: innerData.node_type,
+						title: innerData.title,
+					} as IWorkflowNode,
+				]
+			}
 			this.setWorkflowDataStorage({
 				conversationId: this.currentConversationId!,
 				messageId,
@@ -308,6 +326,17 @@ export class CustomProvider<
 				agentThoughts,
 				id: messageId,
 			} as unknown as ChatMessage
+		}
+		if (parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED) {
+			const eventData = parsedData as unknown as IHumanInputRequiredEvent
+			this.preInterventionWorkflows = structuredClone(workflows) as NonNullable<
+				IAgentMessage['workflows']
+			>
+			this.onHumanInputRequired?.(eventData)
+			return originMessage as ChatMessage
+		}
+		if (parsedData.event === 'workflow_paused') {
+			return originMessage as ChatMessage
 		}
 		console.log('parsedData', parsedData)
 		return {

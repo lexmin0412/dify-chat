@@ -1,4 +1,5 @@
 import { IAnnotationItem, ICreateAnnotationRequest } from '@/lib/api'
+import type { IHumanInputFormData, IHumanInputSubmitBody } from '@/lib/api/types'
 import { IDifyAppSiteSetting } from '@/lib/core'
 import { LocalStorageStore, BaseRequest as XRequest } from '@/lib/helpers'
 
@@ -370,6 +371,26 @@ export class DifyApi {
 			{
 				method: 'GET',
 			},
+		)
+	}
+
+	/**
+	 * 获取暂停中的人工介入表单
+	 */
+	async getHumanInputForm(formToken: string): Promise<IHumanInputFormData> {
+		return this.baseRequest.get(`/form/human_input/${formToken}`)
+	}
+
+	/**
+	 * 提交人工介入表单
+	 */
+	async submitHumanInput(
+		formToken: string,
+		body: IHumanInputSubmitBody,
+	): Promise<void> {
+		return this.baseRequest.post(
+			`/form/human_input/${formToken}`,
+			body as unknown as Record<string, unknown>,
 		)
 	}
 }

@@ -39,13 +39,17 @@ interface IMessageSenderProps {
 	 * 取消事件
 	 */
 	onCancel: () => void
+	/**
+	 * 是否禁用输入
+	 */
+	disabled?: boolean
 }
 
 /**
  * 用户消息发送区
  */
 export const MessageSender = (props: IMessageSenderProps) => {
-	const { isRequesting, onSubmit, className, onCancel } = props
+	const { isRequesting, onSubmit, className, onCancel, disabled } = props
 	const { difyApi } = useDifyChatStore()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const [content, setContent] = useState('')
@@ -297,7 +301,7 @@ export const MessageSender = (props: IMessageSenderProps) => {
 				boxShadow: isLight ? '0px -2px 12px 4px var(--theme-border-color)' : 'none',
 			}}
 			loading={isRequesting}
-			disabled={audio2TextLoading}
+			disabled={disabled || audio2TextLoading}
 			className={className}
 			// @ts-expect-error FIXME: antd Upload onPasteFile 类型兼容
 			onPasteFile={

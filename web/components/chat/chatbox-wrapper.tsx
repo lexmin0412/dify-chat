@@ -12,6 +12,9 @@ import { useLatest } from '@/hooks/use-latest'
 import { useX } from '@/hooks/useX'
 import workflowDataStorage from '@/hooks/useX/workflow-data-storage'
 import { IAgentMessage } from '@/lib/api'
+import type { IHumanInputRequiredEvent } from '@/lib/api'
+import HumanInterventionForm from './hitl-form'
+import { useAuth } from '@/hooks/use-auth'
 
 interface IChatboxWrapperProps {
 	/**
@@ -48,6 +51,11 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	const conversations = useDifyChatStore(s => s.conversations)
 	const currentConversationInfo = conversations?.find(item => item.id === currentConversationId)
 	const { currentAppId, currentApp, appLoading } = useDifyChatStore()
+	const hitl = useDifyChatStore(s => s.hitl)
+	const setHITLState = useDifyChatStore(s => s.setHITLState)
+	const clearHITLState = useDifyChatStore(s => s.clearHITLState)
+	const { userId } = useAuth()
+	const [submitting, setSubmitting] = useState(false)
 
 	const [entryForm] = Form.useForm()
 	// 是否允许消息列表请求时展示 loading
@@ -262,7 +270,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 
 	const [currentTaskId, setCurrentTaskId] = useState('')
 
-	const { abort, isRequesting, onRequest, messages, setMessages } = useX({
+	const { abort, isRequesting, onRequest, messages, setMessages, reconnectWorkflow } = useX({
 		latestProps,
 		filesRef,
 		onConversationIdChange: id => {
@@ -275,6 +283,29 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setCurrentTaskId(newTaskId)
 		},
 		getNextSuggestions,
+		onHumanInputRequired: (data: IHumanInputRequiredEvent) => {
+			const lastAiMsg = messages.findLast(m => m.status !== 'local')
+			const msgId = lastAiMsg?.id || ''
+			setHITLState({
+				active: true,
+				formToken: data.data.form_token,
+				taskId: data.workflow_run_id,
+				activeContinuationId: msgId,
+				formData: {
+					form_content: data.data.form_content,
+					inputs: data.data.inputs,
+					resolved_default_values: data.data.resolved_default_values,
+					user_actions: data.data.actions.map(a => ({
+						id: a.id,
+						title: a.title,
+						button_style: a.button_style,
+					})),
+					expiration_time: data.data.expiration_time,
+				},
+			})
+			// 模仿 Dify：workflow_paused 后立即重连 SSE，等待后续事件
+			reconnectWorkflow(data.workflow_run_id, msgId)
+		},
 	})
 
 	const initConversationInfo = async () => {
@@ -298,6 +329,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setMessages([])
 			setNextSuggestions([])
 			setHistoryMessages([])
+			clearHITLState()
 			setIsSwitchingConversation(true)
 		}
 	}, [currentConversationId])
@@ -310,6 +342,8 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			setIsSwitchingConversation(false) // 重置切换状态
 		}
 	}, [isSwitchingConversation, currentConversationId])
+
+	// HITL 表单数据已在 onHumanInputRequired 回调中直接存入 store
 
 	const onPromptsItemClick = (content: string) => {
 		onRequest({
@@ -358,8 +392,22 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 	}, [messages])
 
 	const messageItems = useMemo(() => {
-		return [...historyMessages, ...unStoredMessages4Render]
-	}, [historyMessages, unStoredMessages4Render])
+		const map = hitl.continuationMap
+		const entries = Object.entries(map)
+		if (entries.length === 0) return [...historyMessages, ...unStoredMessages4Render]
+		const items = [...historyMessages, ...unStoredMessages4Render]
+		for (const [msgId, content] of entries) {
+			const targetIdx = items.findIndex(
+				(item: any) => item.id === msgId || item.message?.id === msgId,
+			)
+			if (targetIdx !== -1 && content) {
+				const target = { ...items[targetIdx] } as any
+				target.content = (target.content || '') + content
+				items[targetIdx] = target
+			}
+		}
+		return items
+	}, [historyMessages, unStoredMessages4Render, hitl.continuationMap])
 
 	const fallbackCallback = useCallback(
 		(conversationId: string) => {
@@ -367,6 +415,31 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			initConversationMessages(conversationId, true)
 		},
 		[initConversationMessages],
+	)
+
+	const handleHITLSubmit = useCallback(
+		async (inputs: Record<string, string>, action: string) => {
+			if (!difyApi || !hitl.formToken || !userId) return
+			setSubmitting(true)
+			try {
+				await difyApi.submitHumanInput(hitl.formToken, { inputs, action, user: userId })
+				setHITLState({ active: false, formData: null })
+			} catch (e) {
+				console.error('HITL submit failed:', e)
+				throw e
+			} finally {
+				setSubmitting(false)
+			}
+		},
+		[
+			difyApi,
+			hitl.formToken,
+			hitl.taskId,
+			reconnectWorkflow,
+			userId,
+			setHITLState,
+			currentConversationId,
+		],
 	)
 
 	// 如果应用配置 / 对话列表加载中，则展示 loading
@@ -392,6 +465,15 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 			</div>
 		)
 	}
+
+	const hitlForm =
+		hitl.active && hitl.formData ? (
+			<HumanInterventionForm
+				formData={hitl.formData}
+				onSubmit={handleHITLSubmit}
+				disabled={submitting}
+			/>
+		) : null
 
 	return (
 		<div className="flex h-screen flex-1 flex-col overflow-hidden">
@@ -432,6 +514,8 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 						}}
 						feedbackCallback={fallbackCallback}
 						entryForm={entryForm}
+						disabled={hitl.active}
+						hitlForm={hitlForm}
 					/>
 				) : (
 					<div className="flex h-full w-full items-center justify-center">
