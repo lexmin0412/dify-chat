@@ -1,15 +1,9 @@
-import {
-	CheckCircleOutlined,
-	CloseCircleOutlined,
-	InfoOutlined,
-	LoadingOutlined,
-} from '@ant-design/icons'
 import { IAgentMessage, IWorkflowNode } from '@/lib/api'
-import { useDifyChatStore } from '@/lib/core'
-import { Collapse, CollapseProps, GetProp } from 'antd'
+import { Loader2 } from 'lucide-react'
 import { useMemo } from 'react'
 
 import LucideIcon from '@/components/shared/lucide-icon'
+import { TreeView, TreeItem, TreeItemTrigger, TreeItemContent } from '@/components/ui/tree-view'
 import WorkflowNodeDetail from './workflow-node-detail'
 import WorkflowNodeIcon from './workflow-node-icon'
 
@@ -21,130 +15,118 @@ interface IWorkflowLogsProps {
 
 export default function WorkflowLogs(props: IWorkflowLogsProps) {
 	const { items, status, className } = props
-	const currentApp = useDifyChatStore(s => s.currentApp)
 
-	// Collapse 组件的通用 props
-	const collapseCommonProps: Pick<CollapseProps, 'expandIconPlacement' | 'classNames'> = {
-		expandIconPlacement: 'end',
-		classNames: {
-			root: 'border-none',
-			body: 'border border-solid border-[#eff0f5] border-t-0 rounded-b-lg',
-		},
-	}
-
-	// Collapse 组件的 item 通用 props
-	const collapseItemVisibleProps: Pick<
-		GetProp<CollapseProps, 'items'>[0],
-		'showArrow' | 'collapsible'
-	> = useMemo(() => {
-		if (currentApp?.site?.show_workflow_steps) {
-			return {
-				showArrow: true,
-			}
-		}
-		return {
-			showArrow: false,
-			collapsible: 'icon',
-		}
-	}, [currentApp?.site?.show_workflow_steps])
-
-	if (!items?.length) {
+	const statusIcon = useMemo(() => {
+		if (status === 'running')
+			return (
+				<Loader2
+					className="animate-spin"
+					size={14}
+				/>
+			)
+		if (status === 'finished')
+			return (
+				<LucideIcon
+					name="circle-check"
+					className="text-[var(--theme-success-color)]"
+				/>
+			)
 		return null
+	}, [status])
+
+	const getNodeStatusIcon = (nodeStatus: IWorkflowNode['status']) => {
+		switch (nodeStatus) {
+			case 'success':
+				return (
+					<LucideIcon
+						name="circle-check"
+						className="text-[var(--theme-success-color)]"
+					/>
+				)
+			case 'error':
+				return (
+					<LucideIcon
+						name="circle-x"
+						className="text-[var(--theme-danger-color)]"
+					/>
+				)
+			case 'running':
+				return (
+					<Loader2
+						className="animate-spin"
+						size={14}
+					/>
+				)
+			default:
+				return <LucideIcon name="info" />
+		}
 	}
 
-	const collapseItems: CollapseProps['items'] = [
-		{
-			key: 'workflow',
-			label: (
-				<div className="flex items-center">
-					{status === 'running' ? (
-						<LoadingOutlined />
-					) : status === 'finished' ? (
-						<div className="text-theme-success flex items-center">
-							<LucideIcon name="circle-check" />
-						</div>
-					) : null}
-					<div className="text-theme-text ml-2">工作流</div>
-				</div>
-			),
-			...collapseItemVisibleProps,
-			children: (
-				<Collapse
-					size="small"
-					{...collapseCommonProps}
-					items={items.map(item => {
-						const totalTokens = item.execution_metadata?.total_tokens
-						return {
-							key: item.id,
-							...collapseItemVisibleProps,
-							label: (
-								<div className="flex w-full items-center justify-between">
-									<div className="flex items-center">
-										{item.status === 'success' ? (
-											<CheckCircleOutlined className="text-theme-success" />
-										) : item.status === 'error' ? (
-											<CloseCircleOutlined className="text-theme-danger" />
-										) : item.status === 'running' ? (
-											<LoadingOutlined />
-										) : (
-											<InfoOutlined />
-										)}
-										<div className="mx-2 flex items-center">
-											<WorkflowNodeIcon type={item.type} />
-										</div>
-										<div className="text-theme-text">{item.title}</div>
-									</div>
-									<div className="text-theme-text flex items-center">
-										{item.status === 'success' ? (
-											<>
-												<div className="mr-3">{item.elapsed_time?.toFixed(3)} 秒</div>
-												<div className="mr-3">{totalTokens ? `${totalTokens} tokens` : ''}</div>
-											</>
-										) : null}
-									</div>
-								</div>
-							),
-							...collapseItemVisibleProps,
-							children: (
-								<Collapse
-									{...collapseCommonProps}
-									size="small"
-									items={[
-										{
-											key: `${item.id}-input`,
-											label: '输入',
-											children: <WorkflowNodeDetail originalContent={item.inputs} />,
-										},
-										{
-											key: `${item.id}-process`,
-											label: '处理过程',
-											children: <WorkflowNodeDetail originalContent={item.process_data} />,
-										},
-										{
-											key: `${item.id}-output`,
-											label: '输出',
-											children: <WorkflowNodeDetail originalContent={item.outputs as string} />,
-										},
-									]}
-								></Collapse>
-							),
-						}
-					})}
-				>
-					{}
-				</Collapse>
-			),
-		},
-	]
+	if (!items?.length) return null
 
 	return (
-		<div className={`md:min-w-chat-card mb-3 ${className || ''}`}>
-			<Collapse
-				{...collapseCommonProps}
-				items={collapseItems}
-				size="small"
-				className="!bg-theme-bg"
-			/>
+		<div className={`${className || ''}`}>
+			<TreeView>
+				<TreeItem defaultOpen={status === 'running'}>
+					<TreeItemTrigger>
+						<span className="flex items-center gap-2">
+							{statusIcon}
+							工作流
+						</span>
+					</TreeItemTrigger>
+					<TreeItemContent>
+						<ul className="relative ml-2 border-l-2 pl-4 pt-1 space-y-0.5">
+							{items.map(item => {
+								const totalTokens = item.execution_metadata?.total_tokens
+
+								return (
+									<li key={item.id}>
+										<TreeItem>
+											<TreeItemTrigger className="py-1 text-sm">
+												<span className="flex w-full items-center justify-between gap-2 pr-2">
+													<span className="flex items-center gap-2 min-w-0">
+														{getNodeStatusIcon(item.status)}
+														<WorkflowNodeIcon type={item.type} />
+														<span className="truncate">{item.title}</span>
+													</span>
+													{item.status === 'success' && (
+														<span className="flex items-center gap-3 shrink-0 text-xs text-muted-foreground">
+															<span>{item.elapsed_time?.toFixed(3)} 秒</span>
+															{totalTokens ? <span>{totalTokens} tokens</span> : null}
+														</span>
+													)}
+												</span>
+											</TreeItemTrigger>
+											<TreeItemContent>
+												<ul className="ml-4 pl-3 border-l-2 pt-0.5 space-y-0.5">
+													{[
+														{ key: 'input', label: '输入', data: item.inputs },
+														{ key: 'process', label: '处理过程', data: item.process_data },
+														{ key: 'output', label: '输出', data: item.outputs as string },
+													].map(leaf => (
+														<li key={leaf.key}>
+															<TreeItem>
+																<TreeItemTrigger className="py-0.5 text-xs text-muted-foreground hover:text-foreground">
+																	{leaf.label}
+																</TreeItemTrigger>
+																<TreeItemContent>
+																	<div className="pl-4 pb-1">
+																		<WorkflowNodeDetail originalContent={leaf.data} />
+																	</div>
+																</TreeItemContent>
+															</TreeItem>
+														</li>
+													))}
+												</ul>
+											</TreeItemContent>
+										</TreeItem>
+									</li>
+								)
+							})}
+						</ul>
+					</TreeItemContent>
+				</TreeItem>
+			</TreeView>
 		</div>
 	)
 }
