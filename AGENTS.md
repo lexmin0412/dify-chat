@@ -64,6 +64,24 @@ packages/docs/              # Rspress 文档站点 (dify-chat-docs)
 
 在进行代码变更之后，**你不需要**尝试启动开发服务器来验证修改是否生效，因为此应用所有的页面都有登录校验，在你变更代码之后我会自行验证。
 
+### 调试准则：两轮无效则取证
+
+排查 bug 时，如果基于代码推理的修复在 **两轮** 内仍不生效，立即停止继续猜测，转而收集真实数据。**先判断问题属于哪一类，再选择对应的取证手段：**
+
+**A. 数据/状态问题**（数据丢了、没更新、传错了）：
+
+1. **localStorage / Zustand 持久化数据** — `localStorage.getItem()` 或 `useXxxStore.getState()`，查看运行时状态，对比"应该是"vs"实际是"
+2. **网络请求** — `list_network_requests` + `get_network_request`，确认 API 实际返回了什么、事件流的顺序和内容
+3. **控制台日志** — `list_console_messages`，查找报错或异常日志
+
+**B. UI/渲染问题**（数据对但显示不对）：
+
+1. **DOM 快照** — Chrome MCP `take_snapshot`，确认组件树和可见文本
+2. **DOM 样式检查** — `evaluate_script` 读取 `getComputedStyle()`，验证具体 CSS 值
+3. **截图对比** — `take_screenshot`，肉眼确认视觉差异
+
+**原则**：代码告诉你"理论上应该怎样"，浏览器告诉你"实际上怎样"。两者矛盾时，信浏览器。修复之后，**必须用浏览器真实数据验证效果**，不得仅凭代码推理宣告完成。API 问题和 UI 问题要分开验证——数据对了不代表显示对了，反之亦然。
+
 ## 数据库迁移
 
 本项目使用 Drizzle ORM + drizzle-kit 管理数据库迁移。
