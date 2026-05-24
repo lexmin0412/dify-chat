@@ -1,9 +1,10 @@
 import { LucideIcon } from '@/components/shared'
 import { useIsMobile } from '@/lib/helpers'
 import { ThemeSelector, useThemeContext } from '@/lib/theme'
+import { useLocalStorageState } from 'ahooks'
 import { Space } from 'antd'
 import classNames from 'classnames'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import CenterTitleWrapper from './center-title-wrapper'
 import { GithubIcon, Logo } from './logo'
@@ -52,6 +53,13 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 	const { isTitleWrapped, title, rightIcon, logoText, renderLogo } = props
 	const { themeMode } = useThemeContext()
 	const isMobile = useIsMobile()
+	const [isWideScreen, setIsWideScreen] = useLocalStorageState('dify-chat-wide-screen', {
+		defaultValue: false,
+	})
+
+	useEffect(() => {
+		document.documentElement.classList.toggle('wide-screen', isWideScreen)
+	}, [isWideScreen])
 	return (
 		<div className="flex h-16 items-center justify-between px-4">
 			{/* 🌟 Logo */}
@@ -74,6 +82,16 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 						className="flex items-center"
 						size={16}
 					>
+						<div
+							className="flex cursor-pointer items-center"
+							onClick={() => setIsWideScreen(!isWideScreen)}
+							title={isWideScreen ? '切换窄屏' : '切换宽屏'}
+						>
+							<LucideIcon
+								name={isWideScreen ? 'shrink' : 'stretch-horizontal'}
+								size={20}
+							/>
+						</div>
 						<ThemeSelector>
 							<div className="flex cursor-pointer items-center">
 								<LucideIcon
