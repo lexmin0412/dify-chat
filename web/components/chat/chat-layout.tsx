@@ -409,31 +409,37 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
 					rightIcon={
-						<div className="flex items-center gap-4">
-							{!isMobile && (
-								<div
-									className="flex cursor-pointer items-center"
-									onClick={() => setIsWideScreen(!isWideScreen)}
-									title={isWideScreen ? '切换窄屏' : '切换宽屏'}
-								>
-									<LucideIcon
-										name={isWideScreen ? 'shrink' : 'stretch-horizontal'}
-										size={20}
-									/>
-								</div>
-							)}
-							{isMobile ? (
-								<Dropdown
-									menu={{
-										className: '!pb-3 w-[80vw]',
-										activeKey: currentConversationId,
-										items: mobileMenuItems,
-									}}
-								>
-									<MenuOutlined className="text-xl" />
-								</Dropdown>
-							) : null}
-						</div>
+						isMobile ? (
+							<Dropdown
+								menu={{
+									className: '!pb-3 w-[80vw]',
+									activeKey: currentConversationId,
+									items: mobileMenuItems,
+								}}
+							>
+								<MenuOutlined className="text-xl" />
+							</Dropdown>
+						) : null
+					}
+					renderRightIcons={
+						isMobile
+							? undefined
+							: ({ theme, github }) => (
+									<div className="flex items-center gap-4">
+										<div
+											className="flex cursor-pointer items-center"
+											onClick={() => setIsWideScreen(!isWideScreen)}
+											title={isWideScreen ? '切换窄屏' : '切换宽屏'}
+										>
+											<LucideIcon
+												name={isWideScreen ? 'shrink' : 'stretch-horizontal'}
+												size={20}
+											/>
+										</div>
+										{theme}
+										{github}
+									</div>
+								)
 					}
 				/>
 

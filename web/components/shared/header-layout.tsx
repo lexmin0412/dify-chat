@@ -18,9 +18,16 @@ export interface IHeaderLayoutProps {
 	 */
 	isTitleWrapped?: boolean
 	/**
-	 * 自定义右侧图标
+	 * 自定义右侧图标（完全替换默认图标）
 	 */
 	rightIcon?: React.ReactNode
+	/**
+	 * 自定义右侧图标布局（按槽位重组，比 rightIcon 更灵活）
+	 *
+	 * @param slots.theme 主题切换按钮
+	 * @param slots.github GitHub 链接图标
+	 */
+	renderRightIcons?: (slots: { theme: React.ReactNode; github: React.ReactNode }) => React.ReactNode
 	/**
 	 * Logo 文本
 	 */
@@ -49,9 +56,36 @@ const HeaderSiderIcon = (props: { align: 'left' | 'right'; children: React.React
  * 头部布局组件
  */
 export default function HeaderLayout(props: IHeaderLayoutProps) {
-	const { isTitleWrapped, title, rightIcon, logoText, renderLogo } = props
+	const { isTitleWrapped, title, rightIcon, renderRightIcons, logoText, renderLogo } = props
 	const { themeMode } = useThemeContext()
 	const isMobile = useIsMobile()
+
+	const themeSlot = (
+		<ThemeSelector>
+			<div className="flex cursor-pointer items-center">
+				<LucideIcon
+					name={themeMode === 'dark' ? 'moon-star' : themeMode === 'light' ? 'sun' : 'screen-share'}
+					size={20}
+				/>
+			</div>
+		</ThemeSelector>
+	)
+
+	const githubSlot = <GithubIcon />
+
+	const defaultRightIcons = (
+		<Space
+			className="flex items-center"
+			size={16}
+		>
+			{themeSlot}
+			{githubSlot}
+		</Space>
+	)
+
+	const finalRightIcons = renderRightIcons
+		? renderRightIcons({ theme: themeSlot, github: githubSlot })
+		: rightIcon || defaultRightIcons
 	return (
 		<div className="flex h-16 items-center justify-between px-4">
 			{/* 🌟 Logo */}
@@ -68,30 +102,7 @@ export default function HeaderLayout(props: IHeaderLayoutProps) {
 			{isTitleWrapped ? title : <CenterTitleWrapper>{title}</CenterTitleWrapper>}
 
 			{/* 右侧图标 */}
-			<HeaderSiderIcon align="right">
-				{rightIcon || (
-					<Space
-						className="flex items-center"
-						size={16}
-					>
-						<ThemeSelector>
-							<div className="flex cursor-pointer items-center">
-								<LucideIcon
-									name={
-										themeMode === 'dark'
-											? 'moon-star'
-											: themeMode === 'light'
-												? 'sun'
-												: 'screen-share'
-									}
-									size={20}
-								/>
-							</div>
-						</ThemeSelector>
-						<GithubIcon />
-					</Space>
-				)}
-			</HeaderSiderIcon>
+			<HeaderSiderIcon align="right">{finalRightIcons}</HeaderSiderIcon>
 		</div>
 	)
 }
