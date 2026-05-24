@@ -1,7 +1,7 @@
 'use client'
 
 import { ThemeContextProvider, useThemeContext } from '@/lib/theme'
-import { ConfigProvider, theme } from 'antd'
+import { App, ConfigProvider, theme } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import enUS from 'antd/es/locale/en_US'
 import { usePathname, useRouter } from 'next/navigation'
@@ -35,7 +35,7 @@ function UserLayoutInner({ children }: { children: React.ReactNode }) {
 				algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
 			}}
 		>
-			{children}
+			<App>{children}</App>
 		</ConfigProvider>
 	)
 }
