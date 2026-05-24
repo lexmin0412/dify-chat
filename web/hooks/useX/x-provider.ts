@@ -163,19 +163,14 @@ export class CustomProvider<
 			return originMessage as ChatMessage
 		}
 		if (parsedData.conversation_id && parsedData.conversation_id !== this.currentConversationId) {
-			const allowConversationChange = [
+			this.currentConversationId = parsedData.conversation_id
+			const shouldTriggerConversationChange = [
 				EventEnum.MESSAGE,
 				EventEnum.AGENT_MESSAGE,
 				EventEnum.AGENT_THOUGHT,
 				EventEnum.MESSAGE_REPLACE,
-				EventEnum.WORKFLOW_STARTED,
-				EventEnum.WORKFLOW_FINISHED,
-				EventEnum.WORKFLOW_NODE_STARTED,
-				EventEnum.WORKFLOW_NODE_FINISHED,
-				EventEnum.HUMAN_INPUT_REQUIRED,
 			].includes(parsedData.event as EventEnum)
-			if (allowConversationChange) {
-				this.currentConversationId = parsedData.conversation_id
+			if (shouldTriggerConversationChange) {
 				this.onConversationIdChange?.(this.currentConversationId)
 			}
 		}
