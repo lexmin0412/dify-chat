@@ -168,6 +168,11 @@ export class CustomProvider<
 				EventEnum.AGENT_MESSAGE,
 				EventEnum.AGENT_THOUGHT,
 				EventEnum.MESSAGE_REPLACE,
+				EventEnum.WORKFLOW_STARTED,
+				EventEnum.WORKFLOW_FINISHED,
+				EventEnum.WORKFLOW_NODE_STARTED,
+				EventEnum.WORKFLOW_NODE_FINISHED,
+				EventEnum.HUMAN_INPUT_REQUIRED,
 			].includes(parsedData.event as EventEnum)
 			if (allowConversationChange) {
 				this.currentConversationId = parsedData.conversation_id
