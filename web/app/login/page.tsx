@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Card, Form, Input, message } from 'antd'
 import { getSession, signIn } from 'next-auth/react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import LogoIcon from '@/assets/images/logo.png'
@@ -17,6 +17,8 @@ interface LoginForm {
 export default function LoginPage() {
 	const [loading, setLoading] = useState(false)
 	const router = useRouter()
+	const searchParams = useSearchParams()
+	const initEmail = searchParams.get('email') || ''
 
 	const onFinish = async (values: LoginForm) => {
 		setLoading(true)
@@ -66,6 +68,7 @@ export default function LoginPage() {
 					onFinish={onFinish}
 					autoComplete="off"
 					size="large"
+					initialValues={initEmail ? { email: initEmail } : undefined}
 				>
 					<Form.Item
 						name="email"
