@@ -47,7 +47,7 @@ export default function InitPage() {
 			})
 			if (res.ok) {
 				message.success('管理员创建成功，请使用该账户登录')
-				router.replace('/login')
+				router.replace(`/login?email=${encodeURIComponent(values.email)}`)
 			} else {
 				const data = await res.json().catch(() => ({ message: '初始化失败' }))
 				message.error(data.message || '初始化失败')
