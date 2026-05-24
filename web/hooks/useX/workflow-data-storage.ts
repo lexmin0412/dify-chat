@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { indexedDBStorage } from '@/lib/helpers/indexeddb-storage'
+
 // 定义获取和设置数据时 options 的统一类型
 export type IWorkflowDataOptions = {
 	appId: string
@@ -43,6 +45,8 @@ const useWorkflowStore = create<WorkflowStore>()(
 		}),
 		{
 			name: 'workflow-data-storage',
+			storage: () => indexedDBStorage,
+			partialize: state => ({ data: state.data }),
 		},
 	),
 )
