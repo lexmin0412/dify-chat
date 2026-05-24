@@ -67,6 +67,7 @@ export class CustomProvider<
 	private currentTaskId?: string
 	private currentConversationId?: string
 	private preInterventionWorkflows: NonNullable<IAgentMessage['workflows']> | null = null
+	private preInterventionTaskId: string | null = null
 
 	constructor(options?: CustomProviderOptions<Input, Output>) {
 		super(options as unknown as ChatProviderConfig<Input, Output>)
@@ -184,10 +185,15 @@ export class CustomProvider<
 		}
 		if (parsedData.event === EventEnum.WORKFLOW_STARTED) {
 			workflows.status = 'running'
+			if (!workflows.nodes?.length && this.preInterventionWorkflows?.nodes?.length) {
+				if (this.preInterventionTaskId === this.currentTaskId) {
+					workflows.nodes = [...this.preInterventionWorkflows.nodes]
+				}
+				this.preInterventionWorkflows = null
+				this.preInterventionTaskId = null
+			}
 			if (!workflows.nodes?.length) {
-				workflows.nodes = this.preInterventionWorkflows?.nodes
-					? [...this.preInterventionWorkflows.nodes]
-					: []
+				workflows.nodes = []
 			}
 			this.setWorkflowDataStorage({
 				conversationId: this.currentConversationId!,
@@ -332,6 +338,7 @@ export class CustomProvider<
 			this.preInterventionWorkflows = structuredClone(workflows) as NonNullable<
 				IAgentMessage['workflows']
 			>
+			this.preInterventionTaskId = this.currentTaskId || null
 			this.onHumanInputRequired?.(eventData)
 			return originMessage as ChatMessage
 		}
