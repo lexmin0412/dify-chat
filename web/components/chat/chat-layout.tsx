@@ -26,7 +26,7 @@ import {
 import dayjs from 'dayjs'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
-
+import { useLocalStorageState } from 'ahooks'
 import AppIcon from '@/components/chat/chatbox/app-icon'
 import { AppInfo } from '@/components/chat/chatbox/app-info'
 import { LucideIcon } from '@/components/shared'
@@ -394,6 +394,14 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		useDifyChatStore.getState().setCurrentConversationId(currentConversationId)
 	}, [conversations, currentConversationId])
 
+	const [isWideScreen, setIsWideScreen] = useLocalStorageState('dify-chat-wide-screen', {
+		defaultValue: false,
+	})
+
+	useEffect(() => {
+		document.documentElement.classList.toggle('wide-screen', isWideScreen)
+	}, [isWideScreen])
+
 	return (
 		<>
 			<div className={`bg-theme-bg flex h-screen w-full flex-col overflow-hidden`}>
@@ -401,17 +409,31 @@ export default function ChatLayout(props: IChatLayoutProps) {
 				<HeaderLayout
 					title={renderCenterTitle?.(currentApp?.config?.info)}
 					rightIcon={
-						isMobile ? (
-							<Dropdown
-								menu={{
-									className: '!pb-3 w-[80vw]',
-									activeKey: currentConversationId,
-									items: mobileMenuItems,
-								}}
-							>
-								<MenuOutlined className="text-xl" />
-							</Dropdown>
-						) : null
+						<div className="flex items-center gap-4">
+							{!isMobile && (
+								<div
+									className="flex cursor-pointer items-center"
+									onClick={() => setIsWideScreen(!isWideScreen)}
+									title={isWideScreen ? '切换窄屏' : '切换宽屏'}
+								>
+									<LucideIcon
+										name={isWideScreen ? 'shrink' : 'stretch-horizontal'}
+										size={20}
+									/>
+								</div>
+							)}
+							{isMobile ? (
+								<Dropdown
+									menu={{
+										className: '!pb-3 w-[80vw]',
+										activeKey: currentConversationId,
+										items: mobileMenuItems,
+									}}
+								>
+									<MenuOutlined className="text-xl" />
+								</Dropdown>
+							) : null}
+						</div>
 					}
 				/>
 
