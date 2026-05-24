@@ -122,6 +122,11 @@ export const useX = (options: IUseXOptions) => {
 		},
 	})
 
+	const messagesRef = useRef(messages)
+	messagesRef.current = messages
+
+	const originWorkflowsRef = useRef<IAgentMessage['workflows']>(null)
+
 	const wasRequesting = useRef(false)
 
 	useEffect(() => {
@@ -133,6 +138,16 @@ export const useX = (options: IUseXOptions) => {
 		}
 		wasRequesting.current = isRequesting
 	}, [isRequesting, messages, getNextSuggestions])
+
+	// 实时追踪最新消息中的 workflows 数据，供 reconnectWorkflow 使用
+	useEffect(() => {
+		const lastAi = messages.findLast(
+			m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
+		)
+		if (lastAi) {
+			originWorkflowsRef.current = (lastAi.message as unknown as IAgentMessage)?.workflows || null
+		}
+	}, [messages])
 
 	/**
 	 * 在 HITL 表单提交后重新连接到 Dify 工作流 SSE 事件流，
@@ -162,10 +177,16 @@ export const useX = (options: IUseXOptions) => {
 			let accumulatedContent = ''
 
 			// 找到当前消息用于更新工作流状态
-			let originMessage = (messages.findLast(
+			let originMessage = (messagesRef.current.findLast(
 				m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
 			)?.message ?? null) as unknown as IAgentMessage | null
-			if (originMessage) originMessage = { ...originMessage, content: '' }
+			if (originMessage) {
+				originMessage = {
+					...originMessage,
+					content: '',
+					workflows: originMessage.workflows || originWorkflowsRef.current || undefined,
+				}
+			}
 
 			const updateContent = (text: string) => {
 				accumulatedContent += text
@@ -215,10 +236,18 @@ export const useX = (options: IUseXOptions) => {
 										const lastAiIdx = [...prev].reverse().findIndex(m => m.status !== 'local')
 										if (lastAiIdx === -1) return prev
 										const idx = prev.length - 1 - lastAiIdx
+										const prevMessage = prev[idx].message as unknown as IAgentMessage
+										const resultMessage = result as unknown as IAgentMessage
+										const mergedMessage = {
+											...resultMessage,
+											workflows: resultMessage.workflows?.nodes?.length
+												? resultMessage.workflows
+												: prevMessage?.workflows,
+										}
 										const updated = [...prev]
 										updated[idx] = {
 											...updated[idx],
-											message: result as unknown as IAgentMessage,
+											message: mergedMessage as unknown as IAgentMessage,
 											status:
 												parsedData.event === 'workflow_finished' ? 'success' : updated[idx].status,
 										}

@@ -66,6 +66,7 @@ export class CustomProvider<
 	private onHumanInputRequired?: (data: IHumanInputRequiredEvent) => void
 	private currentTaskId?: string
 	private currentConversationId?: string
+	private preInterventionWorkflows: NonNullable<IAgentMessage['workflows']> | null = null
 
 	constructor(options?: CustomProviderOptions<Input, Output>) {
 		super(options as unknown as ChatProviderConfig<Input, Output>)
@@ -183,7 +184,11 @@ export class CustomProvider<
 		}
 		if (parsedData.event === EventEnum.WORKFLOW_STARTED) {
 			workflows.status = 'running'
-			workflows.nodes = []
+			if (!workflows.nodes?.length) {
+				workflows.nodes = this.preInterventionWorkflows?.nodes
+					? [...this.preInterventionWorkflows.nodes]
+					: []
+			}
 			this.setWorkflowDataStorage({
 				conversationId: this.currentConversationId!,
 				messageId,
@@ -207,15 +212,17 @@ export class CustomProvider<
 			} as unknown as ChatMessage
 		} else if (parsedData.event === EventEnum.WORKFLOW_NODE_STARTED) {
 			console.log('节点开始', parsedData)
-			workflows.nodes = [
-				...(workflows.nodes || []),
-				{
-					id: innerData.id,
-					status: 'running',
-					type: innerData.node_type,
-					title: innerData.title,
-				} as IWorkflowNode,
-			]
+			if (!(workflows.nodes || []).some(n => n.id === innerData.id)) {
+				workflows.nodes = [
+					...(workflows.nodes || []),
+					{
+						id: innerData.id,
+						status: 'running',
+						type: innerData.node_type,
+						title: innerData.title,
+					} as IWorkflowNode,
+				]
+			}
 			this.setWorkflowDataStorage({
 				conversationId: this.currentConversationId!,
 				messageId,
@@ -322,6 +329,9 @@ export class CustomProvider<
 		}
 		if (parsedData.event === EventEnum.HUMAN_INPUT_REQUIRED) {
 			const eventData = parsedData as unknown as IHumanInputRequiredEvent
+			this.preInterventionWorkflows = structuredClone(workflows) as NonNullable<
+				IAgentMessage['workflows']
+			>
 			this.onHumanInputRequired?.(eventData)
 			return originMessage as ChatMessage
 		}
