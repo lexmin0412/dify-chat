@@ -68,7 +68,7 @@
 		"remark-gfm": "^4.0.1",
 		"remark-math": "^6.0.0",
 		"tailwind-merge": "^3.3.0",
-		"tsx": "^4.20.6",
+		"tsx": "^4.22.3",
 		"vaul": "^1.1.2",
 		"zustand": "^5.0.6"
 	},
