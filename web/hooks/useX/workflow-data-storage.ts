@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 import { indexedDBStorage } from '@/lib/helpers/indexeddb-storage'
 
@@ -45,7 +45,7 @@ const useWorkflowStore = create<WorkflowStore>()(
 		}),
 		{
 			name: 'workflow-data-storage',
-			storage: () => indexedDBStorage,
+			storage: createJSONStorage(() => indexedDBStorage),
 			partialize: state => ({ data: state.data }),
 		},
 	),
