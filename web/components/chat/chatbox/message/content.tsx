@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 import { useDifyChatStore } from '@/lib/core'
 
 import { MarkdownRenderer } from '../../markdown-renderer'
+import { ThinkBlockProvider } from '../../markdown-renderer/blocks/think-block-context'
 import ThoughtChain from '../thought-chain'
 import MessageFileList from './file-list'
 import MessageReferrence from './referrence'
@@ -133,10 +134,12 @@ export default function MessageContent(props: IMessageContentProps) {
 			role === Roles.LOCAL ||
 			role === Roles.USER ? (
 				<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
-					<MarkdownRenderer
-						markdownText={computedContent}
-						onSubmit={onSubmit}
-					/>
+					<ThinkBlockProvider messageId={id as string}>
+						<MarkdownRenderer
+							markdownText={computedContent}
+							onSubmit={onSubmit}
+						/>
+					</ThinkBlockProvider>
 				</div>
 			) : null}
 
