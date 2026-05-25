@@ -1,4 +1,4 @@
-import { Attachments } from '@ant-design/x'
+import { FileCard } from '@ant-design/x'
 import { IMessageFileItem } from '@/lib/api'
 import { useDifyChatStore } from '@/lib/core'
 import { useMemo } from 'react'
@@ -142,7 +142,7 @@ export default function MessageFileList(props: IMessageFileListProps) {
 						}}
 					>
 						{/* @ts-expect-error FIXME: @ant-design/x 类型 */}
-						<Attachments.FileCard
+						<FileCard
 							key={item.id}
 							item={{
 								...item,
