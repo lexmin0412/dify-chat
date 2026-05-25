@@ -1,14 +1,28 @@
 import { get, set, del } from 'idb-keyval'
 
+const memoryFallback = new Map<string, string>()
+
 export const indexedDBStorage = {
 	getItem: async (name: string) => {
-		const value = await get(name)
-		return value ?? null
+		try {
+			const value = await get(name)
+			return value ?? null
+		} catch {
+			return memoryFallback.get(name) ?? null
+		}
 	},
 	setItem: async (name: string, value: string) => {
-		await set(name, value)
+		try {
+			await set(name, value)
+		} catch {
+			memoryFallback.set(name, value)
+		}
 	},
 	removeItem: async (name: string) => {
-		await del(name)
+		try {
+			await del(name)
+		} catch {
+			memoryFallback.delete(name)
+		}
 	},
 }

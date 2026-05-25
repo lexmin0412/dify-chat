@@ -31,6 +31,31 @@ export const genLocalStorageKey = (key: ILocalStorageKey) => {
 }
 
 /**
+ * 内存 fallback：当 localStorage 不可用时（隐私模式、iframe 沙箱、配额耗尽等），
+ * 使用 Map 存储数据，保证应用不崩溃。注意：页面刷新后数据会丢失。
+ */
+const memoryFallback = new Map<string, string>()
+
+/**
+ * 尝试访问 localStorage，失败时静默降级到内存存储
+ */
+const safeGetItem = (key: string): string | null => {
+	try {
+		return localStorage.getItem(key)
+	} catch {
+		return memoryFallback.get(key) ?? null
+	}
+}
+
+const safeSetItem = (key: string, value: string): void => {
+	try {
+		localStorage.setItem(key, value)
+	} catch {
+		memoryFallback.set(key, value)
+	}
+}
+
+/**
  * LocalStorage 操作封装
  */
 class LocalStorageStoreBuilder {
@@ -50,14 +75,11 @@ class LocalStorageStoreBuilder {
 	get = (key: ILocalStorageKey) => {
 		this.validateKey(key)
 		const storageKey = genLocalStorageKey(key)
-		const rawValue = localStorage.getItem(storageKey)
+		const rawValue = safeGetItem(storageKey)
 		let value
 		try {
-			// 尝试解析获取到的值，如果是数组或对象 JSON 字符串则解析为对应的对象
 			value = JSON.parse(rawValue as string)
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		} catch (_error) {
-			// 解析失败，说明不是数组或对象，直接使用原始值
+		} catch {
 			value = rawValue
 		}
 		return value
@@ -70,12 +92,11 @@ class LocalStorageStoreBuilder {
 	 */
 	set = (key: ILocalStorageKey, value: string) => {
 		this.validateKey(key)
-		// 如果是对象或数组，尝试转换为 JSON 字符串
 		if (typeof value === 'object' && value !== null) {
 			value = JSON.stringify(value)
 		}
 		const storageKey = genLocalStorageKey(key)
-		localStorage.setItem(storageKey, value)
+		safeSetItem(storageKey, value)
 	}
 }
 
