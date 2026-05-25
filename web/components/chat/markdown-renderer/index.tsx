@@ -82,8 +82,8 @@ const preprocessLaTeX = (content: string) => {
 
 const preprocessThinkTag = (content: string) => {
 	return flow([
-		(str: string) => str?.replace('<think>\n', '<details data-think=true>\n'),
-		(str: string) => str.replace('\n</think>', '\n[ENDTHINKFLAG]</details>'),
+		(str: string) => str?.replace(/<think>\n/g, '<details data-think=true>\n'),
+		(str: string) => str.replace(/\n<\/think>/g, '\n[ENDTHINKFLAG]</details>'),
 	])(content)
 }
 
