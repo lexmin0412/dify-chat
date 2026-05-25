@@ -1,8 +1,11 @@
 import { mysqlTable, varchar, datetime, int, boolean } from 'drizzle-orm/mysql-core'
 import { sql } from 'drizzle-orm'
+import { generateUuidV4 } from '@/lib/helpers'
 
 export const difyApps = mysqlTable('dify_apps', {
-	id: varchar({ length: 191 }).primaryKey(),
+	id: varchar({ length: 191 })
+		.primaryKey()
+		.$defaultFn(() => generateUuidV4()),
 	createdAt: datetime('created_at', { fsp: 3 })
 		.default(sql`CURRENT_TIMESTAMP(3)`)
 		.notNull(),

@@ -135,7 +135,7 @@ export default function MessageContent(props: IMessageContentProps) {
 			role === Roles.USER ? (
 				<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
 					<ThinkBlockProvider
-						appId={currentApp?.id || ''}
+						appId={currentApp?.config.id || ''}
 						messageId={id as string}
 					>
 						<MarkdownRenderer

@@ -43,9 +43,11 @@ const useThinkTimer = (children: React.JSX.Element, storageKey: string, isMode2:
 
 	useEffect(() => {
 		if (isMode2) {
-			clearTimeout(stableRef.current)
+			if (stableRef.current) clearTimeout(stableRef.current)
 			stableRef.current = setTimeout(onComplete, 300)
-			return () => clearTimeout(stableRef.current)
+			return () => {
+				if (stableRef.current) clearTimeout(stableRef.current)
+			}
 		}
 	}, [children, isMode2, onComplete])
 

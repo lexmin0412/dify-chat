@@ -115,11 +115,11 @@ export const useX = (options: IUseXOptions) => {
 		requestPlaceholder: {
 			role: Roles.AI,
 			content: '正在回复，请耐心等待...',
-		},
+		} as any,
 		requestFallback: {
 			role: Roles.AI,
-			content: 'Request failed, Please try again later.',
-		},
+			content: '请求失败，请稍后重试',
+		} as any,
 	})
 
 	const messagesRef = useRef(messages)
@@ -141,9 +141,7 @@ export const useX = (options: IUseXOptions) => {
 
 	// 实时追踪最新消息中的 workflows 数据，供 reconnectWorkflow 使用
 	useEffect(() => {
-		const lastAi = messages.findLast(
-			m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
-		)
+		const lastAi = messages.findLast(m => (m.message as any)?.role === Roles.AI)
 		if (lastAi) {
 			originWorkflowsRef.current = (lastAi.message as unknown as IAgentMessage)?.workflows || null
 		}
@@ -177,9 +175,8 @@ export const useX = (options: IUseXOptions) => {
 			let accumulatedContent = ''
 
 			// 找到当前消息用于更新工作流状态
-			let originMessage = (messagesRef.current.findLast(
-				m => (m.message as unknown as IAgentMessage)?.role === Roles.AI,
-			)?.message ?? null) as unknown as IAgentMessage | null
+			let originMessage = (messagesRef.current.findLast(m => (m.message as any)?.role === Roles.AI)
+				?.message ?? null) as IAgentMessage | null
 			if (originMessage) {
 				originMessage = {
 					...originMessage,

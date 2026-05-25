@@ -19,7 +19,7 @@ const createDb = () => {
 		throw new Error('DATABASE_URL 环境变量缺失, 请检查')
 	}
 
-	return drizzle(databaseUrl, { schema, logger: true })
+	return drizzle(databaseUrl, { schema, logger: true } as any) as ReturnType<typeof drizzle>
 }
 
 const globalForDb = globalThis as unknown as {
@@ -30,7 +30,7 @@ let dbInstance: ReturnType<typeof createDb> | undefined
 
 export const getDb = () => {
 	if (!process.env.DATABASE_URL && isNextBuild()) {
-		if (!dbInstance) dbInstance = createThrowingProxy() as ReturnType<typeof createDb>
+		if (!dbInstance) dbInstance = createThrowingProxy() as unknown as ReturnType<typeof createDb>
 		return dbInstance
 	}
 

@@ -121,7 +121,7 @@ export class CustomProvider<
 		const workflows = (originMessage?.workflows as NonNullable<IAgentMessage['workflows']>) || {}
 		const agentThoughts: IAgentThought[] = []
 		const files: IMessageFileItem[] = []
-		let messageId = originMessage?.id || ''
+		let messageId = (originMessage as any)?.id || ''
 
 		if (!chunk || !chunk?.data || (chunk?.data && chunk?.data?.includes('[DONE]'))) {
 			return originMessage as ChatMessage
@@ -342,7 +342,7 @@ export class CustomProvider<
 			this.onHumanInputRequired?.(eventData)
 			return originMessage as ChatMessage
 		}
-		if (parsedData.event === 'workflow_paused') {
+		if ((parsedData.event as string) === 'workflow_paused') {
 			return originMessage as ChatMessage
 		}
 		console.log('parsedData', parsedData)

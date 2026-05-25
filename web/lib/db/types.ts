@@ -73,5 +73,5 @@ export function appItemToDbAppUpdate(
 	return {
 		id: appItem.id,
 		...appItemToDbApp(appItem),
-	}
+	} as Omit<DifyApp, 'createdAt' | 'updatedAt'>
 }

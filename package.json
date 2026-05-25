@@ -4,8 +4,10 @@
 	"private": true,
 	"scripts": {
 		"build": "pnpm -r build",
+		"dev:app": "pnpm --filter dify-chat-platform dev",
 		"dev:docs": "pnpm --filter dify-chat-docs dev",
-		"dev:platform": "pnpm --filter dify-chat-platform dev",
+		"build:app": "pnpm --filter dify-chat-platform build",
+		"build:docs": "pnpm --filter dify-chat-docs build",
 		"create-admin": "pnpm --filter dify-chat-platform create-admin",
 		"test": "pnpm -r test",
 		"changeset": "changeset",

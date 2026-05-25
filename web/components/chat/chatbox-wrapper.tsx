@@ -290,7 +290,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				active: true,
 				formToken: data.data.form_token,
 				taskId: data.workflow_run_id,
-				activeContinuationId: msgId,
+				activeContinuationId: String(lastAiMsg?.id ?? ''),
 				formData: {
 					form_content: data.data.form_content,
 					inputs: data.data.inputs,
@@ -304,7 +304,7 @@ export default function ChatboxWrapper(props: IChatboxWrapperProps) {
 				},
 			})
 			// 模仿 Dify：workflow_paused 后立即重连 SSE，等待后续事件
-			reconnectWorkflow(data.workflow_run_id, msgId)
+			reconnectWorkflow(String(data.workflow_run_id), String(msgId))
 		},
 	})
 

@@ -43,8 +43,11 @@ export default function AppIcon(props: { size?: 'small' | 'default'; hasContaine
 				/>
 			)
 		}
-		const emoji = data.emojis[renderProps.icon]?.skins?.[0]?.native
-		return emoji || renderProps.icon || '🤖'
+		const emoji = (data as Record<string, unknown>).emojis as
+			| Record<string, { skins?: { native: string }[] }>
+			| undefined
+		const native = emoji?.[renderProps.icon]?.skins?.[0]?.native
+		return native || renderProps.icon || '🤖'
 	}, [renderProps])
 
 	if (hasContainer) {

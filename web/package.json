@@ -81,6 +81,7 @@
 		"@types/pako": "^2.0.3",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
+		"@types/react-syntax-highlighter": "^15.5.13",
 		"drizzle-kit": "1.0.0-rc.3",
 		"eslint": "^9.26.0",
 		"eslint-config-next": "^16.0.1",
