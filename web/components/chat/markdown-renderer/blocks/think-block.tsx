@@ -41,7 +41,8 @@ const useThinkTimer = (
 		completedRef.current = true
 		setIsComplete(true)
 		if (timerRef.current) clearInterval(timerRef.current)
-		setThinkTime(storageKey, elapsedRef.current)
+		const time = elapsedRef.current || Math.floor((Date.now() - startTimeRef.current) / 100) / 10
+		setThinkTime(storageKey, time)
 	}, [storageKey])
 
 	useEffect(() => {
