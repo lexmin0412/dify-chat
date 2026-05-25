@@ -34,6 +34,8 @@ const useThinkTimer = (children: React.JSX.Element, storageKey: string, isMode2:
 	useEffect(() => {
 		if (isMode2) {
 			clearTimeout(stableRef.current)
+			const closed = JSON.stringify(children).includes('</details>')
+			const delay = closed ? 0 : 200
 			stableRef.current = setTimeout(() => {
 				if (!isComplete) {
 					const time = resolvedTimeRef.current ?? Math.floor((Date.now() - startTime) / 100) / 10
@@ -41,7 +43,7 @@ const useThinkTimer = (children: React.JSX.Element, storageKey: string, isMode2:
 					setElapsedTime(time)
 					if (!resolvedTimeRef.current) setThinkTime(storageKey, time)
 				}
-			}, 500)
+			}, delay)
 			return () => clearTimeout(stableRef.current)
 		}
 
