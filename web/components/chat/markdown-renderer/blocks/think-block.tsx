@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { getThinkTime, setThinkTime } from '@/hooks/useX/think-time-storage'
 
@@ -35,8 +35,11 @@ const useThinkTimer = (
 	const [isComplete, setIsComplete] = useState(false)
 	const timerRef = useRef<NodeJS.Timeout>(null)
 	const stableRef = useRef<NodeJS.Timeout>(null)
-	const resolvedTimeRef = useRef<number | undefined>(getThinkTime(storageKey))
 	const completedRef = useRef(false)
+
+	const captureTime = useCallback(() => {
+		return Math.floor((Date.now() - startTime) / 100) / 10
+	}, [startTime])
 
 	useEffect(() => {
 		if (isMode2) {
@@ -47,9 +50,9 @@ const useThinkTimer = (
 				if (!completedRef.current) {
 					completedRef.current = true
 					setIsComplete(true)
-					const time = resolvedTimeRef.current ?? Math.floor((Date.now() - startTime) / 100) / 10
+					const time = captureTime()
 					setElapsedTime(time)
-					if (!resolvedTimeRef.current) setThinkTime(storageKey, time)
+					setThinkTime(storageKey, time)
 				}
 			}, delay)
 			return () => clearTimeout(stableRef.current)
@@ -60,11 +63,11 @@ const useThinkTimer = (
 			completedRef.current = true
 			setIsComplete(true)
 			if (timerRef.current) clearInterval(timerRef.current)
-			const time = Math.floor((Date.now() - startTime) / 100) / 10
+			const time = captureTime()
 			setElapsedTime(time)
 			setThinkTime(storageKey, time)
 		}
-	}, [children, isMode2, getComplete, thinkIndex, startTime, storageKey, resolvedTimeRef])
+	}, [children, isMode2, getComplete, thinkIndex, captureTime, storageKey])
 
 	useEffect(() => {
 		timerRef.current = setInterval(() => {
