@@ -122,7 +122,7 @@ export default function WorkflowLayout() {
 							setWorkflowStatus('running')
 							setWorkflowItems([])
 						} else if (parsedData.event === EventEnum.WORKFLOW_FINISHED) {
-// @ts-expect-error FIXME: 类型兼容							workflows.status = 'finished'
+							// @ts-expect-error FIXME: 类型兼容							workflows.status = 'finished'
 							const { outputs, files } = parsedData.data || {}
 							const outputsLength = Object.keys(outputs)?.length
 							if (outputsLength > 0) {
@@ -169,7 +169,7 @@ export default function WorkflowLayout() {
 							})
 						}
 						if (parsedData.event === EventEnum.MESSAGE_FILE) {
-							result += `<img src=""${parsedData.url} />`
+							result += `<img src="${parsedData.url}" />`
 						}
 						if (parsedData.event === EventEnum.MESSAGE) {
 							const text = parsedData.answer
