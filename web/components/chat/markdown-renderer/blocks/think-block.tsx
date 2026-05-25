@@ -29,52 +29,48 @@ const useThinkTimer = (
 	isMode2: boolean,
 	detailsRef: React.RefObject<HTMLDetailsElement | null>,
 ) => {
-	const [startTime] = useState(Date.now())
+	const startTimeRef = useRef(Date.now())
 	const [elapsedTime, setElapsedTime] = useState(0)
 	const [isComplete, setIsComplete] = useState(false)
 	const timerRef = useRef<NodeJS.Timeout>(null)
+	const elapsedRef = useRef(0)
 	const completedRef = useRef(false)
 
-	const captureTime = useCallback(() => {
-		return Math.floor((Date.now() - startTime) / 100) / 10
-	}, [startTime])
+	const onComplete = useCallback(() => {
+		if (completedRef.current) return
+		completedRef.current = true
+		setIsComplete(true)
+		if (timerRef.current) clearInterval(timerRef.current)
+		setThinkTime(storageKey, elapsedRef.current)
+	}, [storageKey])
 
 	useEffect(() => {
 		if (isMode2 && detailsRef.current) {
 			const hasNext = detailsRef.current.nextElementSibling !== null
-			if (hasNext && !completedRef.current) {
-				completedRef.current = true
-				setIsComplete(true)
-				if (timerRef.current) clearInterval(timerRef.current)
-				const time = captureTime()
-				setElapsedTime(time)
-				setThinkTime(storageKey, time)
-			}
+			if (hasNext) onComplete()
 		}
 	})
 
 	useEffect(() => {
 		if (!isMode2) {
 			const complete = hasEndThink(children)
-			if (complete && !completedRef.current) {
-				completedRef.current = true
-				setIsComplete(true)
-				if (timerRef.current) clearInterval(timerRef.current)
-				const time = captureTime()
-				setElapsedTime(time)
-				setThinkTime(storageKey, time)
-			}
+			if (complete) onComplete()
 		}
-	}, [children, isMode2, captureTime, storageKey])
+	}, [children, isMode2, onComplete])
 
 	useEffect(() => {
+		const startTime = startTimeRef.current
 		timerRef.current = setInterval(() => {
-			if (!isComplete) setElapsedTime(Math.floor((Date.now() - startTime) / 100) / 10)
+			if (!isComplete) {
+				const time = Math.floor((Date.now() - startTime) / 100) / 10
+				elapsedRef.current = time
+				setElapsedTime(time)
+			}
 		}, 100)
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current)
 		}
-	}, [startTime, isComplete])
+	}, [isComplete])
 
 	return { elapsedTime, isComplete }
 }
