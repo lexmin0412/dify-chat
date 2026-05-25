@@ -101,6 +101,17 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 	const displayTime = restoredTime ?? (isComplete ? elapsedTime : undefined)
 	const displayContent = isThink ? removeEndThink(children) : children
 
+	if (isThink) {
+		console.log('[ThinkBlock]', {
+			storageKey,
+			isComplete,
+			elapsedTime,
+			restoredTime,
+			displayTime,
+			hasNext: detailsRef.current?.nextElementSibling !== null,
+		})
+	}
+
 	if (!isThink) return <details {...props}>{children}</details>
 
 	return (
