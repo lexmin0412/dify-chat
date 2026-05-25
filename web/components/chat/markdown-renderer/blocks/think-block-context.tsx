@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useRef } from 'react'
 
 interface ThinkBlockContextValue {
+	appId: string
 	messageId: string
 	nextIndex: () => number
 }
@@ -10,14 +11,17 @@ interface ThinkBlockContextValue {
 const ThinkBlockContext = createContext<ThinkBlockContextValue | null>(null)
 
 export function ThinkBlockProvider({
+	appId,
 	messageId,
 	children,
 }: {
+	appId: string
 	messageId: string
 	children: React.ReactNode
 }) {
 	const indexRef = useRef(0)
 	const ctx: ThinkBlockContextValue = {
+		appId,
 		messageId,
 		nextIndex: () => indexRef.current++,
 	}

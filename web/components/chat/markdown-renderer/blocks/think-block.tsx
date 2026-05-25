@@ -86,7 +86,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 	const isMode2 = isThink && !props['data-think']
 	const thinkIndexRef = useRef(ctx && isThink ? ctx.nextIndex() : -1)
 	const thinkIndex = thinkIndexRef.current
-	const storageKey = ctx && isThink ? `${ctx.messageId}_${thinkIndex}` : ''
+	const storageKey = ctx && isThink ? `${ctx.appId}_${ctx.messageId}_${thinkIndex}` : ''
 	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isMode2)
 
 	const restoredTime = getThinkTime(storageKey)
