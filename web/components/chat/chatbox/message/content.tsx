@@ -134,10 +134,7 @@ export default function MessageContent(props: IMessageContentProps) {
 			role === Roles.LOCAL ||
 			role === Roles.USER ? (
 				<div className={role === Roles.LOCAL || role === Roles.USER ? '' : 'md:min-w-chat-card'}>
-					<ThinkBlockProvider
-						messageId={id as string}
-						rawContent={computedContent || ''}
-					>
+					<ThinkBlockProvider messageId={id as string}>
 						<MarkdownRenderer
 							markdownText={computedContent}
 							onSubmit={onSubmit}

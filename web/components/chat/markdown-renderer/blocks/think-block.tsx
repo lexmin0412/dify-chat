@@ -27,14 +27,12 @@ const useThinkTimer = (
 	children: React.JSX.Element,
 	storageKey: string,
 	isMode2: boolean,
-	getComplete: ((index: number) => boolean) | undefined,
-	thinkIndex: number,
+	detailsRef: React.RefObject<HTMLDetailsElement | null>,
 ) => {
 	const [startTime] = useState(Date.now())
 	const [elapsedTime, setElapsedTime] = useState(0)
 	const [isComplete, setIsComplete] = useState(false)
 	const timerRef = useRef<NodeJS.Timeout>(null)
-	const stableRef = useRef<NodeJS.Timeout>(null)
 	const completedRef = useRef(false)
 
 	const captureTime = useCallback(() => {
@@ -42,32 +40,32 @@ const useThinkTimer = (
 	}, [startTime])
 
 	useEffect(() => {
-		if (isMode2) {
-			clearTimeout(stableRef.current)
-			const complete = getComplete?.(thinkIndex) ?? false
-			const delay = complete ? 0 : 200
-			stableRef.current = setTimeout(() => {
-				if (!completedRef.current) {
-					completedRef.current = true
-					setIsComplete(true)
-					const time = captureTime()
-					setElapsedTime(time)
-					setThinkTime(storageKey, time)
-				}
-			}, delay)
-			return () => clearTimeout(stableRef.current)
+		if (isMode2 && detailsRef.current) {
+			const hasNext = detailsRef.current.nextElementSibling !== null
+			if (hasNext && !completedRef.current) {
+				completedRef.current = true
+				setIsComplete(true)
+				if (timerRef.current) clearInterval(timerRef.current)
+				const time = captureTime()
+				setElapsedTime(time)
+				setThinkTime(storageKey, time)
+			}
 		}
+	})
 
-		const complete = hasEndThink(children)
-		if (complete && !completedRef.current) {
-			completedRef.current = true
-			setIsComplete(true)
-			if (timerRef.current) clearInterval(timerRef.current)
-			const time = captureTime()
-			setElapsedTime(time)
-			setThinkTime(storageKey, time)
+	useEffect(() => {
+		if (!isMode2) {
+			const complete = hasEndThink(children)
+			if (complete && !completedRef.current) {
+				completedRef.current = true
+				setIsComplete(true)
+				if (timerRef.current) clearInterval(timerRef.current)
+				const time = captureTime()
+				setElapsedTime(time)
+				setThinkTime(storageKey, time)
+			}
 		}
-	}, [children, isMode2, getComplete, thinkIndex, captureTime, storageKey])
+	}, [children, isMode2, captureTime, storageKey])
 
 	useEffect(() => {
 		timerRef.current = setInterval(() => {
@@ -97,16 +95,11 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 	const ctx = useThinkBlockContext()
 	const isThink = detectThinkBlock(props)
 	const isMode2 = isThink && !props['data-think']
+	const detailsRef = useRef<HTMLDetailsElement>(null)
 	const thinkIndexRef = useRef(ctx && isThink ? ctx.nextIndex() : -1)
 	const thinkIndex = thinkIndexRef.current
 	const storageKey = ctx && isThink ? `${ctx.messageId}_${thinkIndex}` : ''
-	const { elapsedTime, isComplete } = useThinkTimer(
-		children,
-		storageKey,
-		isMode2,
-		ctx?.getComplete,
-		thinkIndex,
-	)
+	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isMode2, detailsRef)
 
 	const restoredTime = getThinkTime(storageKey)
 	const displayTime = restoredTime ?? (isComplete ? elapsedTime : undefined)
@@ -116,6 +109,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 
 	return (
 		<details
+			ref={detailsRef}
 			{...(!isComplete && { open: true })}
 			className="group"
 		>
