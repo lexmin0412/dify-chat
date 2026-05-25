@@ -1,61 +1,99 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+
+import { getThinkTime, setThinkTime } from '@/hooks/useX/think-time-storage'
+
+import { useThinkBlockContext } from './think-block-context'
 
 const hasEndThink = (children: any): boolean => {
 	if (typeof children === 'string') return children.includes('[ENDTHINKFLAG]')
-
 	if (Array.isArray(children)) return children.some(child => hasEndThink(child))
-
 	if (children?.props?.children) return hasEndThink(children.props.children)
-
 	return false
 }
 
 const removeEndThink = (children: any): any => {
 	if (typeof children === 'string') return children.replace('[ENDTHINKFLAG]', '')
-
 	if (Array.isArray(children)) return children.map(child => removeEndThink(child))
-
 	if (children?.props?.children) {
 		return React.cloneElement(children, {
 			...children.props,
 			children: removeEndThink(children.props.children),
 		})
 	}
-
 	return children
 }
 
-const useThinkTimer = (children: React.JSX.Element) => {
-	const [startTime] = useState(Date.now())
+const useThinkTimer = (children: React.JSX.Element, storageKey: string, isMode2: boolean) => {
+	const startTimeRef = useRef(Date.now())
 	const [elapsedTime, setElapsedTime] = useState(0)
 	const [isComplete, setIsComplete] = useState(false)
 	const timerRef = useRef<NodeJS.Timeout>(null)
+	const stableRef = useRef<NodeJS.Timeout>(null)
+	const completedRef = useRef(false)
+
+	const onComplete = useCallback(() => {
+		if (completedRef.current) return
+		completedRef.current = true
+		setIsComplete(true)
+		if (timerRef.current) clearInterval(timerRef.current)
+		if (stableRef.current) clearTimeout(stableRef.current)
+		const time = Math.floor((Date.now() - startTimeRef.current) / 100) / 10
+		setThinkTime(storageKey, time)
+	}, [storageKey])
+
+	useEffect(() => {
+		if (isMode2) {
+			clearTimeout(stableRef.current)
+			stableRef.current = setTimeout(onComplete, 300)
+			return () => clearTimeout(stableRef.current)
+		}
+	}, [children, isMode2, onComplete])
+
+	useEffect(() => {
+		if (!isMode2) {
+			const complete = hasEndThink(children)
+			if (complete) onComplete()
+		}
+	}, [children, isMode2, onComplete])
 
 	useEffect(() => {
 		timerRef.current = setInterval(() => {
-			if (!isComplete) setElapsedTime(Math.floor((Date.now() - startTime) / 100) / 10)
+			if (!isComplete) setElapsedTime(Math.floor((Date.now() - startTimeRef.current) / 100) / 10)
 		}, 100)
-
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current)
 		}
-	}, [startTime, isComplete])
-
-	useEffect(() => {
-		if (hasEndThink(children)) {
-			setIsComplete(true)
-			if (timerRef.current) clearInterval(timerRef.current)
-		}
-	}, [children])
+	}, [isComplete])
 
 	return { elapsedTime, isComplete }
 }
 
-export const ThinkBlock = ({ children, ...props }: any) => {
-	const { elapsedTime, isComplete } = useThinkTimer(children)
-	const displayContent = removeEndThink(children)
+const detectThinkBlock = (props: any): boolean => {
+	if (props['data-think']) return true
+	const children = props.node?.children || props.children
+	if (!Array.isArray(children)) return false
+	const summary = children.find((c: any) => c?.tagName === 'summary')
+	if (summary) {
+		const text = typeof summary.children?.[0]?.value === 'string' ? summary.children[0].value : ''
+		return text.includes('Thinking') || text.includes('思考')
+	}
+	return false
+}
 
-	if (!(props['data-think'] ?? false)) return <details {...props}>{children}</details>
+export const ThinkBlock = ({ children, ...props }: any) => {
+	const ctx = useThinkBlockContext()
+	const isThink = detectThinkBlock(props)
+	const isMode2 = isThink && !props['data-think']
+	const thinkIndexRef = useRef(ctx && isThink ? ctx.nextIndex() : -1)
+	const thinkIndex = thinkIndexRef.current
+	const storageKey = ctx && isThink ? `${ctx.appId}_${ctx.messageId}_${thinkIndex}` : ''
+	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isMode2)
+
+	const restoredTime = getThinkTime(storageKey)
+	const displayTime = restoredTime ?? (isComplete ? elapsedTime : undefined)
+	const displayContent = isThink ? removeEndThink(children) : children
+
+	if (!isThink) return <details {...props}>{children}</details>
 
 	return (
 		<details
@@ -77,10 +115,12 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 							d="M9 5l7 7-7 7"
 						/>
 					</svg>
-					{isComplete ? `已完成深度思考` : `深度思考中...(${elapsedTime.toFixed(1)}s)`}
+					{isComplete
+						? `已完成深度思考${displayTime != null ? ` (${displayTime.toFixed(1)}s)` : ''}`
+						: `深度思考中...(${elapsedTime.toFixed(1)}s)`}
 				</div>
 			</summary>
-			<div className={`text-theme-desc mt-1 ml-5 rounded-lg border-l border-gray-300`}>
+			<div className="text-theme-desc mt-1 ml-5 rounded-lg border-l border-gray-300">
 				{displayContent}
 			</div>
 		</details>
