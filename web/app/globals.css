@@ -41,6 +41,7 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
 	--radius-xl: calc(var(--radius) + 4px);
+	--min-width-chat-card: 28rem;
 }
 
 :root {
@@ -204,6 +205,10 @@ body {
 }
 
 .ant-bubble-list {
+	.ant-bubble-start:not(.ant-bubble-divider):not(.ant-bubble-system) {
+		padding-inline-end: 0;
+	}
+
 	.ant-bubble {
 		margin-bottom: 12px;
 
