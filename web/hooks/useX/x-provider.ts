@@ -264,7 +264,7 @@ export class CustomProvider<
 			} as unknown as ChatMessage
 		}
 		if (parsedData.event === EventEnum.MESSAGE_FILE) {
-			const newContent = originMessage?.content + `<img src=""${parsedData.url} />`
+			const newContent = originMessage?.content + `<img src="${parsedData.url}" />`
 			return {
 				...originMessage,
 				content: newContent,
