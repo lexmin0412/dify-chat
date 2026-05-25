@@ -4,9 +4,6 @@ import { message } from 'antd'
 import LucideIcon from '@/components/shared/lucide-icon'
 
 interface IWorkflowNodeDetailProps {
-	/**
-	 * 原始结构化内容
-	 */
 	originalContent: string
 }
 
@@ -16,20 +13,26 @@ export default function WorkflowNodeDetail(props: IWorkflowNodeDetailProps) {
 	return (
 		<div>
 			{originalContent ? (
-				<>
-					<LucideIcon
-						name="copy"
-						size={16}
-						className="text-theme-text cursor-pointer"
+				<div className="relative rounded-md bg-muted/50">
+					<button
+						className="absolute top-2 right-2 flex items-center gap-1 rounded px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 						onClick={async () => {
 							await copyToClipboard(JSON.stringify(originalContent, null, 2))
 							message.success('复制成功')
 						}}
-					/>
-					<pre className="m-0 w-full overflow-auto">{JSON.stringify(originalContent, null, 2)}</pre>
-				</>
+					>
+						<LucideIcon
+							name="copy"
+							size={12}
+						/>
+						复制
+					</button>
+					<pre className="m-0 w-full overflow-auto p-3 pt-7 text-xs">
+						{JSON.stringify(originalContent, null, 2)}
+					</pre>
+				</div>
 			) : (
-				<pre>空</pre>
+				<pre className="m-0 text-xs text-muted-foreground">空</pre>
 			)}
 		</div>
 	)
