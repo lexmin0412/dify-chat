@@ -141,17 +141,11 @@ export default function MessageFileList(props: IMessageFileListProps) {
 							}
 						}}
 					>
-						{/* @ts-expect-error FIXME: @ant-design/x 类型 */}
 						<FileCard
 							key={item.id}
-							item={{
-								...item,
-								uid: item.upload_file_id || item.id,
-								name: item.filename,
-								size: item.size,
-								thumbUrl: item.url,
-								url: item.url,
-							}}
+							name={item.filename}
+							byte={item.size}
+							src={item.url}
 						/>
 					</a>
 				)
