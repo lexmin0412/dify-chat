@@ -13,9 +13,9 @@ export default function WorkflowNodeDetail(props: IWorkflowNodeDetailProps) {
 	return (
 		<div>
 			{originalContent ? (
-				<div className="relative rounded-md bg-muted/50">
+				<div className="group relative rounded-md bg-muted/50">
 					<button
-						className="absolute bottom-2 right-2 flex items-center gap-1 rounded px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+						className="absolute right-2 top-2 hidden rounded px-1.5 py-0.5 text-xs text-muted-foreground opacity-0 transition-opacity hover:bg-muted hover:text-foreground group-hover:opacity-100 group-hover:block"
 						onClick={async () => {
 							await copyToClipboard(JSON.stringify(originalContent, null, 2))
 							message.success('复制成功')
@@ -25,9 +25,8 @@ export default function WorkflowNodeDetail(props: IWorkflowNodeDetailProps) {
 							name="copy"
 							size={12}
 						/>
-						复制
 					</button>
-					<pre className="m-0 w-full overflow-auto p-3 pb-7 text-xs">
+					<pre className="m-0 w-full overflow-auto p-3 text-xs">
 						{JSON.stringify(originalContent, null, 2)}
 					</pre>
 				</div>
