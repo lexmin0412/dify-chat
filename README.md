@@ -6,14 +6,6 @@
 
 如果你觉得这个项目还不错的话，请动动你的小手指点个 Star ⭐️ 吧～
 
-> [!WARNING] **main 分支正在进行大范围技术重构，代码处于不稳定状态。**
->
-> 如果你需要部署到生产环境，请使用 [v0.7.1 Release](https://github.com/lexmin0412/dify-chat/releases/tag/v0.7.1) 版本。
->
-> ```shell
-> curl -O https://raw.githubusercontent.com/lexmin0412/dify-chat/v0.7.1/docker-compose.yml
-> ```
-
 ## 快速开始
 
 使用 Docker Compose 启动 `Dify Chat` 是最便捷的方式。在执行以下命令前，请确保你的机器已安装 Docker 和 Docker Compose：
