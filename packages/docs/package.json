@@ -12,6 +12,6 @@
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.17",
-		"globals": "^15.14.0"
+		"globals": "^17.6.0"
 	}
 }
