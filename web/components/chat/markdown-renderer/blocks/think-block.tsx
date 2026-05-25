@@ -87,6 +87,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isMode2)
 
 	const restoredTime = getThinkTime(storageKey)
+	const displayTime = restoredTime ?? (isComplete ? elapsedTime : undefined)
 	const displayContent = isThink ? removeEndThink(children) : children
 
 	if (!isThink) return <details {...props}>{children}</details>
@@ -112,7 +113,7 @@ export const ThinkBlock = ({ children, ...props }: any) => {
 						/>
 					</svg>
 					{isComplete
-						? `已完成深度思考${restoredTime != null ? ` (${restoredTime.toFixed(1)}s)` : ''}`
+						? `已完成深度思考${displayTime != null ? ` (${displayTime.toFixed(1)}s)` : ''}`
 						: `深度思考中...(${elapsedTime.toFixed(1)}s)`}
 				</div>
 			</summary>
