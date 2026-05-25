@@ -1,0 +1,139 @@
+import { Tab, Tabs } from 'rspress/theme'
+
+# 按需修改代码
+
+我们提供了 React SPA 和 Next.js 两种技术实现，下面的内容将会分两种技术栈进行讲解，你可以按照你的喜好进行选择阅读。
+
+## React SPA
+
+> 注意：为行文简洁，本小节下所有的路径表示省略 `packages/react-app` 前缀, 如 `src/App.tsx`, 实际路径为 `packages/react-app/src/App.tsx`。
+
+### 0. 选定运行模式
+
+在上一节 [选择适合你的模式](./select-mode.md) 中，我们已经选定了应用模式。
+
+默认情况下，代码中的运行模式为 "多应用"，你可以在 `src/App.tsx` 中，看到初始化全局运行时配置的代码：
+
+```tsx title="src/App.tsx"
+// 初始化全局运行时配置
+difyChatRuntimeConfig.init('multiApp')
+```
+
+如果你想要以单应用模式运行，需要对 `difyChatRuntimeConfig.init()` 的参数进行修改：
+
+```tsx title="src/App.tsx"
+// 初始化全局运行时配置
+difyChatRuntimeConfig.init('singleApp')
+```
+
+### 1. 自定义应用配置管理
+
+默认情况下，为方便演示，我们使用 LocalStorage 进行应用配置的存储。你可以在 `src/services/app` 中看到：
+
+多应用模式：
+
+```tsx title="src/services/app/multiApp/index.ts"
+import DifyAppService from './localstorage'
+
+export const appService = new DifyAppService()
+```
+
+单应用模式：
+
+```tsx title="src/services/app/singleApp/index.ts"
+export { appConfig } from './localstorage'
+```
+
+在 `src/services/app` 在，分别有 `multiApp` 和 `singleApp` 两个目录，其下又分别有三种应用配置存储的实现形式：
+
+- `static-readonly`, 写死在代码中的数据，只支持查询，不支持修改数据
+- `localstorage`, 使用 LocalStorage 存储，支持完整的 CRUD，但无法跨浏览器同步
+- `restful`, 通过 API 接口存储，支持完整的 CRUD，推荐使用🌟
+
+你可以根据你的需要自行选择，也可以修改代码或扩展其他实现形式，最终只要通过 `src/services/app/multiApp/index.ts` 或者 `src/services/app/singleApp/index.ts` 导出即可。
+
+#### 1.1 自定义 Restful 实现
+
+如果需要自定义你的后端服务，请遵循以下步骤进行操作。
+
+首先，参考 `packages/server`，实现以下接口：
+
+- 获取 App 配置列表
+- 获取 App 配置详情
+- 添加 App 配置
+- 更新 App 配置
+- 删除 App 配置
+
+然后在 `src/services/app/multiApp` 中新建一个文件，只需要继承抽象类 `DifyAppStore` 并实现它的所有方法, 调用在上述服务中对应的接口即可。
+
+#### 1.2 展示固定的应用列表数据
+
+修改 `src/services/app/multiApp/static-readonly/data.ts` 中的数据。
+
+```ts title="src/services/app/multiApp/static-readonly/data.ts"
+import { AppModeEnums, IDifyAppItem } from '@dify-chat/core'
+
+/**
+ * 静态的应用列表，用于演示
+ */
+export const staticAppList: IDifyAppItem[] = [
+	{
+		// 应用唯一标识，保证不重复即可
+		id: '0.270357011315995',
+		info: {
+			// 应用名称
+			name: 'My Chatflow APP',
+			// 应用描述
+			description: '我的 Chatflow 应用',
+			// 标签
+			tags: [],
+			// 应用类型
+			mode: AppModeEnums.CHATFLOW,
+		},
+		// 应用请求配置
+		requestConfig: {
+			// Dify API 前缀
+			apiBase: 'https://api.dify.ai/v1',
+			// Dify API 密钥
+			apiKey: 'app-xxxxxxx',
+		},
+	},
+]
+```
+
+## Next.js
+
+### 0. 选定运行模式
+
+在上一节 [选择适合你的模式](./select-mode.md) 中，你应该已经按需选好了应用模式，接下来让我们开始配置。
+
+> 注意：为行文简洁，本小节下所有的路径表示省略 `packages/nextjs-app` 前缀, 如 `.env.template`, 实际路径为 `packages/nextjs-app/.env.template`。
+
+将 `.env.template` 复制为 `.env` 文件：
+
+```bash title=".env"
+cp .env.template .env
+```
+
+默认情况下，代码中的运行模式为 "多应用"，你可以在 `.env` 中进行修改：
+
+<Tabs>
+	<Tab label="多应用模式">```bash title=".env" RUNNING_MODE=multiApp ```</Tab>
+	<Tab label="单应用模式">```bash title=".env" RUNNING_MODE=singleApp ```</Tab>
+</Tabs>
+
+### 1. 选定存储方式
+
+默认情况下，我们使用文件系统进行应用配置存储。你可以在 `services/app/index.ts` 中看到具体使用的存储方式：
+
+```ts title="services/app/index.ts"
+# 使用 fs 实现
+export * from "./fs";
+```
+
+在 `services/app` 目录下，实现了两种应用配置的存储形式：
+
+- `fs`, 基于本地文件的存储，支持完整的 CRUD，但存在丢失数据的风险
+- `restful`, 通过 API 接口管理，支持完整的 CRUD，推荐使用🌟
+
+你可以根据你的需要自行选择，也可以修改代码或扩展其他实现形式，最终只要通过 `services/app/index.ts` 导出即可。

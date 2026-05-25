@@ -12,7 +12,7 @@ export default defineConfig({
 	],
 	multiVersion: {
 		default: 'Latest',
-		versions: ['Latest', 'v0.6.x', 'v0.5.x', 'v0.4.x'],
+		versions: ['Latest', 'v0.7.x', 'v0.6.x', 'v0.5.x', 'v0.4.x'],
 	},
 	search: {
 		versioned: true,

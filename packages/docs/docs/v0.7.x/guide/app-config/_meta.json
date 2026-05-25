@@ -1,0 +1,17 @@
+[
+	"custom-user-info",
+	{
+		"type": "dir",
+		"name": "config-multiple",
+		"label": "配置 - 多应用模式",
+		"collapsible": true,
+		"collapsed": false
+	},
+	{
+		"type": "dir",
+		"name": "config-single",
+		"label": "配置 - 单应用模式",
+		"collapsible": true,
+		"collapsed": false
+	}
+]
