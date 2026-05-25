@@ -23,37 +23,46 @@ const removeEndThink = (children: any): any => {
 	return children
 }
 
-const useThinkTimer = (children: React.JSX.Element, storageKey: string, preComplete: boolean) => {
-	const [startTime] = useState(preComplete ? 0 : Date.now())
+const useThinkTimer = (children: React.JSX.Element, storageKey: string, isMode2: boolean) => {
+	const [startTime] = useState(Date.now())
 	const [elapsedTime, setElapsedTime] = useState(0)
-	const [isComplete, setIsComplete] = useState(preComplete)
+	const [isComplete, setIsComplete] = useState(false)
 	const timerRef = useRef<NodeJS.Timeout>(null)
-	const completedRef = useRef(preComplete)
+	const stableRef = useRef<NodeJS.Timeout>(null)
+	const resolvedTimeRef = useRef<number | undefined>(getThinkTime(storageKey))
 
 	useEffect(() => {
-		if (preComplete) return
+		if (isMode2) {
+			clearTimeout(stableRef.current)
+			stableRef.current = setTimeout(() => {
+				if (!isComplete) {
+					const time = resolvedTimeRef.current ?? Math.floor((Date.now() - startTime) / 100) / 10
+					setIsComplete(true)
+					setElapsedTime(time)
+					if (!resolvedTimeRef.current) setThinkTime(storageKey, time)
+				}
+			}, 500)
+			return () => clearTimeout(stableRef.current)
+		}
+
 		const complete = hasEndThink(children)
-		if (complete && !completedRef.current) {
-			completedRef.current = true
+		if (complete && !isComplete) {
 			setIsComplete(true)
 			if (timerRef.current) clearInterval(timerRef.current)
-
 			const time = Math.floor((Date.now() - startTime) / 100) / 10
 			setElapsedTime(time)
 			setThinkTime(storageKey, time)
 		}
-	}, [children, startTime, storageKey, preComplete])
+	}, [children, isMode2])
 
 	useEffect(() => {
-		if (preComplete) return
 		timerRef.current = setInterval(() => {
 			if (!isComplete) setElapsedTime(Math.floor((Date.now() - startTime) / 100) / 10)
 		}, 100)
-
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current)
 		}
-	}, [startTime, isComplete, preComplete])
+	}, [startTime, isComplete])
 
 	return { elapsedTime, isComplete }
 }
@@ -73,9 +82,9 @@ const detectThinkBlock = (props: any): boolean => {
 export const ThinkBlock = ({ children, ...props }: any) => {
 	const ctx = useThinkBlockContext()
 	const isThink = detectThinkBlock(props)
-	const isPreDone = isThink && !props['data-think']
+	const isMode2 = isThink && !props['data-think']
 	const storageKey = ctx && isThink ? `${ctx.messageId}_${ctx.nextIndex()}` : ''
-	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isPreDone)
+	const { elapsedTime, isComplete } = useThinkTimer(children, storageKey, isMode2)
 
 	const restoredTime = getThinkTime(storageKey)
 	const displayContent = isThink ? removeEndThink(children) : children
