@@ -115,7 +115,7 @@ docker compose up -d
 - Node.js ^22.21.1
 - pnpm ^10.8.1
 
-> 注意：本项目使用了 pnpm workspace 高级特性来实现 Monorepo 管理，其他包管理工具可能无法正常工作，请先确保你的环境满足以上要求。
+> 注意：本项目使用 pnpm workspaces 管理 Monorepo，请使用 pnpm 进行依赖安装，其他包管理工具可能无法正常工作。
 
 ## License
 
