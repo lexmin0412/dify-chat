@@ -1,11 +1,13 @@
 [
 	"custom-user-id",
 	"markdown-render",
+	"hitl",
+	"iframe-embed",
+	"wide-screen",
 	"auto-compatible-theme",
 	"conversation-input-params",
 	"sender-text",
 	"opening-statement",
-	"debug-mode",
 	"annotation",
 	"i18n"
 ]

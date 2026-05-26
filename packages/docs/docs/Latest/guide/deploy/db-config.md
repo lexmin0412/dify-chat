@@ -14,34 +14,30 @@ mysql://username:password@host:port/database_name
 
 如果你的数据库是其他类型，则需要修改代码。下面以 PostgreSQL 为例说明如何配置。
 
-首先，修改 Prisma 配置文件中的数据库类型：
+首先，修改 Drizzle schema 配置中的数据库方言：
 
-```shell title="packages/platform/prisma/schema.prisma"
-datasource db {
-  provider = "postgresql"
-}
+```ts title="web/db/schema/apps.ts"
+import { pgTable } from 'drizzle-orm/pg-core'
+// 将 mysqlTable 替换为 pgTable
 ```
 
 然后在 .env 中配置你的数据库连接地址：
 
-```shell title="packages/platform/.env"
+```shell title="web/.env"
 DATABASE_URL=postgres://username:password@ip:port/dify-chat
 ```
 
-重新生成 Prisma 客户端文件并同步表结构：
+重新生成迁移文件并执行：
 
 ```shell
-# 重新生成客户端文件
+# 删除旧的迁移文件
+rm -rf web/db/migrations/*
+
+# 生成新的迁移文件
 pnpm --filter dify-chat-platform db:generate
 
-# 删除 migrations 目录
-rm -rf packages/platform/prisma/migrations
-
-# 重置迁移历史
-pnpm --filter dify-chat-platform exec prisma migrate reset
-
-# 重新生成迁移文件
-pnpm --filter dify-chat-platform exec prisma migrate dev
+# 执行迁移
+pnpm --filter dify-chat-platform db:migrate
 ```
 
-最后，按照你喜欢的方式（Docker 或者脚本）启动即可。
+最后，按照你喜欢的方式（Docker 或者脚本）重新构建启动即可。

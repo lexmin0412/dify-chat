@@ -1,0 +1,91 @@
+# 从 v0.7.x 迁移到 v0.8.0
+
+v0.8.0 是一次大版本升级，不仅跟随 Dify 版本升级实现新特性如 HITL(人工介入)，关闭了大量历史遗留 Issue，还在架构上做了大幅重构和简化，降低部署成本，提升安全性。
+
+## 新增特性
+
+| 特性 | 说明 |
+|------|------|
+| HITL 人工干预 | 工作流运行到人工干预节点时，自动在聊天界面中展示表单，支持用户填写后继续执行 |
+| 宽屏切换 | 一键切换消息区域为宽屏模式，充分利用大屏幕空间 |
+| iframe 嵌入 | 支持通过 `<iframe>` 直接将聊天界面嵌入到任意网站 |
+| Storage 降级 | localStorage/IndexedDB 不可用时自动降级到内存存储，避免白屏 |
+| Think Block 持久化 | 思考耗时通过 IndexedDB 持久化，刷新页面后不再丢失 |
+
+## 架构变更一览
+
+| 变更项 | v0.7.x | v0.8.0 | 原因 |
+|--------|--------|--------|------|
+| **项目结构** | 8 个子包（api、components、core、docs、helpers、platform、react-app、theme） | `web/` + `packages/docs/` | 减少包间依赖和版本同步开销，统一构建和部署流程 |
+| **前端应用** | `react-app`（Rsbuild SPA）和 `platform`（Next.js）两套 | 单一 `web/`（Next.js App Router） | 维护两套代码成本高，统一到 Next.js 全栈架构 |
+| **管理后台** | 独立 `platform` 子包 | 整合在 `web/` 内 | 无需单独部署，共用认证、路由和数据库连接 |
+| **ORM** | Prisma v7 | Drizzle v1.0 | 更轻量的运行时、更好的 TypeScript 类型推导、无代码生成步骤、更灵活的查询 API |
+| **构建工具** | `react-app` 使用 Rsbuild | 统一使用 Turbopack（Next.js 内置） | 跟随前端应用合并，减少外部依赖 |
+| **组件库** | Ant Design X v1 | Ant Design X v2 + @ant-design/x-sdk | 跟进上游大版本，获取新特性和修复 |
+| **npm 包** | `@dify-chat/api`、`@dify-chat/core`、`@dify-chat/theme`、`@dify-chat/helpers`、`@dify-chat/components` 独立发布 | 已废弃，代码整合到 `web/` | 维护 5 个 npm 包的版本同步成本高，且大部分用户直接使用完整项目而非按包引用 |
+| **调试模式** | `react-app` 内置调试模式（直连 Dify API） | 已移除 | 存在安全问题，不再提供 |
+
+如果你是从 v0.7.x 升级，请按以下步骤操作。
+
+## 1. 数据库迁移
+
+v0.8.0 使用 Drizzle ORM 替代了 Prisma ORM。虽然数据库表结构基本保持不变，但需要执行一次迁移以完成以下工作：
+
+- 创建 Drizzle 的迁移追踪表（`__drizzle_migrations`）
+- 应用一处小幅 schema 变更（`users` 表的 `updated_at` 列新增默认值）
+
+**如果你使用 Docker Compose 部署**：拉取新镜像后，容器启动时会自动执行数据库迁移，无需手动操作。
+
+**如果你使用源码部署**：
+
+```bash
+# 拉取最新代码
+git checkout main
+git pull
+
+# 生成迁移文件
+pnpm --filter dify-chat-platform db:generate
+
+# 执行迁移
+pnpm --filter dify-chat-platform db:migrate
+```
+
+## 2. Docker Compose 部署
+
+v0.8.0 将服务合并为一个，`docker-compose.yml` 结构有变化：
+
+- 原来的 `react-app` 和 `platform` 两个服务合并为单一的 `platform` 服务
+- 应用入口统一为 `http://your-server:5300`
+
+建议拉取最新的 `docker-compose.yml` 替换旧文件：
+
+```bash
+curl -O https://raw.githubusercontent.com/lexmin0412/dify-chat/main/docker-compose.yml
+# 编辑配置
+nano docker-compose.yml
+# 重新启动
+docker compose up -d
+```
+
+## 3. 环境变量
+
+环境变量统一放在 `web/.env` 中，不再区分 `packages/react-app/.env` 和 `packages/platform/.env`。如果你之前自定义了环境变量，需要将其合并到 `web/.env`。
+
+## 4. 构建命令
+
+根目录 `package.json` 的脚本已简化：
+
+| 命令 | v0.7.x | v0.8.0 |
+|------|--------|--------|
+| 启动应用开发服务器 | `pnpm dev:platform` | `pnpm dev:app` |
+| 构建应用生产版本 | `pnpm build` | `pnpm build:app` |
+| 启动文档站点开发服务器 | `pnpm --filter dify-chat-docs dev` | `pnpm dev:docs` |
+| 构建文档站点生产版本 | — | `pnpm build:docs` |
+
+## 5. @dify-chat 系列 npm 包
+
+`@dify-chat/api`、`@dify-chat/core`、`@dify-chat/theme`、`@dify-chat/helpers` 等 npm 包不再作为独立包维护，相关代码已整合到 `web/` 应用中。如果你之前在项目中引用了这些包，需要迁移到本地对应的模块。
+
+## 6. 调试模式
+
+v0.8.0 不再提供调试模式功能。如果你仍然需要直连 Dify API 而不经过后端代理，需要自行修改 `web/` 中的 API 调用逻辑，将请求直接指向 Dify API 地址。

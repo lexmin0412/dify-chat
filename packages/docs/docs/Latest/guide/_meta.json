@@ -19,5 +19,12 @@
 		"label": "功能介绍",
 		"collapsible": true,
 		"collapsed": false
+	},
+	{
+		"type": "dir",
+		"name": "migrate",
+		"label": "版本迁移",
+		"collapsible": true,
+		"collapsed": false
 	}
 ]

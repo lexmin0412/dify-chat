@@ -38,14 +38,12 @@ Dify Chat 采用 MIT 开源协议，所有源代码完全开放。你可以：
 
 ### 灵活架构
 
-Dify Chat 使用前后端分离的设计，充分考虑了用户体验、可扩展性和维护成本，分成两个子包：
+Dify Chat 是一个基于 Next.js App Router 的全栈应用，集成了应用配置管理、用户认证、Dify API 代理等功能：
 
-- React APP，纯前端应用，提供了直接对接 Dify API 的能力，你只需要填入应用配置，即可直接使用
-- Platform，平台应用，提供了应用配置管理、数据存储和 Dify API 代理等功能，适合对安全性、稳定性要求更高的场景
+- **用户端**：提供直接与 Dify 应用交互的聊天界面，支持 Chatflow、Workflow 等多种应用类型
+- **管理端**：提供应用配置的增删改查、用户管理等功能，适合对安全性、稳定性要求更高的场景
 
-两者相辅相成，构成从配置管理到用户交互的完整解决方案，你也可以根据实际需求只使用其中一个，与其他系统集成。
-
-从零开始重新构建的 React APP，基于 Rsbuild 的毫秒级热更新，让你不再受限于官方 Web 应用的卡和慢，快速实现个性化需求。
+两者共享同一套代码和部署，无需额外的服务拆分。
 
 ### 主题定制
 
@@ -72,11 +70,10 @@ Dify Chat 支持多种内容类型的渲染，让 AI 的回复更加生动和实
 ## 技术栈
 
 - React v19
-- Next.js v15
-- Prisma ORM v6
-- Ant Design v5
-- Ant Design X v1
-- Rsbuild v1
-- Tailwind CSS v3
+- Next.js v16 (App Router)
+- Drizzle ORM + MySQL
+- Ant Design v6
+- Ant Design X v2
+- Tailwind CSS v4
 - TypeScript v5
-- Pnpm v10
+- pnpm v10
