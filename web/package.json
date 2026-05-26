@@ -55,7 +55,7 @@
 		"pako": "^2.1.0",
 		"pure-react-router": "^0.2.4",
 		"react": "^19.2.3",
-		"react-dom": "^19.2.3",
+		"react-dom": "^19.2.6",
 		"react-i18next": "^16.5.1",
 		"react-infinite-scroll-component": "^6.1.0",
 		"react-markdown": "^10.1.0",
