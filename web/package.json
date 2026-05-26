@@ -31,7 +31,7 @@
 		"@toolkit-fe/clipboard": "^0.1.22",
 		"@toolkit-fe/where-am-i": "^0.1.22",
 		"ahooks": "^3.8.4",
-		"antd": "^6.0.0",
+		"antd": "^6.4.3",
 		"bcryptjs": "^3.0.2",
 		"class-variance-authority": "^0.7.1",
 		"classnames": "^2.5.1",
