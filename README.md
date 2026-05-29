@@ -35,9 +35,9 @@ docker compose up -d
 - DeepWiki: [https://deepwiki.com/lexmin0412/dify-chat](https://deepwiki.com/lexmin0412/dify-chat)
 - Zread: [https://zread.ai/lexmin0412/dify-chat](https://zread.ai/lexmin0412/dify-chat)
 
-| 加群沟通（人数已超只能邀请，加我微信备注来意） | 喂我花生（请在留言中备注自己的 Github 用户名哦） |
+| 加群沟通 | 喂我花生 |
 | --- | --- |
-| <img src="https://github.com/user-attachments/assets/63daca4a-5583-487b-9329-aed87decc61a" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
+| <img src="https://github.com/user-attachments/assets/b3bc3137-30c7-4934-90b7-0083c522c980" alt="wechat-group" style="width: 400px; height: 400px" /> | <img src="https://github.com/user-attachments/assets/f56d53b7-8529-4a1d-a0ce-27bfe60510ec" alt="sponsor" style="width: 400px; height: 400px" /> |
 
 ## 🥇 Sponsors
 
