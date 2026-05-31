@@ -79,7 +79,15 @@ export async function createFormDataProxy(request: NextRequest) {
 			typeof value.arrayBuffer === 'function' &&
 			'name' in value
 		) {
-			proxyFormData.append(key, value, value.name)
+			const file = value as File
+			// Normalize MIME type: strip codec params (e.g. ";codecs=opus")
+			// to avoid downstream API rejections from strict MIME matching.
+			const normalizedType = file.type?.split(';')[0]?.trim() || 'application/octet-stream'
+			if (normalizedType !== file.type) {
+				proxyFormData.append(key, new File([file], file.name, { type: normalizedType }), file.name)
+			} else {
+				proxyFormData.append(key, file, file.name)
+			}
 		} else {
 			proxyFormData.append(key, value as string)
 		}
