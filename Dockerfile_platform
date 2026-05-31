@@ -28,10 +28,10 @@ RUN cd web && pnpm build
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
 
-# 复制 standalone 输出
-COPY --from=builder /app/web/.next/standalone ./
-COPY --from=builder /app/web/.next/static ./web/.next/static
-COPY --from=builder /app/web/public ./web/public
+# 复制 standalone 输出（monorepo 下有 app/web/ 嵌套）
+COPY --from=builder /app/web/.next/standalone/app/web ./
+COPY --from=builder /app/web/.next/standalone/app/web/.next/static ./.next/static
+COPY --from=builder /app/web/.next/standalone/app/web/public ./public
 
 # 复制迁移文件（不在 standalone 中）
 COPY --from=builder /app/web/db ./web/db
