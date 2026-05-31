@@ -40,11 +40,14 @@ Tag 推送后 CI 自动构建 Docker 镜像（`.github/workflows/docker-build-pu
 向用户展示待创建的版本信息（tag 名称、Release Notes 要点），确认后执行：
 
 ```bash
-gh release create vX.Y.Z --title "vX.Y.Z" --notes "在此填写 Release Notes"
+gh release create vX.Y.Z --title "vX.Y.Z" --notes-file docs/releases/draft-vX.Y.Z.md
 ```
+
+> Release Notes 从 `docs/releases/draft-vX.Y.Z.md` 读取。
 
 ## 相关文件
 
 - `package.json`（根目录、web/、packages/docs/）— 版本号
+- `docs/releases/` — Release Notes 草稿
 - `.github/workflows/docker-build-push.yaml` — Tag 触发 Docker 构建
 - `scripts/docker-build.sh` — 构建脚本（由 CI 调用）
