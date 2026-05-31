@@ -1,7 +1,7 @@
 import { GithubOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-import LogoImage from './assets/logo.png'
+import LogoImage from '@/assets/images/logo.png'
 
 export const LogoIcon = () => {
 	return (
