@@ -12,7 +12,7 @@
 		"test": "pnpm -r test",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
-		"release": "pnpm build && changeset publish",
+		"release": "echo 'Use: git tag vX.Y.Z && git push --tags (see .agents/skills/release/SKILL.md)'",
 		"lint": "oxlint",
 		"lint:fix": "oxlint --fix",
 		"format": "oxfmt",
