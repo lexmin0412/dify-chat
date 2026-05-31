@@ -44,4 +44,4 @@
 - 消除全部 TypeScript 类型错误
 - 移除 ESLint/Prettier 等残留配置
 
-**Full Changelog**: https://github.com/lexmin0412/dify-chat/compare/v0.7.1...v0.8.0
+**Full Changelog**: https://github.com/lexmin0412/dify-app-hub/compare/v0.7.1...v0.8.0

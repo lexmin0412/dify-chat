@@ -1,4 +1,4 @@
-# Dify Chat 文档站点
+# Dify App Hub 文档站点
 
 ## 安装依赖
 

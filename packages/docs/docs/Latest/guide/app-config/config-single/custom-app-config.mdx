@@ -18,7 +18,7 @@ import { Tab, Tabs } from 'rspress/theme'
 
 ## 自定义应用配置
 
-Dify Chat 已经内置了多种应用配置管理方式，满足不同场景需求，你可以根据你的需求选择合适的方式。
+Dify App Hub 已经内置了多种应用配置管理方式，满足不同场景需求，你可以根据你的需求选择合适的方式。
 
 ### React SPA 版本
 
@@ -42,7 +42,7 @@ export { appConfig } from './localstorage'
 定义配置：
 
 ```ts title="packages/react-app/src/services/app/singleApp/static-readonly/data.ts"
-import { AppModeEnums } from '@dify-chat/core'
+import { AppModeEnums } from '@/lib/core'
 
 /**
  * 静态的应用配置，用于演示
@@ -99,7 +99,7 @@ export { appConfig } from './fs'
 
 配置示例：
 
-```json title="packages/nextjs-app/.dify-chat/storage/app.config.json"
+```json title="packages/nextjs-app/.dify-app-hub/storage/app.config.json"
 {
 	"info": {
 		"name": "Chatflow Demo",

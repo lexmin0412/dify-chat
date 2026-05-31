@@ -13,7 +13,7 @@ export interface IParamItem {
 }
 
 /**
- * Dify Chat 内部维护的参数配置
+ * Dify App Hub 内部维护的参数配置
  */
 interface IValueItem {
 	variable: string

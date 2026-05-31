@@ -9,13 +9,13 @@
 ### 1. 准备工作目录
 
 ```bash
-mkdir dify-chat && cd dify-chat
+mkdir dify-app-hub && cd dify-app-hub
 ```
 
 ### 2. 下载配置文件
 
 ```bash
-curl -O https://raw.githubusercontent.com/lexmin0412/dify-chat/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/lexmin0412/dify-app-hub/main/docker-compose.yml
 ```
 
 ### 3. 修改配置
@@ -39,12 +39,12 @@ docker compose up -d
 
 ## 二开后自行构建镜像
 
-如果需要对 Dify Chat 进行二开，你需要 clone 源码并自行构建镜像。
+如果需要对 Dify App Hub 进行二开，你需要 clone 源码并自行构建镜像。
 
 ### 1. Clone 代码仓库
 
 ```bash
-git clone git@github.com:lexmin0412/dify-chat.git
+git clone git@github.com:lexmin0412/dify-app-hub.git
 ```
 
 ### 2. 配置环境变量
@@ -54,7 +54,7 @@ cd web
 cp .env.template .env
 ```
 
-注意：默认情况下，Dify Chat 使用 MySQL 进行应用配置的持久化存储，如果你需要配置其他类型的数据库，请查看 [使用其他数据库](/guide/deploy/db-config#2-使用其他数据库)。
+注意：默认情况下，Dify App Hub 使用 MySQL 进行应用配置的持久化存储，如果你需要配置其他类型的数据库，请查看 [使用其他数据库](/guide/deploy/db-config#2-使用其他数据库)。
 
 ### 3. 修改源码
 

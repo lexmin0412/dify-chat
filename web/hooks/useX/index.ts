@@ -63,7 +63,7 @@ export const useX = (options: IUseXOptions) => {
 			},
 			request: XRequest<CustomInput, CustomOutput>(
 				// 这个参数没有意义，只是为了符合传参规范
-				'dify-chat-messages',
+				'dify-app-hub-messages',
 				{
 					manual: true,
 					fetch: async (_, options) => {

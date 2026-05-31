@@ -1,3 +1,3 @@
-# Dify Chat Platform
+# Dify App Hub
 
-文档详见：https://docs.dify-chat.lexmin.cn/guide/platform/introduction.html
+文档详见：https://docs.dify-app-hub.lexmin.cn/guide/platform/introduction.html

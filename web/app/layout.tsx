@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-	title: 'Dify Chat Platform',
+	title: 'Dify App Hub',
 	description: '更贴近业务的 Dify Web APP',
 }
 

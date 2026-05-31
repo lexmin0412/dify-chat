@@ -15,7 +15,7 @@ target "platform" {
   dockerfile = "Dockerfile_platform"
   platforms = ["linux/amd64", "linux/arm64"]
   tags = [
-    "${DOCKERHUB_USERNAME}/dify-chat-platform:${VERSION}",
-    "${VERSION}" != "latest" ? "${DOCKERHUB_USERNAME}/dify-chat-platform:latest" : ""
+    "${DOCKERHUB_USERNAME}/dify-app-hub:${VERSION}",
+    "${VERSION}" != "latest" ? "${DOCKERHUB_USERNAME}/dify-app-hub:latest" : ""
   ]
 }

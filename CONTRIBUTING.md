@@ -1,13 +1,13 @@
 # Contributing
 
-感谢你对 Dify Chat 的关注！
+感谢你对 Dify App Hub 的关注！
 
 ## 环境准备
 
 ```bash
 # 需要 Node.js >=22.21.1, pnpm >=10.8.1
-git clone https://github.com/lexmin0412/dify-chat
-cd dify-chat
+git clone https://github.com/lexmin0412/dify-app-hub
+cd dify-app-hub
 pnpm install
 ```
 

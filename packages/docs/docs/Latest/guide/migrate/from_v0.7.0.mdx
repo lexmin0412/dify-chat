@@ -44,10 +44,10 @@ git checkout main
 git pull
 
 # 生成迁移文件
-pnpm --filter dify-chat-platform db:generate
+pnpm --filter dify-app-hub db:generate
 
 # 执行迁移
-pnpm --filter dify-chat-platform db:migrate
+pnpm --filter dify-app-hub db:migrate
 ```
 
 ## 2. Docker Compose 部署
@@ -60,7 +60,7 @@ v0.8.0 将服务合并为一个，`docker-compose.yml` 结构有变化：
 建议拉取最新的 `docker-compose.yml` 替换旧文件：
 
 ```bash
-curl -O https://raw.githubusercontent.com/lexmin0412/dify-chat/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/lexmin0412/dify-app-hub/main/docker-compose.yml
 # 编辑配置
 nano docker-compose.yml
 # 重新启动
@@ -79,10 +79,10 @@ docker compose up -d
 |------|--------|--------|
 | 启动应用开发服务器 | `pnpm dev:platform` | `pnpm dev:app` |
 | 构建应用生产版本 | `pnpm build` | `pnpm build:app` |
-| 启动文档站点开发服务器 | `pnpm --filter dify-chat-docs dev` | `pnpm dev:docs` |
+| 启动文档站点开发服务器 | `pnpm --filter dify-app-hub-docs dev` | `pnpm dev:docs` |
 | 构建文档站点生产版本 | — | `pnpm build:docs` |
 
-## 5. @dify-chat 系列 npm 包
+## 5. @dify-app-hub 系列 npm 包
 
 `@dify-chat/api`、`@dify-chat/core`、`@dify-chat/theme`、`@dify-chat/helpers` 等 npm 包不再作为独立包维护，相关代码已整合到 `web/` 应用中。如果你之前在项目中引用了这些包，需要迁移到本地对应的模块。
 

@@ -1,11 +1,11 @@
 ---
-name: dify-chat-release
-description: 手动发布 dify-chat 的完整操作流程。覆盖版本号更新、Git Tag 推送（触发 Docker 自动构建）、GitHub Release 创建。当用户说"发布新版本"、"打 tag 发版"、"执行发布流程"或"创建 release"时使用。
+name: dify-app-hub-release
+description: 手动发布 Dify App Hub 的完整操作流程。覆盖版本号更新、Git Tag 推送（触发 Docker 自动构建）、GitHub Release 创建。当用户说"发布新版本"、"打 tag 发版"、"执行发布流程"或"创建 release"时使用。
 ---
 
-# Dify Chat 手动发布流程
+# Dify App Hub 手动发布流程
 
-目标：执行完整的 dify-chat 版本发布。
+目标：执行完整的 Dify App Hub 版本发布。
 
 ## 约束
 

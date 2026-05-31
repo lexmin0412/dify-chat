@@ -18,7 +18,7 @@ export const GithubIcon = () => {
 	return (
 		<Button
 			type="link"
-			href="https://github.com/lexmin0412/dify-chat"
+			href="https://github.com/lexmin0412/dify-app-hub"
 			target="_blank"
 			className="!px-0"
 		>
@@ -64,14 +64,14 @@ export const Logo = (props: ILogoProps) => {
 				)}
 				{!hideText ? (
 					<span className="text-theme-text my-0 ml-3 inline-block text-lg font-bold">
-						{text || 'Dify Chat'}
+						{text || 'Dify App Hub'}
 					</span>
 				) : null}
 			</div>
 			{!hideGithubIcon && (
 				<Button
 					type="link"
-					href="https://github.com/lexmin0412/dify-chat"
+					href="https://github.com/lexmin0412/dify-app-hub"
 					target="_blank"
 					className="px-0"
 				>

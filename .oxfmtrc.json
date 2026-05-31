@@ -29,6 +29,6 @@
 		"dist",
 		".next",
 		"doc_build",
-		".dify-chat"
+		".dify-app-hub"
 	]
 }

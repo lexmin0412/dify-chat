@@ -46,7 +46,7 @@ export const appService = new DifyAppService()
 定义用户可访问的应用列表：
 
 ```ts title="packages/react-app/src/services/app/multiApp/static-readonly/data.ts"
-import { AppModeEnums, IDifyAppItem } from '@dify-chat/core'
+import { AppModeEnums, IDifyAppItem } from '@/lib/core'
 
 /**
  * 静态的应用列表，用于演示
@@ -127,7 +127,7 @@ export * from "./fs";
 
 配置示例：
 
-```json title="packages/nextjs-app/.dify-chat/storage/apps.json"
+```json title="packages/nextjs-app/.dify-app-hub/storage/apps.json"
 [
 	{
 		"id": "1751001348066",

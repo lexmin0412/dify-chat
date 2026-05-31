@@ -1,6 +1,6 @@
 # Shell 脚本一键启动
 
-如果你没有 Docker 环境，也可以通过源码启动项目，本小节将会教你如何通过脚本一键完成 Dify Chat 的项目构建和启动。
+如果你没有 Docker 环境，也可以通过源码启动项目，本小节将会教你如何通过脚本一键完成 Dify App Hub 的项目构建和启动。
 
 ## 0. 部署环境
 
@@ -12,7 +12,7 @@
 ## 1. Clone 项目源码
 
 ```bash
-git clone git@github.com:lexmin0412/dify-chat.git
+git clone git@github.com:lexmin0412/dify-app-hub.git
 ```
 
 ## 2. 配置环境变量
@@ -20,7 +20,7 @@ git clone git@github.com:lexmin0412/dify-chat.git
 进入项目目录：
 
 ```bash
-cd dify-chat/web
+cd dify-app-hub/web
 cp .env.template .env
 ```
 
@@ -36,7 +36,7 @@ pnpm install
 # 构建应用
 pnpm build:app
 # 启动服务
-pnpm --filter dify-chat-platform start
+pnpm --filter dify-app-hub start
 ```
 
 启动成功后访问 `http://localhost:5300`，你会看到初始化界面，依次输入用户名、邮箱、密码，即可创建一个管理员账号。

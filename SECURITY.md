@@ -11,7 +11,7 @@
 
 如果发现安全漏洞，请**不要**在公开 Issue 中报告。通过以下方式私下报告：
 
-- **GitHub Security Advisory**: [Report a vulnerability](https://github.com/lexmin0412/dify-chat/security/advisories/new)
+- **GitHub Security Advisory**: [Report a vulnerability](https://github.com/lexmin0412/dify-app-hub/security/advisories/new)
 - **邮件**: security@lexmin.cn
 
 我们会尽快确认并在修复后发布安全公告。

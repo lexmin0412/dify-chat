@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_platform
-    container_name: dify-chat-platform-self-deploy
+    container_name: dify-app-hub-self-deploy
     ports:
       - '5300:5300'
     # 通过文件读取环境变量
@@ -16,9 +16,9 @@ services:
       - web/.env
     restart: unless-stopped
     networks:
-      - dify-chat-network
+      - dify-app-hub-network
 
 # 网络配置
 networks:
-  dify-chat-network:
+  dify-app-hub-network:
     driver: bridge

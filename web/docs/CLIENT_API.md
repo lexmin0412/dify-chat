@@ -1,6 +1,6 @@
 # 客户端 API 接口文档
 
-本文档描述了 Dify Chat Platform 为客户端应用（如 react-app）提供的 API 接口。
+本文档描述了 Dify App Hub Platform 为客户端应用（如 react-app）提供的 API 接口。
 
 ## 基础信息
 

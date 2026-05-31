@@ -2,7 +2,7 @@
 pageType: home
 
 hero:
-  name: Dify Chat
+  name: Dify App Hub
   text: 更贴近业务的 Dify Web APP
   # tagline: 快速部署
   actions:
@@ -11,7 +11,7 @@ hero:
       link: /guide/getting-started/introduction
     - theme: alt
       text: GitHub
-      link: https://github.com/lexmin0412/dify-chat
+      link: https://github.com/lexmin0412/dify-app-hub
   image:
     src: /rspress-icon.png
     alt: Logo

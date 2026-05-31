@@ -2,15 +2,15 @@
 
 ## 仓库概览
 
-Dify Chat 是一个基于 pnpm workspace 构建的 Monorepo 项目，当前包含以下部分：
+Dify App Hub 是一个基于 pnpm workspace 构建的 Monorepo 项目，当前包含以下部分：
 
-- **web/** — 平台主应用 (dify-chat-platform)，基于 Next.js 16 App Router 模式。集成了 Dify API 代理、应用配置管理、用户认证、数据库交互等功能。前身是独立的 platform + react-app 两个子包，现已合并。
-- **packages/docs/** — 文档站点 (dify-chat-docs)，基于 Rspress 构建。
+- **web/** — 平台主应用 (dify-app-hub)，基于 Next.js 16 App Router 模式。集成了 Dify API 代理、应用配置管理、用户认证、数据库交互等功能。前身是独立的 platform + react-app 两个子包，现已合并。
+- **packages/docs/** — 文档站点 (dify-app-hub-docs)，基于 Rspress 构建。
 
 ## 项目结构
 
 ```
-web/                        # 主应用 (dify-chat-platform)
+web/                        # 主应用 (dify-app-hub)
 ├── app/                    # Next.js App Router 页面与 API 路由
 │   ├── (user)/             # 用户端页面 (apps, auth, chat)
 │   ├── api/                # API 路由 (代理 Dify API)
@@ -31,7 +31,7 @@ web/                        # 主应用 (dify-chat-platform)
 ├── types/                  # TypeScript 类型定义
 └── config/                 # 应用配置
 
-packages/docs/              # Rspress 文档站点 (dify-chat-docs)
+packages/docs/              # Rspress 文档站点 (dify-app-hub-docs)
 ├── docs/                   # 文档源文件 (多版本: Latest, v0.6.x, v0.5.x, v0.4.x)
 └── rspress.config.ts       # Rspress 配置
 ```
@@ -79,9 +79,9 @@ packages/docs/              # Rspress 文档站点 (dify-chat-docs)
 **变更流程**：
 
 1. 修改 `web/db/schema/*.ts` 中的表定义
-2. 运行 `pnpm --filter dify-chat-platform db:generate` 生成迁移 SQL
+2. 运行 `pnpm --filter dify-app-hub db:generate` 生成迁移 SQL
 3. Review 生成的 `web/db/migrations/` 中的 SQL 文件
-4. 确认无误后运行 `pnpm --filter dify-chat-platform db:migrate` 执行
+4. 确认无误后运行 `pnpm --filter dify-app-hub db:migrate` 执行
 
 **🚫 禁止 `drizzle-kit push`**：该命令会直接修改数据库结构而不生成可 review 的 SQL 文件，可能导致数据丢失。
 
@@ -91,7 +91,7 @@ packages/docs/              # Rspress 文档站点 (dify-chat-docs)
 
 本项目使用 OpenSSF 标准进行项目成熟度评估：
 
-- **自动化扫描**：`.github/workflows/scorecard.yml` 每周自动运行 OpenSSF Scorecard，结果推送到 GitHub Security 面板和 [公开 API](https://api.scorecard.dev/projects/github.com/lexmin0412/dify-chat)。
+- **自动化扫描**：`.github/workflows/scorecard.yml` 每周自动运行 OpenSSF Scorecard，结果推送到 GitHub Security 面板和 [公开 API](https://api.scorecard.dev/projects/github.com/lexmin0412/dify-app-hub)。
 - **人工自评**：`.cii-assessment.md` 基于 CII Best Practices（通过级）35 项标准，记录每项的证据和差距。
 
 ### 代码变更前必须重新评估

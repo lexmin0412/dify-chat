@@ -3,9 +3,9 @@ import { defineConfig } from 'rspress/config'
 
 export default defineConfig({
 	root: path.join(__dirname, 'docs'),
-	title: 'Dify Chat Docs',
+	title: 'Dify App Hub Docs',
 	icon: '/logo.png',
-	base: '/dify-chat-docs/',
+	base: '/dify-app-hub-docs/',
 	head: [
 		// 引入 Rybbit 配置
 		['script', { src: 'https://app.rybbit.io/api/script.js', 'data-site-id': '8c5e6e8f95e0' }],
@@ -28,7 +28,7 @@ export default defineConfig({
 			{
 				icon: 'github',
 				mode: 'link',
-				content: 'https://github.com/lexmin0412/dify-chat',
+				content: 'https://github.com/lexmin0412/dify-app-hub',
 			},
 		],
 	},

@@ -1,7 +1,7 @@
 module.exports = {
 	apps: [
 		{
-			name: 'dify-chat-platform',
+			name: 'dify-app-hub',
 			script: 'node_modules/.bin/next',
 			args: 'start',
 			env: {

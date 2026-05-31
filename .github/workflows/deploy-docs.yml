@@ -32,7 +32,7 @@ jobs:
         run: pnpm install
 
       - name: Build docs
-        run: pnpm --filter dify-chat-docs build
+        run: pnpm --filter dify-app-hub-docs build
 
       - name: Verify build output exists
         run: |

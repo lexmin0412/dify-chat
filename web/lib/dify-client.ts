@@ -1,4 +1,4 @@
-// @ts-nocheck — TODO: 类型来自已合并的 @dify-chat/api，需要整体重写
+// @ts-nocheck — TODO: 类型来自已移除的 @dify-chat/api，需要整体重写
 import { IAnnotationItem, ICreateAnnotationRequest } from '@/lib/api'
 import type { IHumanInputFormData, IHumanInputSubmitBody } from '@/lib/api/types'
 import { IDifyAppSiteSetting } from '@/lib/core'

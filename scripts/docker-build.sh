@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Dify Chat Docker 镜像构建和推送脚本
+# Dify App Hub Docker 镜像构建和推送脚本
 # 用法: ./scripts/docker-build.sh [版本号] [DockerHub用户名]
 # 示例: ./scripts/docker-build.sh v1.0.0 yourusername
 
@@ -35,7 +35,7 @@ VERSION=${1:-"latest"}
 DOCKERHUB_USERNAME=${2:-""}
 
 # 镜像名称配置
-PLATFORM_IMAGE="dify-chat-platform"
+PLATFORM_IMAGE="dify-app-hub"
 
 # 检查 Docker 是否安装
 if ! command -v docker &> /dev/null; then
@@ -55,7 +55,7 @@ if [ ! -f "package.json" ] || [ ! -f "docker-compose.yml" ]; then
     exit 1
 fi
 
-print_info "开始构建 Dify Chat Docker 镜像..."
+print_info "开始构建 Dify App Hub Docker 镜像..."
 print_info "版本: $VERSION"
 
 # 构建逻辑

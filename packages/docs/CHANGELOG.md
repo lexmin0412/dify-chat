@@ -1,4 +1,4 @@
-# dify-chat-docs
+# dify-app-hub-docs
 
 ## 0.7.1
 

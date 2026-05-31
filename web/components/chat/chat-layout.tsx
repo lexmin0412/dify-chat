@@ -394,7 +394,7 @@ export default function ChatLayout(props: IChatLayoutProps) {
 		useDifyChatStore.getState().setCurrentConversationId(currentConversationId)
 	}, [conversations, currentConversationId])
 
-	const [isWideScreen, setIsWideScreen] = useLocalStorageState('dify-chat-wide-screen', {
+	const [isWideScreen, setIsWideScreen] = useLocalStorageState('dify-app-hub-wide-screen', {
 		defaultValue: false,
 	})
 

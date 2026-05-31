@@ -1,10 +1,10 @@
 # 自定义数据库类型
 
-默认情况下，Dify Chat 使用 MySQL 进行应用配置的持久化存储。
+默认情况下，Dify App Hub 使用 MySQL 进行应用配置的持久化存储。
 
 ### 1. 使用 MySQL
 
-如果你有 MySQL 数据库，那么非常简单，只需要构建一个用于存放 Dify Chat 数据的数据库连接并配置在环境变量：
+如果你有 MySQL 数据库，那么非常简单，只需要构建一个用于存放 Dify App Hub 数据的数据库连接并配置在环境变量：
 
 ```shell
 mysql://username:password@host:port/database_name
@@ -24,7 +24,7 @@ import { pgTable } from 'drizzle-orm/pg-core'
 然后在 .env 中配置你的数据库连接地址：
 
 ```shell title="web/.env"
-DATABASE_URL=postgres://username:password@ip:port/dify-chat
+DATABASE_URL=postgres://username:password@ip:port/dify-app-hub
 ```
 
 重新生成迁移文件并执行：
@@ -34,10 +34,10 @@ DATABASE_URL=postgres://username:password@ip:port/dify-chat
 rm -rf web/db/migrations/*
 
 # 生成新的迁移文件
-pnpm --filter dify-chat-platform db:generate
+pnpm --filter dify-app-hub db:generate
 
 # 执行迁移
-pnpm --filter dify-chat-platform db:migrate
+pnpm --filter dify-app-hub db:migrate
 ```
 
 最后，按照你喜欢的方式（Docker 或者脚本）重新构建启动即可。

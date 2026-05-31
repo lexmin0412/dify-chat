@@ -1,4 +1,4 @@
-# dify-chat-platform
+# dify-app-hub
 
 ## 0.7.1
 
