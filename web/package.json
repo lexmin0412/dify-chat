@@ -12,7 +12,9 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"db:seed": "tsx db/seed.ts",
-		"create-admin": "tsx scripts/create-admin.ts"
+		"create-admin": "tsx scripts/create-admin.ts",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@ant-design/cssinjs": "^1.24.0",
@@ -87,6 +89,7 @@
 		"eslint-config-next": "^16.0.1",
 		"tailwindcss": "^4",
 		"tw-animate-css": "^1.3.7",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vitest": "^4.1.7"
 	}
 }
