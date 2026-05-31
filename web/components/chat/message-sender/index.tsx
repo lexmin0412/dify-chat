@@ -11,7 +11,6 @@ import { useSearchParams } from 'pure-react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
-
 import { FileTypeMap, getDifyFileType, getFileExtByName } from './utils'
 
 interface IMessageSenderProps {
@@ -230,8 +229,13 @@ export const MessageSender = (props: IMessageSenderProps) => {
 			onRecordingChange: async nextRecording => {
 				if (nextRecording) {
 					try {
+						const devices = await navigator.mediaDevices.enumerateDevices()
+						const audioInputs = devices.filter(d => d.kind === 'audioinput')
+						const realMic = audioInputs.find(
+							d => !/(?:BlackHole|Virtual|Soundflower|Loopback)/i.test(d.label),
+						)
 						const stream = await navigator.mediaDevices.getUserMedia({
-							audio: true,
+							audio: realMic ? { deviceId: realMic.deviceId } : true,
 						})
 						mediaRecorder.current = new MediaRecorder(stream)
 
