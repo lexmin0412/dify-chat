@@ -229,14 +229,25 @@ export const MessageSender = (props: IMessageSenderProps) => {
 			onRecordingChange: async nextRecording => {
 				if (nextRecording) {
 					try {
+						// First, get any audio stream to trigger permission prompt
+						// and make device labels available to enumerateDevices()
+						let stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+
+						// Now labels are available — find a real microphone
 						const devices = await navigator.mediaDevices.enumerateDevices()
-						const audioInputs = devices.filter(d => d.kind === 'audioinput')
-						const realMic = audioInputs.find(
-							d => !/(?:BlackHole|Virtual|Soundflower|Loopback)/i.test(d.label),
+						const realMic = devices.find(
+							d =>
+								d.kind === 'audioinput' &&
+								d.label &&
+								!/(?:BlackHole|Virtual|Soundflower|Loopback)/i.test(d.label),
 						)
-						const stream = await navigator.mediaDevices.getUserMedia({
-							audio: realMic ? { deviceId: realMic.deviceId } : true,
-						})
+						if (realMic && realMic.deviceId !== 'default') {
+							// Switch to the real mic, stop the temporary stream
+							stream.getTracks().forEach(t => t.stop())
+							stream = await navigator.mediaDevices.getUserMedia({
+								audio: { deviceId: { exact: realMic.deviceId } },
+							})
+						}
 						mediaRecorder.current = new MediaRecorder(stream)
 
 						mediaRecorder.current.ondataavailable = event => {
