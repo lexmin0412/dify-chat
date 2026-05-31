@@ -35,13 +35,18 @@ git push && git push --tags
 
 Tag 推送后 CI 自动构建并推送 Docker 镜像 `lexmin0412/dify-app-hub:vX.Y.Z-beta.N`。
 
-### Beta.3 创建 Pre-release
+### Beta.3 创建 Pre-release（仅首个 Beta）
+
+首个 beta 版本（`.1`）需创建 GitHub Pre-release 包含变更要点。后续 beta 版本仅打 tag 推送 Docker 镜像即可，无需重复创建 Release。
 
 ```bash
-gh release create vX.Y.Z-beta.N \
-  --title "vX.Y.Z-beta.N" \
-  --notes "Beta 预发布，用于验证 Docker 构建和部署流程。" \
+# 仅在 beta.1 执行
+gh release create vX.Y.Z-beta.1 \
+  --title "vX.Y.Z-beta.1" \
+  --notes-file docs/releases/draft-vX.Y.Z.md \
   --prerelease
+
+# beta.2+ 跳过此步骤，仅 tag 推送即触发 Docker 构建
 ```
 
 ### Beta.4 验证清单
