@@ -27,7 +27,7 @@
 		"@radix-ui/react-collapsible": "^1.1.12",
 		"@radix-ui/react-dialog": "^1.1.14",
 		"@radix-ui/react-slot": "^1.2.3",
-		"@svgdotjs/svg.js": "^3.2.4",
+		"@svgdotjs/svg.js": "^3.2.5",
 		"@toolkit-fe/clipboard": "^0.1.22",
 		"@toolkit-fe/where-am-i": "^0.1.22",
 		"ahooks": "^3.8.4",
