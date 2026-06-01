@@ -63,7 +63,6 @@ example
 .husky
 .changeset
 .vercel
-tsconfig.json
 biome.json
 vitest.config.ts
 
