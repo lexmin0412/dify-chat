@@ -1,14 +1,17 @@
 FROM node:22.21.1-alpine AS builder
 WORKDIR /app
 
+RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm@10.8.1 && pnpm install
+RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build
+RUN pnpm --filter dify-app-hub deploy --prod --legacy /deploy
 
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
 
+COPY --from=builder /deploy ./
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public

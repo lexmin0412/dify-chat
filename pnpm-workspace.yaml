@@ -4,9 +4,9 @@ packages:
 overrides:
   mdast-util-gfm-autolink-literal: 2.0.0
 
-onlyBuiltDependencies:
-  - '@tailwindcss/oxide'
-  - core-js
-  - esbuild
-  - sharp
-  - unrs-resolver
+allowBuilds:
+  core-js: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  '@tailwindcss/oxide': true
