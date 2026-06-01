@@ -33,6 +33,10 @@ COPY --from=builder /app/web/.next/standalone/app/web ./
 COPY --from=builder /app/web/.next/static ./.next/static
 COPY --from=builder /app/web/public ./public
 
+# 复制 pnpm 虚拟存储以解析 node_modules symlink
+# standalone 中的 symlink 指向 ../../node_modules/.pnpm → 根 /node_modules/.pnpm
+COPY --from=builder /app/node_modules/.pnpm /node_modules/.pnpm
+
 # 复制迁移文件（不在 standalone 中）
 COPY --from=builder /app/web/db ./web/db
 COPY --from=builder /app/web/drizzle.config.ts ./web/drizzle.config.ts
