@@ -17,7 +17,6 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.env.platform
 
 # 测试和覆盖率
 .nyc_output

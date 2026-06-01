@@ -7,12 +7,12 @@ variable "VERSION" {
 }
 
 group "default" {
-  targets = ["platform"]
+  targets = ["app"]
 }
 
-target "platform" {
+target "app" {
   context = "."
-  dockerfile = "Dockerfile_platform"
+  dockerfile = "Dockerfile"
   platforms = ["linux/amd64", "linux/arm64"]
   tags = [
     "${DOCKERHUB_USERNAME}/dify-app-hub:${VERSION}",

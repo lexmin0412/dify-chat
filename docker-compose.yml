@@ -1,7 +1,7 @@
 # Dify App Hub 独立部署配置
 # 此文件可以独立使用，无需 clone 源码仓库
 services:
-  platform:
+  app:
     image: lexmin0412/dify-app-hub:latest
     container_name: dify-app-hub
     ports:

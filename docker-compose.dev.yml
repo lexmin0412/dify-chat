@@ -4,10 +4,10 @@
 
 services:
   # Platform 平台应用
-  platform:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile_platform
+      dockerfile: Dockerfile
     container_name: dify-app-hub-self-deploy
     ports:
       - '5300:5300'

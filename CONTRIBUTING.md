@@ -21,7 +21,7 @@ packages/docs/       # 文档站点 (Rspress)
 ## 开发
 
 ```bash
-pnpm dev:platform    # 启动主应用开发服务器 (端口 5300)
+pnpm dev          # 启动主应用开发服务器 (端口 5300)
 pnpm dev:docs        # 启动文档站点
 ```
 

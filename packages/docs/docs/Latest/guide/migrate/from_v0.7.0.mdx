@@ -54,7 +54,7 @@ pnpm --filter dify-app-hub db:migrate
 
 v0.8.0 将服务合并为一个，`docker-compose.yml` 结构有变化：
 
-- 原来的 `react-app` 和 `platform` 两个服务合并为单一的 `platform` 服务
+- 原来的 `react-app` 和 `platform` 两个服务合并为单一的 Next.js 应用
 - 应用入口统一为 `http://your-server:5300`
 
 建议拉取最新的 `docker-compose.yml` 替换旧文件：
@@ -77,7 +77,7 @@ docker compose up -d
 
 | 命令 | v0.7.x | v0.8.0 |
 |------|--------|--------|
-| 启动应用开发服务器 | `pnpm dev:platform` | `pnpm dev:app` |
+| 启动应用开发服务器 | `pnpm dev:platform` | `pnpm dev` |
 | 构建应用生产版本 | `pnpm build` | `pnpm build:app` |
 | 启动文档站点开发服务器 | `pnpm --filter dify-app-hub-docs dev` | `pnpm dev:docs` |
 | 构建文档站点生产版本 | — | `pnpm build:docs` |
