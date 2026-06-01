@@ -4,23 +4,15 @@
 FROM node:22.21.1-alpine AS builder
 WORKDIR /app
 
-# 安装 pnpm
 RUN npm install -g pnpm@10.8.1
-
-# 复制根配置文件（用于 pnpm install）
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# 复制 web/package.json（用于安装依赖）
 COPY web/package.json ./web/
-
-# 安装依赖
 RUN pnpm install --frozen-lockfile
-
-# 复制 web/ 源码
 COPY web/ ./web/
-
-# 构建
 RUN cd web && pnpm build
+
+# pnpm deploy 在 builder 阶段运行，解析生产依赖（消除 symlink）
+RUN pnpm --filter dify-app-hub deploy --prod /deploy
 
 # ================================
 # 阶段 2: 运行时
@@ -28,16 +20,13 @@ RUN cd web && pnpm build
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
 
-# 复制 standalone 输出（monorepo 下有 app/web/ 嵌套）
+# deploy 输出（已解析的 node_modules）
+COPY --from=builder /deploy ./
+# standalone 输出覆盖（deploy 不含 .next/）
 COPY --from=builder /app/web/.next/standalone/app/web ./
 COPY --from=builder /app/web/.next/static ./.next/static
 COPY --from=builder /app/web/public ./public
-
-# 复制 pnpm 虚拟存储以解析 node_modules symlink
-# standalone 中的 symlink 指向 ../../node_modules/.pnpm → 根 /node_modules/.pnpm
-COPY --from=builder /app/node_modules/.pnpm /node_modules/.pnpm
-
-# 复制迁移文件（不在 standalone 中）
+# 迁移文件
 COPY --from=builder /app/web/db ./web/db
 COPY --from=builder /app/web/drizzle.config.ts ./web/drizzle.config.ts
 COPY web/docker/entrypoint.sh /docker-entrypoint.sh
@@ -47,6 +36,5 @@ ENV NODE_ENV=production
 ENV PORT=5300
 
 EXPOSE 5300
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
