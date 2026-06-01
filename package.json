@@ -61,7 +61,7 @@
 		"react": "^19.2.3",
 		"react-dom": "^19.2.6",
 		"react-i18next": "^16.5.1",
-		"react-infinite-scroll-component": "^6.1.0",
+		"react-infinite-scroll-component": "^7.2.0",
 		"react-markdown": "^10.1.0",
 		"react-photo-view": "^1.2.7",
 		"react-syntax-highlighter": "^15.6.1",
