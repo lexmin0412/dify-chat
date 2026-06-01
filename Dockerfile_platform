@@ -1,40 +1,24 @@
-# ================================
-# 阶段 1: 构建
-# ================================
 FROM node:22.21.1-alpine AS builder
 WORKDIR /app
 
-RUN npm install -g pnpm@10.8.1
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY web/package.json ./web/
-RUN pnpm install --frozen-lockfile
-COPY web/ ./web/
-RUN cd web && pnpm build
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm@10.8.1 && pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
 
-# pnpm deploy 在 builder 阶段运行，解析生产依赖（消除 symlink）
-RUN pnpm --filter dify-app-hub deploy --prod /deploy
-
-# ================================
-# 阶段 2: 运行时
-# ================================
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
 
-# deploy 输出（已解析的 node_modules）
-COPY --from=builder /deploy ./
-# standalone 输出覆盖（deploy 不含 .next/）
-COPY --from=builder /app/web/.next/standalone/app/web ./
-COPY --from=builder /app/web/.next/static ./.next/static
-COPY --from=builder /app/web/public ./public
-# 迁移文件
-COPY --from=builder /app/web/db ./web/db
-COPY --from=builder /app/web/drizzle.config.ts ./web/drizzle.config.ts
-COPY web/docker/entrypoint.sh /docker-entrypoint.sh
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/db ./db
+COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+COPY docker/entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENV NODE_ENV=production
 ENV PORT=5300
-
 EXPOSE 5300
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["node", "server.js"]

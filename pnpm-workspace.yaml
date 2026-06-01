@@ -1,6 +1,5 @@
 packages:
   - packages/*
-  - web
 
 overrides:
   mdast-util-gfm-autolink-literal: 2.0.0

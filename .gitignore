@@ -1,31 +1,47 @@
-# Local
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
-*.local
-*.log*
+*.pem
 
-# Dist
-node_modules
-dist/
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# IDE
-.vscode/*
-!.vscode/extensions.json
-.idea
+# database
+/data/
+*.db
+*.db-journal
 
-# 子包 ts 构建的临时文件
+# vercel
+.vercel
+
+# typescript
 *.tsbuildinfo
+next-env.d.ts
 
-# 框架临时文件
-.next
-
-# 环境变量文件 - 包含敏感信息，不应提交到版本控制
-.env*
-!.env.template
-
-packages/server/apps.json
-.dify-chat
-
-# 工作目录/工具目录
+.env
 .omo/
-.worktrees/
-.superpowers/
+logs/

@@ -33,4 +33,4 @@ jobs:
         run: pnpm install
 
       - name: Run tests
-        run: pnpm --filter dify-app-hub test
+        run: pnpm test
