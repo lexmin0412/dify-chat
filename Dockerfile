@@ -9,7 +9,7 @@ RUN echo "[BUILD] installing deps..." && pnpm install --frozen-lockfile && echo 
 COPY . .
 RUN echo "[BUILD] next build..." && pnpm build 2>&1 && echo "[OK] next build"
 RUN rm -rf .next/standalone/node_modules && echo "[OK] removed standalone node_modules"
-RUN echo "[BUILD] pnpm deploy..." && pnpm --filter dify-app-hub deploy --prod /deploy 2>&1 && echo "[OK] deploy"
+RUN echo "[BUILD] pnpm deploy..." && pnpm --filter dify-app-hub deploy --prod --legacy /deploy 2>&1 && echo "[OK] deploy"
 
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
