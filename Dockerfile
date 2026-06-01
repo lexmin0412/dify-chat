@@ -6,7 +6,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build
-RUN pnpm --filter dify-app-hub deploy --prod --legacy /deploy
+RUN pnpm --filter dify-app-hub deploy --prod /deploy
 
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app
