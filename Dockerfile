@@ -1,14 +1,15 @@
 FROM node:22.21.1-alpine AS builder
 WORKDIR /app
 
-RUN corepack enable
+SHELL ["/bin/sh", "-exc"]
+
+RUN corepack enable && echo "[OK] corepack"
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile
+RUN echo "[BUILD] installing deps..." && pnpm install --frozen-lockfile && echo "[OK] deps installed"
 COPY . .
-RUN pnpm build
-# standalone 的 node_modules 只有 3 个 pnpm symlink，会覆盖 deploy 的完整依赖
-RUN rm -rf .next/standalone/node_modules
-RUN pnpm --filter dify-app-hub deploy --prod /deploy
+RUN echo "[BUILD] next build..." && pnpm build 2>&1 && echo "[OK] next build"
+RUN rm -rf .next/standalone/node_modules && echo "[OK] removed standalone node_modules"
+RUN echo "[BUILD] pnpm deploy..." && pnpm --filter dify-app-hub deploy --prod /deploy 2>&1 && echo "[OK] deploy"
 
 FROM node:22.21.1-alpine AS runner
 WORKDIR /app

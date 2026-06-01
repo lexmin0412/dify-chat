@@ -202,7 +202,9 @@ const ChatLayoutWrapper = () => {
 		}
 	}, [selectedAppId, appList, userId])
 
-	useMount(() => getAppList())
+	useMount(() => {
+		getAppList()
+	})
 
 	useEffect(() => {
 		useDifyChatStore.getState().setCurrentAppId(selectedAppId)
