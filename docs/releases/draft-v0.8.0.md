@@ -4,7 +4,7 @@
 
 v0.8.0 是一次大版本升级，核心变化：合并多子包为单一 Next.js 应用，从 Prisma 迁移至 Drizzle ORM，新增 HITL 人工干预支持。项目已正式更名为 **Dify App Hub**。
 
-如果你是 Docker 用户，镜像名更新为 `lexmin0412/dify-app-hub:latest`。
+如果你是 Docker 用户，镜像名已从 `lexmin0412/dify-chat` 变更为 `lexmin0412/dify-app-hub`。
 
 ---
 
