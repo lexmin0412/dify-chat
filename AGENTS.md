@@ -4,13 +4,13 @@
 
 Dify App Hub 是一个基于 pnpm workspace 构建的 Monorepo 项目，当前包含以下部分：
 
-- **web/** — 平台主应用 (dify-app-hub)，基于 Next.js 16 App Router 模式。集成了 Dify API 代理、应用配置管理、用户认证、数据库交互等功能。前身是独立的 platform + react-app 两个子包，现已合并。
+- **根目录** — 平台主应用 (dify-app-hub)，基于 Next.js 16 App Router 模式。集成了 Dify API 代理、应用配置管理、用户认证、数据库交互等功能。前身是独立的 platform + react-app 两个子包，现已合并为根目录单应用。
 - **packages/docs/** — 文档站点 (dify-app-hub-docs)，基于 Rspress 构建。
 
 ## 项目结构
 
 ```
-web/                        # 主应用 (dify-app-hub)
+.                           # 主应用 (dify-app-hub)
 ├── app/                    # Next.js App Router 页面与 API 路由
 │   ├── (user)/             # 用户端页面 (apps, auth, chat)
 │   ├── api/                # API 路由 (代理 Dify API)
@@ -41,14 +41,13 @@ packages/docs/              # Rspress 文档站点 (dify-app-hub-docs)
 - 依赖版本直接在各自 `package.json` 中定义
 - 根目录 `pnpm-workspace.yaml` 管理 workspace 成员和 overrides
 - 安装/更新依赖：在项目根目录运行 `pnpm install`
-- `web/` 的依赖通过 npm registry 安装；`packages/docs/` 的依赖同理
 
 ## 样式处理
 
-`web/` 主应用使用 Tailwind CSS v4，配置在：
+主应用使用 Tailwind CSS v4，配置在：
 
-- `web/postcss.config.mjs` — PostCSS 集成
-- `web/tailwindcss` (devDependency) — v4，直接在 `package.json` 中定义版本
+- `postcss.config.mjs` — PostCSS 集成
+- `tailwindcss` (devDependency) — v4，直接在 `package.json` 中定义版本
 
 ## 开发调试
 
@@ -78,14 +77,14 @@ packages/docs/              # Rspress 文档站点 (dify-app-hub-docs)
 
 **变更流程**：
 
-1. 修改 `web/db/schema/*.ts` 中的表定义
+1. 修改 `db/schema/*.ts` 中的表定义
 2. 运行 `pnpm --filter dify-app-hub db:generate` 生成迁移 SQL
-3. Review 生成的 `web/db/migrations/` 中的 SQL 文件
+3. Review 生成的 `db/migrations/` 中的 SQL 文件
 4. 确认无误后运行 `pnpm --filter dify-app-hub db:migrate` 执行
 
 **🚫 禁止 `drizzle-kit push`**：该命令会直接修改数据库结构而不生成可 review 的 SQL 文件，可能导致数据丢失。
 
-**迁移文件**：存放在 `web/db/migrations/` 目录，应纳入 git 版本控制。
+**迁移文件**：存放在 `db/migrations/` 目录，应纳入 git 版本控制。
 
 ## 项目成熟度追踪
 

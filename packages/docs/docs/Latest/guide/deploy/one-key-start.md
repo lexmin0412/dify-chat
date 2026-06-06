@@ -20,7 +20,7 @@ git clone git@github.com:lexmin0412/dify-app-hub.git
 进入项目目录：
 
 ```bash
-cd dify-app-hub/web
+cd dify-app-hub
 cp .env.template .env
 ```
 
@@ -29,18 +29,16 @@ cp .env.template .env
 ## 3. 安装依赖并构建
 
 ```bash
-# 回到项目根目录
-cd ../..
 # 安装依赖
 pnpm install
 # 构建应用
 pnpm build:app
 # 启动服务
-pnpm --filter dify-app-hub start
+pnpm start
 ```
 
 启动成功后访问 `http://localhost:5300`，你会看到初始化界面，依次输入用户名、邮箱、密码，即可创建一个管理员账号。
 
 ## 4. 修改环境变量
 
-如果你需要修改环境变量的值（如数据库连接地址），可以编辑 `web/.env` 文件，然后重新构建启动即可。
+如果你需要修改环境变量的值（如数据库连接地址），可以编辑 `.env` 文件，然后重新构建启动即可。

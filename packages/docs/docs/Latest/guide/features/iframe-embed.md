@@ -16,7 +16,7 @@ Dify App Hub 支持通过 `<iframe>` 将聊天界面嵌入到任意网站中。
 
 默认情况下，Dify App Hub 使用浏览器指纹（FingerPrintJS）自动生成用户标识，无需额外认证配置。
 
-如果你需要更严格的用户认证，可以修改 `web/app/(user)/auth/page.tsx` 中的 `mockLogin` 函数，改为从 URL 参数或其他方式获取用户身份。
+如果你需要更严格的用户认证，可以修改 `app/(user)/auth/page.tsx` 中的 `mockLogin` 函数，改为从 URL 参数或其他方式获取用户身份。
 
 ## 注意事项
 

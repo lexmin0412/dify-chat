@@ -6,7 +6,7 @@
 
 如果你希望控制 `userId` 的生成逻辑，可以修改 `mockLogin` 函数，自定义登录逻辑：
 
-```tsx title="web/app/(user)/auth/page.tsx"
+```tsx title="app/(user)/auth/page.tsx"
 /**
  * 模拟登录
  */

@@ -16,14 +16,14 @@ mysql://username:password@host:port/database_name
 
 首先，修改 Drizzle schema 配置中的数据库方言：
 
-```ts title="web/db/schema/apps.ts"
+```ts title="db/schema/apps.ts"
 import { pgTable } from 'drizzle-orm/pg-core'
 // 将 mysqlTable 替换为 pgTable
 ```
 
 然后在 .env 中配置你的数据库连接地址：
 
-```shell title="web/.env"
+```shell title=".env"
 DATABASE_URL=postgres://username:password@ip:port/dify-app-hub
 ```
 
@@ -31,7 +31,7 @@ DATABASE_URL=postgres://username:password@ip:port/dify-app-hub
 
 ```shell
 # 删除旧的迁移文件
-rm -rf web/db/migrations/*
+rm -rf db/migrations/*
 
 # 生成新的迁移文件
 pnpm --filter dify-app-hub db:generate

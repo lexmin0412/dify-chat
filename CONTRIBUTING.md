@@ -14,7 +14,7 @@ pnpm install
 ## 项目结构
 
 ```
-web/                 # 主应用 (Next.js 16 + React 19)
+.                    # 主应用 (Next.js 16 + React 19)
 packages/docs/       # 文档站点 (Rspress)
 ```
 

@@ -39,7 +39,7 @@
 ### 🧱 开发体验优化&基础依赖升级
 
 - 数据库 ORM 从 Prisma 迁移至 Drizzle 1.x
-- 扁平化 `web/lib/`，清除死代码
+- 扁平化 `lib/`，清除死代码
 - 重构 Dockerfile 抽取公共基础镜像
 - 消除全部 TypeScript 类型错误
 - 移除 ESLint/Prettier 等残留配置
