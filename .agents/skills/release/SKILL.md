@@ -100,4 +100,4 @@ gh release create vX.Y.Z --title "vX.Y.Z" --notes-file docs/releases/draft-vX.Y.
 - `package.json`（根目录 + packages/docs/）— 版本号
 - `docs/releases/` — Release Notes 草稿
 - `.github/workflows/docker-build-push.yaml` — Tag 触发 Docker 构建
-- `scripts/docker-build.sh` — 构建脚本（由 CI 调用）
+- `docker-bake.hcl` — Docker Buildx Bake 构建配置（定义镜像标签规则）

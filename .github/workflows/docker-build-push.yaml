@@ -31,16 +31,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Make build script executable
-        run: chmod +x scripts/docker-build.sh
-
-      - name: Build and push images using script
+      - name: Build and push
         env:
-          CI: 'true'
-          AUTO_PUSH: 'true'
           VERSION: ${{ github.ref_name }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          # 开启 Compose Bake
-          COMPOSE_BAKE: 'true'
-        run: |
-          ./scripts/docker-build.sh "$VERSION" "$DOCKERHUB_USERNAME"
+        run: docker buildx bake -f docker-bake.hcl --push
