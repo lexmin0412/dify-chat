@@ -3,7 +3,7 @@ import { LucideIcon } from '@/components/shared'
 import { IGetAppParametersResponse, IRating } from '@/lib/api'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
 import { useRequest, useSetState } from 'ahooks'
-import { message as antdMessage, Button, Drawer, Form, Input, Space } from 'antd'
+import { App, Button, Drawer, Form, Input, Space } from 'antd'
 import { useMemo, useState } from 'react'
 
 import ActionButton from './action-btn'
@@ -66,6 +66,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 	const { difyApi } = useDifyChatStore()
 	const { t } = useTranslation()
 
+	const { message } = App.useApp()
 	const currentApp = useDifyChatStore(s => s.currentApp)
 	const isLiked = rating === 'like'
 	const isDisLiked = rating === 'dislike'
@@ -89,7 +90,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		{
 			manual: true,
 			onSuccess() {
-				antdMessage.success('标注成功')
+				message.success('标注成功')
 				setAnnotationDrawerVisible(false)
 				annotationForm.resetFields()
 			},
@@ -110,7 +111,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 		{
 			manual: true,
 			onSuccess() {
-				antdMessage.success('操作成功')
+				message.success('操作成功')
 				callback?.()
 			},
 			onFinally() {
@@ -178,7 +179,7 @@ export default function MessageFooter(props: IMessageFooterProps) {
 				icon: <LucideIcon name="copy" />,
 				onClick: async () => {
 					await copyToClipboard(messageContent)
-					antdMessage.success(t('message.copy_success'))
+					message.success(t('message.copy_success'))
 				},
 				title: t('message.action_copy'),
 				active: false,
