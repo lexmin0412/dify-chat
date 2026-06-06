@@ -76,7 +76,6 @@
 		"zustand": "^5.0.6"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.29.7",
 		"@eslint/eslintrc": "^3.3.5",
 		"@tailwindcss/postcss": "^4",
 		"@types/bcryptjs": "^3.0.0",
