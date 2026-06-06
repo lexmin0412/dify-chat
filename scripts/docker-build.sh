@@ -100,7 +100,7 @@ else
         if [ -n "$PUSH_ARG" ] && [ -n "$DOCKERHUB_USERNAME" ]; then
             docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile \
                 -t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:${VERSION} \
-                $( [ "$VERSION" != "latest" ] && echo "-t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest" ) \
+                $( [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]] && echo "-t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest" ) \
                 --push .
         else
             docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ${APP_IMAGE}:${VERSION} --load .
@@ -127,8 +127,7 @@ fi
 # 以下逻辑仅在非 Bake 且非 Buildx Push 模式下执行 (主要用于本地单架构构建)
 # =================================================================================================
 
-# 如果版本不是 latest，也创建 latest 标签
-if [ "$VERSION" != "latest" ]; then
+if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
     print_info "创建 latest 标签..."
     docker tag ${APP_IMAGE}:${VERSION} ${APP_IMAGE}:latest
     print_success "latest 标签创建完成"
@@ -162,14 +161,14 @@ if [ -n "$DOCKERHUB_USERNAME" ]; then
         print_info "添加 DockerHub 标签..."
         docker tag ${APP_IMAGE}:${VERSION} ${DOCKERHUB_USERNAME}/${APP_IMAGE}:${VERSION}
 
-        if [ "$VERSION" != "latest" ]; then
+        if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
             docker tag ${APP_IMAGE}:latest ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest
         fi
 
         # 推送镜像
         print_info "推送 Platform 镜像..."
         docker push ${DOCKERHUB_USERNAME}/${APP_IMAGE}:${VERSION}
-        if [ "$VERSION" != "latest" ]; then
+        if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
             docker push ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest
         fi
 

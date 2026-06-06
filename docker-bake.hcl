@@ -16,6 +16,6 @@ target "app" {
   platforms = ["linux/amd64", "linux/arm64"]
   tags = [
     "${DOCKERHUB_USERNAME}/dify-app-hub:${VERSION}",
-    "${VERSION}" != "latest" ? "${DOCKERHUB_USERNAME}/dify-app-hub:latest" : ""
+    "${VERSION}" != "latest" && length(regexall("-", "${VERSION}")) == 0 ? "${DOCKERHUB_USERNAME}/dify-app-hub:latest" : ""
   ]
 }
