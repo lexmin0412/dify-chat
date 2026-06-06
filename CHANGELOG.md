@@ -1,5 +1,42 @@
 # dify-app-hub
 
+## 0.8.0
+
+### Major Changes
+
+- **项目重命名**：`dify-chat` → `dify-app-hub`，Docker 镜像同步变更
+- **子包合并**：合并 `packages/react-app`（SPA）和 `packages/platform`（Next.js）为根目录单一 Next.js 应用
+- **npm 包废弃**：`@dify-chat/api`、`@dify-chat/core`、`@dify-chat/components` 等不再独立发布，代码已合并到主应用内
+- **ORM 迁移**：Prisma → Drizzle ORM 1.x
+- **状态管理重构**：React Context → Zustand
+- **移除调试模式**：移除 debug-mode 组件及相关配置
+
+### Minor Changes
+
+- 新增人工干预（HITL）支持 Workflow 暂停等待人工输入。Close #443
+- 新增宽屏模式切换按钮。Close #381
+- 思考时间跨会话持久化。Close #353
+- 初始化邮箱自动带入登录页。Close #442
+- 使用 IndexedDB 存储 Workflow 数据
+- Docker 构建支持多架构（linux/amd64 + linux/arm64）
+
+### Patch Changes
+
+- 修复图片标签格式错误导致图片无法展示。Close #316
+- 修复录音功能：Dify 拒绝 audio/webm 格式及虚拟麦克风选中导致无声音。Close #366
+- 修复切换会话时历史未正确清除。Close #379
+- 修复 localStorage 不可用时应用白屏
+- 修复 `<think>` 块在多块场景下识别不全
+- 修复 `updated_at` 列缺默认值导致插入失败
+- 修复反馈 API 路由非 JSON 响应异常
+- 修复 HITL 重连时节点状态丢失
+- 修复深色模式仅部分元素生效
+- 修复 useAuth 初始化时 user 为 null 导致的闪烁
+- 修复 Dify API 代理未透传上游错误状态码
+- 修复 SSR 下 localStorage 报错
+- 修复用户端页面空白及 API 路径错误
+- 修复 emoji 简码未转为原生符号
+
 ## 0.7.1
 
 ### Patch Changes
