@@ -238,7 +238,7 @@ const ChatLayoutWrapper = () => {
 			<div className="flex h-screen w-screen items-center justify-center">
 				<Spin
 					size="large"
-					tip="应用加载中..."
+					description="应用加载中..."
 				/>
 			</div>
 		)
