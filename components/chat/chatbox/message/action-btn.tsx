@@ -60,10 +60,12 @@ export default function ActionButton(props: IActionButtonProps) {
 					{Icon}
 				</div>
 			</Tooltip>
-			<Spin
-				className="!absolute top-0 left-0 h-full w-full"
-				spinning={loading}
-			/>
+			{loading && (
+				<Spin
+					className="!absolute top-0 left-0 h-full w-full"
+					spinning={loading}
+				/>
+			)}
 		</div>
 	)
 }
