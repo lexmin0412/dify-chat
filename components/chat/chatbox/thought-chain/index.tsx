@@ -1,7 +1,7 @@
 import { CheckCircleFilled } from '@ant-design/icons'
 import { IAgentThought } from '@/lib/api'
 import { copyToClipboard } from '@toolkit-fe/clipboard'
-import { Collapse, message } from 'antd'
+import { App, Collapse } from 'antd'
 import { omit } from 'lodash-es'
 
 import LucideIcon from '@/components/shared/lucide-icon'
@@ -29,6 +29,7 @@ interface IThoughtChainProps {
  */
 export default function ThoughtChain(props: IThoughtChainProps) {
 	const { uniqueKey, items, className } = props
+	const { message } = App.useApp()
 	const { t } = useTranslation()
 
 	if (!items?.length) {
@@ -91,7 +92,7 @@ export default function ThoughtChain(props: IThoughtChainProps) {
 				if (item.tool) {
 					return (
 						<Collapse
-							expandIconPosition="end"
+							expandIconPlacement="end"
 							size="small"
 							className={`w-full overflow-auto ${index === 0 ? '!mt-3' : 'mt-0'} ${index === 0 && items.length === 1 ? '!mb-3' : 'mb-0'}`}
 							key={item.id}

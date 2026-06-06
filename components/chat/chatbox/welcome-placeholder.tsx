@@ -45,7 +45,7 @@ export const WelcomePlaceholder = (props: IWelcomePlaceholderProps) => {
 		<div className="mx-auto my-3 box-border flex w-full justify-center">
 			<Space
 				size={12}
-				direction="vertical"
+				orientation="vertical"
 				className={classNames({
 					'w-full md:max-w-[720px] px-3 md:px-6 box-border': true,
 					'pb-6': !showPrompts && currentApp?.parameters.user_input_form?.length,

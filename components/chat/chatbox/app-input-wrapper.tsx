@@ -88,7 +88,7 @@ export default function AppInputWrapper(props: IAppInputFormProps) {
 			bordered={false}
 			activeKey={activeKey}
 			onChange={value => setActiveKey(value)}
-			expandIconPosition="end"
+			expandIconPlacement="end"
 			expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
 			items={getItems(panelStyle)}
 		/>
