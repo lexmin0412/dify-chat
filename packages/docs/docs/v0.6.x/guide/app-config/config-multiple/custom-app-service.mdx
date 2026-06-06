@@ -12,12 +12,20 @@ import { Tab, Tabs } from 'rspress/theme'
 
 <Tabs>
 	<Tab label="React SPA">
-		```tsx title="packages/react-app/src/App.tsx" // 初始化全局运行时配置
-		difyChatRuntimeConfig.init('multiApp') ```
-	</Tab>
+
+```tsx title="packages/react-app/src/App.tsx"
+// 初始化全局运行时配置
+difyChatRuntimeConfig.init('multiApp')
+```
+
+</Tab>
 	<Tab label="Next.js">
-		```bash title="packages/nextjs-app/.env" # 运行模式 RUNNING_MODE=multiApp ```
-	</Tab>
+
+```bash title="packages/nextjs-app/.env"
+# 运行模式 RUNNING_MODE=multiApp
+```
+
+</Tab>
 </Tabs>
 
 ## 自定义应用配置管理
