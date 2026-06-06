@@ -101,6 +101,7 @@ else
             docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile \
                 -t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:${VERSION} \
                 $( [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]] && echo "-t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest" ) \
+                $( [ "$VERSION" != "latest" ] && [[ "$VERSION" == *-* ]] && echo "-t ${DOCKERHUB_USERNAME}/${APP_IMAGE}:beta" ) \
                 --push .
         else
             docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile -t ${APP_IMAGE}:${VERSION} --load .
@@ -131,6 +132,12 @@ if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
     print_info "创建 latest 标签..."
     docker tag ${APP_IMAGE}:${VERSION} ${APP_IMAGE}:latest
     print_success "latest 标签创建完成"
+fi
+
+if [ "$VERSION" != "latest" ] && [[ "$VERSION" == *-* ]]; then
+    print_info "创建 beta 标签..."
+    docker tag ${APP_IMAGE}:${VERSION} ${APP_IMAGE}:beta
+    print_success "beta 标签创建完成"
 fi
 
 # 显示构建的镜像
@@ -164,12 +171,18 @@ if [ -n "$DOCKERHUB_USERNAME" ]; then
         if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
             docker tag ${APP_IMAGE}:latest ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest
         fi
+        if [ "$VERSION" != "latest" ] && [[ "$VERSION" == *-* ]]; then
+            docker tag ${APP_IMAGE}:beta ${DOCKERHUB_USERNAME}/${APP_IMAGE}:beta
+        fi
 
         # 推送镜像
         print_info "推送 Platform 镜像..."
         docker push ${DOCKERHUB_USERNAME}/${APP_IMAGE}:${VERSION}
         if [ "$VERSION" != "latest" ] && [[ "$VERSION" != *-* ]]; then
             docker push ${DOCKERHUB_USERNAME}/${APP_IMAGE}:latest
+        fi
+        if [ "$VERSION" != "latest" ] && [[ "$VERSION" == *-* ]]; then
+            docker push ${DOCKERHUB_USERNAME}/${APP_IMAGE}:beta
         fi
 
         print_success "镜像推送完成!"
