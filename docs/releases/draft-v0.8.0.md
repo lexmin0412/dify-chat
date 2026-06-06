@@ -101,6 +101,7 @@ pnpm build:app && pnpm start
 - 重构 Dockerfile，抽取公共基础镜像层加速构建
 - 统一 Tailwind CSS v4，清理 v3 残留配置
 - 移除 ESLint/Prettier/Biome 等残留 lint 配置
+- 移除 `@changesets/cli` 及 `CHANGELOG.md`（不再发布 npm 包，Release Notes 改为手动维护）
 - 引入 OpenSSF Scorecard + CodeQL 自动化扫描，补充 CONTRIBUTING.md、SECURITY.md、CODE_OF_CONDUCT
 - 依赖升级：Ant Design 6.0.0 → 6.4.3，React 19.2.3 → 19.2.6 等
 
